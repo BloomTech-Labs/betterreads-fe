@@ -16,7 +16,6 @@ betterReads is a social media platform that allows users to connect with other r
 - Context API
 - styled-components
 ### [Backend](https://github.com/Lambda-School-Labs/betterreads-backend)
-- Node
 - Express
 - PostgreSQL
 - AWS
