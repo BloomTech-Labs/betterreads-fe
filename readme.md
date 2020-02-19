@@ -38,6 +38,12 @@ betterReads is a social media platform that allows users to connect with other r
 -   Single quotes
 -   4 space tabs
 
+### Naming Conventions
+
+-   Branches - kebab case, all lowercase
+-   Variables and function names - camel case, descriptive
+-   Database fields - camel case
+
 ### Environment Variables
 
 Environment variables go here
