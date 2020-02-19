@@ -3,7 +3,7 @@
 ![React](https://img.shields.io/badge/react-v16.7.0--alpha.2-blue.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://github.com/prettier/prettier)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
 betterReads is a social media platform that allows users to connect with other readers alike, search its database of books, browse recommendations, and manage their own library.
 
@@ -18,15 +18,16 @@ betterReads is a social media platform that allows users to connect with other r
 -   [Trello Board](https://trello.com)
 -   [UX Design Files](https://figma.com)
 
-## Tech Stack
+### Tech Stack
 
-### Frontend
+**Frontend**
 
 -   React
 -   Context API
 -   styled-components
+-   AWS
 
-### [Backend](https://github.com/Lambda-School-Labs/betterreads-backend)
+[**Backend**](https://github.com/Lambda-School-Labs/betterreads-backend)
 
 -   Express
 -   PostgreSQL
