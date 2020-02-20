@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
-//import { connect } from 'react-redux';
+import React from 'react';
 
+import SearchForm from './SearchForm';
+import SearchList from './SearchList';
 
-const Search = () => {
-    const [results, setResults] = useState();
-
+const Search = props => {   
     return (
         <>
-            <form onSubmit="">
-                <input type="text" maxLength="255" placeholder="Title, Author" />
-                <button type="submit">Search</button>
-            </form>
+            <SearchForm />
+            <SearchList />
         </>
     )
 }
 
-export default (Search)
+export default Search;
