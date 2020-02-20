@@ -13,7 +13,6 @@ const SignInContainer = styled.div`
 
 const SignIn = props => {
 	const [input, setInput] = useState({
-		fullName: '',
 		emailAddress: '',
 		password: ''
 	});
