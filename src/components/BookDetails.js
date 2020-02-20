@@ -1,50 +1,95 @@
-
-import React from "react";
-import { connect } from "react-redux";
-import { fetchBook } from "../actions/Actions";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
 function BookDetails(props) {
-    let book =
+    const [selectedBook, setSelectedBook] = useState();
 
-        title: props.title,
-        authors: props.authors,
-        publisher: props.publisher,
-        publishDate: props.publishDate,
-        description: props.description,
-        isbn10: props.isbn10,
-        isbn13: props.isbn13,
-        pageCount: props.pageCount,
-        categories: props.categories,
-        thumbnail: props.thumbnail,
-        smallThumbnail: props.smallThumbnail,
-        language: props.language,
-        webRenderLink: props.webRenderLink,
-        textSnippet: props.textSnippet,
-        isEbook: props.isEbook;
+    useEffect(() => {
+        axios
+            .get('https://www.googleapis.com/books/v1/volumes?q=harry+potter')
+            .then(function (res) {
+                console.log(res);
+                const bookId = 'f280CwAAQBAJ';
+
+                setSelectedBook(
+                    res.data.items.find(book => book.id === bookId)
+                );
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }, []);
+
+    console.log(selectedBook, 'selectedBook');
 
     return (
-        <div>
+        <>
+            {selectedBook && (
+                <div>
+                    <img src={selectedBook.volumeInfo.imageLinks.thumbnail} alt="thumbnail of book" />
+                    <div className="libraryStuff">
+                        <div className="dropDownButton"></div>
 
-            <img href={props.thumbnail} />
-            <h2>title</h2>
-            {props.authors.map(author =>
-                author = <p>author</p>
+                        <input
+                            type="radio"
+                            id="To Be Read"
+                            name="gender"
+                            value="To Be Read"
+                        />
+                        <label htmlFor="To Be Read">To Be Read</label>
+                        <input
+                            type="radio"
+                            id="Reading"
+                            name="gender"
+                            value="Reading"
+                        />
+                        <label htmlFor="Reading">Reading</label>
+                        <input
+                            type="radio"
+                            id="Read"
+                            name="gender"
+                            value="Read"
+                        />
+                        <label htmlFor="Read">Read</label>
+                    </div>
+
+                    <h2>{selectedBook.volumeInfo.title}</h2>
+
+                    <h3>
+                        <p>by
+
+                                {selectedBook.volumeInfo.authors.map(A => (
+                            <p key={A.id}>{A}</p>
+                        ))}
+                        </p>
+                    </h3>
+                    <h3 className="starRating">Star Rating
+                    <form>
+                            <fieldset>
+                                <span className="starGroup">
+                                    <input type="radio" id="rating-1" name="rating" value="1" /><label for="rating-1"></label>
+                                    <input type="radio" id="rating-2" name="rating" value="2" /><label for="rating-2"></label>
+                                    <input type="radio" id="rating-3" name="rating" value="3" /><label for="rating-3"></label>
+                                    <input type="radio" id="rating-4" name="rating" value="4" /><label for="rating-4"></label>
+                                    <input type="radio" id="rating-5" name="rating" value="5" /><label for="rating-5"></label>
+
+                                </span>
+                            </fieldset>
+                        </form></h3>
+                    <p>{selectedBook.volumeInfo.description}</p>
+                </div>
             )}
-
-        </div>
-    )
-
+        </>
+    );
 }
-
 
 const mapStateToProps = state => {
     return {
         book: state.book,
         error: state.error,
         isFetching: state.isFetching
-    }
+    };
 };
 
-export default connect(
-    mapStateToProps, { fetchBook }
-)(BookDetails);
+export default connect(mapStateToProps)(BookDetails);
