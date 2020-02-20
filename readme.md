@@ -41,7 +41,8 @@ betterReads is a social media platform that allows users to connect with other r
 ### Naming Conventions
 
 -   Branches - kebab case, all lowercase
--   Variables and function names - camel case, descriptive
+-   Variable and function names - camel case, descriptive
+-   CSS class names - kebab case, descriptive
 -   Database fields - camel case
 
 ### Environment Variables
