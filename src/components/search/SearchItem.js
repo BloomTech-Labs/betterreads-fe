@@ -33,7 +33,7 @@ const SearchItem = props => {
             <ResultHeader>
                 <ResultThumb>
                     {volumeInfo.imageLinks && (
-                        <Link to={`/Book/${id}`}><img src={volumeInfo.imageLinks.smallThumbnail} /></Link>
+                        <Link to={`/Book/${id}`}><img src={volumeInfo.imageLinks.smallThumbnail} alt={`${volumeInfo.title} thumbnail`} /></Link>
                     )}
                 </ResultThumb>
 
@@ -58,7 +58,7 @@ const SearchItem = props => {
 
             <ResultDesc>
                 {searchInfo && <p>{searchInfo.textSnippet}</p>}
-                <p><a href={accessInfo.webReaderLink} target="_blank">Read online</a></p>
+                <p><a href={accessInfo.webReaderLink} target="_blank" rel="noopener noreferrer">Read online</a></p>
             </ResultDesc>
         </ResultItem>
     );
