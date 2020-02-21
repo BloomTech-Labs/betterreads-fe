@@ -13,6 +13,7 @@ const App = () => {
 			<Route path="/signup" component={SignUp} />
 			<Route path="/signin" component={SignIn} />
 			<Route path="/search" component={Search} />
+			<Route path="/book/:id" component={BookDetails} />
 		</Router>
 	);
 };

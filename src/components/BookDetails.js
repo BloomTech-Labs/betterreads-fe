@@ -5,12 +5,16 @@ import axios from 'axios';
 function BookDetails(props) {
     const [selectedBook, setSelectedBook] = useState();
 
-
-   setSelectedBook(
-                   props.searchResults.items.find(book => book.id === props.match.params.id)
-                );
     
 
+    console.log(props, "props")
+
+    useEffect(() => {
+   setSelectedBook(
+                  props.searchResults.items.find(book => book.id === props.match.params.id)
+               );
+    
+   },[])
     console.log(selectedBook, 'selectedBook');
 
     return (
