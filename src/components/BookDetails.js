@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
-function BookDetails(props) {
+
+
+export function BookDetails(props) {
     const [selectedBook, setSelectedBook] = useState();
 
     
@@ -15,6 +16,7 @@ function BookDetails(props) {
                );
     
    },[])
+
     console.log(selectedBook, 'selectedBook');
 
     return (
@@ -72,6 +74,13 @@ function BookDetails(props) {
                             </fieldset>
                         </form></h3>
                     <p>{selectedBook.volumeInfo.description}</p>
+                    <p>Genre
+
+{selectedBook.volumeInfo.categories.map(G => (
+<p key={G.id}>{G}, </p>
+))}
+</p>
+
                 </div>
             )}
         </>
