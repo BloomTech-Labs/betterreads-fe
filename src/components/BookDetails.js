@@ -5,21 +5,11 @@ import axios from 'axios';
 function BookDetails(props) {
     const [selectedBook, setSelectedBook] = useState();
 
-    useEffect(() => {
-        axios
-            .get('https://www.googleapis.com/books/v1/volumes?q=harry+potter')
-            .then(function (res) {
-                console.log(res);
-                const bookId = 'f280CwAAQBAJ';
 
-                setSelectedBook(
-                    res.data.items.find(book => book.id === bookId)
+   setSelectedBook(
+                   props.searchResults.items.find(book => book.id === props.match.params.id)
                 );
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }, []);
+    
 
     console.log(selectedBook, 'selectedBook');
 
@@ -86,9 +76,9 @@ function BookDetails(props) {
 
 const mapStateToProps = state => {
     return {
-        book: state.book,
+        searchResults: state.searchResults,
         error: state.error,
-        isFetching: state.isFetching
+        Fetching: state.Fetching
     };
 };
 
