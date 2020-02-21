@@ -9,7 +9,7 @@ const SearchList = props => {
             {
                 props.searchResults.items && 
                 props.searchResults.items.map(book => (
-                    <SearchItem book={book} />
+                    <SearchItem book={book} key={book.id} />
                 ))
             }
         </>
