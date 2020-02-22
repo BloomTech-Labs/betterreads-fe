@@ -6,6 +6,7 @@ import SearchList from './SearchList';
 const Search = props => {   
     return (
         <>
+            <h1>Search</h1>
             <SearchForm />
             <SearchList />
         </>
