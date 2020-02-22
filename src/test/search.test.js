@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 import Search from '../components/search/Search';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -26,7 +26,8 @@ function renderWithRedux(
   }
 
 test('Search renders', () => {
-    renderWithRedux(<Search />)
+    const mySearch = renderWithRedux(<Search />)
     const { getAllByRole } = renderWithRedux(<Search />);
+    //expect(mySearch).getByLabelText('seach-box');
     const buttons = getAllByRole(/button/i);
 });

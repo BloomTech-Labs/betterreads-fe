@@ -23,7 +23,7 @@ const SearchForm = props => {
 
     return (
         <form onSubmit={handleSumbit}>
-            <input name="q" type="text" maxLength="255" placeholder="Title, Author" value={searchQ.q} onChange={handleChange} />
+            <input name="q" type="text" aria-label="search-box" maxLength="255" placeholder="Title, Author" value={searchQ.q} onChange={handleChange} />
             <button type="submit" className="the-button">Search</button>
         </form>
     )
