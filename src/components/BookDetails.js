@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 
 
 
+
 export function BookDetails(props) {
     const [selectedBook, setSelectedBook] = useState();
 
     
 
-    console.log(props.searchResults, "props")
+    console.log(props, "props")
 
     useEffect(() => {
    setSelectedBook(
