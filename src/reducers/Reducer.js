@@ -1,4 +1,8 @@
-import { FETCH_SEARCH_START, FETCH_SEARCH_SUCCESS, FETCH_SEARCH_FAILURE } from '../actions';
+import { 
+	FETCH_SEARCH_START, 
+	FETCH_SEARCH_SUCCESS, 
+	FETCH_SEARCH_FAILURE
+} from '../actions';
 
 const initialState = {
 	fetching: false,

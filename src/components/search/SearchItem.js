@@ -5,9 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Axios from 'axios';
 
-import { saveBookToLibrary} from '../../actions'
-
-// const apiURL = "http://localhost:5000/api";
+const apiURL = "http://localhost:5000/api";
 
 const ResultItem = styled.div`
     display: flex;
@@ -35,10 +33,10 @@ const SearchItem = props => {
     const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
 
     const saveBookToLibrary = book => {
-        props.saveBookToLibrary(1, book.id, book);
-        // Axios.post(`${apiURL}/1/library/${book.id}`, book)
-        //     .then(res => console.log(res))
-        //     .catch(err => console.log(err))
+        // props.saveBookToLibrary(1, book.id, book);
+        Axios.post(`${apiURL}/1/library/${book.id}`, book)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
     }
 
     return (
@@ -80,15 +78,4 @@ const SearchItem = props => {
     );
 };
 
-// export default SearchItem;
-
-const mapStateToProps = state => {
-    return {
-        fetching: state.fetching,
-        getGoogleResults: state.getGoogleResults,
-        saveBookToLibrary: state.saveBookToLibrary,
-        searchResults: state.searchResults
-    }
-}
-
-export default connect(mapStateToProps, {saveBookToLibrary})(SearchItem);
+export default SearchItem;
