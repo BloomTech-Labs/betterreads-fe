@@ -22,7 +22,7 @@ export function BookDetails(props) {
 
     return (
         <>
-            {selectedBook && selectedBook (
+            {selectedBook && (
                 <div>
                     <img src={selectedBook.volumeInfo.imageLinks.thumbnail} alt={selectedBook.volumeInfo.title} />
                     <div className="libraryStuff">
