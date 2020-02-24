@@ -8,7 +8,7 @@ export function BookDetails(props) {
 
     
 
-    console.log(props, "props")
+    console.log(props.searchResults, "props")
 
     useEffect(() => {
    setSelectedBook(
@@ -21,9 +21,9 @@ export function BookDetails(props) {
 
     return (
         <>
-            {selectedBook && (
+            {selectedBook && selectedBook (
                 <div>
-                    <img src={selectedBook.volumeInfo.imageLinks.thumbnail} alt="thumbnail of book" />
+                    <img src={selectedBook.volumeInfo.imageLinks.thumbnail} alt={selectedBook.volumeInfo.title} />
                     <div className="libraryStuff">
                         <div className="dropDownButton"></div>
 
