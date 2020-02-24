@@ -9,6 +9,8 @@ const Success = props => {
 			})
 			.then(response => {
 				console.log(response);
+				localStorage.setItem('user_id', response.data.user.id);
+				props.history.push('/dashboard');
 			})
 			.catch(error => console.log(error));
 	}, []);
@@ -20,6 +22,7 @@ const Success = props => {
 			})
 			.then(response => {
 				console.log('signed out successfully');
+				localStorage.removeItem('user_id');
 				props.history.push('/');
 			})
 			.catch(error => console.log(error));
@@ -27,11 +30,7 @@ const Success = props => {
 
 	return (
 		<div>
-			<h1>
-				store user object in local storage and redirect to protected
-				dashboard
-			</h1>
-			<button onClick={signOut}>Sign Out</button>
+			<p>Loading</p>
 		</div>
 	);
 };
