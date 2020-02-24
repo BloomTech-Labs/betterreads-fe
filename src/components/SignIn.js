@@ -60,8 +60,8 @@ const SignIn = props => {
 
 			{/* <p>OR</p>
 
-            <button>Sign in with Facebook</button>
-            <button>Sign in with Google</button> */}
+			<button>Sign in with Facebook</button>
+			<button>Sign in with Google</button> */}
 		</SignInContainer>
 	);
 };

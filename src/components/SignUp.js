@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const SignUpContainer = styled.div`
 	display: flex;
@@ -65,10 +66,15 @@ const SignUp = props => {
 				Already have an account? Sign in here.
 			</p>
 
-			{/* <p>OR</p>
+			<p>OR</p>
 
-            <button>Sign up with Facebook</button>
-            <button>Sign up with Google</button> */}
+			{/* <button>Sign up with Facebook</button> */}
+			<a href="http://localhost:5000/api/auth/google/">
+				<img
+					src="https://raw.githubusercontent.com/thechutrain/mern-passport/master/src/components/Login/google_signin_buttons/web/1x/btn_google_signin_light_normal_web.png"
+					alt="sign in with google button"
+				/>
+			</a>
 		</SignUpContainer>
 	);
 };
