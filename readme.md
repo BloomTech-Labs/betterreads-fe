@@ -2,7 +2,7 @@
 
 ![React](https://img.shields.io/badge/react-v16.7.0--alpha.2-blue.svg)
 ![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/29d5c94cc832c6af28c7/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-frontend/test_coverage)
+ [![Test Coverage](https://api.codeclimate.com/v1/badges/b6143502292664c1f0b4/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-fe/test_coverage) 
 ![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
 
