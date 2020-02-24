@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
+import Axios from 'axios';
+
+const apiURL = "http://localhost:5000/api";
 
 const ResultItem = styled.div`
     display: flex;
@@ -28,13 +31,23 @@ const ResultDesc = styled.div``;
 const SearchItem = props => {
     const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
 
+    const saveBookToLibrary = (book) => {
+        Axios.post(`${apiURL}/1/library/${book.id}`, book)
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+        // console.log({userId: 1, bookId: book.id, bookData: book})
+    }
+
     return (
-        <ResultItem key={id} link={selfLink}>
+        <ResultItem link={selfLink}>
             <ResultHeader>
                 <ResultThumb>
                     {volumeInfo.imageLinks && (
                         <Link to={`/Book/${id}`}><img src={volumeInfo.imageLinks.smallThumbnail} alt={`${volumeInfo.title} thumbnail`} /></Link>
                     )}
+                    <div>
+                        <button onClick={() => saveBookToLibrary(props.book)}>Add to Library</button>
+                    </div>
                 </ResultThumb>
 
                 <ResultTitle>
