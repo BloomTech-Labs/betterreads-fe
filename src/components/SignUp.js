@@ -72,8 +72,10 @@ const SignUp = props => {
 		fullName: '',
 		emailAddress: '',
 		username: '',
-		password: ''
+		password: '',
+		confirmPassword: ''
 	});
+	const [error, setError] = useState('');
 
 	const onChange = event => {
 		setInput({
@@ -84,16 +86,32 @@ const SignUp = props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
-		axios
-			.post('http://localhost:5000/api/auth/signup', input, {
-				withCredentials: true
-			})
-			.then(response => {
-				console.log(response);
-				localStorage.setItem('user_id', response.data.user.id);
-				props.history.push('/search');
-			})
-			.catch(error => console.log(error));
+		if (input.password !== input.confirmPassword) {
+			setError('Passwords do not match');
+		} else {
+			axios
+				.post(
+					'http://localhost:5000/api/auth/signup',
+					{
+						fullName: input.fullName,
+						emailAddress: input.emailAddress,
+						username: input.username,
+						password: input.password
+					},
+					{
+						withCredentials: true
+					}
+				)
+				.then(response => {
+					console.log(response);
+					localStorage.setItem('user_id', response.data.user.id);
+					props.history.push('/search');
+				})
+				.catch(error => {
+					console.log(error);
+					setError('Email address already in use or username taken');
+				});
+		}
 	};
 
 	return (
@@ -103,6 +121,7 @@ const SignUp = props => {
 			<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
 				<label htmlFor="fullName">Full Name</label>
 				<input
+					type="text"
 					name="fullName"
 					value={input.fullName}
 					onChange={onChange}
@@ -111,6 +130,7 @@ const SignUp = props => {
 
 				<label htmlFor="emailAddress">Email Address</label>
 				<input
+					type="email"
 					name="emailAddress"
 					value={input.emailAddress}
 					onChange={onChange}
@@ -119,19 +139,35 @@ const SignUp = props => {
 
 				<label htmlFor="username">Username</label>
 				<input
+					type="text"
 					name="username"
 					value={input.username}
 					onChange={onChange}
 					required
+					minLength="5"
 				/>
 
 				<label htmlFor="password">Password</label>
 				<input
+					type="password"
 					name="password"
 					value={input.password}
 					onChange={onChange}
 					required
+					minLength="5"
 				/>
+
+				<label htmlFor="confirmPassword">Confirm Password</label>
+				<input
+					type="password"
+					name="confirmPassword"
+					value={input.confirmPassword}
+					onChange={onChange}
+					required
+					minLength="5"
+				/>
+
+				{error && <p>{error}</p>}
 
 				<button type="submit">Create account</button>
 			</form>
@@ -144,7 +180,7 @@ const SignUp = props => {
 
 			<a href="http://localhost:5000/api/auth/google">
 				<button className="google-button">
-					<i class="fab fa-google"></i>
+					<i className="fab fa-google"></i>
 					<p>Sign up with Google</p>
 				</button>
 			</a>

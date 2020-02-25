@@ -72,6 +72,7 @@ const SignIn = props => {
 		emailAddress: '',
 		password: ''
 	});
+	const [error, setError] = useState('');
 
 	const onChange = event => {
 		setInput({
@@ -91,7 +92,10 @@ const SignIn = props => {
 				localStorage.setItem('user_id', response.data.user.id);
 				props.history.push('/search');
 			})
-			.catch(error => console.log(error));
+			.catch(error => {
+				console.log(error);
+				setError('Invalid credentials');
+			});
 	};
 
 	return (
@@ -102,6 +106,7 @@ const SignIn = props => {
 			<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
 				<label htmlFor="emailAddress">Email Address</label>
 				<input
+					type="email"
 					name="emailAddress"
 					value={input.emailAddress}
 					onChange={onChange}
@@ -110,12 +115,15 @@ const SignIn = props => {
 
 				<label htmlFor="password">Password</label>
 				<input
+					type="password"
 					name="password"
 					value={input.password}
 					onChange={onChange}
 					required
+					minLength="5"
 				/>
-				{/* <p>Forgot password? Reset here.</p> */}
+
+				{error && <p>{error}</p>}
 
 				<button type="submit">Sign in</button>
 			</form>
@@ -128,7 +136,7 @@ const SignIn = props => {
 
 			<a href="http://localhost:5000/api/auth/google">
 				<button className="google-button">
-					<i class="fab fa-google"></i>
+					<i className="fab fa-google"></i>
 					<p>Sign in with Google</p>
 				</button>
 			</a>
