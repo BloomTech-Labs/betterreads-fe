@@ -37,18 +37,18 @@ See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for detail
 -   Google Books API
 -   [betterReads API](https://aws.amazon.com/)
 
-### Prettier
-
--   Single quotes
--   4 space tabs
--   semi-colon at the end of every line
-
 ### Naming Conventions
 
 -   Branches - kebab case, all lowercase
 -   Variable and function names - camel case, descriptive
 -   CSS class names - kebab case, descriptive
 -   Database fields - camel case
+
+### Prettier
+
+-   Single quotes
+-   4 space tabs
+-   Semi-colon at the end of every line
 
 ## Contributing
 
