@@ -1,8 +1,8 @@
-# Description
+## Description
 
 Fixes # (issue)
 
-## Type of Change
+### Type of Change
 
 Please delete options that are not relevant.
 
@@ -11,18 +11,18 @@ Please delete options that are not relevant.
 -   [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 -   [ ] This change requires a documentation update
 
-## Change Status
+### Change Status
 
 -   [ ] Complete, tested, ready to review and merge
 -   [ ] Complete, but not tested (may need new tests)
 -   [ ] Incomplete/work-in-progress, PR is for discussion/feedback
 
-## How Has This Been Tested?
+### How Has This Been Tested?
 
 -   [ ] Test A
 -   [ ] Test B
 
-## Checklist
+### Checklist
 
 -   [ ] My code follows the style guidelines of this project
 -   [ ] I have performed a self-review of my own code

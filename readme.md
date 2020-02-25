@@ -1,4 +1,4 @@
-# [betterReads](https://github.com/Lambda-School-Labs/betterreads-frontend)
+# [betterReads](https://github.com/Lambda-School-Labs/betterreads-fe)
 
 ![React](https://img.shields.io/badge/react-v16.7.0--alpha.2-blue.svg)
 ![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)
@@ -19,25 +19,24 @@ betterReads is a social media platform that allows users to connect with other r
 -   [Trello Board](https://trello.com)
 -   [UX Design Files](https://figma.com)
 
-### Tech Stack
+### Built With
 
--   React
--   Redux
--   styled-components
--   Express
--   PostgreSQL
--   AWS
+-   React - fast and reusable
+-   Redux - global state management
+-   styled-components - customizable styling
+-   Express - simple and effective
+-   PostgreSQL - scalability and data persistence
+-   AWS - robust and tailored
+
+See [this repo](https://github.com/Lambda-School-Labs/betterreads-be) for details on the backend of our project.
+
+See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for details on the data science of our project.
 
 ### APIs
 
--   OAuth
+-   OAuth 2.0
 -   Google Books API
--   betterReads API
-
-### Prettier
-
--   Single quotes
--   4 space tabs
+-   [betterReads API](https://aws.amazon.com/)
 
 ### Naming Conventions
 
@@ -46,13 +45,11 @@ betterReads is a social media platform that allows users to connect with other r
 -   CSS class names - kebab case, descriptive
 -   Database fields - camel case
 
-### Environment Variables
+### Prettier
 
-Environment variables go here
-
-### Testing
-
-Testing goes here
+-   Single quotes
+-   4 space tabs
+-   Semi-colon at the end of every line
 
 ## Contributing
 

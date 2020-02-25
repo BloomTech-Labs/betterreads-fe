@@ -1,13 +1,69 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const SignInContainer = styled.div`
+	width: 90%;
+	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
 
 	form {
 		display: flex;
 		flex-direction: column;
+	}
+
+	a {
+		text-decoration: none;
+
+		.google-button {
+			width: 100%;
+			padding: 12px;
+			margin-bottom: 16px;
+			background-color: #db4437;
+			border: none;
+			border-radius: 3px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+
+			i {
+				margin-right: 16px;
+				font-size: 24px;
+				color: white;
+			}
+
+			p {
+				font-family: 'Nunito', sans-serif;
+				font-size: 1rem;
+				color: white;
+			}
+		}
+
+		.facebook-button {
+			width: 100%;
+			padding: 12px;
+			background-color: #3b5998;
+			border: none;
+			border-radius: 3px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+
+			i {
+				margin-right: 16px;
+				font-size: 24px;
+				color: white;
+			}
+
+			p {
+				font-family: 'Nunito', sans-serif;
+				font-size: 1rem;
+				color: white;
+			}
+		}
 	}
 `;
 
@@ -16,6 +72,7 @@ const SignIn = props => {
 		emailAddress: '',
 		password: ''
 	});
+	const [error, setError] = useState('');
 
 	const onChange = event => {
 		setInput({
@@ -26,6 +83,19 @@ const SignIn = props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
+		axios
+			.post('http://localhost:5000/api/auth/signin', input, {
+				withCredentials: true
+			})
+			.then(response => {
+				console.log(response);
+				localStorage.setItem('user_id', response.data.user.id);
+				props.history.push('/search');
+			})
+			.catch(error => {
+				console.log(error);
+				setError('Invalid credentials');
+			});
 	};
 
 	return (
@@ -36,6 +106,7 @@ const SignIn = props => {
 			<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
 				<label htmlFor="emailAddress">Email Address</label>
 				<input
+					type="email"
 					name="emailAddress"
 					value={input.emailAddress}
 					onChange={onChange}
@@ -44,12 +115,15 @@ const SignIn = props => {
 
 				<label htmlFor="password">Password</label>
 				<input
+					type="password"
 					name="password"
 					value={input.password}
 					onChange={onChange}
 					required
+					minLength="5"
 				/>
-				<p>Forgot password? Reset here.</p>
+
+				{error && <p>{error}</p>}
 
 				<button type="submit">Sign in</button>
 			</form>
@@ -58,10 +132,21 @@ const SignIn = props => {
 				Need an account? Sign up here.
 			</p>
 
-			{/* <p>OR</p>
+			<p>OR</p>
 
-            <button>Sign in with Facebook</button>
-            <button>Sign in with Google</button> */}
+			<a href="http://localhost:5000/api/auth/google">
+				<button className="google-button">
+					<i className="fab fa-google"></i>
+					<p>Sign in with Google</p>
+				</button>
+			</a>
+
+			<a href="http://localhost:5000/api/auth/facebook">
+				<button className="facebook-button">
+					<i className="fab fa-facebook-f"></i>
+					<p>Sign in with Facebook</p>
+				</button>
+			</a>
 		</SignInContainer>
 	);
 };

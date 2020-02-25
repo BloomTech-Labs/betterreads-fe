@@ -1,18 +1,28 @@
-import React, { useState, useEffect } from 'react';
-//import { connect } from 'react-redux';
+import React from 'react';
+import axios from 'axios';
+import SearchForm from './SearchForm';
+import SearchList from './SearchList';
 
+const Search = props => {
+	const signOut = () => {
+		axios
+			.get('http://localhost:5000/api/auth/signout', {
+				withCredentials: true
+			})
+			.then(response => {
+				localStorage.removeItem('user_id');
+				props.history.push('/');
+			})
+			.catch(error => console.log(error));
+	};
 
-const Search = () => {
-    const [results, setResults] = useState();
+	return (
+		<>
+			<button onClick={signOut}>Sign Out</button>
+			<SearchForm />
+			<SearchList />
+		</>
+	);
+};
 
-    return (
-        <>
-            <form onSubmit="">
-                <input type="text" maxLength="255" placeholder="Title, Author" />
-                <button type="submit">Search</button>
-            </form>
-        </>
-    )
-}
-
-export default (Search)
+export default Search;
