@@ -11,21 +11,8 @@ const Search = props => {
 		ReactGA.pageview(window.location.pathname + window.location.search);
 	}, [])
 	
-	const signOut = () => {
-		axios
-			.get('http://localhost:5000/api/auth/signout', {
-				withCredentials: true
-			})
-			.then(response => {
-				localStorage.removeItem('user_id');
-				props.history.push('/');
-			})
-			.catch(error => console.log(error));
-	};
-
 	return (
 		<>
-			<button onClick={signOut}>Sign Out</button>
 			<SearchForm />
 			<SearchList />
 		</>

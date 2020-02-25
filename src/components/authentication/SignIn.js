@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
-const SignUpContainer = styled.div`
+const SignInContainer = styled.div`
 	width: 90%;
 	margin: 0 auto;
 	display: flex;
@@ -67,13 +67,10 @@ const SignUpContainer = styled.div`
 	}
 `;
 
-const SignUp = props => {
+const SignIn = props => {
 	const [input, setInput] = useState({
-		fullName: '',
 		emailAddress: '',
-		username: '',
-		password: '',
-		confirmPassword: ''
+		password: ''
 	});
 	const [error, setError] = useState('');
 
@@ -86,48 +83,27 @@ const SignUp = props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
-		if (input.password !== input.confirmPassword) {
-			setError('Passwords do not match');
-		} else {
-			axios
-				.post(
-					'http://localhost:5000/api/auth/signup',
-					{
-						fullName: input.fullName,
-						emailAddress: input.emailAddress,
-						username: input.username,
-						password: input.password
-					},
-					{
-						withCredentials: true
-					}
-				)
-				.then(response => {
-					console.log(response);
-					localStorage.setItem('user_id', response.data.user.id);
-					props.history.push('/search');
-				})
-				.catch(error => {
-					console.log(error);
-					setError('Email address already in use or username taken');
-				});
-		}
+		axios
+			.post('http://localhost:5000/api/auth/signin', input, {
+				withCredentials: true
+			})
+			.then(response => {
+				console.log(response);
+				localStorage.setItem('user_id', response.data.user.id);
+				props.history.push('/library');
+			})
+			.catch(error => {
+				console.log(error);
+				setError('Invalid credentials');
+			});
 	};
 
 	return (
-		<SignUpContainer>
-			<h1>Create an account to join BetterReads</h1>
+		<SignInContainer>
+			<h1>Sign in to BetterReads</h1>
+			<h2>Sign in to get started</h2>
 
 			<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
-				<label htmlFor="fullName">Full Name</label>
-				<input
-					type="text"
-					name="fullName"
-					value={input.fullName}
-					onChange={onChange}
-					required
-				/>
-
 				<label htmlFor="emailAddress">Email Address</label>
 				<input
 					type="email"
@@ -135,16 +111,6 @@ const SignUp = props => {
 					value={input.emailAddress}
 					onChange={onChange}
 					required
-				/>
-
-				<label htmlFor="username">Username</label>
-				<input
-					type="text"
-					name="username"
-					value={input.username}
-					onChange={onChange}
-					required
-					minLength="5"
 				/>
 
 				<label htmlFor="password">Password</label>
@@ -157,23 +123,13 @@ const SignUp = props => {
 					minLength="5"
 				/>
 
-				<label htmlFor="confirmPassword">Confirm Password</label>
-				<input
-					type="password"
-					name="confirmPassword"
-					value={input.confirmPassword}
-					onChange={onChange}
-					required
-					minLength="5"
-				/>
-
 				{error && <p>{error}</p>}
 
-				<button type="submit">Create account</button>
+				<button type="submit">Sign in</button>
 			</form>
 
-			<p onClick={() => props.history.push('/signin')}>
-				Already have an account? Sign in here.
+			<p onClick={() => props.history.push('/signup')}>
+				Need an account? Sign up here.
 			</p>
 
 			<p>OR</p>
@@ -181,18 +137,18 @@ const SignUp = props => {
 			<a href="http://localhost:5000/api/auth/google">
 				<button className="google-button">
 					<i className="fab fa-google"></i>
-					<p>Sign up with Google</p>
+					<p>Sign in with Google</p>
 				</button>
 			</a>
 
 			<a href="http://localhost:5000/api/auth/facebook">
 				<button className="facebook-button">
 					<i className="fab fa-facebook-f"></i>
-					<p>Sign up with Facebook</p>
+					<p>Sign in with Facebook</p>
 				</button>
 			</a>
-		</SignUpContainer>
+		</SignInContainer>
 	);
 };
 
-export default SignUp;
+export default SignIn;
