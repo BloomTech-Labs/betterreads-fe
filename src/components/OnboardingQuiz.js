@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import axios from "axios"
 
 export function OnboardingQuiz(props) {
 	const [genre, setGenre] = useState([]);
 	let checkedArr = [];
+
+
 
 	function handleChange(event) {
 		let genreList = event.target.getAttribute('name')
@@ -13,10 +16,20 @@ export function OnboardingQuiz(props) {
 		} else {
             checkedArr.push(genreList);
             console.log(checkedArr, 'checkedArr');
-		}
+        }
+        
+    useEffect(() => {
+        setGenre(checkedArr);
+         
+        },[])
 	}
 
-	
+    handleSubmit() {
+        axios.post('backend', genre)
+          .then(response => console.log(response))
+          .catch(error => console.log(error))
+          
+    }
 
 	return (
 		<div>
@@ -342,7 +355,7 @@ export function OnboardingQuiz(props) {
 			</div>
 		</div>
 	);
-}
+    }
 
 const mapStateToProps = state => {
 	return {
