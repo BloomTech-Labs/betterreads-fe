@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import  ReactGA from 'react-ga';
 import styled from 'styled-components';
 
 const SignInContainer = styled.div`
@@ -73,6 +74,11 @@ const SignIn = props => {
 		password: ''
 	});
 	const [error, setError] = useState('');
+
+	useEffect(() => {
+		ReactGA.event({ category: 'Sign In', action: 'Sign in loaded'})
+		ReactGA.pageview(window.location.pathname + window.location.search);
+	}, [])
 
 	const onChange = event => {
 		setInput({
