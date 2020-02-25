@@ -13,13 +13,13 @@ import BookDetails from './components/BookDetails';
 
 function initAnalytics() {
 	ReactGA.initialize('UA-159089625-1');
-	ReactGA.pageview(window.location.pathname + window.location.search);
 }
 
 const App = () => {
 
 	useEffect(() => {
 		initAnalytics();
+		ReactGA.pageview(window.location.pathname + window.location.search);
 		ReactGA.event({category: 'App', action: 'Loaded BetterReads'}, [])
 	})
 
