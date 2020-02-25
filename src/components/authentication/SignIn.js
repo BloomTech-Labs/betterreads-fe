@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
+import styled from 'styled-components';
 
 const SignInContainer = styled.div`
 	width: 90%;

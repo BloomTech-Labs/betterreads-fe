@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import SignIn from '../components/SignIn';
+import SignIn from '../components/authentication/SignIn';
 
 test('sign in component renders', () => {
 	render(<SignIn />);
