@@ -10,12 +10,18 @@ const SignUpContainer = styled.div`
 		display: flex;
 		flex-direction: column;
 	}
+	a {
+		img {
+			height: 48px;
+		}
+	}
 `;
 
 const SignUp = props => {
 	const [input, setInput] = useState({
 		fullName: '',
 		emailAddress: '',
+		username: '',
 		password: ''
 	});
 
@@ -28,6 +34,16 @@ const SignUp = props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
+		axios
+			.post('http://localhost:5000/api/auth/signup', input, {
+				withCredentials: true
+			})
+			.then(response => {
+				console.log(response);
+				localStorage.setItem('user_id', response.data.user.id);
+				props.history.push('/dashboard');
+			})
+			.catch(error => console.log(error));
 	};
 
 	return (
@@ -51,6 +67,14 @@ const SignUp = props => {
 					required
 				/>
 
+				<label htmlFor="username">Username</label>
+				<input
+					name="username"
+					value={input.username}
+					onChange={onChange}
+					required
+				/>
+
 				<label htmlFor="password">Password</label>
 				<input
 					name="password"
@@ -68,11 +92,16 @@ const SignUp = props => {
 
 			<p>OR</p>
 
-			{/* <button>Sign up with Facebook</button> */}
-			<a href="http://localhost:5000/api/auth/google/">
+			<a href="http://localhost:5000/api/auth/google">
 				<img
 					src="https://raw.githubusercontent.com/thechutrain/mern-passport/master/src/components/Login/google_signin_buttons/web/1x/btn_google_signin_light_normal_web.png"
-					alt="sign in with google button"
+					alt="sign up with google button"
+				/>
+			</a>
+			<a href="http://localhost:5000/api/auth/facebook">
+				<img
+					src="https://pngimage.net/wp-content/uploads/2018/06/login-with-facebook-button-png-transparent-2.png"
+					alt="sign up with facebook button"
 				/>
 			</a>
 		</SignUpContainer>

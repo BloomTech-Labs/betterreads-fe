@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const SignInContainer = styled.div`
 	display: flex;
@@ -8,6 +9,12 @@ const SignInContainer = styled.div`
 	form {
 		display: flex;
 		flex-direction: column;
+	}
+
+	a {
+		img {
+			height: 48px;
+		}
 	}
 `;
 
@@ -26,6 +33,16 @@ const SignIn = props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
+		axios
+			.post('http://localhost:5000/api/auth/signin', input, {
+				withCredentials: true
+			})
+			.then(response => {
+				console.log(response);
+				localStorage.setItem('user_id', response.data.user.id);
+				props.history.push('/dashboard');
+			})
+			.catch(error => console.log(error));
 	};
 
 	return (
@@ -49,7 +66,7 @@ const SignIn = props => {
 					onChange={onChange}
 					required
 				/>
-				<p>Forgot password? Reset here.</p>
+				{/* <p>Forgot password? Reset here.</p> */}
 
 				<button type="submit">Sign in</button>
 			</form>
@@ -58,10 +75,20 @@ const SignIn = props => {
 				Need an account? Sign up here.
 			</p>
 
-			{/* <p>OR</p>
+			<p>OR</p>
 
-			<button>Sign in with Facebook</button>
-			<button>Sign in with Google</button> */}
+			<a href="http://localhost:5000/api/auth/google">
+				<img
+					src="https://raw.githubusercontent.com/thechutrain/mern-passport/master/src/components/Login/google_signin_buttons/web/1x/btn_google_signin_light_normal_web.png"
+					alt="sign in with google button"
+				/>
+			</a>
+			<a href="http://localhost:5000/api/auth/facebook">
+				<img
+					src="https://pngimage.net/wp-content/uploads/2018/06/login-with-facebook-button-png-transparent-2.png"
+					alt="sign in with facebook button"
+				/>
+			</a>
 		</SignInContainer>
 	);
 };

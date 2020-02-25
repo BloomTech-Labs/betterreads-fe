@@ -1,5 +1,13 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const SuccessContainer = styled.div`
+	height: 90vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
 
 const Success = props => {
 	useEffect(() => {
@@ -10,11 +18,12 @@ const Success = props => {
 			.then(response => {
 				console.log(response);
 				localStorage.setItem('user_id', response.data.user.id);
-				props.history.push('/dashboard');
+				// props.history.push('/dashboard');
 			})
 			.catch(error => console.log(error));
 	}, []);
 
+	// keeping this snippet of code here but it will be used elsewhere
 	const signOut = () => {
 		axios
 			.get('http://localhost:5000/api/auth/signout', {
@@ -29,9 +38,10 @@ const Success = props => {
 	};
 
 	return (
-		<div>
-			<p>Loading</p>
-		</div>
+		<SuccessContainer>
+			{/* loading wheel icon should go here */}
+			<p onClick={signOut}>Loading...</p>
+		</SuccessContainer>
 	);
 };
 

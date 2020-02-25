@@ -6,6 +6,7 @@ import SignIn from './components/SignIn';
 import Search from './components/search/Search';
 import Success from './components/Success';
 import Failure from './components/Failure';
+import Dashboard from './components/Dashboard';
 
 const App = () => {
 	return (
@@ -16,6 +17,7 @@ const App = () => {
 			<Route path="/search" component={Search} />
 			<Route path="/success" component={Success} />
 			<Route path="/failure" component={Failure} />
+			<Route path="/dashboard" component={Dashboard} />
 		</Router>
 	);
 };
