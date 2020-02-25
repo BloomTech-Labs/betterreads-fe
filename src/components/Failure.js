@@ -4,9 +4,7 @@ const Failure = props => {
 	return (
 		<div>
 			<h1>There was an error.</h1>
-			<button onClick={() => props.history.push('/signup')}>
-				Go Back
-			</button>
+			<button onClick={() => props.history.push('/')}>Go Back</button>
 		</div>
 	);
 };

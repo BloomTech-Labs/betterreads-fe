@@ -18,29 +18,15 @@ const Success = props => {
 			.then(response => {
 				console.log(response);
 				localStorage.setItem('user_id', response.data.user.id);
-				// props.history.push('/dashboard');
+				props.history.push('/search');
 			})
 			.catch(error => console.log(error));
 	}, []);
 
-	// keeping this snippet of code here but it will be used elsewhere
-	const signOut = () => {
-		axios
-			.get('http://localhost:5000/api/auth/signout', {
-				withCredentials: true
-			})
-			.then(response => {
-				console.log('signed out successfully');
-				localStorage.removeItem('user_id');
-				props.history.push('/');
-			})
-			.catch(error => console.log(error));
-	};
-
 	return (
 		<SuccessContainer>
 			{/* loading wheel icon should go here */}
-			<p onClick={signOut}>Loading...</p>
+			<p>Loading...</p>
 		</SuccessContainer>
 	);
 };

@@ -40,7 +40,7 @@ const SignIn = props => {
 			.then(response => {
 				console.log(response);
 				localStorage.setItem('user_id', response.data.user.id);
-				props.history.push('/dashboard');
+				props.history.push('/search');
 			})
 			.catch(error => console.log(error));
 	};
