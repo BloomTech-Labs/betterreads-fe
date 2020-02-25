@@ -25,7 +25,7 @@ betterReads is a social media platform that allows users to connect with other r
 -   styled-components - customizable styling
 -   Express - simple and effective
 -   PostgreSQL - scalability and data persistence
--   AWS - robust
+-   AWS - robust and tailored
 
 See [this repo](https://github.com/Lambda-School-Labs/betterreads-be) for details on the backend of our project.
 
