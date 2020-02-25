@@ -5,6 +5,7 @@ import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import Search from './components/search/Search';
 import BookDetails from './components/BookDetails';
+import OnboardingQuiz from './components/OnboardingQuiz';
 
 const App = () => {
 	return (
@@ -12,6 +13,7 @@ const App = () => {
 			<Route exact path="/" component={LandingPage} />
 			<Route path="/signup" component={SignUp} />
 			<Route path="/signin" component={SignIn} />
+			<Route path="/onboarding" component={OnboardingQuiz} />
 			<Route path="/search" component={Search} />
 			<Route path="/book/:id" component={BookDetails} />
 		</Router>
