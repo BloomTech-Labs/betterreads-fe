@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
+import  ReactGA from 'react-ga';
 
 import { getGoogleResults } from '../../actions'
 
@@ -15,6 +16,7 @@ const SearchForm = props => {
     }
 
     const handleSumbit = e => {
+        ReactGA.event({ category: 'Search', action: 'User searched for a book.'})
         e.preventDefault();
         if(searchQ.q.length){
             props.getGoogleResults(searchQ.q)
