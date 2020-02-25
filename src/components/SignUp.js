@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
+import styled from 'styled-components';
 
 const SignUpContainer = styled.div`
+	width: 90%;
+	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
 
@@ -10,9 +12,57 @@ const SignUpContainer = styled.div`
 		display: flex;
 		flex-direction: column;
 	}
+
 	a {
-		img {
-			height: 48px;
+		text-decoration: none;
+
+		.google-button {
+			width: 100%;
+			padding: 12px;
+			margin-bottom: 16px;
+			background-color: #db4437;
+			border: none;
+			border-radius: 3px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+
+			i {
+				margin-right: 16px;
+				font-size: 24px;
+				color: white;
+			}
+
+			p {
+				font-family: 'Nunito', sans-serif;
+				font-size: 1rem;
+				color: white;
+			}
+		}
+
+		.facebook-button {
+			width: 100%;
+			padding: 12px;
+			background-color: #3b5998;
+			border: none;
+			border-radius: 3px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+
+			i {
+				margin-right: 16px;
+				font-size: 24px;
+				color: white;
+			}
+
+			p {
+				font-family: 'Nunito', sans-serif;
+				font-size: 1rem;
+				color: white;
+			}
 		}
 	}
 `;
@@ -93,16 +143,17 @@ const SignUp = props => {
 			<p>OR</p>
 
 			<a href="http://localhost:5000/api/auth/google">
-				<img
-					src="https://raw.githubusercontent.com/thechutrain/mern-passport/master/src/components/Login/google_signin_buttons/web/1x/btn_google_signin_light_normal_web.png"
-					alt="sign up with google button"
-				/>
+				<button className="google-button">
+					<i class="fab fa-google"></i>
+					<p>Sign up with Google</p>
+				</button>
 			</a>
+
 			<a href="http://localhost:5000/api/auth/facebook">
-				<img
-					src="https://pngimage.net/wp-content/uploads/2018/06/login-with-facebook-button-png-transparent-2.png"
-					alt="sign up with facebook button"
-				/>
+				<button className="facebook-button">
+					<i className="fab fa-facebook-f"></i>
+					<p>Sign up with Facebook</p>
+				</button>
 			</a>
 		</SignUpContainer>
 	);
