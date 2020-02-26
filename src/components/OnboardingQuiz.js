@@ -22,9 +22,9 @@ export function OnboardingQuiz(props) {
         setGenre(checkedArr);
          
         },[])
-	}
+	};
 
-    handleSubmit() {
+    function handleSubmit() {
         axios.post('backend', genre)
           .then(response => console.log(response))
           .catch(error => console.log(error))
