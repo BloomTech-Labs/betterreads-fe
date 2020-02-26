@@ -7,13 +7,32 @@ import { connect } from 'react-redux';
 export function BookDetails(props) {
     const [selectedBook, setSelectedBook] = useState();
 
-    
+    const results = {
+
+        searchResults:{
+          items:[
+            {
+              id: "Gz1jn_5OafMC",
+                volumeInfo: {
+                title: "Wizard's First Rule",
+                authors: [
+                    "Terry Goodkind"],
+                catagories: [
+                    "Fiction"],
+                imageLinks:[{
+                    thumbnail: "http://books.google.com/books/content?id=Gz1jn_5OafMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api" }]
+            
+          
+                
+              }}]}};
+                    
+
 
     console.log(props, "props")
 
     useEffect(() => {
    setSelectedBook(
-                  props.searchResults.items.find(book => book.id === props.match.params.id)
+                   props.searchResults.items ? props.searchResults.items.find(book => book.id === props.match.params.id) : results.searchResults.items.find(book => book.id === results.searchResults.items.id)
                );
     
    },[])
@@ -92,7 +111,7 @@ const mapStateToProps = state => {
     return {
         searchResults: state.searchResults,
         error: state.error,
-        Fetching: state.Fetching
+        fetching: state.fetching
     };
 };
 
