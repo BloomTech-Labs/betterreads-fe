@@ -1,5 +1,5 @@
 import React from "react";
-import  ReactGA from 'react-ga';
+import { Event } from '../tracking/';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -33,9 +33,9 @@ const SearchItem = props => {
     const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
 
     const saveBookToLibrary = book => {
-        ReactGA.event({ category: 'Search', action: 'User added a book library from search list.'});
-        // props.saveBookToLibrary(1, book.id, book);
-        Axios.post(`${apiURL}/1/library/${book.id}`, book)
+        Event('Search', 'User added a book library from search list.', 'SEARCH_RESULTS');
+        
+        Axios.post(`${apiURL}/${localStorage.getItem('user_id')}/library`, book, { withCredentials: true })
             .then(res => console.log(res))
             .catch(err => console.log(err));
     }

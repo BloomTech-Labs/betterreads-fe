@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { PageView, Event } from './tracking/';
 
 const BookDetails = props => {
 	const [selectedBook, setSelectedBook] = useState();
@@ -7,6 +8,7 @@ const BookDetails = props => {
 	console.log(props, 'props');
 
 	useEffect(() => {
+		PageView();
 		setSelectedBook(
 			props.searchResults.items.find(
 				book => book.id === props.match.params.id

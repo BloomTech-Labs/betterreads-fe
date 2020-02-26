@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import  ReactGA from 'react-ga';
+import { PageView, Event } from '../tracking/';
 import styled from 'styled-components';
 
 const SignInContainer = styled.div`
@@ -76,8 +77,8 @@ const SignIn = props => {
 	const [error, setError] = useState('');
 
 	useEffect(() => {
-		ReactGA.event({ category: 'Sign In', action: 'Sign in loaded'})
-		ReactGA.pageview(window.location.pathname + window.location.search);
+		Event('Sign In', 'Sign in loaded', 'SIGN_IN')
+		PageView();
 	}, [])
 
 	const onChange = event => {
