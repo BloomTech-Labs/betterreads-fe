@@ -123,7 +123,7 @@ const mapStateToProps = state => {
 	return {
 		searchResults: state.searchResults,
 		error: state.error,
-		Fetching: state.Fetching
+		fetching: state.fetching
 	};
 };
 
