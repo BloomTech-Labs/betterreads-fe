@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from "axios"
 
 export function OnboardingQuiz(props) {
-	const [genre, setGenre] = useState([]);
+
 	let checkedArr = [];
 
 
@@ -17,15 +17,11 @@ export function OnboardingQuiz(props) {
             checkedArr.push(genreList);
             console.log(checkedArr, 'checkedArr');
         }
-        
-    useEffect(() => {
-        setGenre(checkedArr);
-         
-        },[])
-	};
+	}    
+
 
     function handleSubmit() {
-        axios.post('backend', genre)
+        axios.post('backend', checkedArr)
           .then(response => console.log(response))
           .catch(error => console.log(error))
           
@@ -355,7 +351,8 @@ export function OnboardingQuiz(props) {
 			</div>
 		</div>
 	);
-    }
+}
+
 
 const mapStateToProps = state => {
 	return {
