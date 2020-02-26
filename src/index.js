@@ -4,7 +4,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
-import { reducer } from './reducers/Reducer';
+import reducer from './reducers/index';
 import App from './App';
 import './index.css';
 import './fonts/SF-Pro-Display-Regular.otf';

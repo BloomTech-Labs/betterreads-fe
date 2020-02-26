@@ -33,17 +33,18 @@ const Library = props => {
 	return (
 		<>
 			<button onClick={signOut}>Sign Out</button>
-			<h1>What are you reading?</h1>
-			<p>
-				Search for a book to track your reading progress and add books
-				to shelves.
-			</p>
-			<Search />
-			<h2>My Shelves</h2>
-			<p>Create shelves and add books to your custom shelves.</p>
+
+			<h2>Track my books</h2>
+			<p>Add books to track your progress</p>
 			<p>To be read (0)</p>
 			<p>In progress (0)</p>
 			<p>Finished (0)</p>
+
+			<h2>My Shelves</h2>
+			<p>Create shelves and add books to your custom shelves.</p>
+			<p>All books 0 books</p>
+
+			<button>Create a new shelf +</button>
 		</>
 	);
 };
