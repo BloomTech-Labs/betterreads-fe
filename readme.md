@@ -36,6 +36,28 @@ See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for detail
 
 -   OAuth 2.0
 -   Google Books API
+    - to track any component or user action add
+        ````
+        import { PageView, Events } from './components/tracking';
+        ````
+    - PageView() - (optional) - is used to track the page views. include in a useEffect() hook
+        ````js
+            useEffect(() => {
+                PageView();
+            }, []);
+        ````
+    - Events(1,2,3) (optional) - invoke to track user interaction. can be added to form submits, links, buttons, etc.
+        ````
+            Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}
+        ````
+        - 1 - category , e.g. "SEARCH"
+        - 2 - action, e.g. "User search for a book"
+        - 3 - label, e.g. "SEARCH_RESULTS"
+    - OutboundLink - (optional) - Use to track links to other sites/services
+        ````
+            <ReactGA.OutboundLink eventLabel="Clicked Read Online link" to="Link" target="_blank" rel="noopener noreferrer"> Link Label </ReactGA.OutboundLink>
+        ````
+    - Examples come from Search.js, SearchForm.js, and SearchItems.js
 -   [betterReads API](https://aws.amazon.com/)
 
 ### Naming Conventions

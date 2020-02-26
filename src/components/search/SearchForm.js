@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
-
+import { Event } from '../tracking/';
 import { getGoogleResults } from '../../actions'
 
 const SearchForm = props => {
@@ -15,6 +15,7 @@ const SearchForm = props => {
     }
 
     const handleSumbit = e => {
+        Event('Search', `User searched for a book.`, 'SEARCH_FORM')
         e.preventDefault();
         if(searchQ.q.length){
             props.getGoogleResults(searchQ.q)

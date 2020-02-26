@@ -18,7 +18,7 @@ const Success = props => {
 			.then(response => {
 				console.log(response);
 				localStorage.setItem('user_id', response.data.user.id);
-				props.history.push('/search');
+				props.history.push('/library');
 			})
 			.catch(error => console.log(error));
 	}, []);
