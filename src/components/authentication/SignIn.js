@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import  ReactGA from 'react-ga';
+//import  ReactGA from 'react-ga';
 import { PageView, Event } from '../tracking/';
 import styled from 'styled-components';
 

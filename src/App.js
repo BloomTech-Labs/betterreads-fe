@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PrivateRoute } from './utils/PrivateRoute';
-import {PageView, initGA} from './components/tracking';
+import { PageView } from './components/tracking';
 import LandingPage from './components/LandingPage';
 import SignUp from './components/authentication/SignUp';
 import SignIn from './components/authentication/SignIn';
@@ -12,14 +12,9 @@ import Library from './components/library/Library';
 import Search from './components/search/Search';
 import BookDetails from './components/BookDetails';
 
-// function initAnalytics() {
-// 	ReactGA.initialize('UA-159089625-1');
-// }
-
 const App = () => {
 
 	useEffect(() => {
-		initGA('UA-159089625-1');
 		PageView();
 	}, [])
 
