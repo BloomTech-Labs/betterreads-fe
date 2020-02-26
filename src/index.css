@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900&display=swap');
+@font-face {
+	font-family: 'SF-Pro-Display';
+	src: local('SF-Pro-Display-Regular'),
+		url('./fonts/SF-Pro-Display-Regular.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+}
 
 * {
 	padding: 0;
@@ -7,7 +13,7 @@
 }
 
 body {
-	font-family: 'Nunito', sans-serif;
+	font-family: 'SF-Pro-Display', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }

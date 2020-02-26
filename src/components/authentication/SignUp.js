@@ -27,7 +27,7 @@ const SignUpContainer = styled.div`
 			padding: 12px;
 			border: 1px solid gray;
 			border-radius: 3px;
-			font-family: 'Nunito', sans-serif;
+			font-family: 'SF-Pro-Display', sans-serif;
 			font-size: 1rem;
 		}
 
@@ -43,7 +43,7 @@ const SignUpContainer = styled.div`
 			padding: 12px;
 			border: none;
 			border-radius: 3px;
-			font-family: 'Nunito', sans-serif;
+			font-family: 'SF-Pro-Display', sans-serif;
 			font-size: 1rem;
 		}
 	}
@@ -82,7 +82,7 @@ const SignUpContainer = styled.div`
 			}
 
 			p {
-				font-family: 'Nunito', sans-serif;
+				font-family: 'SF-Pro-Display', sans-serif;
 				font-size: 1rem;
 				color: white;
 			}
@@ -106,7 +106,7 @@ const SignUpContainer = styled.div`
 			}
 
 			p {
-				font-family: 'Nunito', sans-serif;
+				font-family: 'SF-Pro-Display', sans-serif;
 				font-size: 1rem;
 				color: white;
 			}

@@ -28,7 +28,7 @@ const SignInContainer = styled.div`
 			padding: 12px;
 			border: 1px solid gray;
 			border-radius: 3px;
-			font-family: 'Nunito', sans-serif;
+			font-family: 'SF-Pro-Display', sans-serif;
 			font-size: 1rem;
 		}
 
@@ -44,7 +44,7 @@ const SignInContainer = styled.div`
 			padding: 12px;
 			border: none;
 			border-radius: 3px;
-			font-family: 'Nunito', sans-serif;
+			font-family: 'SF-Pro-Display', sans-serif;
 			font-size: 1rem;
 		}
 	}
@@ -83,7 +83,7 @@ const SignInContainer = styled.div`
 			}
 
 			p {
-				font-family: 'Nunito', sans-serif;
+				font-family: 'SF-Pro-Display', sans-serif;
 				font-size: 1rem;
 				color: white;
 			}
@@ -107,7 +107,7 @@ const SignInContainer = styled.div`
 			}
 
 			p {
-				font-family: 'Nunito', sans-serif;
+				font-family: 'SF-Pro-Display', sans-serif;
 				font-size: 1rem;
 				color: white;
 			}

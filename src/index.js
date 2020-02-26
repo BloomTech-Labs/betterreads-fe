@@ -7,10 +7,15 @@ import thunk from 'redux-thunk';
 import { reducer } from './reducers/Reducer';
 import App from './App';
 import './index.css';
+import './fonts/SF-Pro-Display-Regular.otf';
+import './fonts/SF-Pro-Display-Bold.otf';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk, logger)));
+const store = createStore(
+	reducer,
+	composeEnhancers(applyMiddleware(thunk, logger))
+);
 
 ReactDOM.render(
 	<Provider store={store}>
