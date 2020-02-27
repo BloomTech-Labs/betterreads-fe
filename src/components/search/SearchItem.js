@@ -3,32 +3,37 @@ import ReactGA from 'react-ga';
 import { Event } from '../tracking/';
 import { Link } from 'react-router-dom';
 
+import { Row, Col, Button, Icon, Rate, Select } from 'antd';
+
 import styled from 'styled-components';
 import Axios from 'axios';
 
 const apiURL = "http://localhost:5000/api";
 
-const ResultItem = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: .5 1rem;
-    padding: .5rem;
-    border-bottom: 1px solid lightgray;
-`;
+const Wrapper = styled.div`
+    .ant-row-flex{
+        padding: .5rem 0;
+    }
 
-const ResultHeader = styled.div`
-    display: flex;
+    .smallThumbnail {
+        border-radius: 5px 5px 0 0;
+    }
 
-`;
+    .ant-btn {
+        position: relative;
+        top: -28px;
+        color: #F7F7F7;
+        width: 125px;
+        background: #EA7751;
+        border: none;
+        border-radius: 0 0 5px 5px;
+    }
 
-const ResultThumb = styled.div``;
-const ResultTitle = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-left: .5rem;
-`;
-const ResultDesc = styled.div``;
+    .ant-select-selection {
+        border: 0 rgba(0,0,0,0);
+        background-color: rgba(0,0,0,0);
+    }
+`
 
 const SearchItem = props => {
     const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
@@ -65,44 +70,41 @@ const SearchItem = props => {
     }
 
     return (
-        <ResultItem link={selfLink}>
-            <ResultHeader>
-                <ResultThumb>
+        <Wrapper>
+            <Row type="flex" justify="center" gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}>
+                <Col xs={9}>
                     {volumeInfo.imageLinks && (
-                        <Link to={`/Book/${id}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}><img src={volumeInfo.imageLinks.smallThumbnail} alt={`${volumeInfo.title} thumbnail`} /></Link>
+                        <Link to={`/Book/${id}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
+                            <img className="smallThumbnail" src={volumeInfo.imageLinks.smallThumbnail} alt={`${volumeInfo.title} thumbnail`} width="125" />
+                        </Link>
                     )}
-                    <div>
-                        <button onClick={() => saveBookToLibrary(props.book)}>Add to Library</button>
-                    </div>
-                </ResultThumb>
-
-                <ResultTitle>
-                    <p>
-                        {volumeInfo.title}
-                    </p>
-                    <p>
-                        by{' '}
+                    <Button onClick={() => saveBookToLibrary(props.book)}><Icon type="book" /> Add to Shelf</Button>
+                    {/* <ReactGA.OutboundLink eventLabel="Clicked Read Online link" to={accessInfo.webReaderLink} target="_blank" rel="noopener noreferrer">Read Online</ReactGA.OutboundLink> */}
+                </Col>
+                <Col xs={13} className="bookDetail">
+                    <div className="fs-16">{volumeInfo.title}</div>
+                    <div className="bookAuthors">
                         {
                             volumeInfo.authors &&
-                            volumeInfo.authors.map(author => (
-                                <>{author}{' '}</>
+                            volumeInfo.authors.map((author, index) => (
+                                <div key={index}>
+                                    { index === 0 && 'by' } {author}</div>
                             ))
                         }
-                    </p>
-                    <p>
-                        {volumeInfo.averageRating}
-                    </p>
-                </ResultTitle>
-            </ResultHeader>
-
-            <ResultDesc>
-                {searchInfo && <p>{searchInfo.textSnippet}</p>}
-                <p>
-                    {/* <a href={accessInfo.webReaderLink} target="_blank" rel="noopener noreferrer">Read online</a> */}
-                    <ReactGA.OutboundLink eventLabel="Clicked Read Online link" to={accessInfo.webReaderLink} target="_blank" rel="noopener noreferrer">Read Online</ReactGA.OutboundLink>
-                </p>
-            </ResultDesc>
-        </ResultItem>
+                    </div>
+                    <div className="bookRating">
+                        <Rate allowHalf defaultValue={volumeInfo.averageRating} />
+                    </div>
+                    <div className="track">
+                        <Select defaultValue="Track this book">
+                           <option value="0">To be read</option>
+                           <option value="1">Finished</option>
+                           <option value="2">In Progress</option>
+                        </Select>
+                    </div>
+                </Col>
+            </Row>
+        </Wrapper>
     );
 };
 

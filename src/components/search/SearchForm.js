@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Event } from '../tracking/';
 import { getGoogleResults } from '../../actions'
 
-import { Layout, Form, Icon, Input, Button, Row, Col } from 'antd'
+import { Input, Row, Col } from 'antd'
 
 const SearchForm = props => {
 

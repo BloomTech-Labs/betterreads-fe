@@ -24,8 +24,8 @@ const Library = props => {
 		<> 
 			<Header />
 			<Search />
-			<h2>My Shelves</h2>
-			<p>Create shelves and add books to your custom shelves.</p>
+			{/* <h2>My Shelves</h2>
+			<p>Create shelves and add books to your custom shelves.</p> */}
 		</>
 	);
 };
