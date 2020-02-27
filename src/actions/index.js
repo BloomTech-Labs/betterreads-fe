@@ -12,6 +12,7 @@ export const SENDING_BOOK_LIBRARY_SUCCESS = 'SENDING_BOOK_LIBRARY_SUCCESS';
 export const SENDING_BOOK_LIBRARY_FAILURE = 'SENDING_BOOK_LIBRARY_FAILURE';
 export const SET_ERROR = 'SET_ERROR';
 export const FETCH_USERS_BOOKS = 'FETCH_USERS_BOOKS';
+export const FETCH_USERS_SHELVES = 'FETCH_SHELVES_BOOKS';
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -66,7 +67,7 @@ export const successRedirect = history => dispatch => {
 		.get('http://localhost:5000/api/auth/success')
 		.then(response => {
 			console.log('social media user object', response);
-			localStorage.setItem('id', response.data.id);
+			localStorage.setItem('id', response.data.user.id);
 			localStorage.setItem('full_name', response.data.user.fullName);
 			localStorage.setItem('image', response.data.user.image);
 			history.push('/library');
@@ -99,9 +100,9 @@ export const fetchUsersBooks = userID => dispatch => {
 
 export const fetchUsersShelves = userID => dispatch => {
 	axios
-		.get(`http://localhost:5000/api/${userID}/shelves`)
+		.get(`http://localhost:5000/api/shelves/${userID}`)
 		.then(response => {
-			console.log('FETCH_USERS_SHELVES', response);
+			dispatch({ type: FETCH_USERS_SHELVES, payload: response.data });
 		})
 		.catch(error => console.log(error));
 };
