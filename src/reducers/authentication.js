@@ -1,17 +1,16 @@
-import { FETCH_USERS_BOOKS } from '../actions';
+import { SET_ERROR } from '../actions';
 
 const initialState = {
-	userLibrary: []
+	error: ''
 };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
-		case FETCH_USERS_BOOKS:
+		case SET_ERROR:
 			return {
 				...state,
-				userLibrary: action.payload
+				error: action.payload
 			};
-
 		default:
 			return state;
 	}

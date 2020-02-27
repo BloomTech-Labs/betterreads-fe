@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { signUp } from '../../actions/index';
 import styled from 'styled-components';
 
 const SignUpContainer = styled.div`
@@ -122,7 +123,6 @@ const SignUp = props => {
 		password: '',
 		confirmPassword: ''
 	});
-	const [error, setError] = useState('');
 
 	const onChange = event => {
 		setInput({
@@ -133,32 +133,7 @@ const SignUp = props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
-		if (input.password !== input.confirmPassword) {
-			setError('Passwords do not match');
-		} else {
-			axios
-				.post(
-					'http://localhost:5000/api/auth/signup',
-					{
-						fullName: input.fullName,
-						emailAddress: input.emailAddress,
-						username: input.username,
-						password: input.password
-					},
-					{
-						withCredentials: true
-					}
-				)
-				.then(response => {
-					console.log(response);
-					localStorage.setItem('user_id', response.data.user.id);
-					props.history.push('/library');
-				})
-				.catch(error => {
-					console.log(error);
-					setError('Email address already in use or username taken');
-				});
-		}
+		props.signUp(input, props.history);
 	};
 
 	return (
@@ -219,7 +194,7 @@ const SignUp = props => {
 					minLength="5"
 				/>
 
-				{error && <p className="error">{error}</p>}
+				{<p className="error">{props.error}</p>}
 
 				<button type="submit">Create account</button>
 			</form>
@@ -250,4 +225,10 @@ const SignUp = props => {
 	);
 };
 
-export default SignUp;
+const mapStateToProps = state => {
+	return {
+		error: state.authentication.error
+	};
+};
+
+export default connect(mapStateToProps, { signUp })(SignUp);
