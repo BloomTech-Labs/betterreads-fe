@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { PrivateRoute } from './utils/PrivateRoute';
-import  ReactGA from 'react-ga';
+import PrivateRoute from './utils/PrivateRoute';
 import LandingPage from './components/LandingPage';
 import SignUp from './components/authentication/SignUp';
 import SignIn from './components/authentication/SignIn';
@@ -11,19 +10,9 @@ import PageNotFound from './components/authentication/PageNotFound';
 import Library from './components/library/Library';
 import Search from './components/search/Search';
 import BookDetails from './components/BookDetails';
-
-function initAnalytics() {
-	ReactGA.initialize('UA-159089625-1');
-}
+import OnboardingQuiz from './components/OnboardingQuiz';
 
 const App = () => {
-
-	useEffect(() => {
-		initAnalytics();
-		ReactGA.pageview(window.location.pathname + window.location.search);
-		ReactGA.event({category: 'App', action: 'Loaded BetterReads'}, [])
-	})
-
 	return (
 		<Router>
 			<Switch>
@@ -33,11 +22,10 @@ const App = () => {
 				<Route path="/success" component={Success} />
 				<Route path="/failure" component={Failure} />
 				<Route path="/pagenotfound" component={PageNotFound} />
-
+				<Route path="/onboarding" component={OnboardingQuiz} />
 				<PrivateRoute path="/library" component={Library} />
 				<PrivateRoute path="/search" component={Search} />
 				<PrivateRoute path="/book/:id" component={BookDetails} />
-
 				<Route component={PageNotFound} />
 			</Switch>
 		</Router>

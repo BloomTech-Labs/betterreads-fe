@@ -1,8 +1,7 @@
-# [betterReads](https://github.com/Lambda-School-Labs/betterreads-fe)
+# [betterReads](https://github.com/Lambda-School-Labs/betterreads-frontend)
 
 ![React](https://img.shields.io/badge/react-v16.7.0--alpha.2-blue.svg)
 ![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)
- [![Test Coverage](https://api.codeclimate.com/v1/badges/b6143502292664c1f0b4/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-fe/test_coverage) 
 ![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
 
@@ -19,24 +18,25 @@ betterReads is a social media platform that allows users to connect with other r
 -   [Trello Board](https://trello.com)
 -   [UX Design Files](https://figma.com)
 
-### Built With
+### Tech Stack
 
--   React - fast and reusable
--   Redux - global state management
--   styled-components - customizable styling
--   Express - simple and effective
--   PostgreSQL - scalability and data persistence
--   AWS - robust and tailored
-
-See [this repo](https://github.com/Lambda-School-Labs/betterreads-be) for details on the backend of our project.
-
-See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for details on the data science of our project.
+-   React
+-   Redux
+-   styled-components
+-   Express
+-   PostgreSQL
+-   AWS
 
 ### APIs
 
--   OAuth 2.0
+-   OAuth
 -   Google Books API
--   [betterReads API](https://aws.amazon.com/)
+-   betterReads API
+
+### Prettier
+
+-   Single quotes
+-   4 space tabs
 
 ### Naming Conventions
 
@@ -45,11 +45,13 @@ See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for detail
 -   CSS class names - kebab case, descriptive
 -   Database fields - camel case
 
-### Prettier
+### Environment Variables
 
--   Single quotes
--   4 space tabs
--   Semi-colon at the end of every line
+Environment variables go here
+
+### Testing
+
+Testing goes here
 
 ## Contributing
 

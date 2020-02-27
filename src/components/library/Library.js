@@ -7,6 +7,8 @@ import {
 } from '../../actions/index';
 import styled from 'styled-components';
 import BookIcon from '../../components/BookIcon';
+import Header from '../common/Header'; 
+import { PageView, Event } from '../tracking/';
 
 const LibraryContainer = styled.div`
 	.header {
@@ -129,12 +131,6 @@ const LibraryContainer = styled.div`
 				justify-content: center;
 				align-items: center;
 
-				// img {
-				// 	height: 64px;
-				// 	width: 64px;
-				// 	margin-bottom: 4px;
-				// }
-
 				.shelf-name {
 					font-family: 'Open Sans', sans-serif;
 					font-size: 1.125rem;
@@ -175,6 +171,9 @@ const Library = props => {
 	useEffect(() => {
 		props.fetchUsersBooks(localStorage.getItem('id'));
 		props.fetchUsersShelves(localStorage.getItem('id'));
+		
+		Event('Library', 'User library loaded', 'LIBRARY')
+		PageView();
 	}, []);
 
 	const toBeRead = props.userLibrary.filter(item => item.readingStatus === 1);
@@ -260,7 +259,7 @@ const Library = props => {
 					})}
 				</div>
 
-				<button onClick={() => console.log(props.userLibrary)}>
+				<button onClick={() => Event('Library', 'User clicked to create a new shelf', 'LIBRARY')}>
 					<BookIcon height="16px" width="16px" fill="#E5E5E6" />
 					Create a new shelf +
 				</button>
