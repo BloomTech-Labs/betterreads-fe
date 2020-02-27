@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-
 import { getGoogleResults } from '../../actions'
 import styled from 'styled-components';
 import { Input, Row, Col } from 'antd'
@@ -49,4 +48,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, {getGoogleResults})(SearchForm);
+export default connect(mapStateToProps, { getGoogleResults })(SearchForm);

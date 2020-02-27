@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { successRedirect } from '../../actions/index';
 import styled from 'styled-components';
 
 const SuccessContainer = styled.div`
@@ -11,16 +12,7 @@ const SuccessContainer = styled.div`
 
 const Success = props => {
 	useEffect(() => {
-		axios
-			.get('http://localhost:5000/api/auth/success', {
-				withCredentials: true
-			})
-			.then(response => {
-				console.log(response);
-				localStorage.setItem('user_id', response.data.user.id);
-				props.history.push('/library');
-			})
-			.catch(error => console.log(error));
+		props.successRedirect(props.history);
 	}, []);
 
 	return (
@@ -31,4 +23,4 @@ const Success = props => {
 	);
 };
 
-export default Success;
+export default connect(null, { successRedirect })(Success);

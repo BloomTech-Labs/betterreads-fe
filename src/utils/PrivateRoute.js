@@ -6,7 +6,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
 		<Route
 			{...rest}
 			render={props => {
-				if (localStorage.getItem('user_id')) {
+				if (localStorage.getItem('id')) {
 					return <Component {...props} />;
 				} else {
 					return <Redirect to="/pagenotfound" />;

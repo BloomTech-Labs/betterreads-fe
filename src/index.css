@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900&display=swap');
+
 @import '~antd/dist/antd.css';
 
 * {
@@ -8,12 +8,10 @@
 }
 
 body {
-	font-family: sans-serif;
+	background-color: #f3f6f5;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-/* 
 
-*/
 .fs-18{font-size: 1.125rem;}
 .fs-16{font-size: 1rem;}
