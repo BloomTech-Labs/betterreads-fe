@@ -39,13 +39,54 @@ export const signUp = (input, history) => dispatch => {
 	}
 };
 
-export const signOut = history => {
+export const signIn = (input, history) => dispatch => {
+	axios
+		.post('http://localhost:5000/api/auth/signin', input)
+		.then(response => {
+			console.log(response);
+			localStorage.setItem('user_id', response.data.user.id);
+			history.push('/library');
+		})
+		.catch(error => {
+			console.log(error);
+			dispatch({
+				type: SET_ERROR,
+				payload: 'Invalid credentials'
+			});
+		});
+};
+
+export const successRedirect = history => dispatch => {
+	// even though im not dispatching an action type, i still need to include dispatch or else redux logger throws an error
+	axios
+		.get('http://localhost:5000/api/auth/success')
+		.then(response => {
+			console.log('social media user object', response);
+			localStorage.setItem('user_id', response.data.user.id);
+			localStorage.setItem('full_name', response.data.user.fullName);
+			localStorage.setItem('image', response.data.user.image);
+			history.push('/library');
+		})
+		.catch(error => console.log(error));
+};
+
+export const signOut = history => dispatch => {
 	axios
 		.get('http://localhost:5000/api/auth/signout')
 		.then(response => {
 			console.log(response);
 			localStorage.removeItem('user_id');
 			history.push('/');
+		})
+		.catch(error => console.log(error));
+};
+
+export const fetchUsersBooks = userID => dispatch => {
+	axios
+		.get(`http://localhost:5000/api/${userID}/library`)
+		.then(response => {
+			console.log('FETCH_USERS_BOOKS', response);
+			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
 		})
 		.catch(error => console.log(error));
 };
@@ -71,14 +112,4 @@ export const saveBookToLibrary = (userId, bookId, book) => dispatch => {
 		.post(`${apiLocal}/${userId}/library/${bookId}`, book)
 		.then(results => console.log(results))
 		.catch(err => console.log(err.response));
-};
-
-export const fetchUsersBooks = userID => dispatch => {
-	axios
-		.get(`http://localhost:5000/api/${userID}/library`)
-		.then(response => {
-			console.log('FETCH_USERS_BOOKS', response);
-			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
-		})
-		.catch(error => console.log(error));
 };

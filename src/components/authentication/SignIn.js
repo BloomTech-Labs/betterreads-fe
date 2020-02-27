@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { signIn } from '../../actions/index';
 import ReactGA from 'react-ga';
 import styled from 'styled-components';
 
@@ -120,7 +121,6 @@ const SignIn = props => {
 		emailAddress: '',
 		password: ''
 	});
-	const [error, setError] = useState('');
 
 	useEffect(() => {
 		ReactGA.event({ category: 'Sign In', action: 'Sign in loaded' });
@@ -136,19 +136,7 @@ const SignIn = props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
-		axios
-			.post('http://localhost:5000/api/auth/signin', input, {
-				withCredentials: true
-			})
-			.then(response => {
-				console.log(response);
-				localStorage.setItem('user_id', response.data.user.id);
-				props.history.push('/library');
-			})
-			.catch(error => {
-				console.log(error);
-				setError('Invalid credentials');
-			});
+		props.signIn(input, props.history);
 	};
 
 	return (
@@ -178,7 +166,7 @@ const SignIn = props => {
 					minLength="5"
 				/>
 
-				{error && <p className="error">{error}</p>}
+				{<p className="error">{props.error}</p>}
 
 				<button type="submit">Sign in</button>
 			</form>
@@ -206,4 +194,10 @@ const SignIn = props => {
 	);
 };
 
-export default SignIn;
+const mapStateToProps = state => {
+	return {
+		error: state.authentication.error
+	};
+};
+
+export default connect(mapStateToProps, { signIn })(SignIn);
