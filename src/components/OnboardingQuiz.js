@@ -1,124 +1,126 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import axios from "axios"
+import Axios from 'axios';
 
 export function OnboardingQuiz(props) {
-
 	let checkedArr = [];
-
-
+	let apiURL = 'http://localhost:5000/api';
 
 	function handleChange(event) {
-		let genreList = event.target.getAttribute('name')
-		
+		let genreList = event.target.getAttribute('name');
+
 		if (checkedArr.includes(event.target.name)) {
-			checkedArr = checkedArr.filter(genre => genre !== event.target.name);
+			checkedArr = checkedArr.filter(
+				genre => genre !== event.target.name
+			);
 		} else {
-            checkedArr.push(genreList);
-            console.log(checkedArr, 'checkedArr');
-        }
-	}    
+			checkedArr.push(genreList);
+			console.log(checkedArr, 'checkedArr');
+		}
+	}
 
+	function handleSubmit(event) {
+		event.preventDefault();
+		const userId = localStorage.getItem('user_id');
+		Axios.post(
+			`${apiURL}/genres`,
+			{ genres: checkedArr, userId },
+			{ withCredentials: true }
+		)
 
-    function handleSubmit() {
-        axios.post('backend', checkedArr)
-          .then(response => console.log(response))
-          .catch(error => console.log(error))
-          
-    }
+			.then(response => {
+				console.log(response);
+				props.history.push('/library');
+			})
+			.catch(error => console.log(error));
+	}
 
 	return (
 		<div>
+			<h2>Select your favorite genres</h2>
+			<p>Select at least one genre to continue</p>
 			<div>
-				<form>
+				<form onSubmit={handleSubmit}>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Art"
 							value="Art"
 							onClick={handleChange}
-						/>:Art
-                        
+						/>
+						:Art
 					</label>
 					<label>
-					
 						<input
 							type="checkbox"
 							name="Biography"
 							value="Biography"
 							onClick={handleChange}
-						/>:Biography
-                        	
+						/>
+						:Biography
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Business"
 							value="Business"
 							onClick={handleChange}
-						/>:Business
-                        
+						/>
+						:Business
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Chick Lit"
 							value="Chick Lit"
 							onClick={handleChange}
-						/>:Chick Lit
-                        
+						/>
+						:Chick Lit
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Christian"
 							value="Christian"
 							onClick={handleChange}
-						/>:Christian
-                        
+						/>
+						:Christian
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Classics"
 							value="Classics"
 							onClick={handleChange}
-						/>:Classics
-                        
+						/>
+						:Classics
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Comics"
 							value="Comics"
 							onClick={handleChange}
-						/>:Comics
-                        
+						/>
+						:Comics
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Contemporary"
 							value="Contemporary"
 							onClick={handleChange}
-						/>:Contemporary
-                        
+						/>
+						:Contemporary
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Cookbooks"
 							value="Cookbooks"
 							onClick={handleChange}
-						/>:Cookbooks
+						/>
+						:Cookbooks
 					</label>
 					<label>
 						<input
@@ -126,8 +128,8 @@ export function OnboardingQuiz(props) {
 							name="Graphic Novels"
 							value="Graphic Novels"
 							onClick={handleChange}
-						/>:Graphic Novels
-
+						/>
+						:Graphic Novels
 					</label>
 					<label>
 						<input
@@ -135,8 +137,8 @@ export function OnboardingQuiz(props) {
 							name="Historical Fiction"
 							value="Historical Fiction"
 							onClick={handleChange}
-						/>:Historical Fiction
-
+						/>
+						:Historical Fiction
 					</label>
 					<label>
 						<input
@@ -144,8 +146,8 @@ export function OnboardingQuiz(props) {
 							name="History"
 							value="History"
 							onClick={handleChange}
-						/>:History
-
+						/>
+						:History
 					</label>
 					<label>
 						<input
@@ -153,8 +155,8 @@ export function OnboardingQuiz(props) {
 							name="Horror"
 							value="Horror"
 							onClick={handleChange}
-						/>:Horror
-
+						/>
+						:Horror
 					</label>
 					<label>
 						<input
@@ -162,62 +164,62 @@ export function OnboardingQuiz(props) {
 							name="Humor and Comedy"
 							value="Humor and Comedy"
 							onClick={handleChange}
-						/>:Humor and Comedy
-
+						/>
+						:Humor and Comedy
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Manga"
 							value="Manga"
 							onClick={handleChange}
-						/>:Manga
+						/>
+						:Manga
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Memoir"
 							value="Memoir"
 							onClick={handleChange}
-						/>:Memoir
+						/>
+						:Memoir
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Music"
 							value="Music"
 							onClick={handleChange}
-						/>:Music
+						/>
+						:Music
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Mystery"
 							value="Mystery"
 							onClick={handleChange}
-						/>:Mystery
+						/>
+						:Mystery
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Mystery"
 							value="Mystery"
 							onClick={handleChange}
-						/>:Mystery
+						/>
+						:Mystery
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Paranormal"
 							value="Paranormal"
 							onClick={handleChange}
-						/>:Paranormal
+						/>
+						:Paranormal
 					</label>
 					<label>
 						<input
@@ -225,8 +227,8 @@ export function OnboardingQuiz(props) {
 							name="Philosophy"
 							value="Philosophy"
 							onClick={handleChange}
-						/>:Philosophy
-
+						/>
+						:Philosophy
 					</label>
 					<label>
 						<input
@@ -234,7 +236,8 @@ export function OnboardingQuiz(props) {
 							name="Poetry"
 							value="Poetry"
 							onClick={handleChange}
-						/>:Poetry
+						/>
+						:Poetry
 					</label>
 
 					<label>
@@ -243,8 +246,8 @@ export function OnboardingQuiz(props) {
 							name="Psychology"
 							value="Psychology"
 							onClick={handleChange}
-						/>:Psychology
-
+						/>
+						:Psychology
 					</label>
 					<label>
 						<input
@@ -252,8 +255,8 @@ export function OnboardingQuiz(props) {
 							name="Religion"
 							value="Religion"
 							onClick={handleChange}
-						/>:Religion
-
+						/>
+						:Religion
 					</label>
 					<label>
 						<input
@@ -261,8 +264,8 @@ export function OnboardingQuiz(props) {
 							name="Romance"
 							value="Romance"
 							onClick={handleChange}
-						/>:Romance
-
+						/>
+						:Romance
 					</label>
 					<label>
 						<input
@@ -270,8 +273,8 @@ export function OnboardingQuiz(props) {
 							name="Science"
 							value="Science"
 							onClick={handleChange}
-						/>:Science
-
+						/>
+						:Science
 					</label>
 					<label>
 						<input
@@ -279,8 +282,8 @@ export function OnboardingQuiz(props) {
 							name="Science Fiction"
 							value="Science Fiction"
 							onClick={handleChange}
-						/>:Science Fiction
-
+						/>
+						:Science Fiction
 					</label>
 					<label>
 						<input
@@ -288,8 +291,8 @@ export function OnboardingQuiz(props) {
 							name="Self Help"
 							value="Self Help"
 							onClick={handleChange}
-						/>:Self Help
-
+						/>
+						:Self Help
 					</label>
 					<label>
 						<input
@@ -297,8 +300,8 @@ export function OnboardingQuiz(props) {
 							name="Suspense"
 							value="Suspense"
 							onClick={handleChange}
-						/>:Suspense
-
+						/>
+						:Suspense
 					</label>
 					<label>
 						<input
@@ -306,8 +309,8 @@ export function OnboardingQuiz(props) {
 							name="Spirituality"
 							value="Spirituality"
 							onClick={handleChange}
-						/>:Spirituality
-
+						/>
+						:Spirituality
 					</label>
 					<label>
 						<input
@@ -315,35 +318,35 @@ export function OnboardingQuiz(props) {
 							name="Sports"
 							value="Sports"
 							onClick={handleChange}
-						/>:Sports
-
+						/>
+						:Sports
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Thriller"
 							value="Thriller"
 							onClick={handleChange}
-						/>:Thriller
+						/>
+						:Thriller
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Travel"
 							value="Travel"
 							onClick={handleChange}
-						/>:Travel
+						/>
+						:Travel
 					</label>
 					<label>
-						
 						<input
 							type="checkbox"
 							name="Young Adult"
 							value="Young Adult"
 							onClick={handleChange}
-						/>:Young Adult
+						/>
+						:Young Adult
 					</label>
 
 					<input type="submit" value="Submit" />
@@ -352,7 +355,6 @@ export function OnboardingQuiz(props) {
 		</div>
 	);
 }
-
 
 const mapStateToProps = state => {
 	return {
