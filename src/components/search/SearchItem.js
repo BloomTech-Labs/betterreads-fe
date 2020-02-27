@@ -62,7 +62,7 @@ const SearchItem = props => {
 		axios
 			.post(
 				`http://localhost:5000/api/${localStorage.getItem(
-					'user_id'
+					'id'
 				)}/library`,
 				modifiedBook,
 				{ withCredentials: true }

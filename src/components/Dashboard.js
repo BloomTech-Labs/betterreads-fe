@@ -8,7 +8,7 @@ const Dashboard = props => {
 				withCredentials: true
 			})
 			.then(response => {
-				localStorage.removeItem('user_id');
+				localStorage.removeItem('id');
 				props.history.push('/');
 			})
 			.catch(error => console.log(error));

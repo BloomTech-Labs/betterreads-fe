@@ -26,7 +26,9 @@ export const signUp = (input, history) => dispatch => {
 			})
 			.then(response => {
 				console.log(response);
-				localStorage.setItem('user_id', response.data.user.id);
+				localStorage.setItem('id', response.data.user.id);
+				localStorage.setItem('full_name', response.data.user.fullName);
+				localStorage.setItem('image', response.data.user.image);
 				history.push('/library');
 			})
 			.catch(error => {
@@ -44,7 +46,9 @@ export const signIn = (input, history) => dispatch => {
 		.post('http://localhost:5000/api/auth/signin', input)
 		.then(response => {
 			console.log(response);
-			localStorage.setItem('user_id', response.data.user.id);
+			localStorage.setItem('id', response.data.user.id);
+			localStorage.setItem('full_name', response.data.user.fullName);
+			localStorage.setItem('image', response.data.user.image);
 			history.push('/library');
 		})
 		.catch(error => {
@@ -62,7 +66,7 @@ export const successRedirect = history => dispatch => {
 		.get('http://localhost:5000/api/auth/success')
 		.then(response => {
 			console.log('social media user object', response);
-			localStorage.setItem('user_id', response.data.user.id);
+			localStorage.setItem('id', response.data.id);
 			localStorage.setItem('full_name', response.data.user.fullName);
 			localStorage.setItem('image', response.data.user.image);
 			history.push('/library');
@@ -75,7 +79,9 @@ export const signOut = history => dispatch => {
 		.get('http://localhost:5000/api/auth/signout')
 		.then(response => {
 			console.log(response);
-			localStorage.removeItem('user_id');
+			localStorage.removeItem('id');
+			localStorage.removeItem('full_name');
+			localStorage.removeItem('image');
 			history.push('/');
 		})
 		.catch(error => console.log(error));
@@ -87,6 +93,15 @@ export const fetchUsersBooks = userID => dispatch => {
 		.then(response => {
 			console.log('FETCH_USERS_BOOKS', response);
 			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
+		})
+		.catch(error => console.log(error));
+};
+
+export const fetchUsersShelves = userID => dispatch => {
+	axios
+		.get(`http://localhost:5000/api/${userID}/shelves`)
+		.then(response => {
+			console.log('FETCH_USERS_SHELVES', response);
 		})
 		.catch(error => console.log(error));
 };
