@@ -18,9 +18,8 @@ const SearchList = props => {
 
 const mapStateToProps = state => {
     return {
-        fetching: state.fetching,
-        getGoogleResults: state.getGoogleResults,
-        searchResults: state.searchResults
+        fetching: state.search.fetching,
+        searchResults: state.search.searchResults
     }
 }
 

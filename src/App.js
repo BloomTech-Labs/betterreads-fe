@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import PrivateRoute from './utils/PrivateRoute';
+import { PrivateRoute } from './utils/PrivateRoute';
 import LandingPage from './components/LandingPage';
 import SignUp from './components/authentication/SignUp';
 import SignIn from './components/authentication/SignIn';
@@ -9,8 +9,8 @@ import Failure from './components/authentication/Failure';
 import PageNotFound from './components/authentication/PageNotFound';
 import Library from './components/library/Library';
 import Search from './components/search/Search';
-import BookDetails from './components/BookDetails';
-import OnboardingQuiz from './components/OnboardingQuiz';
+import BookDetails from './components/common/BookDetails';
+import OnboardingQuiz from './components/authentication/OnboardingQuiz';
 
 const App = () => {
 	return (

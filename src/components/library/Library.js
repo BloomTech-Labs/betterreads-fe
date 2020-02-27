@@ -6,9 +6,11 @@ import {
 	fetchUsersShelves
 } from '../../actions/index';
 import styled from 'styled-components';
-import BookIcon from '../../components/BookIcon';
+import BookIcon from '../common/BookIcon';
 import Header from '../common/Header'; 
 import { PageView, Event } from '../tracking/';
+
+import SearchForm from '../search/SearchForm';
 
 const LibraryContainer = styled.div`
 	.header {
@@ -214,6 +216,7 @@ const Library = props => {
 						Search for a book to track you reading progress and add
 						books to shelves.
 					</p>
+					<SearchForm />
 				</div>
 			</div>
 

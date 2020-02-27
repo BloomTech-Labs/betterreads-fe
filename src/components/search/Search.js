@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { PageView, Event } from '../tracking/';
 import { Layout, Row, Col, Typography } from 'antd';
+import Header from '../common/Header'
 import SearchForm from './SearchForm';
 import SearchList from './SearchList';
 
@@ -22,6 +23,7 @@ const Search = props => {
 	
 	return (
 		<>
+			<Header />
 			<Layout>
 				<Layout.Content>
 					<Fluff>
