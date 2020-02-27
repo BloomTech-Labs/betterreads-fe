@@ -2,21 +2,73 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Axios from 'axios';
 
+import { Checkbox, Col, Row } from 'antd';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+	.ant-checkbox-wrapper{
+		font-weight: 300;
+		font-size: 13px;
+		line-height: 18px;
+		display: flex;
+		align-items: center;
+		color: #151522;
+		mix-blend-mode: normal;
+		opacity: 0.7;
+		margin: 3
+		.ant-checkbox-input{
+			background: #FFFFFF;
+			box-sizing: border-box;
+			box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
+			border-radius: 6px;
+			width: 24px;
+			highth: auto;
+		}
+		.ant-checkbox-wrapper-inner{
+			background: #FFFFFF;
+			box-shadow: 0px 4px 8px rgba(50, 50, 71, 0.06), 0px 4px 4px rgba(50, 50, 71, 0.08);
+			border: 1px solid #E4E4E4;
+			color: #E4E4E4
+	}
+	
+`;
+
+const Heading = styled.h1`
+	font-weight: 600;
+	font-size: 34px;
+	line-height: 41px;
+	color: rgba(21, 21, 34, 0.7);
+`;
+const Sub = styled.p`
+	font-weight: 300;
+	font-size: 16px;
+	line-height: 22px;
+	letter-spacing: 0.5px;
+	color: #151522;
+`;
+const Submit = styled.button`
+font-weight: 300;
+font-size: 16px;
+line-height: 22px;
+display: flex;
+align-items: center;
+text-align: center;
+color: #FFFFFF;
+background: #9C9EA9;
+border-radius: 5px;
+width: 150px;
+highth: 50px;
+`
+
+
 export function OnboardingQuiz(props) {
 	let checkedArr = [];
 	let apiURL = 'http://localhost:5000/api';
 
-	function handleChange(event) {
-		let genreList = event.target.getAttribute('name');
-
-		if (checkedArr.includes(event.target.name)) {
-			checkedArr = checkedArr.filter(
-				genre => genre !== event.target.name
-			);
-		} else {
-			checkedArr.push(genreList);
-			console.log(checkedArr, 'checkedArr');
-		}
+	function handleChange(checkedValues) {
+		console.log('checked = ', checkedValues);
+		let checkedArr = checkedValues
+		console.log(checkedArr, "checked Arr")
 	}
 
 	function handleSubmit(event) {
@@ -35,324 +87,67 @@ export function OnboardingQuiz(props) {
 			.catch(error => console.log(error));
 	}
 
+	const checkGenre = [
+		'Art',
+		'Biography',
+		'Business',
+		'Chick Lit',
+		'Christian',
+		'Classics',
+		'Comics',
+		'Contemporary',
+		'Cookbooks',
+		'Graphic Novels',
+		'Historical Fiction',
+		'History',
+		'Horror',
+		'Humor and Comedy',
+		'Manga',
+		'Memoir',
+		'Music',
+		'Mystery',
+		'Mystery',
+		'Paranormal',
+		'Philosophy',
+		'Poetry',
+		'Psychology',
+		'Religion',
+		'Romance',
+		'Science',
+		'Science Fiction',
+		'Self Help',
+		'Suspense',
+		'Spirituality',
+		'Sports',
+		'Thriller',
+		'Travel',
+		'Young Adult'
+	];
+
 	return (
-		<div>
-			<h2>Select your favorite genres</h2>
-			<p>Select at least one genre to continue</p>
+		<Wrapper>
+			<Heading>Select your favorite genres</Heading>
+			<Sub>Select at least one genre to continue</Sub>
 			<div>
 				<form onSubmit={handleSubmit}>
-					<label>
-						<input
-							type="checkbox"
-							name="Art"
-							value="Art"
-							onClick={handleChange}
-						/>
-						:Art
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Biography"
-							value="Biography"
-							onClick={handleChange}
-						/>
-						:Biography
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Business"
-							value="Business"
-							onClick={handleChange}
-						/>
-						:Business
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Chick Lit"
-							value="Chick Lit"
-							onClick={handleChange}
-						/>
-						:Chick Lit
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Christian"
-							value="Christian"
-							onClick={handleChange}
-						/>
-						:Christian
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Classics"
-							value="Classics"
-							onClick={handleChange}
-						/>
-						:Classics
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Comics"
-							value="Comics"
-							onClick={handleChange}
-						/>
-						:Comics
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Contemporary"
-							value="Contemporary"
-							onClick={handleChange}
-						/>
-						:Contemporary
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Cookbooks"
-							value="Cookbooks"
-							onClick={handleChange}
-						/>
-						:Cookbooks
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Graphic Novels"
-							value="Graphic Novels"
-							onClick={handleChange}
-						/>
-						:Graphic Novels
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Historical Fiction"
-							value="Historical Fiction"
-							onClick={handleChange}
-						/>
-						:Historical Fiction
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="History"
-							value="History"
-							onClick={handleChange}
-						/>
-						:History
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Horror"
-							value="Horror"
-							onClick={handleChange}
-						/>
-						:Horror
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Humor and Comedy"
-							value="Humor and Comedy"
-							onClick={handleChange}
-						/>
-						:Humor and Comedy
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Manga"
-							value="Manga"
-							onClick={handleChange}
-						/>
-						:Manga
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Memoir"
-							value="Memoir"
-							onClick={handleChange}
-						/>
-						:Memoir
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Music"
-							value="Music"
-							onClick={handleChange}
-						/>
-						:Music
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Mystery"
-							value="Mystery"
-							onClick={handleChange}
-						/>
-						:Mystery
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Mystery"
-							value="Mystery"
-							onClick={handleChange}
-						/>
-						:Mystery
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Paranormal"
-							value="Paranormal"
-							onClick={handleChange}
-						/>
-						:Paranormal
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Philosophy"
-							value="Philosophy"
-							onClick={handleChange}
-						/>
-						:Philosophy
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Poetry"
-							value="Poetry"
-							onClick={handleChange}
-						/>
-						:Poetry
-					</label>
+					<Checkbox.Group onChange={handleChange}>
+						<Row
+							type="flex"
+							justify="center"
+							gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}
+						>
+							{checkGenre.map(CB => (
+								<Col span="11">
+									<Checkbox value={CB}>{CB}</Checkbox>
+								</Col>
+							))}
+						</Row>
+					</Checkbox.Group>
 
-					<label>
-						<input
-							type="checkbox"
-							name="Psychology"
-							value="Psychology"
-							onClick={handleChange}
-						/>
-						:Psychology
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Religion"
-							value="Religion"
-							onClick={handleChange}
-						/>
-						:Religion
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Romance"
-							value="Romance"
-							onClick={handleChange}
-						/>
-						:Romance
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Science"
-							value="Science"
-							onClick={handleChange}
-						/>
-						:Science
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Science Fiction"
-							value="Science Fiction"
-							onClick={handleChange}
-						/>
-						:Science Fiction
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Self Help"
-							value="Self Help"
-							onClick={handleChange}
-						/>
-						:Self Help
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Suspense"
-							value="Suspense"
-							onClick={handleChange}
-						/>
-						:Suspense
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Spirituality"
-							value="Spirituality"
-							onClick={handleChange}
-						/>
-						:Spirituality
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Sports"
-							value="Sports"
-							onClick={handleChange}
-						/>
-						:Sports
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Thriller"
-							value="Thriller"
-							onClick={handleChange}
-						/>
-						:Thriller
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Travel"
-							value="Travel"
-							onClick={handleChange}
-						/>
-						:Travel
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="Young Adult"
-							value="Young Adult"
-							onClick={handleChange}
-						/>
-						:Young Adult
-					</label>
-
-					<input type="submit" value="Submit" />
+					<input type="submit" value="Continue" />
 				</form>
 			</div>
-		</div>
+		</Wrapper>
 	);
 }
 
