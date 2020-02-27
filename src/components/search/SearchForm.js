@@ -2,6 +2,15 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux';
 
 import { getGoogleResults } from '../../actions'
+import styled from 'styled-components';
+import { Input, Row, Col } from 'antd'
+
+const Wrapper = styled.div`
+    .ant-btn-primary {
+        background-color: #D24719;
+        border-color: #D24719;
+    }
+`;
 
 const SearchForm = props => {
 
@@ -13,19 +22,23 @@ const SearchForm = props => {
             [e.target.name]: e.target.value
         })
     }
-
-    const handleSumbit = e => {
-        e.preventDefault();
-        if(searchQ.q.length){
-            props.getGoogleResults(searchQ.q)
-        }
-    }
-
+    
     return (
-        <form onSubmit={handleSumbit}>
-            <input name="q" type="text" aria-label="search-box" maxLength="255" placeholder="Title, Author" value={searchQ.q} onChange={handleChange} />
-            <button type="submit" className="the-button">Search</button>
-        </form>
+        <Wrapper>
+            <Row type="flex" justify="center" gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}>
+                <Col xs={{span: 22}} md={{span: 12}}>
+                    <Input.Search name="q"
+                        aria-label="search-box"
+                        placeholder="Search for a book" 
+                        size="large" 
+                        onSearch={value => props.getGoogleResults(value)} 
+                        value={searchQ.q} 
+                        onChange={handleChange} 
+                        enterButton
+                    />
+                </Col>
+            </Row>
+        </Wrapper>
     )
 
 }
@@ -33,7 +46,6 @@ const SearchForm = props => {
 const mapStateToProps = state => {
     return {
         fetching: state.fetching,
-        getGoogleResults: state.getGoogleResults
     }
 }
 

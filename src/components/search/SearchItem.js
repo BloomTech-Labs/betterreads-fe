@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { Row, Col, Button, Icon, Rate, Select } from 'antd';
+
 import styled from 'styled-components';
 import Axios from 'axios';
 
@@ -9,27 +11,43 @@ import { saveBookToLibrary} from '../../actions'
 
 // const apiURL = "http://localhost:5000/api";
 
-const ResultItem = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: .5 1rem;
-    padding: .5rem;
-    border-bottom: 1px solid lightgray;
-`;
+const Wrapper = styled.div`
+    .ant-row-flex{
+        padding: 1.5rem 0;
+        border-bottom: 1px solid #cecece;
+    }
 
-const ResultHeader = styled.div`
-    display: flex;
+    .smallThumbnail {
+        border-radius: 5px 5px 0 0;
+        width: 125px;
+        height: auto;
+    }
 
-`;
+    .ant-btn {
+        color: #F7F7F7;
+        width: 125px;
+        background: #D24719;
+        border: none;
+        border-radius: 0 0 5px 5px;
+    }
 
-const ResultThumb = styled.div``;
-const ResultTitle = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-left: .5rem;
-`;
-const ResultDesc = styled.div``;
+    .bookDetail {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
+        .ant-select-selection {
+            border: 0 rgba(0,0,0,0);
+            background-color: rgba(0,0,0,0);
+        }
+
+        .ant-select-selection__rendered {
+            margin-left: 0;
+        }
+    }
+
+    
+`
 
 const SearchItem = props => {
     const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
@@ -42,41 +60,42 @@ const SearchItem = props => {
     }
 
     return (
-        <ResultItem link={selfLink}>
-            <ResultHeader>
-                <ResultThumb>
+        <Wrapper>
+            <Row type="flex" justify="center" gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}>
+                <Col xs={9}>
                     {volumeInfo.imageLinks && (
-                        <Link to={`/Book/${id}`}><img src={volumeInfo.imageLinks.smallThumbnail} alt={`${volumeInfo.title} thumbnail`} /></Link>
+                        <Link to={`/Book/${id}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
+                            <div style={{height: '123px', width: '125px', overflow: 'hidden'}}>
+                                <img className="smallThumbnail" src={volumeInfo.imageLinks.smallThumbnail} alt={`${volumeInfo.title} thumbnail`} width="125" />
+                            </div>
+                        </Link>
                     )}
-                    <div>
-                        <button onClick={() => saveBookToLibrary(props.book)}>Add to Library</button>
-                    </div>
-                </ResultThumb>
-
-                <ResultTitle>
-                    <p>
-                        {volumeInfo.title}
-                    </p>
-                    <p>
-                        by{' '}
+                    <Button onClick={() => saveBookToLibrary(props.book)}><Icon type="book" /> Add to Shelf</Button>
+                </Col>
+                <Col xs={13} className="bookDetail">
+                    <div className="bookTitle fs-16">{volumeInfo.title}</div>
+                    <div className="bookAuthors">
                         {
                             volumeInfo.authors &&
-                            volumeInfo.authors.map(author => (
-                                <>{author}{' '}</>
+                            volumeInfo.authors.map((author, index) => (
+                                <div key={index}>
+                                    { index === 0 && 'by' } {author}</div>
                             ))
                         }
-                    </p>
-                    <p>
-                        {volumeInfo.averageRating}
-                    </p>
-                </ResultTitle>
-            </ResultHeader>
-
-            <ResultDesc>
-                {searchInfo && <p>{searchInfo.textSnippet}</p>}
-                <p><a href={accessInfo.webReaderLink} target="_blank" rel="noopener noreferrer">Read online</a></p>
-            </ResultDesc>
-        </ResultItem>
+                    </div>
+                    <div className="bookRating">
+                        <Rate allowHalf defaultValue={volumeInfo.averageRating} />
+                    </div>
+                    <div className="bookTrack">
+                        <Select defaultValue="Track this book ">
+                           <option value="0">To be read</option>
+                           <option value="1">Finished</option>
+                           <option value="2">In Progress</option>
+                        </Select>
+                    </div>
+                </Col>
+            </Row>
+        </Wrapper>
     );
 };
 
