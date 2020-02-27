@@ -11,11 +11,6 @@ const Fluff = styled.div`
 
 	.fs-18{font-size: 1.125rem;}
 	.pb-1{padding-bottom: 1rem;}
-
-	.ant-btn-primary {
-		background-color: orange;
-		border-color: orange;
-	}
 `
 
 const Search = props => {
