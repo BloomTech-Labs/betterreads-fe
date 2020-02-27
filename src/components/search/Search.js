@@ -1,21 +1,15 @@
-import React, { useEffect } from 'react';
-import { PageView, Event } from '../tracking/';
+import React from 'react';
+
 import SearchForm from './SearchForm';
 import SearchList from './SearchList';
 
-const Search = props => {
-
-	useEffect(() => {
-		Event('Search', 'loaded search', 'SEARCH_COMPONENT')
-		PageView();
-	}, [])
-	
-	return (
-		<>
-			<SearchForm />
-			<SearchList />
-		</>
-	);
-};
+const Search = props => {   
+    return (
+        <>
+            <SearchForm />
+            <SearchList />
+        </>
+    )
+}
 
 export default Search;

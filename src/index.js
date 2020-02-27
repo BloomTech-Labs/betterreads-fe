@@ -7,12 +7,6 @@ import thunk from 'redux-thunk';
 import { reducer } from './reducers/Reducer';
 import App from './App';
 import './index.css';
-import { initGA, Event } from './components/tracking';
-
-(function initAnalytics() {
-	initGA('UA-159089625-1');
-	Event('App', 'Initial Loaded', 'BetterReads Loaded')
-})();
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
