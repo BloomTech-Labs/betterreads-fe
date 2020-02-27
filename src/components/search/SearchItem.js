@@ -17,6 +17,8 @@ const Wrapper = styled.div`
 
     .smallThumbnail {
         border-radius: 5px 5px 0 0;
+        width: 125px;
+        height: auto;
     }
 
     .ant-btn {
@@ -79,7 +81,6 @@ const SearchItem = props => {
                         </Link>
                     )}
                     <Button onClick={() => saveBookToLibrary(props.book)}><Icon type="book" /> Add to Shelf</Button>
-                    {/* <ReactGA.OutboundLink eventLabel="Clicked Read Online link" to={accessInfo.webReaderLink} target="_blank" rel="noopener noreferrer">Read Online</ReactGA.OutboundLink> */}
                 </Col>
                 <Col xs={13} className="bookDetail">
                     <div className="fs-16">{volumeInfo.title}</div>
@@ -96,7 +97,7 @@ const SearchItem = props => {
                         <Rate allowHalf defaultValue={volumeInfo.averageRating} />
                     </div>
                     <div className="track">
-                        <Select defaultValue="Track this book">
+                        <Select defaultValue="Track this book ">
                            <option value="0">To be read</option>
                            <option value="1">Finished</option>
                            <option value="2">In Progress</option>

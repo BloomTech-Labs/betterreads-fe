@@ -1,6 +1,6 @@
 import React from 'react';
 import { Event } from '../tracking';
-import { Layout, Row, Col, Icon, Avatar } from 'antd';
+import { Row, Col, Avatar } from 'antd';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`

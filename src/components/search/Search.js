@@ -26,19 +26,21 @@ const Search = props => {
 	}, [])
 	
 	return (
-		<Layout>
-			<Layout.Content>
-				<Fluff>
-					<Row type="flex" justify="center" gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}>
-						<Col span={22}>
-							<div className="fs-18 pb-1">Search for a book to track your reading progress and add books to shelves.</div>
-						</Col>
-					</Row>
-					<SearchForm />
-					<SearchList />
-				</Fluff>
-			</Layout.Content>
-		</Layout>
+		<>
+			<Layout>
+				<Layout.Content>
+					<Fluff>
+						<Row type="flex" justify="center" gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}>
+							<Col span={22}>
+								<div className="fs-18 pb-1">Search for a book to track your reading progress and add books to shelves.</div>
+							</Col>
+						</Row>
+						<SearchForm />
+					</Fluff>
+				</Layout.Content>
+			</Layout>
+			<SearchList />
+		</>
 	);
 };
 
