@@ -7,6 +7,11 @@ import thunk from 'redux-thunk';
 import reducer from './reducers/index';
 import App from './App';
 import './index.css';
+import { initGA } from './components/tracking';
+
+(function initAnalytics() {
+	initGA('UA-159089625-1');
+})();
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
