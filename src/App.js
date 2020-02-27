@@ -1,39 +1,21 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { PrivateRoute } from './utils/PrivateRoute';
-import { PageView } from './components/tracking';
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
-import SignUp from './components/authentication/SignUp';
-import SignIn from './components/authentication/SignIn';
-import Success from './components/authentication/Success';
-import Failure from './components/authentication/Failure';
-import PageNotFound from './components/authentication/PageNotFound';
-import Library from './components/library/Library';
+import SignUp from './components/SignUp';
+import SignIn from './components/SignIn';
 import Search from './components/search/Search';
 import BookDetails from './components/BookDetails';
+import OnboardingQuiz from './components/OnboardingQuiz';
 
 const App = () => {
-
-	useEffect(() => {
-		PageView();
-	}, [])
-
 	return (
 		<Router>
-			<Switch>
-				<Route exact path="/" component={LandingPage} />
-				<Route path="/signup" component={SignUp} />
-				<Route path="/signin" component={SignIn} />
-				<Route path="/success" component={Success} />
-				<Route path="/failure" component={Failure} />
-				<Route path="/pagenotfound" component={PageNotFound} />
-
-				<PrivateRoute path="/library" component={Library} />
-				<PrivateRoute path="/search" component={Search} />
-				<PrivateRoute path="/book/:id" component={BookDetails} />
-
-				<Route component={PageNotFound} />
-			</Switch>
+			<Route exact path="/" component={LandingPage} />
+			<Route path="/signup" component={SignUp} />
+			<Route path="/signin" component={SignIn} />
+			<Route path="/onboarding" component={OnboardingQuiz} />
+			<Route path="/search" component={Search} />
+			<Route path="/book/:id" component={BookDetails} />
 		</Router>
 	);
 };

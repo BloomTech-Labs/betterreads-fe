@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import { Event } from '../tracking/';
+
 import { getGoogleResults } from '../../actions'
 import styled from 'styled-components';
 import { Input, Row, Col } from 'antd'
@@ -22,7 +22,7 @@ const SearchForm = props => {
             [e.target.name]: e.target.value
         })
     }
-
+    
     return (
         <Wrapper>
             <Row type="flex" justify="center" gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}>
