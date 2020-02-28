@@ -23,7 +23,7 @@ const Wrapper = styled.div`
     }
 `;
 
-const ShelfModal = () => {
+const ShelfModal = props => {
     const [modalConfig, setModalConfig] = useState({
         visible: false,
         ModalText: '',
@@ -71,10 +71,14 @@ const ShelfModal = () => {
     return (
         <Wrapper>
             <Row type="flex" justify="center">
-                <Col span={22}>
-                    <Button className="newShelf" type="primary" size="large" onClick={showModal} block>
-                        <BookIcon height="16px" width="16px" fill="#E5E5E6" />
-                        Create new shelf
+                <Col span={props.span || 22}>
+                    <Button className={props.classname || 'newShelf'} 
+                        onClick={showModal}
+                        type={props.type || 'primary'} 
+                        size={props.size || 'large'} 
+                        icon={ props.icon || '' } block>
+                        { !props.icon && <BookIcon height="16px" width="16px" fill="#E5E5E6" /> }
+                        { props.label || 'Create new shelf' }
                     </Button>
                 </Col>
             </Row>

@@ -38,9 +38,9 @@ const Search = props => {
 					</Fluff>
 				</Layout.Content>
 			</Layout>
+			<NewShelfModal block="true" bgColor="red" span="12" type="default" size="small" label="Click Me!" classname="first" icon="null" />
 			<NewShelfModal />
 			<SearchList />
-
 		</>
 	);
 };
