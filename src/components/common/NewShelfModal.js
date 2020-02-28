@@ -28,7 +28,8 @@ const ShelfModal = props => {
         visible: false,
         ModalText: '',
         confirmLoading: true,
-        shelfName: null
+        shelfName: null,
+        shelfPrivate: null
     });
 
     const showModal = () => {
@@ -45,15 +46,23 @@ const ShelfModal = props => {
         })
     }
 
+    const handleCheck = e => {
+        setModalConfig({
+            ...modalConfig,
+            shelfPrivate: e.target.checked
+        })
+    }
+
     const handleOk = () => {
         const userId = localStorage.getItem('user_id');
-        axios.post(`http://localhost:5000/api/shelves`, {userId, shelfName: modalConfig.shelfName, isPrivate: false})
+        axios.post(`http://localhost:5000/api/shelves/${userId}`, { shelfName: modalConfig.shelfName, isPrivate: modalConfig.shelfPrivate })
         .then(res => {
             setModalConfig({
                 ...modalConfig,
                 visible: false,
                 confirmLoading: false,
-                shelfName: null
+                shelfName: null,
+                shelfPrivate: false
             })
         })
         
@@ -64,7 +73,8 @@ const ShelfModal = props => {
             ...modalConfig,
             visible: false,
             confirmLoading: false,
-            shelfName: null
+            shelfName: null,
+            shelfPrivate: false
         })
     }
 
@@ -90,7 +100,7 @@ const ShelfModal = props => {
                 onCancel={handleCancel}
             >
                 <Input size="large" placeholder="New shelf name" value={modalConfig.shelfName} onChange={handleChange} />
-                <Checkbox > Keep private</Checkbox>
+                <Checkbox checked={modalConfig.shelfPrivate} onChange={handleCheck}> Keep private</Checkbox>
             </Modal>
         </Wrapper>
     )
