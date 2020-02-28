@@ -34,7 +34,7 @@ const Header = props => {
                             BetterReads
                         </div>
                     </Col>
-                    <Col span={2} offset={9}>
+                    <Col span={3} offset={8}>
                         
                         {(!localStorage.getItem('image') ||
                             localStorage.getItem('image') === 'null') && (
@@ -46,6 +46,7 @@ const Header = props => {
                                 <img
                                     src={localStorage.getItem("image")}
                                     alt='profile icon'
+                                    align='right'
                                     onClick={() => props.signOut(props.history)}
                                 />
                             )}
