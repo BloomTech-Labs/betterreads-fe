@@ -2,114 +2,139 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { signUp } from '../../actions/index';
 import styled from 'styled-components';
+import signupbanner from '../../img/sign-up-banner.svg';
+import facebooklogo from '../../img/facebook-logo.svg';
+import googlelogo from '../../img/google-logo.svg';
 
 const SignUpContainer = styled.div`
-	width: 90%;
-	margin: 0 auto;
-	margin-top: 64px;
 	margin-bottom: 64px;
 	display: flex;
 	flex-direction: column;
 
-	h1 {
-		margin-bottom: 32px;
+	.banner {
+		height: 25vh;
+		background: url(${signupbanner});
+		background-size: cover;
+		background-position: center;
 	}
 
 	form {
+		width: 90%;
+		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
 
+		h1 {
+			margin-top: 14px;
+			margin-bottom: 8px;
+			font-family: 'Frank Ruhl Libre', sans-serif;
+			font-weight: bold;
+			font-size: 2rem;
+			color: #547862;
+			line-height: 40px;
+		}
+
+		.already {
+			margin-bottom: 32px;
+			font-family: 'Open Sans', sans-serif;
+			font-size: 0.875rem;
+			color: #868585;
+
+			b {
+				cursor: pointer;
+			}
+		}
+
 		label {
+			font-family: 'Open Sans', sans-serif;
 			font-size: 1rem;
+			color: #5c5a57;
 		}
 
 		input {
 			margin-bottom: 16px;
 			padding: 12px;
-			border: 1px solid gray;
-			border-radius: 3px;
-			font-family: 'SF-Pro-Display', sans-serif;
+			border: 1px solid #d9d9d9;
+			border-radius: 4px;
+			font-family: 'Open Sans', sans-serif;
 			font-size: 1rem;
+			color: #5c5a57;
+
+			::placeholder {
+				color: #bfbfbf;
+			}
 		}
 
 		.error {
-			margin-top: -8px;
+			margin-top: -12px;
+			font-family: 'Open Sans', sans-serif;
 			font-size: 0.875rem;
 			color: red;
 		}
 
-		button {
+		.create-account {
 			margin-top: 16px;
-			margin-bottom: 8px;
+			margin-bottom: 32px;
 			padding: 12px;
+			background-color: #d24719;
 			border: none;
-			border-radius: 3px;
-			font-family: 'SF-Pro-Display', sans-serif;
+			border-radius: 4px;
+			font-family: 'Open Sans', sans-serif;
 			font-size: 1rem;
-		}
-	}
-
-	.already {
-		margin-bottom: 16px;
-		font-size: 0.875rem;
-		text-align: center;
-	}
-
-	.or {
-		margin-bottom: 16px;
-		font-size: 1rem;
-		text-align: center;
-	}
-
-	a {
-		text-decoration: none;
-
-		.google-button {
-			width: 100%;
-			padding: 12px;
-			margin-bottom: 16px;
-			background-color: #db4437;
-			border: none;
-			border-radius: 3px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			cursor: pointer;
-
-			i {
-				margin-right: 16px;
-				font-size: 24px;
-				color: white;
-			}
-
-			p {
-				font-family: 'SF-Pro-Display', sans-serif;
-				font-size: 1rem;
-				color: white;
-			}
+			color: white;
 		}
 
-		.facebook-button {
-			width: 100%;
-			padding: 12px;
-			background-color: #3b5998;
-			border: none;
-			border-radius: 3px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			cursor: pointer;
+		.or {
+			margin-bottom: 32px;
+			font-family: 'Open Sans', sans-serif;
+			font-size: 1rem;
+			font-weight: 600;
+			color: #868585;
+			text-align: center;
+		}
 
-			i {
-				margin-right: 16px;
-				font-size: 24px;
-				color: white;
+		a {
+			text-decoration: none;
+
+			.facebook-button {
+				width: 100%;
+				margin-bottom: 16px;
+				padding: 12px;
+				background-color: #ffffff;
+				border: 1px solid #bfbfbf;
+				border-radius: 4px;
+				font-family: 'Open Sans', sans-serif;
+				font-size: 1rem;
+				color: #4267b2;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				cursor: pointer;
+
+				img {
+					margin-right: 8px;
+				}
 			}
 
-			p {
-				font-family: 'SF-Pro-Display', sans-serif;
+			.google-button {
+				width: 100%;
+				margin-bottom: 16px;
+				padding: 12px;
+				background-color: #ffffff;
+				border: 1px solid #bfbfbf;
+				border-radius: 4px;
+				font-family: 'Open Sans', sans-serif;
 				font-size: 1rem;
-				color: white;
+				font-weight: normal;
+				color: rgba(0, 0, 0, 0.54);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				cursor: pointer;
+
+				img {
+					margin-right: 8px;
+				}
 			}
 		}
 	}
@@ -138,9 +163,18 @@ const SignUp = props => {
 
 	return (
 		<SignUpContainer>
-			<h1>Create an account to join BetterReads</h1>
+			<div className="banner"></div>
 
 			<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
+				<h1>Create an account to join BetterReads</h1>
+
+				<p className="already">
+					Already have an account?{' '}
+					<b onClick={() => props.history.push('/signin')}>
+						Sign in here.
+					</b>
+				</p>
+
 				<label htmlFor="fullName">Full Name</label>
 				<input
 					type="text"
@@ -196,31 +230,26 @@ const SignUp = props => {
 
 				{<p className="error">{props.error}</p>}
 
-				<button type="submit">Create account</button>
+				<button type="submit" className="create-account">
+					Create account
+				</button>
+
+				<p className="or">OR</p>
+
+				<a href="http://localhost:5000/api/auth/facebook">
+					<button type="button" className="facebook-button">
+						<img src={facebooklogo} alt="facebook logo" />
+						Sign up with Facebook
+					</button>
+				</a>
+
+				<a href="http://localhost:5000/api/auth/google">
+					<button type="button" className="google-button">
+						<img src={googlelogo} alt="google logo" />
+						Sign up with Google
+					</button>
+				</a>
 			</form>
-
-			<p
-				className="already"
-				onClick={() => props.history.push('/signin')}
-			>
-				Already have an account? Sign in here.
-			</p>
-
-			<p className="or">OR</p>
-
-			<a href="http://localhost:5000/api/auth/google">
-				<button className="google-button">
-					<i className="fab fa-google"></i>
-					<p>Sign up with Google</p>
-				</button>
-			</a>
-
-			<a href="http://localhost:5000/api/auth/facebook">
-				<button className="facebook-button">
-					<i className="fab fa-facebook-f"></i>
-					<p>Sign up with Facebook</p>
-				</button>
-			</a>
 		</SignUpContainer>
 	);
 };
