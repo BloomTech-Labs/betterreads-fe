@@ -81,12 +81,14 @@ const ShelfModal = props => {
     return (
         <Wrapper>
             <Row type="flex" justify="center">
-                <Col span={props.span || 22}>
+                <Col span={props.btnSpan || 22}>
                     <Button className={props.classname || 'newShelf'} 
                         onClick={showModal}
                         type={props.type || 'primary'} 
                         size={props.size || 'large'} 
-                        icon={ props.icon || '' } block>
+                        icon={ props.icon || '' }
+                        bgColor={props.bgColor || '#d24719'}
+                        block>
                         { !props.icon && <BookIcon height="16px" width="16px" fill="#E5E5E6" /> }
                         { props.label || 'Create new shelf' }
                     </Button>
