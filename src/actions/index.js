@@ -12,7 +12,8 @@ export const SENDING_BOOK_LIBRARY_SUCCESS = 'SENDING_BOOK_LIBRARY_SUCCESS';
 export const SENDING_BOOK_LIBRARY_FAILURE = 'SENDING_BOOK_LIBRARY_FAILURE';
 export const SET_ERROR = 'SET_ERROR';
 export const FETCH_USERS_BOOKS = 'FETCH_USERS_BOOKS';
-export const FETCH_USERS_SHELVES = 'FETCH_SHELVES_BOOKS';
+export const FETCH_USERS_SHELVES = 'FETCH_USERS_SHELVES';
+export const FETCH_SHELFS_BOOKS = 'FETCH_SHELFS_BOOKS';
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -100,10 +101,17 @@ export const fetchUsersBooks = userID => dispatch => {
 
 export const fetchUsersShelves = userID => dispatch => {
 	axios
-		.get(`http://localhost:5000/api/shelves/${userID}`)
+		.get(`http://localhost:5000/api/shelves/user/${userID}`)
 		.then(response => {
 			dispatch({ type: FETCH_USERS_SHELVES, payload: response.data });
 		})
+		.catch(error => console.log(error));
+};
+
+export const fetchShelfsBooks = shelfID => {
+	axios
+		.get(`http://localhost:5000/api/shelves/${shelfID}`)
+		.then(response => console.log(response))
 		.catch(error => console.log(error));
 };
 
