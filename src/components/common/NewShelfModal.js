@@ -109,3 +109,6 @@ const ShelfModal = props => {
 }
 
 export default ShelfModal;
+
+// Use tag below as an example where you want a button added
+{/* <NewShelfModal block="true" bgColor="red" btnSpan="12" type="default" size="small" label="Click Me!" classname="first" icon="null" /> */}
