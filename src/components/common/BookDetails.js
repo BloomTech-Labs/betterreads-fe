@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Event } from '../tracking/';
 import { Row, Col, Button, Icon, Rate, Select } from 'antd';
 import styled from 'styled-components';
-
 import { saveBookToLibrary } from '../../actions';
 
 const Wrapper = styled.div`
@@ -21,7 +20,7 @@ const Wrapper = styled.div`
 
 	.largeThumbnail {
 		border-radius: 5px 5px 0 0;
-		width: 125px;
+		width: 135px;
 		height: auto;
 	}
 
@@ -92,6 +91,7 @@ export function BookDetails(props) {
 	}, []);
 
 	const saveBookToLibrary = book => {
+		console.log(book, "book")
 		Event(
 			'bookDetail',
 			'User added a book library from book details.',
@@ -105,8 +105,8 @@ export function BookDetails(props) {
 				publisher: book.volumeInfo.publisher,
 				publishDate: book.volumeInfo.publishedDate,
 				description: 'book.volumeInfo.description',
-				isbn10: book.volumeInfo.industryIdentifiers[0].identifier,
-				isbn13: book.volumeInfo.industryIdentifiers[1].identifier,
+				// isbn10: book.volumeInfo.industryIdentifiers[0].identifier,
+				// isbn13: book.volumeInfo.industryIdentifiers[1].identifier,
 				pageCount: book.volumeInfo.pageCount,
 				categories: book.volumeInfo.categories[0],
 				thumbnail: book.volumeInfo.imageLinks.thumbnail,
@@ -134,8 +134,8 @@ export function BookDetails(props) {
 						<Col xs={9}>
 							<div
 								style={{
-									height: '123px',
-									width: '125px',
+									height: '201px',
+									width: '135px',
 									overflow: 'hidden'
 								}}
 							>
@@ -145,24 +145,24 @@ export function BookDetails(props) {
 										selectedBook.volumeInfo.imageLinks
 											.thumbnail
 									}
-									alt={`${selectedBook.volumeInfo.imageLinks.title} thumbnail`}
-									width="125"
+									alt={`${selectedBook.volumeInfo.title} thumbnail`}
+									width="135"
 								/>
 							</div>
 
 							<Button
-								onClick={() => saveBookToLibrary(props.book)}
+								onClick={() => saveBookToLibrary(selectedBook)}
 							>
 								<Icon type="book" /> Add to Shelf
 							</Button>
 						</Col>
 						<Col xs={13} className="bookDetail">
 							<div className="bookTitle fs-16">
-								{selectedBook.volumeInfo.imageLinks.title}
+								{selectedBook.volumeInfo.title}
 							</div>
 							<div className="bookAuthors">
-								{selectedBook.volumeInfo.imageLinks.authors &&
-									selectedBook.volumeInfo.imageLinks.authors.map(
+								{selectedBook.volumeInfo.authors &&
+									selectedBook.volumeInfo.authors.map(
 										(author, index) => (
 											<div key={index}>
 												{index === 0 && 'by'} {author}
