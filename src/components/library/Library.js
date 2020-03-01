@@ -5,9 +5,9 @@ import {
 	fetchUsersBooks,
 	fetchUsersShelves
 } from '../../actions/index';
-import styled from 'styled-components';
 import BookIcon from '../common/BookIcon';
-import Header from '../common/Header'; 
+import NewShelfModal from '../common/NewShelfModal';
+import styled from 'styled-components';
 import { PageView, Event } from '../tracking/';
 
 import SearchForm from '../search/SearchForm';
@@ -132,6 +132,7 @@ const LibraryContainer = styled.div`
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
+				cursor: pointer;
 
 				.shelf-name {
 					font-family: 'Open Sans', sans-serif;
@@ -173,8 +174,8 @@ const Library = props => {
 	useEffect(() => {
 		props.fetchUsersBooks(localStorage.getItem('id'));
 		props.fetchUsersShelves(localStorage.getItem('id'));
-		
-		Event('Library', 'User library loaded', 'LIBRARY')
+
+		Event('Library', 'User library loaded', 'LIBRARY');
 		PageView();
 	}, []);
 
@@ -249,7 +250,12 @@ const Library = props => {
 
 					{props.userShelves.map(item => {
 						return (
-							<div className="shelf">
+							<div
+								className="shelf"
+								onClick={() =>
+									props.history.push(`/shelf/${item.id}`)
+								}
+							>
 								<BookIcon
 									height="64px"
 									width="64px"
@@ -260,13 +266,23 @@ const Library = props => {
 							</div>
 						);
 					})}
+					{/* not doing anything with private value yet, waiting on design */}
 				</div>
 
-				<button onClick={() => Event('Library', 'User clicked to create a new shelf', 'LIBRARY')}>
+				{/* <button
+					onClick={() =>
+						Event(
+							'Library',
+							'User clicked to create a new shelf',
+							'LIBRARY'
+						)
+					}
+				>
 					<BookIcon height="16px" width="16px" fill="#E5E5E6" />
 					Create a new shelf +
-				</button>
+				</button> */}
 			</div>
+			<NewShelfModal />
 		</LibraryContainer>
 	);
 };

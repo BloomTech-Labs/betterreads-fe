@@ -31,7 +31,7 @@ export const signUp = (input, history) => dispatch => {
 				localStorage.setItem('id', response.data.user.id);
 				localStorage.setItem('full_name', response.data.user.fullName);
 				localStorage.setItem('image', response.data.user.image);
-				history.push('/library');
+				history.push('/');
 			})
 			.catch(error => {
 				console.log(error);
@@ -51,7 +51,7 @@ export const signIn = (input, history) => dispatch => {
 			localStorage.setItem('id', response.data.user.id);
 			localStorage.setItem('full_name', response.data.user.fullName);
 			localStorage.setItem('image', response.data.user.image);
-			history.push('/library');
+			history.push('/');
 		})
 		.catch(error => {
 			console.log(error);
@@ -71,7 +71,7 @@ export const successRedirect = history => dispatch => {
 			localStorage.setItem('id', response.data.user.id);
 			localStorage.setItem('full_name', response.data.user.fullName);
 			localStorage.setItem('image', response.data.user.image);
-			history.push('/library');
+			history.push('/');
 		})
 		.catch(error => console.log(error));
 };
@@ -81,11 +81,11 @@ export const signOut = history => dispatch => {
 		.get('http://localhost:5000/api/auth/signout')
 		.then(response => {
 			console.log(response);
-			console.log(history)
+			console.log(history);
 			localStorage.removeItem('id');
 			localStorage.removeItem('full_name');
 			localStorage.removeItem('image');
-			history.push('/');
+			history.push('/signin');
 		})
 		.catch(error => console.log(error));
 };
@@ -109,10 +109,10 @@ export const fetchUsersShelves = userID => dispatch => {
 		.catch(error => console.log(error));
 };
 
-export const fetchShelfsBooks = shelfID => {
+export const fetchShelfsBooks = shelfID => dispatch => {
 	axios
 		.get(`http://localhost:5000/api/shelves/${shelfID}`)
-		.then(response => console.log(response))
+		.then(response => console.log(response.data))
 		.catch(error => console.log(error));
 };
 
