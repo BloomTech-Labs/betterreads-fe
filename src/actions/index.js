@@ -11,6 +11,7 @@ export const SENDING_BOOK_LIBRARY = 'SENDING_BOOK_LIBRARY';
 export const SENDING_BOOK_LIBRARY_SUCCESS = 'SENDING_BOOK_LIBRARY_SUCCESS';
 export const SENDING_BOOK_LIBRARY_FAILURE = 'SENDING_BOOK_LIBRARY_FAILURE';
 export const SET_ERROR = 'SET_ERROR';
+export const RESET_ERROR = 'RESET_ERROR';
 export const FETCH_USERS_BOOKS = 'FETCH_USERS_BOOKS';
 export const FETCH_USERS_SHELVES = 'FETCH_USERS_SHELVES';
 export const FETCH_SHELFS_BOOKS = 'FETCH_SHELFS_BOOKS';
@@ -60,6 +61,11 @@ export const signIn = (input, history) => dispatch => {
 				payload: 'Invalid credentials'
 			});
 		});
+};
+
+// authentication errors are held in redux state and therefore persists between components, this resets that error
+export const resetError = () => dispatch => {
+	dispatch({ type: RESET_ERROR });
 };
 
 export const successRedirect = history => dispatch => {

@@ -1,4 +1,4 @@
-import { SET_ERROR } from '../actions';
+import { SET_ERROR, RESET_ERROR } from '../actions';
 
 const initialState = {
 	error: ''
@@ -11,6 +11,13 @@ export default function reducer(state = initialState, action) {
 				...state,
 				error: action.payload
 			};
+
+		case RESET_ERROR:
+			return {
+				...state,
+				error: ''
+			};
+
 		default:
 			return state;
 	}

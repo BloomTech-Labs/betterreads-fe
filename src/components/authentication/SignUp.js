@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { signUp } from '../../actions/index';
+import { signUp, resetError } from '../../actions/index';
 import SignUpContainer from './SignUpStyle';
 import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';
@@ -22,6 +22,7 @@ const SignUp = props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
+		props.resetError();
 		props.signUp(input, props.history);
 	};
 
@@ -39,7 +40,12 @@ const SignUp = props => {
 
 					<p className="already">
 						Already have an account?
-						<b onClick={() => props.history.push('/signin')}>
+						<b
+							onClick={() => {
+								props.resetError();
+								props.history.push('/signin');
+							}}
+						>
 							Sign in here.
 						</b>
 					</p>
@@ -124,4 +130,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { signUp })(SignUp);
+export default connect(mapStateToProps, { signUp, resetError })(SignUp);
