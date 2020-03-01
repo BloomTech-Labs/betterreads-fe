@@ -50,7 +50,7 @@ See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for detail
     	PageView();
     }, []);
     ```
--   Events(_category_, _action_, _label_)\*\* - tracks user interaction with form submits, links, buttons, etc.
+-   Events(_category_, _action_, _label_) - tracks user interaction with form submits, links, buttons, etc.
     ```js
     Event('Book', 'User clicked on book details', 'SEARCH_RESULTS');
     ```
