@@ -23,7 +23,7 @@ export const signUp = (input, history) => dispatch => {
 			.post('http://localhost:5000/api/auth/signup', {
 				fullName: input.fullName,
 				emailAddress: input.emailAddress,
-				username: input.username,
+				username: input.fullName,
 				password: input.password
 			})
 			.then(response => {
@@ -37,7 +37,7 @@ export const signUp = (input, history) => dispatch => {
 				console.log(error);
 				dispatch({
 					type: SET_ERROR,
-					payload: 'Email address already in use or username taken'
+					payload: 'Email address already in use'
 				});
 			});
 	}
