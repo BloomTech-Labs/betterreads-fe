@@ -36,38 +36,36 @@ See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for detail
 
 -   OAuth 2.0
 -   Google Books API
--   betterReads API
+-   BetterReads API
 
 ### Google Analytics
 
--   to track any component or user action add
-    ```
+-   Import the necessary functions from the correct directory.
+    ```js
     import { PageView, Events } from './components/tracking';
     ```
--   PageView() - (optional) - is used to track the page views. include in a useEffect() hook
+-   **PageView()** - tracks page views
     ```js
     useEffect(() => {
     	PageView();
     }, []);
     ```
--   Events(1,2,3) (optional) - invoke to track user interaction. can be added to form submits, links, buttons, etc.
+-   **Events(_category_, _action_, _label_)** - tracks user interaction with form submits, links, buttons, etc.
+    ```js
+    Event('Book', 'User clicked on book details', 'SEARCH_RESULTS');
     ```
-        Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}
+-   **OutboundLink** - tracks external links
+    ```js
+    <ReactGA.OutboundLink
+    	eventLabel="Clicked read online link"
+    	to="Link"
+    	target="_blank"
+    	rel="noopener noreferrer"
+    >
+    	Read online
+    </ReactGA.OutboundLink>
     ```
-    -   1 - category , e.g. "SEARCH"
-    -   2 - action, e.g. "User search for a book"
-    -   3 - label, e.g. "SEARCH_RESULTS"
--   OutboundLink - (optional) - Use to track links to other sites/services
-    ```
-        <ReactGA.OutboundLink eventLabel="Clicked Read Online link" to="Link" target="_blank" rel="noopener noreferrer"> Link Label </ReactGA.OutboundLink>
-    ```
--   Examples come from Search.js, SearchForm.js, and SearchItems.js
-
-### Prettier
-
--   Single quotes
--   4 space tabs
--   Semicolon at the end of every line
+-   Examples can be seen in Search.js, SearchForm.js, and SearchItems.js.
 
 ### Naming Conventions
 
@@ -76,13 +74,11 @@ See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for detail
 -   CSS class names - kebab case, descriptive
 -   Database fields - camel case
 
-### Environment Variables
+### Prettier
 
-Environment variables go here
-
-### Testing
-
-Testing goes here
+-   Single quotes
+-   4 space tabs
+-   Semicolon at the end of every line
 
 ## Contributing
 
