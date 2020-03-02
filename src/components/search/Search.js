@@ -5,6 +5,8 @@ import Header from '../common/Header'
 import SearchForm from './SearchForm';
 import SearchList from './SearchList';
 
+import NewShelfModal from '../common/NewShelfModal';
+
 import styled from 'styled-components';
 
 const Fluff = styled.div`
@@ -36,6 +38,7 @@ const Search = props => {
 					</Fluff>
 				</Layout.Content>
 			</Layout>
+			<NewShelfModal />
 			<SearchList />
 		</>
 	);
