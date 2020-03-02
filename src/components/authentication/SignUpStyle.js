@@ -189,7 +189,7 @@ const SignUpContainer = styled.div`
 			form {
 				h1 {
 					margin-bottom: 8px;
-					font-size: 2.5rem;
+					font-size: 2.625rem;
 					line-height: 46px;
 				}
 
