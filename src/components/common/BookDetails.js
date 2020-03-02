@@ -121,6 +121,7 @@ export function BookDetails(props) {
 
 		props.saveBookToLibrary(1, book.id, modifiedBook);
 	};
+	
 	console.log(selectedBook, 'selected book');
 	return (
 		<>
