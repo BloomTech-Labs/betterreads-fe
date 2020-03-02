@@ -11,7 +11,7 @@ import DownOutlined from '@ant-design/icons/DownOutlined';
 import BookIcon from '../common/BookIcon';
 import styled from 'styled-components';
 
-import { saveBookToLibrary } from '../../actions'
+import { saveBookToLibrary } from '../../actions';
 
 // const apiURL = "http://localhost:5000/api";
 
@@ -130,8 +130,12 @@ const SearchItem = props => {
     }
 
 	const saveBookToLibrary = book => {
-        Event('Search', 'User added a book library from search list.', 'SEARCH_RESULT')
-		
+		Event(
+			'Search',
+			'User added a book library from search list.',
+			'SEARCH_RESULT'
+		);
+
 		const modifiedBook = {
 			book: {
 				googleId: book.id,
@@ -140,8 +144,8 @@ const SearchItem = props => {
 				publisher: book.volumeInfo.publisher,
 				publishDate: book.volumeInfo.publishedDate,
 				description: 'book.volumeInfo.description',
-				isbn10: book.volumeInfo.industryIdentifiers[0].identifier,
-				isbn13: book.volumeInfo.industryIdentifiers[1].identifier,
+				// isbn10: book.volumeInfo.industryIdentifiers[0].identifier,
+				// isbn13: book.volumeInfo.industryIdentifiers[1].identifier,
 				pageCount: book.volumeInfo.pageCount,
 				categories: book.volumeInfo.categories[0],
 				thumbnail: book.volumeInfo.imageLinks.thumbnail,
@@ -154,7 +158,7 @@ const SearchItem = props => {
 			readingStatus: 1
 		};
 
-        props.saveBookToLibrary(1, book.id, modifiedBook);
+    props.saveBookToLibrary(1, book.id, modifiedBook);
     }
     
     return (
@@ -196,16 +200,17 @@ const SearchItem = props => {
             </div>
         </Wrapper>
     );
+
 };
 
 const mapStateToProps = state => {
-    return {
-        fetching: state.search.fetching,
-        searchResults: state.search.searchResults
-    }
-}
+	return {
+		fetching: state.search.fetching,
+		searchResults: state.search.searchResults
+	};
+};
 
 export default connect(mapStateToProps, {saveBookToLibrary})(SearchItem);
-{/* <Button oClick={() => saveBookToLibrary(props.book)} className="openSans fs-13 fw-600">
+{/* <Button onClick={() => saveBookToLibrary(props.book)} className="openSans fs-13 fw-600">
                             Track this <DownOutlined />
                         </Button> */}
