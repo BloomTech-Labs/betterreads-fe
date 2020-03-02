@@ -101,7 +101,6 @@ export const fetchUsersBooks = userID => dispatch => {
 	axios
 		.get(`http://localhost:5000/api/${userID}/library`)
 		.then(response => {
-			console.log('FETCH_USERS_BOOKS', response);
 			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
 		})
 		.catch(error => console.log(error));
@@ -146,11 +145,22 @@ export const saveBookToLibrary = (userId, bookId, book) => dispatch => {
 		.catch(err => console.log(err.response));
 };
 
-export const createUserShelf = (userId, shelfName, shelfPrivate, setModalConfig) => dispatch => {
+export const createUserShelf = (
+	userId,
+	shelfName,
+	shelfPrivate,
+	setModalConfig
+) => dispatch => {
 	dispatch({ type: CREATE_USER_SHELF });
-	axios.post(`http://localhost:5000/api/shelves/${userId}`, { shelfName: shelfName, isPrivate: shelfPrivate })
-        .then(res => {
+	axios
+		.post(`http://localhost:5000/api/shelves/${userId}`, {
+			shelfName: shelfName,
+			isPrivate: shelfPrivate
+		})
+		.then(res => {
 			//dispatch({ type: CREATE_USER_SHELF_SUCCESS, payload: res.data });
 		})
-		.catch(err => dispatch({ type: CREATE_USER_SHELF_FAILURE, payload: err.resonse}))
-}
+		.catch(err =>
+			dispatch({ type: CREATE_USER_SHELF_FAILURE, payload: err.resonse })
+		);
+};

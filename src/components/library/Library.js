@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, fetchUsersShelves } from '../../actions/index';
+import {
+	fetchUsersBooks,
+	fetchUsersShelves,
+	getGoogleResults
+} from '../../actions/index';
 import Header from '../common/Header';
-import NewShelfModal from '../common/NewShelfModal';
+import ExternalSearchForm from '../common/ExternalSearchForm';
 import styled from 'styled-components';
 import BookIcon from '../common/BookIcon';
 import { PageView, Event } from '../tracking/';
@@ -32,45 +36,6 @@ const LibraryContainer = styled.div`
 				font-size: 1rem;
 				color: #4e4c4a;
 				line-height: 22px;
-			}
-
-			.search-form {
-				padding-bottom: 12px;
-				display: flex;
-
-				input {
-					width: 100%;
-					padding: 8px 12px;
-					border: 1px solid #d9d9d9;
-					border-right: none;
-					border-top-left-radius: 4px;
-					border-bottom-left-radius: 4px;
-					font-family: 'Open Sans', sans-serif;
-					font-size: 1rem;
-					color: #4e4c4a;
-					line-height: 24px;
-
-					::placeholder {
-						color: #868585;
-					}
-				}
-
-				button {
-					padding: 12px;
-					background-color: #547862;
-					border: none;
-					border-top-right-radius: 4px;
-					border-bottom-right-radius: 4px;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					cursor: pointer;
-
-					i {
-						font-size: 1.125rem;
-						color: #ffffff;
-					}
-				}
 			}
 		}
 	}
@@ -196,15 +161,9 @@ const Library = props => {
 	);
 	const finished = props.userLibrary.filter(item => item.readingStatus === 3);
 
-	const onSubmit = event => {
-		event.preventDefault();
-		props.history.push('/search');
-	};
-
 	return (
 		<LibraryContainer>
 			<Header history={props.history} />
-
 			<div className="what-are-you-reading">
 				<div className="what-are-you-reading-container">
 					<h2>What are you reading?</h2>
@@ -213,17 +172,7 @@ const Library = props => {
 						shelves.
 					</p>
 
-					<form
-						className="search-form"
-						autoComplete="off"
-						spellCheck="false"
-						onSubmit={onSubmit}
-					>
-						<input type="text" placeholder="Search for a book" />
-						<button type="submit">
-							<i className="fas fa-search"></i>
-						</button>
-					</form>
+					<ExternalSearchForm history={props.history} />
 				</div>
 			</div>
 
@@ -241,12 +190,15 @@ const Library = props => {
 					Create shelves and add books to your custom shelves.
 				</p>
 
-				<button className="create-new-shelf-button">
+				{/* <button className="create-new-shelf-button">
 					Create new shelf
-				</button>
+				</button> */}
 
 				<div className="shelves-container">
-					<div className="shelf">
+					<div
+						className="shelf"
+						onClick={() => props.history.push('/shelf/allbooks')}
+					>
 						<p className="shelf-name">All books</p>
 						<BookIcon height="40px" width="40px" fill="#D9D9D9" />
 						{props.userLibrary.length === 1 ? (
@@ -258,11 +210,11 @@ const Library = props => {
 						)}
 					</div>
 
-					<div className="shelf">
+					{/* <div className="shelf">
 						<p className="shelf-name">Favorites</p>
 						<BookIcon height="40px" width="40px" fill="#D9D9D9" />
 						<p className="shelf-quantity">0 books</p>
-					</div>
+					</div> */}
 
 					{/* {props.userShelves.map(item => {
 						return (
@@ -298,5 +250,6 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
 	fetchUsersBooks,
-	fetchUsersShelves
+	fetchUsersShelves,
+	getGoogleResults
 })(Library);
