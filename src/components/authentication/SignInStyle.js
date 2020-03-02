@@ -16,7 +16,7 @@ const SignInContainer = styled.div`
 
 	.form-container {
 		form {
-			max-width: 335px;
+			max-width: 372.6px;
 			width: 90%;
 			margin: 0 auto;
 			display: flex;
@@ -29,7 +29,6 @@ const SignInContainer = styled.div`
 				font-size: 2rem;
 				color: #547862;
 				line-height: 40px;
-				white-space: nowrap;
 			}
 
 			.already {
@@ -125,6 +124,7 @@ const SignInContainer = styled.div`
 
 				.google-button {
 					width: 100%;
+					margin-bottom: 16px;
 					padding: 8px 12px;
 					background-color: #ffffff;
 					border: 1px solid #bfbfbf;
@@ -170,6 +170,7 @@ const SignInContainer = styled.div`
 					margin-bottom: 16px;
 					font-size: 2.625rem;
 					line-height: 40px;
+					white-space: nowrap;
 				}
 
 				.already {

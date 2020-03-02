@@ -87,7 +87,6 @@ export const signOut = history => dispatch => {
 		.get('http://localhost:5000/api/auth/signout')
 		.then(response => {
 			console.log(response);
-			console.log(history);
 			localStorage.removeItem('id');
 			localStorage.removeItem('full_name');
 			localStorage.removeItem('image');

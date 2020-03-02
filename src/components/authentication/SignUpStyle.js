@@ -16,7 +16,7 @@ const SignUpContainer = styled.div`
 
 	.form-container {
 		form {
-			max-width: 335px;
+			max-width: 372.6px;
 			width: 90%;
 			margin: 0 auto;
 			display: flex;

@@ -1,93 +1,96 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import {
-	signOut,
-	fetchUsersBooks,
-	fetchUsersShelves
-} from '../../actions/index';
-import BookIcon from '../common/BookIcon';
+import { fetchUsersBooks, fetchUsersShelves } from '../../actions/index';
+import Header from '../common/Header';
 import NewShelfModal from '../common/NewShelfModal';
 import styled from 'styled-components';
+import BookIcon from '../common/BookIcon';
 import { PageView, Event } from '../tracking/';
 
-import SearchForm from '../search/SearchForm';
-
 const LibraryContainer = styled.div`
-	.header {
-		height: 10vh;
-		width: 90%;
-		margin: 0 auto;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-
-		h1 {
-			font-family: 'Open Sans', sans-serif;
-			font-size: 1.375rem;
-			color: #5c7c69;
-		}
-
-		img {
-			height: 40px;
-			width: 40px;
-			border-radius: 50%;
-		}
-
-		.default-profile-icon {
-			height: 40px;
-			width: 40px;
-			background-color: #859996;
-			border-radius: 50%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-
-			i {
-				font-size: 1.25rem;
-				color: white;
-			}
-		}
-	}
-
 	.what-are-you-reading {
-		padding: 24px 0;
-		background-color: #e5e5e5;
+		background-color: #f3f6f5;
 
 		.what-are-you-reading-container {
 			width: 90%;
 			margin: 0 auto;
 
 			h2 {
-				margin-bottom: 8px;
+				margin-bottom: 0;
+				padding-top: 24px;
+				padding-bottom: 8px;
 				font-family: 'Frank Ruhl Libre', sans-serif;
-				font-size: 1.875rem;
-				font-weight: 900;
+				font-size: 2rem;
+				font-weight: bold;
 				color: #3b403d;
+				line-height: 40px;
 			}
 
 			p {
+				margin-bottom: 8px;
 				font-family: 'Open Sans', sans-serif;
 				font-size: 1rem;
-				color: #5c5a57;
+				color: #4e4c4a;
+				line-height: 22px;
+			}
+
+			.search-form {
+				padding-bottom: 12px;
+				display: flex;
+
+				input {
+					width: 100%;
+					padding: 8px 12px;
+					border: 1px solid #d9d9d9;
+					border-right: none;
+					border-top-left-radius: 4px;
+					border-bottom-left-radius: 4px;
+					font-family: 'Open Sans', sans-serif;
+					font-size: 1rem;
+					color: #4e4c4a;
+					line-height: 24px;
+
+					::placeholder {
+						color: #868585;
+					}
+				}
+
+				button {
+					padding: 12px;
+					background-color: #547862;
+					border: none;
+					border-top-right-radius: 4px;
+					border-bottom-right-radius: 4px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					cursor: pointer;
+
+					i {
+						font-size: 1.125rem;
+						color: #ffffff;
+					}
+				}
 			}
 		}
 	}
 
 	.reading-status {
-		padding: 8px 0;
-		background-color: #e5e5e5;
+		background-color: #f3f6f5;
 
 		.reading-status-container {
 			width: 90%;
 			margin: 0 auto;
+			padding-bottom: 12px;
 
 			p {
-				padding: 16px 0;
+				margin-bottom: 0;
+				padding: 12px 0;
 				font-family: 'Frank Ruhl Libre', sans-serif;
-				font-size: 1rem;
+				font-size: 1.25rem;
 				font-weight: bold;
-				color: #5c5a57;
-				border-bottom: 1px solid rgba(217, 217, 217, 0.5);
+				color: #4e4c4a;
+				border-bottom: 1.5px solid rgba(217, 217, 217, 0.5);
 			}
 
 			p:last-child {
@@ -99,72 +102,80 @@ const LibraryContainer = styled.div`
 	.my-shelves {
 		width: 90%;
 		margin: 0 auto;
-		margin-top: 24px;
-		margin-bottom: 24px;
 
 		h2 {
+			margin-top: 24px;
+			margin-bottom: 4px;
 			font-family: 'Frank Ruhl Libre', sans-serif;
 			font-size: 1.5rem;
 			font-weight: bold;
 			color: #547862;
+			line-height: 30px;
 		}
 
 		.create-shelves {
-			margin-bottom: 24px;
+			margin-bottom: 8px;
 			font-family: 'Open Sans', sans-serif;
 			font-size: 1rem;
 			color: #5c5a57;
+			line-height: 22px;
+		}
+
+		.create-new-shelf-button {
+			width: 100%;
+			margin-bottom: 16px;
+			padding: 8px 12px;
+			background-color: #ffffff;
+			border: 1px solid #d24719;
+			border-radius: 4px;
+			font-family: 'Open Sans', sans-serif;
+			font-size: 1rem;
+			font-weight: 600;
+			color: #d24719;
+			line-height: 22px;
+			cursor: pointer;
 		}
 
 		.shelves-container {
-			margin: 24px 0;
 			display: flex;
 			justify-content: space-between;
 			flex-wrap: wrap;
 
 			.shelf {
-				height: 38.25vw;
+				height: 42.75vw;
 				width: 47.5%;
-				margin-bottom: 5%;
-				border: 1px solid rgba(228, 228, 228, 0.6);
+				margin-bottom: 4.5vw;
+				border: 1px solid #d9d9d9;
 				border-radius: 4px;
 				display: flex;
 				flex-direction: column;
-				justify-content: center;
-				align-items: center;
+				justify-content: space-between;
 				cursor: pointer;
 
 				.shelf-name {
+					margin-bottom: 0;
+					padding: 8px;
+					border-bottom: 1px solid #d9d9d9;
 					font-family: 'Open Sans', sans-serif;
 					font-size: 1.125rem;
 					font-weight: 600;
-					color: #5c5a57;
+					color: #4e4c4a;
+					line-height: 18px;
+				}
+
+				svg {
+					margin: 0 auto;
 				}
 
 				.shelf-quantity {
+					margin-bottom: 0;
+					padding: 8px;
 					font-family: 'Open Sans', sans-serif;
-					font-size: 1rem;
-					color: #868585;
+					font-size: 1.125rem;
+					font-weight: bold;
+					color: #4e4c4a;
+					line-height: 22px;
 				}
-			}
-		}
-
-		button {
-			width: 100%;
-			padding: 12px;
-			background-color: #d24719;
-			border: none;
-			border-radius: 4px;
-			font-family: 'Open Sans', sans-serif;
-			font-size: 1rem;
-			font-weight: 600;
-			color: #ffffff;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-
-			svg {
-				margin-right: 4px;
 			}
 		}
 	}
@@ -185,39 +196,34 @@ const Library = props => {
 	);
 	const finished = props.userLibrary.filter(item => item.readingStatus === 3);
 
+	const onSubmit = event => {
+		event.preventDefault();
+		props.history.push('/search');
+	};
+
 	return (
 		<LibraryContainer>
-			<div className="header">
-				<h1>BetterReads</h1>
-
-				{(!localStorage.getItem('image') ||
-					localStorage.getItem('image') === 'null') && (
-					<div
-						className="default-profile-icon"
-						onClick={() => props.signOut(props.history)}
-					>
-						<i className="fas fa-user"></i>
-					</div>
-				)}
-
-				{localStorage.getItem('image') &&
-					localStorage.getItem('image') !== 'null' && (
-						<img
-							src={localStorage.getItem('image')}
-							alt="profile icon"
-							onClick={() => props.signOut(props.history)}
-						/>
-					)}
-			</div>
+			<Header history={props.history} />
 
 			<div className="what-are-you-reading">
 				<div className="what-are-you-reading-container">
 					<h2>What are you reading?</h2>
 					<p>
-						Search for a book to track you reading progress and add
-						books to shelves.
+						Search for a book that you want to track and add to
+						shelves.
 					</p>
-					<SearchForm />
+
+					<form
+						className="search-form"
+						autoComplete="off"
+						spellCheck="false"
+						onSubmit={onSubmit}
+					>
+						<input type="text" placeholder="Search for a book" />
+						<button type="submit">
+							<i className="fas fa-search"></i>
+						</button>
+					</form>
 				</div>
 			</div>
 
@@ -235,10 +241,14 @@ const Library = props => {
 					Create shelves and add books to your custom shelves.
 				</p>
 
+				<button className="create-new-shelf-button">
+					Create new shelf
+				</button>
+
 				<div className="shelves-container">
 					<div className="shelf">
-						<BookIcon height="64px" width="64px" fill="#E5E5E6" />
 						<p className="shelf-name">All books</p>
+						<BookIcon height="40px" width="40px" fill="#D9D9D9" />
 						{props.userLibrary.length === 1 ? (
 							<p className="shelf-quantity">1 book</p>
 						) : (
@@ -248,7 +258,13 @@ const Library = props => {
 						)}
 					</div>
 
-					{props.userShelves.map(item => {
+					<div className="shelf">
+						<p className="shelf-name">Favorites</p>
+						<BookIcon height="40px" width="40px" fill="#D9D9D9" />
+						<p className="shelf-quantity">0 books</p>
+					</div>
+
+					{/* {props.userShelves.map(item => {
 						return (
 							<div
 								className="shelf"
@@ -262,27 +278,13 @@ const Library = props => {
 									fill="#E5E5E6"
 								/>
 								<p className="shelf-name">{item.shelfName}</p>
-								<p className="shelf-quantity">1 book</p>
+								<p className="shelf-quantity">0 books</p>
 							</div>
 						);
-					})}
+					})} */}
 					{/* not doing anything with private value yet, waiting on design */}
 				</div>
-
-				{/* <button
-					onClick={() =>
-						Event(
-							'Library',
-							'User clicked to create a new shelf',
-							'LIBRARY'
-						)
-					}
-				>
-					<BookIcon height="16px" width="16px" fill="#E5E5E6" />
-					Create a new shelf +
-				</button> */}
 			</div>
-			<NewShelfModal />
 		</LibraryContainer>
 	);
 };
@@ -295,7 +297,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-	signOut,
 	fetchUsersBooks,
 	fetchUsersShelves
 })(Library);
