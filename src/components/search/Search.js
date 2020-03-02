@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { PageView, Event } from '../tracking/';
-import { Layout, Row, Col, Typography } from 'antd';
-import Header from '../common/Header'
+
 import SearchForm from './SearchForm';
+import SearchBreadcrumb from './SearchBreadCrumbs';
 import SearchList from './SearchList';
 
-import NewShelfModal from '../common/NewShelfModal';
+import BookList from '../common/BookList';
 
 import styled from 'styled-components';
 
@@ -29,6 +30,7 @@ const Wrapper = styled.div`
 `;
 
 const Search = props => {
+	const [source, setSource] = useState(props.source || 'library');
 
 	useEffect(() => {
 		Event('Search', 'loaded search', 'SEARCH_COMPONENT')
@@ -37,18 +39,28 @@ const Search = props => {
 	
 	return (
 		<>
-			<Header />
 			<Wrapper>
 				<div className="innerWrapper">
-					<div className="fs-32 pb-16 frank">What are you reading?</div>
-					<div className="fs-16 pb-12 openSans">Search for a book to track your reading progress and add books to shelves.</div>
  					<SearchForm />
 				</div>
 			</Wrapper>
-			{/* <NewShelfModal /> */}
-			<SearchList />
+			{ 
+				props.searchResults.books && 
+				<SearchBreadcrumb source={source} />
+			}
+			{
+				props.searchResults.books &&
+				<BookList bookList={props.searchResults.books.items} />
+			}
 		</>
 	);
 };
 
-export default Search;
+const mapStateToProps = state => {
+    return {
+        fetching: state.search.fetching,
+        searchResults: state.search.searchResults
+    }
+}
+
+export default connect(mapStateToProps)(Search);

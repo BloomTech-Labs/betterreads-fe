@@ -17,6 +17,7 @@ export const FETCH_USERS_SHELVES = 'FETCH_SHELVES_BOOKS';
 export const CREATE_USER_SHELF = 'CREATE_USER_SHELF';
 export const CREATE_USER_SHELF_SUCCESS = 'CREATE_USER_SHELF_SUCCESS';
 export const CREATE_USER_SHELF_FAILURE = 'CREATE_USER_SHELF_FAILURE';
+export const CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS';
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -128,12 +129,16 @@ export const getGoogleResults = search => dispatch => {
 	axios
 		.get(`${apiURL}${search}`)
 		.then(results =>
-			dispatch({ type: FETCH_SEARCH_SUCCESS, payload: results.data })
+			dispatch({ type: FETCH_SEARCH_SUCCESS, payload: {query: search, books: results.data} })
 		)
 		.catch(err =>
 			dispatch({ type: FETCH_SEARCH_FAILURE, payload: err.response })
 		);
 };
+
+export const clearSearchResults = () => dispatch => {
+	dispatch({ type: CLEAR_SEARCH_RESULTS, payload: {}});
+}
 
 export const saveBookToLibrary = (userId, bookId, book) => dispatch => {
 	dispatch({ type: SENDING_BOOK_LIBRARY });
