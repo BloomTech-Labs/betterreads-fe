@@ -129,6 +129,7 @@ export function BookDetails(props) {
 		event.target.value = props.modifiedBook.readingStatus
 		console.log(props.modifiedBook.readingStatus, "checked readingStatus")
 	}
+	
 	console.log(selectedBook, 'selected book');
 	return (
 		<>
