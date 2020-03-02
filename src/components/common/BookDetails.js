@@ -78,6 +78,8 @@ export function BookDetails(props) {
 		}
 	};
 
+
+
 	useEffect(() => {
 		setSelectedBook(
 			props.searchResults.items
@@ -122,6 +124,11 @@ export function BookDetails(props) {
 		props.saveBookToLibrary(1, book.id, modifiedBook);
 	};
 	
+	function handleChange(event) {
+		console.log('readingStatus = ', props.modifiedBook.readingStatus);
+		event.target.value = props.modifiedBook.readingStatus
+		console.log(props.modifiedBook.readingStatus, "checked readingStatus")
+	}
 	console.log(selectedBook, 'selected book');
 	return (
 		<>
@@ -181,9 +188,9 @@ export function BookDetails(props) {
 							</div>
 							<div className="bookTrack">
 								<Select defaultValue="Track this book ">
-									<option value="0">To be read</option>
-									<option value="1">Finished</option>
-									<option value="2">In Progress</option>
+									<option value="0" onChange={handleChange}>To be read</option>
+									<option value="1" onChange={handleChange}>Finished</option>
+									<option value="2" onChange={handleChange}>In Progress</option>
 								</Select>
 							</div>
 						</Col>
