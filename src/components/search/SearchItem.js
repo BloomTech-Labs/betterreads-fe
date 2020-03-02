@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
 import { Row, Col, Button, Icon, Rate, Select, Menu, Dropdown } from 'antd';
 
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
+import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 
 import BookIcon from '../common/BookIcon';
@@ -43,6 +44,7 @@ const Wrapper = styled.div`
         .anticon-heart svg{
             height: 26px;
             width: 29px;
+            color: #D24719;
         }
 
         .imgContainer{
@@ -112,7 +114,8 @@ const ThumbContainer = styled.div`
 `;
 
 const SearchItem = props => {
-	const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
+    const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
+    const [favorite, setFavorite] = useState(false);
 
     const TrackMenu = (
         <Menu onClick={() => saveBookToLibrary(props.book)}>
@@ -123,7 +126,7 @@ const SearchItem = props => {
     )
 
     const markAsFavorite = (id) => {
-        console.log(id)
+        setFavorite(!favorite);
     }
 
 	const saveBookToLibrary = book => {
@@ -155,7 +158,7 @@ const SearchItem = props => {
     }
     
     return (
-        <Wrapper data-bookid={id}>
+        <Wrapper id={id}>
             <div className="flexer">
                 <div className="imgContainer">
                     {volumeInfo.imageLinks && (
@@ -184,7 +187,11 @@ const SearchItem = props => {
                 </div>
                 <div className="">
                     {/* Favorite */}
-                    <HeartOutlined onClick={() => markAsFavorite(id)} />
+                    {   favorite
+                        ? <HeartFilled onClick={() => markAsFavorite(id)} /> 
+                        : <HeartOutlined onClick={() => markAsFavorite(id)} />
+                    }
+                    
                 </div>
             </div>
         </Wrapper>
