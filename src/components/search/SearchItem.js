@@ -103,6 +103,10 @@ const Wrapper = styled.div`
                 }
             }
         }
+
+        .bookFav {
+            margin-left: auto;
+        }
     }
 `;
 
@@ -189,8 +193,7 @@ const SearchItem = props => {
                         <Rate allowHalf defaultValue={volumeInfo.averageRating} />
                     </div>
                 </div>
-                <div className="">
-                    {/* Favorite */}
+                <div className="bookFav">
                     {   favorite
                         ? <HeartFilled onClick={() => markAsFavorite(id)} /> 
                         : <HeartOutlined onClick={() => markAsFavorite(id)} />
