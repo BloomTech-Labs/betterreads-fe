@@ -11,8 +11,12 @@ export const SENDING_BOOK_LIBRARY = 'SENDING_BOOK_LIBRARY';
 export const SENDING_BOOK_LIBRARY_SUCCESS = 'SENDING_BOOK_LIBRARY_SUCCESS';
 export const SENDING_BOOK_LIBRARY_FAILURE = 'SENDING_BOOK_LIBRARY_FAILURE';
 export const SET_ERROR = 'SET_ERROR';
+export const RESET_ERROR = 'RESET_ERROR';
 export const FETCH_USERS_BOOKS = 'FETCH_USERS_BOOKS';
 export const FETCH_USERS_SHELVES = 'FETCH_SHELVES_BOOKS';
+export const CREATE_USER_SHELF = 'CREATE_USER_SHELF';
+export const CREATE_USER_SHELF_SUCCESS = 'CREATE_USER_SHELF_SUCCESS';
+export const CREATE_USER_SHELF_FAILURE = 'CREATE_USER_SHELF_FAILURE';
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -22,7 +26,7 @@ export const signUp = (input, history) => dispatch => {
 			.post('http://localhost:5000/api/auth/signup', {
 				fullName: input.fullName,
 				emailAddress: input.emailAddress,
-				username: input.username,
+				username: input.fullName,
 				password: input.password
 			})
 			.then(response => {
@@ -30,13 +34,13 @@ export const signUp = (input, history) => dispatch => {
 				localStorage.setItem('id', response.data.user.id);
 				localStorage.setItem('full_name', response.data.user.fullName);
 				localStorage.setItem('image', response.data.user.image);
-				history.push('/library');
+				history.push('/');
 			})
 			.catch(error => {
 				console.log(error);
 				dispatch({
 					type: SET_ERROR,
-					payload: 'Email address already in use or username taken'
+					payload: 'Email address already in use'
 				});
 			});
 	}
@@ -50,7 +54,7 @@ export const signIn = (input, history) => dispatch => {
 			localStorage.setItem('id', response.data.user.id);
 			localStorage.setItem('full_name', response.data.user.fullName);
 			localStorage.setItem('image', response.data.user.image);
-			history.push('/library');
+			history.push('/');
 		})
 		.catch(error => {
 			console.log(error);
@@ -59,6 +63,11 @@ export const signIn = (input, history) => dispatch => {
 				payload: 'Invalid credentials'
 			});
 		});
+};
+
+// authentication errors are held in redux state and therefore persists between components, this resets that error
+export const resetError = () => dispatch => {
+	dispatch({ type: RESET_ERROR });
 };
 
 export const successRedirect = history => dispatch => {
@@ -70,7 +79,7 @@ export const successRedirect = history => dispatch => {
 			localStorage.setItem('id', response.data.user.id);
 			localStorage.setItem('full_name', response.data.user.fullName);
 			localStorage.setItem('image', response.data.user.image);
-			history.push('/library');
+			history.push('/');
 		})
 		.catch(error => console.log(error));
 };
@@ -80,11 +89,10 @@ export const signOut = history => dispatch => {
 		.get('http://localhost:5000/api/auth/signout')
 		.then(response => {
 			console.log(response);
-			console.log(history)
 			localStorage.removeItem('id');
 			localStorage.removeItem('full_name');
 			localStorage.removeItem('image');
-			history.push('/');
+			history.push('/signin');
 		})
 		.catch(error => console.log(error));
 };
@@ -101,10 +109,17 @@ export const fetchUsersBooks = userID => dispatch => {
 
 export const fetchUsersShelves = userID => dispatch => {
 	axios
-		.get(`http://localhost:5000/api/shelves/${userID}`)
+		.get(`http://localhost:5000/api/shelves/user/${userID}`)
 		.then(response => {
 			dispatch({ type: FETCH_USERS_SHELVES, payload: response.data });
 		})
+		.catch(error => console.log(error));
+};
+
+export const fetchShelfsBooks = shelfID => dispatch => {
+	axios
+		.get(`http://localhost:5000/api/shelves/${shelfID}`)
+		.then(response => console.log(response.data))
 		.catch(error => console.log(error));
 };
 
@@ -130,3 +145,12 @@ export const saveBookToLibrary = (userId, bookId, book) => dispatch => {
 		.then(results => console.log(results))
 		.catch(err => console.log(err.response));
 };
+
+export const createUserShelf = (userId, shelfName, shelfPrivate, setModalConfig) => dispatch => {
+	dispatch({ type: CREATE_USER_SHELF });
+	axios.post(`http://localhost:5000/api/shelves/${userId}`, { shelfName: shelfName, isPrivate: shelfPrivate })
+        .then(res => {
+			//dispatch({ type: CREATE_USER_SHELF_SUCCESS, payload: res.data });
+		})
+		.catch(err => dispatch({ type: CREATE_USER_SHELF_FAILURE, payload: err.resonse}))
+}

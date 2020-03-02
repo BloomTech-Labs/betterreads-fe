@@ -2,7 +2,7 @@
 
 ![React](https://img.shields.io/badge/react-v16.7.0--alpha.2-blue.svg)
 ![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/b6143502292664c1f0b4/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-fe/test_coverage) 
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b6143502292664c1f0b4/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-fe/test_coverage)
 ![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
 
@@ -21,53 +21,51 @@ betterReads is a social media platform that allows users to connect with other r
 
 ### Tech Stack
 
-- React - fast and reusable 
-- Redux - global state management 
-- styled-components - customizable styling 
-- Express - simple and effective 
-- PostgreSQL - scalability and data persistence 
-- AWS - robust and tailored 
+-   React - fast and reusable
+-   Redux - global state management
+-   styled-components - customizable styling
+-   Express - simple and effective
+-   PostgreSQL - scalability and data persistence
+-   AWS - robust and tailored
 
-See [this repo](https://github.com/Lambda-School-Labs/betterreads-be) for details on the backend of our project. 
+See [this repo](https://github.com/Lambda-School-Labs/betterreads-be) for details on the backend of our project.
 
-See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for details on the data science of our project. 
+See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for details on the data science of our project.
 
 ### APIs
 
--   OAuth
+-   OAuth 2.0
 -   Google Books API
--   betterReads API
+-   BetterReads API
 
 ### Google Analytics
 
-- to track any component or user action add
-    ````
+-   Import the necessary functions from the correct directory.
+    ```js
     import { PageView, Events } from './components/tracking';
-    ````
-- PageView() - (optional) - is used to track the page views. include in a useEffect() hook
-    ````js
-        useEffect(() => {
-            PageView();
-        }, []);
-    ````
-- Events(1,2,3) (optional) - invoke to track user interaction. can be added to form submits, links, buttons, etc.
-    ````
-        Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}
-    ````
-    - 1 - category , e.g. "SEARCH"
-    - 2 - action, e.g. "User search for a book"
-    - 3 - label, e.g. "SEARCH_RESULTS"
-- OutboundLink - (optional) - Use to track links to other sites/services
-    ````
-        <ReactGA.OutboundLink eventLabel="Clicked Read Online link" to="Link" target="_blank" rel="noopener noreferrer"> Link Label </ReactGA.OutboundLink>
-    ````
-- Examples come from Search.js, SearchForm.js, and SearchItems.js
-
-### Prettier
-
--   Single quotes
--   4 space tabs
--   Semi-colon at end of each line
+    ```
+-   PageView() - tracks page views
+    ```js
+    useEffect(() => {
+    	PageView();
+    }, []);
+    ```
+-   Events(_category_, _action_, _label_) - tracks user interaction with form submits, links, buttons, etc.
+    ```js
+    Event('Book', 'User clicked on book details', 'SEARCH_RESULTS');
+    ```
+-   OutboundLink - tracks external links
+    ```js
+    <ReactGA.OutboundLink
+    	eventLabel="Clicked read online link"
+    	to="Link"
+    	target="_blank"
+    	rel="noopener noreferrer"
+    >
+    	Read online
+    </ReactGA.OutboundLink>
+    ```
+-   Examples can be seen in Search.js, SearchForm.js, and SearchItems.js.
 
 ### Naming Conventions
 
@@ -76,13 +74,11 @@ See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for detail
 -   CSS class names - kebab case, descriptive
 -   Database fields - camel case
 
-### Environment Variables
+### Prettier
 
-Environment variables go here
-
-### Testing
-
-Testing goes here
+-   Single quotes
+-   4 space tabs
+-   Semicolon at the end of every line
 
 ## Contributing
 

@@ -9,12 +9,24 @@ import NewShelfModal from '../common/NewShelfModal';
 
 import styled from 'styled-components';
 
-const Fluff = styled.div`
-	padding: 2rem 0;
+const Wrapper = styled.div`
+	background-color: #F3F6F5;
+	padding: 16px 0;
+	margin: 0 0 8px 0;
 
-	.fs-18{font-size: 1.125rem;}
-	.pb-1{padding-bottom: 1rem;}
-`
+	.frank{font-family: 'Frank Ruhl Libre', serif;}
+	.openSans{font-family: 'Open Sans', sans-serif;}
+	.fs-16{font-size: 16px;}
+	.fs-32{font-size: 32px;}
+
+	.pb-12{padding-bottom: 12px;}
+	.pb-16{padding-bottom: 16px;}
+
+	.innerWrapper{
+		width: 90%;
+		margin: 0 auto;
+	}
+`;
 
 const Search = props => {
 
@@ -26,19 +38,14 @@ const Search = props => {
 	return (
 		<>
 			<Header />
-			<Layout>
-				<Layout.Content>
-					<Fluff>
-						<Row type="flex" justify="center" gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}>
-							<Col span={22}>
-								<div className="fs-18 pb-1">Search for a book to track your reading progress and add books to shelves.</div>
-							</Col>
-						</Row>
-						<SearchForm />
-					</Fluff>
-				</Layout.Content>
-			</Layout>
-			<NewShelfModal />
+			<Wrapper>
+				<div className="innerWrapper">
+					<div className="fs-32 pb-16 frank">What are you reading?</div>
+					<div className="fs-16 pb-12 openSans">Search for a book to track your reading progress and add books to shelves.</div>
+ 					<SearchForm />
+				</div>
+			</Wrapper>
+			{/* <NewShelfModal /> */}
 			<SearchList />
 		</>
 	);

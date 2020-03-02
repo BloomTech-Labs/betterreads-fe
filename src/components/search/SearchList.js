@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import SearchItem from './SearchItem';
+import SearchPagination from './SearchPagination';
 
 const SearchList = props => {
     return (
@@ -11,6 +12,11 @@ const SearchList = props => {
                 props.searchResults.items.map(book => (
                     <SearchItem key={book.id} book={book} />
                 ))
+            }
+
+            {
+                props.searchResults.items && 
+                    <SearchPagination />
             }
         </>
     )
