@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { signIn, resetError } from '../../actions/index';
 import SignInContainer from './SignInStyle';
+import facebooklogo from '../../img/facebook-logo.svg';
+import googlelogo from '../../img/google-logo.svg';
 import { PageView, Event } from '../tracking/';
 
 const SignIn = props => {
@@ -24,69 +26,73 @@ const SignIn = props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
-		props.setError();
+		props.resetError();
 		props.signIn(input, props.history);
 	};
 
 	return (
 		<SignInContainer>
-			<h1>Sign in to BetterReads</h1>
-			<h2>Sign in to get started</h2>
+			<div className="banner"></div>
 
-			<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
-				<label htmlFor="emailAddress">Email Address</label>
-				<input
-					type="email"
-					placeholder="Enter your email"
-					name="emailAddress"
-					value={input.emailAddress}
-					onChange={onChange}
-					required
-				/>
+			<div className="form-container">
+				<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
+					<h1>Sign in to BetterReads</h1>
+					<p className="already">
+						Already have an account?
+						<b
+							onClick={() => {
+								props.resetError();
+								props.history.push('/signup');
+							}}
+						>
+							Sign up here.
+						</b>
+					</p>
 
-				<label htmlFor="password">Password</label>
-				<input
-					type="password"
-					placeholder="Enter your password"
-					name="password"
-					value={input.password}
-					onChange={onChange}
-					required
-					minLength="5"
-				/>
+					<label htmlFor="emailAddress">Email Address</label>
+					<input
+						type="email"
+						placeholder="Enter your email"
+						name="emailAddress"
+						value={input.emailAddress}
+						onChange={onChange}
+						required
+					/>
 
-				{<p className="error">{props.error}</p>}
+					<label htmlFor="password">Password</label>
+					<input
+						type="password"
+						placeholder="Enter your password"
+						name="password"
+						value={input.password}
+						onChange={onChange}
+						required
+						minLength="5"
+					/>
 
-				<button type="submit">Sign in</button>
-			</form>
+					{props.error && <p className="error">{props.error}</p>}
 
-			<p className="need">
-				Need an account?
-				<b
-					onClick={() => {
-						props.resetError();
-						props.history.push('/signup');
-					}}
-				>
-					Sign up here.
-				</b>
-			</p>
+					<button type="submit" className="sign-in">
+						Sign in
+					</button>
 
-			<p className="or">OR</p>
+					<p className="or">OR</p>
 
-			<a href="http://localhost:5000/api/auth/google">
-				<button className="google-button">
-					<i className="fab fa-google"></i>
-					<p>Sign in with Google</p>
-				</button>
-			</a>
+					<a href="http://localhost:5000/api/auth/facebook">
+						<button type="button" className="facebook-button">
+							<img src={facebooklogo} alt="facebook logo" />
+							Sign in with Facebook
+						</button>
+					</a>
 
-			<a href="http://localhost:5000/api/auth/facebook">
-				<button className="facebook-button">
-					<i className="fab fa-facebook-f"></i>
-					<p>Sign in with Facebook</p>
-				</button>
-			</a>
+					<a href="http://localhost:5000/api/auth/google">
+						<button type="button" className="google-button">
+							<img src={googlelogo} alt="google logo" />
+							Sign in with Google
+						</button>
+					</a>
+				</form>
+			</div>
 		</SignInContainer>
 	);
 };

@@ -94,7 +94,7 @@ const SignUp = props => {
 
 					{props.error && <p className="error">{props.error}</p>}
 
-					<button type="submit" className="create-account">
+					<button type="submit" className="sign-up">
 						Sign up
 					</button>
 

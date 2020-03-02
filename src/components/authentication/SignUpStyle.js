@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import mobilesignupbanner from '../../img/mobile-sign-up-banner.jpg';
-import desktopsignupbanner from '../../img/desktop-sign-up-banner.jpg';
+import desktopbanner from '../../img/desktop-banner.jpg';
 
 const SignUpContainer = styled.div`
 	display: flex;
@@ -75,9 +75,8 @@ const SignUpContainer = styled.div`
 				line-height: 0;
 			}
 
-			.create-account {
-				margin-top: 16px;
-				margin-bottom: 16px;
+			.sign-up {
+				margin: 16px 0;
 				padding: 8px 12px;
 				background-color: #d24719;
 				border: none;
@@ -176,7 +175,7 @@ const SignUpContainer = styled.div`
 			height: 100vh;
 			width: 50%;
 			margin-bottom: 0px;
-			background: url(${desktopsignupbanner});
+			background: url(${desktopbanner});
 			background-size: cover;
 			background-position: center;
 		}
@@ -187,42 +186,29 @@ const SignUpContainer = styled.div`
 			justify-content: center;
 			align-items: center;
 
-			h1 {
-				font-size: 42px;
-				line-height: 46px;
-			}
-
 			form {
 				h1 {
-					margin-bottom: 16px;
-					font-size: 2.625rem;
+					margin-bottom: 8px;
+					font-size: 2.5rem;
 					line-height: 46px;
 				}
 
 				.already {
-					margin-bottom: 36px;
+					margin-bottom: 16px;
 					font-size: 1.125rem;
 					line-height: 28px;
 				}
 
-				input {
+				.sign-up {
 					margin-bottom: 24px;
 				}
 
-				.error {
-					margin-top: -2px;
-				}
-
-				.create-account {
-					margin-top: 20px;
+				.or {
 					margin-bottom: 24px;
 				}
+
 				a {
 					.facebook-button {
-						margin-bottom: 16px;
-					}
-
-					.google-button {
 						margin-bottom: 16px;
 					}
 				}
@@ -231,7 +217,7 @@ const SignUpContainer = styled.div`
 					width: 100%;
 					margin: 0;
 					font-size: 0.6875rem;
-					line-height: 15px;
+					line-height: 16px;
 					text-align: left;
 				}
 			}
