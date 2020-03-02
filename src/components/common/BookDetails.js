@@ -1,61 +1,146 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Event } from '../tracking/';
-import { Row, Col, Button, Icon, Rate, Select } from 'antd';
+import { Row, Col, Button, Icon, Rate, Select, Menu, Dropdown } from 'antd';
 import styled from 'styled-components';
 import { saveBookToLibrary } from '../../actions';
+import Header from '../common/Header';
+import SearchForm from '../search/SearchForm';
+
+import HeartOutlined from '@ant-design/icons/HeartOutlined';
+import HeartFilled from '@ant-design/icons/HeartFilled';
+import DownOutlined from '@ant-design/icons/DownOutlined';
 
 const Wrapper = styled.div`
 
-	.ant-row-flex {
-		padding: 1 rem;
-		display: flex;
-		justify-content: space-around;
 
-		border-bottom: 1px solid #cecece;
-		.ant-col {
-			width: 43%;
-		}
+.frank{font-family: 'Frank Ruhl Libre', serif;}
+.openSans{font-family: 'Open Sans', sans-serif;}
+.fs-16{font-size: 16px;}
+.fs-32{font-size: 32px;}
+
+.pb-12{padding-bottom: 12px;}
+.pb-16{padding-bottom: 16px;}
+
+	.innerWrapper{
+		
+		margin: 0 auto;
+		background-color: #F3F6F5;
+padding: 16px 0;
+margin: 0 0 8px 0;
 	}
+    .flexer{
+        display: flex;
+        border-bottom: 1px solid #cecece;
+        padding: 16px 0;
 
-	.largeThumbnail {
-		border-radius: 5px 5px 0 0;
-		width: 135px;
-		height: auto;
-	}
+        &:first-child {
+            padding-right: 12px;
+        }
 
-	.ant-btn {
-		color: #f7f7f7;
-		width: 125px;
-		background: #d24719;
-		border: none;
-		border-radius: 0 0 5px 5px;
-	}
+        .anticon-heart svg{
+            height: 26px;
+            width: 29px;
+            color: #D24719;
+        }
 
-	.bookDetail {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
+        .imgContainer{
+            margin-right: 16px; 
 
-		.ant-select-selection {
-			border: 0 rgba(0, 0, 0, 0);
-			background-color: rgba(0, 0, 0, 0);
-		}
+            .thumbContainer{
+                width: 125px;
+                height: 198px;
+                overflow: hidden;
+                
+                .smallThumbnail {
+                    border-radius: 5px 5px 0 0;
+                    width: 135px;
+                    height: auto;
+                }
+            }
+    
+            .ant-btn {
+                color: #F7F7F7;
+                width: 82px;
+                background: #D24719;
+                border: none;
+                border-radius: 0 0 0 5px;
+                font-size: 13px;
+                font-weight: 600;
+                line-height: 20px;
+                padding: 0 3px;
+        
+                .anticon-down{
+                    margin-left: 2px;
+                }
 
-		.ant-select-selection__rendered {
-			margin-left: 0;
-		}
-	}
-`
+                svg {
+                    margin-right: 4px;
+                }
+            }
+        }
+    
+        .bookDetail {
+            display: flex;
+            flex-direction: column;
+            
+            .bookTitle{
+                line-height: 22px
+                margin-bottom: 12px;
+            }
+
+            .ant-select-selection {   
+                background-color: rgba(0,0,0,0);
+            }
+
+            .bookRating{
+                .anticon-star svg {
+                    height: 16px;
+                    width: 16px;
+                }
+            }
+        }
+
+        .bookFav {
+            margin-left: auto;
+        }
+    }
+`;
 const GenreBox = styled.div`
-background: rgba(196, 196, 196, 0.5);
-border-radius: 5px;
-width: 100%;
+	background: #547862;
+	border-radius: 4px;
+	font-family: Open Sans;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 20px;
+	display: flex;
+	align-items: center;
 
-`
+	color: #ffffff;
+`;
 
 export function BookDetails(props) {
 	const [selectedBook, setSelectedBook] = useState();
+	const [favorite, setFavorite] = useState(false);
+
+	const TrackMenu = (
+		<Menu onClick={() => saveBookToLibrary(props.book)}>
+			<Menu.Item key="1" value="0">
+				To be read
+			</Menu.Item>
+			<Menu.Item key="2" value="1">
+				Finished
+			</Menu.Item>
+			<Menu.Item key="3" value="2">
+				In Progress
+			</Menu.Item>
+		</Menu>
+	);
+
+	const markAsFavorite = id => {
+		setFavorite(!favorite);
+	};
 
 	const results = {
 		searchResults: {
@@ -78,8 +163,6 @@ export function BookDetails(props) {
 		}
 	};
 
-
-
 	useEffect(() => {
 		setSelectedBook(
 			props.searchResults.items
@@ -92,8 +175,15 @@ export function BookDetails(props) {
 		);
 	}, []);
 
+	const ThumbContainer = styled.div`
+		height: 95px;
+		width: 82px;
+		background-image: url(${props => props.bgImage});
+		background-size: cover;
+	`;
+
 	const saveBookToLibrary = book => {
-		console.log(book, "book")
+		console.log(book, 'book');
 		Event(
 			'bookDetail',
 			'User added a book library from book details.',
@@ -123,53 +213,37 @@ export function BookDetails(props) {
 
 		props.saveBookToLibrary(1, book.id, modifiedBook);
 	};
-	
-	function handleChange(event) {
-		console.log('readingStatus = ', props.modifiedBook.readingStatus);
-		event.target.value = props.modifiedBook.readingStatus
-		console.log(props.modifiedBook.readingStatus, "checked readingStatus")
-	}
-	
-	console.log(selectedBook, 'selected book');
+	console.log(selectedBook);
+	const { id } = props.match.params.id;
+
 	return (
 		<>
 			{selectedBook && (
-				<Wrapper>
-					<Row
-						type="flex"
-						justify="center"
-						gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}
-					>
-						<Col xs={9}>
-							<div
-								style={{
-									height: '201px',
-									width: '135px',
-									overflow: 'hidden'
-								}}
-							>
-								<img
-									className="largeThumbnail"
-									src={
-										selectedBook.volumeInfo.imageLinks
-											.thumbnail
-									}
-									alt={`${selectedBook.volumeInfo.title} thumbnail`}
-									width="135"
-								/>
-							</div>
+				<Wrapper id={id}>
+					<Header />
+					<div className="innerWrapper">
+					<SearchForm />
+					</div>
+					<div className="flexer">
+						<div className="imgContainer">
+							<ThumbContainer
+								bgImage={
+									selectedBook.volumeInfo.imageLinks.thumbnail
+								}
+							/>
 
-							<Button
-								onClick={() => saveBookToLibrary(selectedBook)}
-							>
-								<Icon type="book" /> Add to Shelf
-							</Button>
-						</Col>
-						<Col xs={13} className="bookDetail">
-							<div className="bookTitle fs-16">
+							<Dropdown overlay={TrackMenu}>
+								<Button>
+									Track this <DownOutlined />
+								</Button>
+							</Dropdown>
+						</div>
+
+						<div className="bookDetail openSans">
+							<div className="bookTitle fs-16 fw-600">
 								{selectedBook.volumeInfo.title}
 							</div>
-							<div className="bookAuthors">
+							<div className="bookAuthors fs-16 openSans lh-22">
 								{selectedBook.volumeInfo.authors &&
 									selectedBook.volumeInfo.authors.map(
 										(author, index) => (
@@ -187,29 +261,33 @@ export function BookDetails(props) {
 									}
 								/>
 							</div>
-							<div className="bookTrack">
-								<Select defaultValue="Track this book ">
-									<option value="0" onChange={handleChange}>To be read</option>
-									<option value="1" onChange={handleChange}>Finished</option>
-									<option value="2" onChange={handleChange}>In Progress</option>
-								</Select>
+							<div className="bookFav">
+								{favorite ? (
+									<HeartFilled
+										onClick={() => markAsFavorite(id)}
+									/>
+								) : (
+									<HeartOutlined
+										onClick={() => markAsFavorite(id)}
+									/>
+								)}
 							</div>
-						</Col>
-					</Row>
+						</div>
+					</div>
 					<Row
 						type="flex"
 						justify="center"
 						gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}
 					>
 						<p>{selectedBook.volumeInfo.description}</p>
-						<GenreBox>
-                        <p>
-							Genre
-							{selectedBook.volumeInfo.categories.map(G => (
-								<p key={G.id}>{G}, </p>
-							))}</p>
-						</GenreBox>
-                       
+						<div>
+							<p>
+								Genre
+								{selectedBook.volumeInfo.categories.map(G => (
+									<GenreBox key={G.id}>{G}, </GenreBox>
+								))}
+							</p>
+						</div>
 					</Row>
 				</Wrapper>
 			)}
