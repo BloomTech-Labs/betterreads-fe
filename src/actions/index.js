@@ -126,7 +126,7 @@ export const saveBookToLibrary = (userId, bookId, book) => dispatch => {
 	//     .then(results => dispatch({ type: SENDING_BOOK_LIBRARY_SUCCESS, payload: results.data}))
 	//     .catch(err => dispatch({ type: SENDING_BOOK_LIBRARY_FAILURE, payload: err.response }))
 	axios
-		.post(`${apiLocal}/${userId}/library/${bookId}`, book)
+		.post(`${apiLocal}/${userId}/library`, book)
 		.then(results => console.log(results))
 		.catch(err => console.log(err.response));
 };
