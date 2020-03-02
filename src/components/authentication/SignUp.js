@@ -1,125 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { signUp } from '../../actions/index';
-import styled from 'styled-components';
-
-const SignUpContainer = styled.div`
-	width: 90%;
-	margin: 0 auto;
-	margin-top: 64px;
-	margin-bottom: 64px;
-	display: flex;
-	flex-direction: column;
-
-	h1 {
-		margin-bottom: 32px;
-	}
-
-	form {
-		display: flex;
-		flex-direction: column;
-
-		label {
-			font-size: 1rem;
-		}
-
-		input {
-			margin-bottom: 16px;
-			padding: 12px;
-			border: 1px solid gray;
-			border-radius: 3px;
-			font-family: 'SF-Pro-Display', sans-serif;
-			font-size: 1rem;
-		}
-
-		.error {
-			margin-top: -8px;
-			font-size: 0.875rem;
-			color: red;
-		}
-
-		button {
-			margin-top: 16px;
-			margin-bottom: 8px;
-			padding: 12px;
-			border: none;
-			border-radius: 3px;
-			font-family: 'SF-Pro-Display', sans-serif;
-			font-size: 1rem;
-		}
-	}
-
-	.already {
-		margin-bottom: 16px;
-		font-size: 0.875rem;
-		text-align: center;
-	}
-
-	.or {
-		margin-bottom: 16px;
-		font-size: 1rem;
-		text-align: center;
-	}
-
-	a {
-		text-decoration: none;
-
-		.google-button {
-			width: 100%;
-			padding: 12px;
-			margin-bottom: 16px;
-			background-color: #db4437;
-			border: none;
-			border-radius: 3px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			cursor: pointer;
-
-			i {
-				margin-right: 16px;
-				font-size: 24px;
-				color: white;
-			}
-
-			p {
-				font-family: 'SF-Pro-Display', sans-serif;
-				font-size: 1rem;
-				color: white;
-			}
-		}
-
-		.facebook-button {
-			width: 100%;
-			padding: 12px;
-			background-color: #3b5998;
-			border: none;
-			border-radius: 3px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			cursor: pointer;
-
-			i {
-				margin-right: 16px;
-				font-size: 24px;
-				color: white;
-			}
-
-			p {
-				font-family: 'SF-Pro-Display', sans-serif;
-				font-size: 1rem;
-				color: white;
-			}
-		}
-	}
-`;
+import { signUp, resetError } from '../../actions/index';
+import SignUpContainer from './SignUpStyle';
+import facebooklogo from '../../img/facebook-logo.svg';
+import googlelogo from '../../img/google-logo.svg';
 
 const SignUp = props => {
 	const [input, setInput] = useState({
 		fullName: '',
 		emailAddress: '',
-		username: '',
 		password: '',
 		confirmPassword: ''
 	});
@@ -133,94 +22,104 @@ const SignUp = props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
+		props.resetError();
 		props.signUp(input, props.history);
 	};
 
 	return (
 		<SignUpContainer>
-			<h1>Create an account to join BetterReads</h1>
+			<div className="banner"></div>
 
-			<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
-				<label htmlFor="fullName">Full Name</label>
-				<input
-					type="text"
-					placeholder="Enter your name"
-					name="fullName"
-					value={input.fullName}
-					onChange={onChange}
-					required
-				/>
+			<div className="form-container">
+				<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
+					<h1>
+						Create an account to
+						<br />
+						join BetterReads
+					</h1>
 
-				<label htmlFor="emailAddress">Email Address</label>
-				<input
-					type="email"
-					placeholder="Enter your email"
-					name="emailAddress"
-					value={input.emailAddress}
-					onChange={onChange}
-					required
-				/>
+					<p className="already">
+						Already have an account?
+						<b
+							onClick={() => {
+								props.resetError();
+								props.history.push('/signin');
+							}}
+						>
+							Sign in here.
+						</b>
+					</p>
 
-				<label htmlFor="username">Username</label>
-				<input
-					type="text"
-					placeholder="Enter a username"
-					name="username"
-					value={input.username}
-					onChange={onChange}
-					required
-					minLength="5"
-				/>
+					<label htmlFor="fullName">Full Name</label>
+					<input
+						type="text"
+						placeholder="Enter your name"
+						name="fullName"
+						value={input.fullName}
+						onChange={onChange}
+						required
+					/>
 
-				<label htmlFor="password">Password</label>
-				<input
-					type="password"
-					placeholder="Enter a password"
-					name="password"
-					value={input.password}
-					onChange={onChange}
-					required
-					minLength="5"
-				/>
+					<label htmlFor="emailAddress">Email Address</label>
+					<input
+						type="email"
+						placeholder="Enter your email"
+						name="emailAddress"
+						value={input.emailAddress}
+						onChange={onChange}
+						required
+					/>
 
-				<label htmlFor="confirmPassword">Confirm Password</label>
-				<input
-					type="password"
-					placeholder="Reenter your password"
-					name="confirmPassword"
-					value={input.confirmPassword}
-					onChange={onChange}
-					required
-					minLength="5"
-				/>
+					<label htmlFor="password">Password</label>
+					<input
+						type="password"
+						placeholder="Enter a password"
+						name="password"
+						value={input.password}
+						onChange={onChange}
+						required
+						minLength="5"
+					/>
 
-				{<p className="error">{props.error}</p>}
+					<label htmlFor="confirmPassword">Confirm Password</label>
+					<input
+						type="password"
+						placeholder="Reenter your password"
+						name="confirmPassword"
+						value={input.confirmPassword}
+						onChange={onChange}
+						required
+						minLength="5"
+					/>
 
-				<button type="submit">Create account</button>
-			</form>
+					{props.error && <p className="error">{props.error}</p>}
 
-			<p
-				className="already"
-				onClick={() => props.history.push('/signin')}
-			>
-				Already have an account? Sign in here.
-			</p>
+					<button type="submit" className="sign-up">
+						Sign up
+					</button>
 
-			<p className="or">OR</p>
+					<p className="or">OR</p>
 
-			<a href="http://localhost:5000/api/auth/google">
-				<button className="google-button">
-					<i className="fab fa-google"></i>
-					<p>Sign up with Google</p>
-				</button>
-			</a>
+					<a href="http://localhost:5000/api/auth/facebook">
+						<button type="button" className="facebook-button">
+							<img src={facebooklogo} alt="facebook logo" />
+							Sign up with Facebook
+						</button>
+					</a>
 
-			<a href="http://localhost:5000/api/auth/facebook">
-				<button className="facebook-button">
-					<i className="fab fa-facebook-f"></i>
-					<p>Sign up with Facebook</p>
-				</button>
-			</a>
+					<a href="http://localhost:5000/api/auth/google">
+						<button type="button" className="google-button">
+							<img src={googlelogo} alt="google logo" />
+							Sign up with Google
+						</button>
+					</a>
+
+					<p className="policy">
+						By signing up, I agree to BetterReads' Terms of Service
+						and Privacy Policy.
+					</p>
+				</form>
+			</div>
 		</SignUpContainer>
 	);
 };
@@ -231,4 +130,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { signUp })(SignUp);
+export default connect(mapStateToProps, { signUp, resetError })(SignUp);

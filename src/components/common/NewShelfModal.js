@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Row, Col, Modal, Button, Input, Checkbox } from 'antd';
 
 const Wrapper = styled.div`
+
     width: 90%;
     margin: 0 auto;
 
@@ -21,67 +22,70 @@ const Wrapper = styled.div`
         justify-content: center;
         align-items: center;
 
-        svg {
-            margin-right: 4px;
-        }
-    }
+		svg {
+			margin-right: 4px;
+		}
+	}
 `;
 
 const ShelfModal = props => {
     const [modalConfig, setModalConfig] = useState({
         visible: false,
-        ModalText: 'This is the text',
+        ModalText: '',
         confirmLoading: true,
         shelfName: null,
         shelfPrivate: null
     });
 
-    const showModal = () => {
-        setModalConfig({
-            ...modalConfig,
-            visible: true
-        })
-    }
+	const showModal = () => {
+		setModalConfig({
+			...modalConfig,
+			visible: true
+		});
+	};
 
-    const handleChange = e => {
-        setModalConfig({
-            ...modalConfig,
-            shelfName: e.target.value
-        })
-    }
+	const handleChange = e => {
+		setModalConfig({
+			...modalConfig,
+			shelfName: e.target.value
+		});
+	};
 
-    const handleCheck = e => {
-        setModalConfig({
-            ...modalConfig,
-            shelfPrivate: e.target.checked
-        })
-    }
+	const handleCheck = e => {
+		setModalConfig({
+			...modalConfig,
+			shelfPrivate: e.target.checked
+		});
+	};
 
-    const handleOk = () => {
-        const userId = localStorage.getItem('user_id');
-        axios.post(`http://localhost:5000/api/shelves/${userId}`, { shelfName: modalConfig.shelfName, isPrivate: modalConfig.shelfPrivate })
-        .then(res => {
-            setModalConfig({
-                ...modalConfig,
-                visible: false,
-                confirmLoading: false,
-                shelfName: null,
-                shelfPrivate: false
-            })
-        })
-        
-    }
+	const handleOk = () => {
+		const userId = localStorage.getItem('id');
+		axios
+			.post(`http://localhost:5000/api/shelves/${userId}`, {
+				shelfName: modalConfig.shelfName,
+				isPrivate: modalConfig.shelfPrivate
+			})
+			.then(res => {
+				setModalConfig({
+					...modalConfig,
+					visible: false,
+					confirmLoading: false,
+					shelfName: null,
+					shelfPrivate: false
+				});
+			});
+	};
 
-    const handleCancel = () => {
-        setModalConfig({
-            ...modalConfig,
-            visible: false,
-            confirmLoading: false,
-            shelfName: null,
-            shelfPrivate: false
-        })
-    }
-
+	const handleCancel = () => {
+		setModalConfig({
+			...modalConfig,
+			visible: false,
+			confirmLoading: false,
+			shelfName: null,
+			shelfPrivate: false
+		});
+	};
+  
     return (
         <Wrapper>
             
@@ -96,22 +100,35 @@ const ShelfModal = props => {
                 { props.label || 'Create new shelf' }
             </Button>
 
-            <Modal
-                title="Create new Shelf"
-                visible={modalConfig.visible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-            >
-                <Input size="large" placeholder="New shelf name" value={modalConfig.shelfName} onChange={handleChange} />
-                <Checkbox checked={modalConfig.shelfPrivate} onChange={handleCheck}> Keep private</Checkbox>
-            </Modal>
-        </Wrapper>
-    )
-}
+			<Modal
+				title="Create new Shelf"
+				visible={modalConfig.visible}
+				onOk={handleOk}
+				onCancel={handleCancel}
+			>
+				<Input
+					size="large"
+					placeholder="New shelf name"
+					value={modalConfig.shelfName}
+					onChange={handleChange}
+				/>
+				<Checkbox
+					checked={modalConfig.shelfPrivate}
+					onChange={handleCheck}
+				>
+					{' '}
+					Keep private
+				</Checkbox>
+			</Modal>
+		</Wrapper>
+	);
+};
 
 
 export default ShelfModal;
 // export default connect(null, { createUserShelf })(ShelfModal);
 
 // Use tag below as an example where you want a button added
-{/* <NewShelfModal block="true" bgColor="red" btnSpan="12" type="default" size="small" label="Click Me!" classname="first" icon="null" /> */}
+{
+	/* <NewShelfModal block="true" bgColor="red" btnSpan="12" type="default" size="small" label="Click Me!" classname="first" icon="null" /> */
+}

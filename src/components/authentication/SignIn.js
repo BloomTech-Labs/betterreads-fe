@@ -1,121 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { signIn } from '../../actions/index';
+import { signIn, resetError } from '../../actions/index';
+import SignInContainer from './SignInStyle';
+import facebooklogo from '../../img/facebook-logo.svg';
+import googlelogo from '../../img/google-logo.svg';
 import { PageView, Event } from '../tracking/';
-
-import styled from 'styled-components';
-
-const SignInContainer = styled.div`
-	width: 90%;
-	margin: 0 auto;
-	margin-top: 64px;
-	margin-bottom: 64px;
-	display: flex;
-	flex-direction: column;
-
-	h2 {
-		margin-bottom: 32px;
-	}
-
-	form {
-		display: flex;
-		flex-direction: column;
-
-		label {
-			font-size: 1rem;
-		}
-
-		input {
-			margin-bottom: 16px;
-			padding: 12px;
-			border: 1px solid gray;
-			border-radius: 3px;
-			font-family: 'SF-Pro-Display', sans-serif;
-			font-size: 1rem;
-		}
-
-		.error {
-			margin-top: -8px;
-			font-size: 0.875rem;
-			color: red;
-		}
-
-		button {
-			margin-top: 16px;
-			margin-bottom: 8px;
-			padding: 12px;
-			border: none;
-			border-radius: 3px;
-			font-family: 'SF-Pro-Display', sans-serif;
-			font-size: 1rem;
-		}
-	}
-
-	.need {
-		margin-bottom: 16px;
-		font-size: 0.875rem;
-		text-align: center;
-	}
-
-	.or {
-		margin-bottom: 16px;
-		font-size: 1rem;
-		text-align: center;
-	}
-
-	a {
-		text-decoration: none;
-
-		.google-button {
-			width: 100%;
-			padding: 12px;
-			margin-bottom: 16px;
-			background-color: #db4437;
-			border: none;
-			border-radius: 3px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			cursor: pointer;
-
-			i {
-				margin-right: 16px;
-				font-size: 24px;
-				color: white;
-			}
-
-			p {
-				font-family: 'SF-Pro-Display', sans-serif;
-				font-size: 1rem;
-				color: white;
-			}
-		}
-
-		.facebook-button {
-			width: 100%;
-			padding: 12px;
-			background-color: #3b5998;
-			border: none;
-			border-radius: 3px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			cursor: pointer;
-
-			i {
-				margin-right: 16px;
-				font-size: 24px;
-				color: white;
-			}
-
-			p {
-				font-family: 'SF-Pro-Display', sans-serif;
-				font-size: 1rem;
-				color: white;
-			}
-		}
-	}
-`;
 
 const SignIn = props => {
 	const [input, setInput] = useState({
@@ -124,9 +13,9 @@ const SignIn = props => {
 	});
 
 	useEffect(() => {
-		Event('Sign In', 'Sign in loaded', 'SIGN_IN')
+		Event('Sign In', 'Sign in loaded', 'SIGN_IN');
 		PageView();
-	}, [])
+	}, []);
 
 	const onChange = event => {
 		setInput({
@@ -137,60 +26,73 @@ const SignIn = props => {
 
 	const onSubmit = event => {
 		event.preventDefault();
+		props.resetError();
 		props.signIn(input, props.history);
 	};
 
 	return (
 		<SignInContainer>
-			<h1>Sign in to BetterReads</h1>
-			<h2>Sign in to get started</h2>
+			<div className="banner"></div>
 
-			<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
-				<label htmlFor="emailAddress">Email Address</label>
-				<input
-					type="email"
-					placeholder="Enter your email"
-					name="emailAddress"
-					value={input.emailAddress}
-					onChange={onChange}
-					required
-				/>
+			<div className="form-container">
+				<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
+					<h1>Sign in to BetterReads</h1>
+					<p className="already">
+						Already have an account?
+						<b
+							onClick={() => {
+								props.resetError();
+								props.history.push('/signup');
+							}}
+						>
+							Sign up here.
+						</b>
+					</p>
 
-				<label htmlFor="password">Password</label>
-				<input
-					type="password"
-					placeholder="Enter your password"
-					name="password"
-					value={input.password}
-					onChange={onChange}
-					required
-					minLength="5"
-				/>
+					<label htmlFor="emailAddress">Email Address</label>
+					<input
+						type="email"
+						placeholder="Enter your email"
+						name="emailAddress"
+						value={input.emailAddress}
+						onChange={onChange}
+						required
+					/>
 
-				{<p className="error">{props.error}</p>}
+					<label htmlFor="password">Password</label>
+					<input
+						type="password"
+						placeholder="Enter your password"
+						name="password"
+						value={input.password}
+						onChange={onChange}
+						required
+						minLength="5"
+					/>
 
-				<button type="submit">Sign in</button>
-			</form>
+					{props.error && <p className="error">{props.error}</p>}
 
-			<p className="need" onClick={() => props.history.push('/signup')}>
-				Need an account? Sign up here.
-			</p>
+					<button type="submit" className="sign-in">
+						Sign in
+					</button>
 
-			<p className="or">OR</p>
+					<p className="or">OR</p>
 
-			<a href="http://localhost:5000/api/auth/google">
-				<button className="google-button">
-					<i className="fab fa-google"></i>
-					<p>Sign in with Google</p>
-				</button>
-			</a>
+					<a href="http://localhost:5000/api/auth/facebook">
+						<button type="button" className="facebook-button">
+							<img src={facebooklogo} alt="facebook logo" />
+							Sign in with Facebook
+						</button>
+					</a>
 
-			<a href="http://localhost:5000/api/auth/facebook">
-				<button className="facebook-button">
-					<i className="fab fa-facebook-f"></i>
-					<p>Sign in with Facebook</p>
-				</button>
-			</a>
+					<a href="http://localhost:5000/api/auth/google">
+						<button type="button" className="google-button">
+							<img src={googlelogo} alt="google logo" />
+							Sign in with Google
+						</button>
+					</a>
+				</form>
+			</div>
 		</SignInContainer>
 	);
 };
@@ -201,4 +103,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { signIn })(SignIn);
+export default connect(mapStateToProps, { signIn, resetError })(SignIn);

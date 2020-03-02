@@ -9,7 +9,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
 				if (localStorage.getItem('id')) {
 					return <Component {...props} />;
 				} else {
-					return <Redirect to="/pagenotfound" />;
+					return <Redirect to="/signin" />;
 				}
 			}}
 		/>
