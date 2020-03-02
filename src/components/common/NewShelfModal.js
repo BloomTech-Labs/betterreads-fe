@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import BookIcon from './BookIcon';
 import styled from 'styled-components';
 import axios from 'axios';
-
+//import { createUserShelf } from '../../actions'
 import { Row, Col, Modal, Button, Input, Checkbox } from 'antd';
 
 const Wrapper = styled.div`
+    width: 90%;
+    margin: 0 auto;
+
     button.newShelf {
         background-color: #d24719;
         border: none;
@@ -26,7 +30,7 @@ const Wrapper = styled.div`
 const ShelfModal = props => {
     const [modalConfig, setModalConfig] = useState({
         visible: false,
-        ModalText: '',
+        ModalText: 'This is the text',
         confirmLoading: true,
         shelfName: null,
         shelfPrivate: null
@@ -80,20 +84,17 @@ const ShelfModal = props => {
 
     return (
         <Wrapper>
-            <Row type="flex" justify="center">
-                <Col span={props.btnSpan || 22}>
-                    <Button className={props.classname || 'newShelf'} 
-                        onClick={showModal}
-                        type={props.type || 'primary'} 
-                        size={props.size || 'large'} 
-                        icon={ props.icon || '' }
-                        bgColor={props.bgColor || '#d24719'}
-                        block>
-                        { !props.icon && <BookIcon height="16px" width="16px" fill="#E5E5E6" /> }
-                        { props.label || 'Create new shelf' }
-                    </Button>
-                </Col>
-            </Row>
+            
+            <Button className={props.classname || 'newShelf'} 
+                onClick={showModal}
+                type={props.type || 'primary'} 
+                size={props.size || 'large'} 
+                icon={ props.icon || '' }
+                bgColor={props.bgColor || '#d24719'}
+                block>
+                { !props.icon && <BookIcon height="16px" width="16px" fill="#E5E5E6" /> }
+                { props.label || 'Create new shelf' }
+            </Button>
 
             <Modal
                 title="Create new Shelf"
@@ -108,7 +109,9 @@ const ShelfModal = props => {
     )
 }
 
+
 export default ShelfModal;
+// export default connect(null, { createUserShelf })(ShelfModal);
 
 // Use tag below as an example where you want a button added
 {/* <NewShelfModal block="true" bgColor="red" btnSpan="12" type="default" size="small" label="Click Me!" classname="first" icon="null" /> */}
