@@ -13,8 +13,10 @@ export const SENDING_BOOK_LIBRARY_FAILURE = 'SENDING_BOOK_LIBRARY_FAILURE';
 export const SET_ERROR = 'SET_ERROR';
 export const RESET_ERROR = 'RESET_ERROR';
 export const FETCH_USERS_BOOKS = 'FETCH_USERS_BOOKS';
-export const FETCH_USERS_SHELVES = 'FETCH_USERS_SHELVES';
-export const FETCH_SHELFS_BOOKS = 'FETCH_SHELFS_BOOKS';
+export const FETCH_USERS_SHELVES = 'FETCH_SHELVES_BOOKS';
+export const CREATE_USER_SHELF = 'CREATE_USER_SHELF';
+export const CREATE_USER_SHELF_SUCCESS = 'CREATE_USER_SHELF_SUCCESS';
+export const CREATE_USER_SHELF_FAILURE = 'CREATE_USER_SHELF_FAILURE';
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -139,7 +141,16 @@ export const saveBookToLibrary = (userId, bookId, book) => dispatch => {
 	//     .then(results => dispatch({ type: SENDING_BOOK_LIBRARY_SUCCESS, payload: results.data}))
 	//     .catch(err => dispatch({ type: SENDING_BOOK_LIBRARY_FAILURE, payload: err.response }))
 	axios
-		.post(`${apiLocal}/${userId}/library/${bookId}`, book)
+		.post(`${apiLocal}/${userId}/library`, book)
 		.then(results => console.log(results))
 		.catch(err => console.log(err.response));
 };
+
+export const createUserShelf = (userId, shelfName, shelfPrivate, setModalConfig) => dispatch => {
+	dispatch({ type: CREATE_USER_SHELF });
+	axios.post(`http://localhost:5000/api/shelves/${userId}`, { shelfName: shelfName, isPrivate: shelfPrivate })
+        .then(res => {
+			//dispatch({ type: CREATE_USER_SHELF_SUCCESS, payload: res.data });
+		})
+		.catch(err => dispatch({ type: CREATE_USER_SHELF_FAILURE, payload: err.resonse}))
+}
