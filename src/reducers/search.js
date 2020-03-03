@@ -1,4 +1,4 @@
-import { FETCH_SEARCH_START, FETCH_SEARCH_SUCCESS, FETCH_SEARCH_FAILURE } from '../actions';
+import { FETCH_SEARCH_START, FETCH_SEARCH_SUCCESS, FETCH_SEARCH_FAILURE, CLEAR_SEARCH_RESULTS } from '../actions';
 
 const initialState = {
 	fetching: false,
@@ -25,6 +25,12 @@ export default function reducer(state = initialState, action) {
 				fetching: false,
 				error: action.payload
 			};
+		case CLEAR_SEARCH_RESULTS:
+			return {
+				...state,
+				fetching: false,
+				searchResults: {}
+			}
 		default:
 			return state;
 	}
