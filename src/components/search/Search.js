@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { PageView, Event } from '../tracking/';
-
+import Breadcrumbs from '../common/Breadcrumbs';
 import SearchForm from './SearchForm';
-import SearchBreadcrumb from './SearchBreadCrumbs';
-import SearchList from './SearchList';
+// import SearchBreadcrumb from './SearchBreadCrumbs';
+// import SearchList from './_SearchList';
 
 import BookList from '../common/BookList';
 
@@ -44,13 +44,18 @@ const Search = props => {
  					<SearchForm />
 				</div>
 			</Wrapper>
-			{ 
-				props.searchResults.books && 
-				<SearchBreadcrumb source={source} />
-			}
+			<Breadcrumbs history={props.history} crumbs={[['Search results','']]} />
 			{
 				props.searchResults.books &&
-				<BookList bookList={props.searchResults.books.items} />
+				<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />
+			}
+			{
+				!props.searchResults.books && (
+					<Wrapper>
+						<div className="innerWrapper">
+						<h3>Search for your favorite title or author.</h3></div>
+					</Wrapper>
+				)
 			}
 		</>
 	);

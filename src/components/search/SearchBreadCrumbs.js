@@ -32,14 +32,21 @@ const ResultCount = styled.div`
     }
 `;
 
+const crumbs = [['Search results','/Search'], ['Book Detail', ''], ['Run around', '']];
+
 const SearchBreadcrumb = props => {
     return (
         <>
             <Wrapper>
                 <div className="innerWrapper">
                     <Breadcrumb className="fs-16 openSans lh-40">
-                        <Breadcrumb.Item href="/"><HomeOutlined /> Library</Breadcrumb.Item>
-                        <Breadcrumb.Item>Search Results</Breadcrumb.Item>
+                        <Breadcrumb.Item onClick={() => props.history.push('/')}><HomeOutlined /> Library</Breadcrumb.Item>
+                        {
+                            crumbs.map((crumb, index) => (
+                                <Breadcrumb.Item key={index} href={crumb[1]}>{crumb[0]}</Breadcrumb.Item>    
+                            ))
+                        }
+                        {/* <Breadcrumb.Item>Search Results</Breadcrumb.Item> */}
                     </Breadcrumb>
                 </div>
             </Wrapper>
