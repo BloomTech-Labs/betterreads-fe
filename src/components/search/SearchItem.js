@@ -103,6 +103,10 @@ const Wrapper = styled.div`
                 }
             }
         }
+
+        .bookFav {
+            margin-left: auto;
+        }
     }
 `;
 
@@ -190,7 +194,6 @@ const SearchItem = props => {
                     </div>
                 </div>
                 <div className="bookFav">
-                    {/* Favorite */}
                     {   favorite
                         ? <HeartFilled onClick={() => markAsFavorite(id)} /> 
                         : <HeartOutlined onClick={() => markAsFavorite(id)} />
