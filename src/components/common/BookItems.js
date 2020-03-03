@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
-import { Row, Col, Button, Icon, Rate, Select, Menu, Dropdown } from 'antd';
+import { Button, Rate, Menu, Dropdown } from 'antd';
 
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 
-import BookIcon from '../common/BookIcon';
+import BookIcon from './BookIcon';
 import styled from 'styled-components';
 
-import { saveBookToLibrary } from '../../actions';
 
 // const apiURL = "http://localhost:5000/api";
 
@@ -103,6 +101,10 @@ const Wrapper = styled.div`
                 }
             }
         }
+
+        .bookFav {
+            margin-left: auto;
+        }
     }
 `;
 
@@ -113,7 +115,7 @@ const ThumbContainer = styled.div`
     background-size: cover;
 `;
 
-const SearchItem = props => {
+const BookItem = props => {
     const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
     const [favorite, setFavorite] = useState(false);
 
@@ -158,7 +160,7 @@ const SearchItem = props => {
 			readingStatus: 1
 		};
 
-    props.saveBookToLibrary(1, book.id, modifiedBook);
+        props.saveBookToLibrary(1, book.id, modifiedBook);
     }
     
     return (
@@ -189,8 +191,7 @@ const SearchItem = props => {
                         <Rate allowHalf defaultValue={volumeInfo.averageRating} />
                     </div>
                 </div>
-                <div className="">
-                    {/* Favorite */}
+                <div className="bookFav">
                     {   favorite
                         ? <HeartFilled onClick={() => markAsFavorite(id)} /> 
                         : <HeartOutlined onClick={() => markAsFavorite(id)} />
@@ -203,14 +204,4 @@ const SearchItem = props => {
 
 };
 
-const mapStateToProps = state => {
-	return {
-		fetching: state.search.fetching,
-		searchResults: state.search.searchResults
-	};
-};
-
-export default connect(mapStateToProps, {saveBookToLibrary})(SearchItem);
-{/* <Button onClick={() => saveBookToLibrary(props.book)} className="openSans fs-13 fw-600">
-                            Track this <DownOutlined />
-                        </Button> */}
+export default BookItem;

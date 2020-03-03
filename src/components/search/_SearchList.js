@@ -8,8 +8,8 @@ const SearchList = props => {
     return (
         <>
             {
-                props.searchResults.items && 
-                props.searchResults.items.map(book => (
+                props.searchResults.books && 
+                props.searchResults.books.items.map(book => (
                     <SearchItem key={book.id} book={book} />
                 ))
             }

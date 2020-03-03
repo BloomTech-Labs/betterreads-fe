@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { PageView, Event } from '../tracking/';
-import { Layout, Row, Col, Typography } from 'antd';
-import Header from '../common/Header';
-import SearchForm from './SearchForm';
-import SearchList from './SearchList';
 
-import NewShelfModal from '../common/NewShelfModal';
+import Breadcrumbs from '../common/Breadcrumbs';
+
+import SearchForm from './SearchForm';
+// import SearchBreadcrumb from './SearchBreadCrumbs';
+// import SearchList from './_SearchList';
+
+import BookList from '../common/BookList';
 
 import styled from 'styled-components';
 
@@ -41,6 +44,8 @@ const Wrapper = styled.div`
 `;
 
 const Search = props => {
+	const [source, setSource] = useState(props.source || 'library');
+
 	useEffect(() => {
 		Event('Search', 'loaded search', 'SEARCH_COMPONENT');
 		PageView();
@@ -48,23 +53,34 @@ const Search = props => {
 
 	return (
 		<>
-			<Header history={props.history} />
 			<Wrapper>
 				<div className="innerWrapper">
-					<div className="fs-32 pb-16 frank">
-						What are you reading?
-					</div>
-					<div className="fs-16 pb-12 openSans">
-						Search for a book to track your reading progress and add
-						books to shelves.
-					</div>
-					<SearchForm />
+ 					<SearchForm />
 				</div>
 			</Wrapper>
-			{/* <NewShelfModal /> */}
-			<SearchList />
+			<Breadcrumbs history={props.history} crumbs={[['Search results','']]} />
+			{
+				props.searchResults.books &&
+				<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />
+			}
+			{
+				!props.searchResults.books && (
+					<Wrapper>
+						<div className="innerWrapper">
+						<h3>Search for your favorite title or author.</h3></div>
+					</Wrapper>
+				)
+			}
 		</>
 	);
 };
 
-export default Search;
+
+const mapStateToProps = state => {
+    return {
+        fetching: state.search.fetching,
+        searchResults: state.search.searchResults
+    }
+}
+
+export default connect(mapStateToProps)(Search);
