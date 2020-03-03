@@ -17,22 +17,11 @@ const ResultCount = styled.div`
 
 const ShelfNote = props => {
 	return (
-		<>
-			{props.type === 'search' && props.query.length && (
-				<ResultCount>
-					<div className="innerWrapper fs-16 lh-40 openSans">
-						{props.count} results for "{props.query}"
-					</div>
-				</ResultCount>
-			)}
-			{props.type === 'allbooks' && props.count && (
-				<ResultCount>
-					<div className="innerWrapper fs-16 fw-bold lh-40 openSans">
-						You have {props.count} books
-					</div>
-				</ResultCount>
-			)}
-		</>
+        <ResultCount>
+            <div className="innerWrapper fs-16 lh-40 openSans">
+                {props.note}
+            </div>
+        </ResultCount>
 	);
 };
 
