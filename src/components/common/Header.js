@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signOut } from '../../actions';
 import styled from 'styled-components';
-import { Event } from '../tracking';
 
 const HeaderContainer = styled.div`
 	.header {
@@ -81,7 +80,7 @@ const Header = props => {
 			</Row> */}
 
 			<div className="header">
-				<h1>BetterReads</h1>
+				<h1 onClick={() => props.history.push('/')}>BetterReads</h1>
 
 				{(!localStorage.getItem('image') ||
 					localStorage.getItem('image') === 'null') && (

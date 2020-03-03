@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { PageView, Event } from '../tracking/';
+
 import Breadcrumbs from '../common/Breadcrumbs';
+
 import SearchForm from './SearchForm';
 // import SearchBreadcrumb from './SearchBreadCrumbs';
 // import SearchList from './_SearchList';
@@ -11,19 +13,31 @@ import BookList from '../common/BookList';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-	background-color: #F3F6F5;
+	background-color: #f3f6f5;
 	padding: 16px 0;
 	margin: 0 0 8px 0;
 
-	.frank{font-family: 'Frank Ruhl Libre', serif;}
-	.openSans{font-family: 'Open Sans', sans-serif;}
-	.fs-16{font-size: 16px;}
-	.fs-32{font-size: 32px;}
+	.frank {
+		font-family: 'Frank Ruhl Libre', serif;
+	}
+	.openSans {
+		font-family: 'Open Sans', sans-serif;
+	}
+	.fs-16 {
+		font-size: 16px;
+	}
+	.fs-32 {
+		font-size: 32px;
+	}
 
-	.pb-12{padding-bottom: 12px;}
-	.pb-16{padding-bottom: 16px;}
+	.pb-12 {
+		padding-bottom: 12px;
+	}
+	.pb-16 {
+		padding-bottom: 16px;
+	}
 
-	.innerWrapper{
+	.innerWrapper {
 		width: 90%;
 		margin: 0 auto;
 	}
@@ -33,10 +47,10 @@ const Search = props => {
 	const [source, setSource] = useState(props.source || 'library');
 
 	useEffect(() => {
-		Event('Search', 'loaded search', 'SEARCH_COMPONENT')
+		Event('Search', 'loaded search', 'SEARCH_COMPONENT');
 		PageView();
-	}, [])
-	
+	}, []);
+
 	return (
 		<>
 			<Wrapper>
@@ -60,6 +74,7 @@ const Search = props => {
 		</>
 	);
 };
+
 
 const mapStateToProps = state => {
     return {
