@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { PageView, Event } from '../tracking/';
+
 import Header from '../common/Header';
 import Breadcrumbs from '../common/Breadcrumbs';
 
@@ -53,9 +54,9 @@ const Search = props => {
 
 	return (
 		<>
-			<Header />
+			<Header history={props.history} />
 			<SearchForm />
-			<Breadcrumbs history={props.history} crumbs={[{label: "Search", link: ""},{label: "Details", link: ""}]} />
+			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: "/search"}]} />
 			{
 				props.searchResults.books &&
 				<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />
@@ -72,12 +73,11 @@ const Search = props => {
 	);
 };
 
-
 const mapStateToProps = state => {
-    return {
-        fetching: state.search.fetching,
-        searchResults: state.search.searchResults
-    }
-}
+	return {
+		fetching: state.search.fetching,
+		searchResults: state.search.searchResults
+	};
+};
 
 export default connect(mapStateToProps)(Search);

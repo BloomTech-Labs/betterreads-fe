@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { getGoogleResults, clearSearchResults } from '../../actions'
+import { getGoogleResults, clearSearchResults, setQuery } from '../../actions';
 import styled from 'styled-components';
-import { Input } from 'antd'
+import { Input } from 'antd';
 
 const Wrapper = styled.div`
     background-color: #f3f6f5;
@@ -21,26 +21,16 @@ const Wrapper = styled.div`
 `;
 
 const SearchForm = props => {
-    const [searchQ, setSearchQ] = useState({q: ''})
+	const handleChange = e => {
+		props.setQuery(e.target.value);
+	};
 
-    const handleChange = e => {
-        setSearchQ({
-            ...searchQ,
-            [e.target.name]: e.target.value
-        });
-    }
-    
-    const handleSearch = e => {
-        if(e.length){
-            props.getGoogleResults(searchQ.q );
-        }else{
-            setSearchQ({q: ''});
-            props.clearSearchResults();
-        }
-    }
+	const handleSearch = e => {
+		props.getGoogleResults(props.query);
+	};
 
-    return (
-        <Wrapper>
+	return (
+		<Wrapper>
             <div className="innerWrapper">
                 <Input.Search name="q"
                     allowClear
@@ -50,19 +40,23 @@ const SearchForm = props => {
                     onSearch={handleSearch}
                     onEnter={handleSearch}
                     onChange={handleChange}
-                    value={searchQ.q}
+                    value={props.query}
                     enterButton
                 />
             </div>
         </Wrapper>
-    )
-
-}
+	);
+};
 
 const mapStateToProps = state => {
-    return {
-        fetching: state.fetching,
-    }
-}
+	return {
+		fetching: state.search.fetching,
+		query: state.search.query
+	};
+};
 
-export default connect(mapStateToProps, { getGoogleResults, clearSearchResults })(SearchForm);
+export default connect(mapStateToProps, {
+	getGoogleResults,
+	clearSearchResults,
+	setQuery
+})(SearchForm);

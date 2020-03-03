@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { fetchShelfsBooks } from '../../actions';
 import Header from '../common/Header';
 import ExternalSearchForm from '../common/ExternalSearchForm';
+import Breadcrumbs from '../common/Breadcrumbs';
+import BookList from '../common/BookList';
 import styled from 'styled-components';
-import houseicon from '../../img/house-icon.svg';
 
 const ShelfContainer = styled.div`
 	.external-search-form-container {
@@ -23,11 +24,7 @@ const ShelfContainer = styled.div`
 `;
 
 const Shelf = props => {
-	const shelfID = props.match.params.shelfID;
-
-	useEffect(() => {
-		props.fetchShelfsBooks(shelfID);
-	}, []);
+	const shelf = props.match.params.shelf;
 
 	return (
 		<ShelfContainer>
@@ -37,22 +34,20 @@ const Shelf = props => {
 					<ExternalSearchForm history={props.history} />
 				</div>
 			</div>
-			<p className="search-for-a-book">
-				Search for a book to track you reading progress and add books to
-				shelves.
-			</p>
-			<form>
-				<input />
-				<button></button>
-			</form>
-			<div className="breadcrumbs">
-				<img src={houseicon} alt="house icon" />
-				<p>Library</p>
-				<p>/</p>
-				{/* <p>{shelf.shelfName}</p> */}
-			</div>
+			<Breadcrumbs history={props.history} crumbs={['All books']} />
+			<BookList
+				history={props.history}
+				bookList={props.userLibrary}
+				count={props.userLibrary.length}
+			/>
 		</ShelfContainer>
 	);
 };
 
-export default connect(null, { fetchShelfsBooks })(Shelf);
+const mapStateToProps = state => {
+	return {
+		userLibrary: state.library.userLibrary
+	};
+};
+
+export default connect(mapStateToProps, { fetchShelfsBooks })(Shelf);

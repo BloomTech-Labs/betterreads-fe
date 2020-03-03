@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { getGoogleResults } from '../../actions';
+import { getGoogleResults, setQuery } from '../../actions';
 import styled from 'styled-components';
 
 const ExternalSearchFormContainer = styled.form`
@@ -43,15 +43,13 @@ const ExternalSearchFormContainer = styled.form`
 `;
 
 const ExternalSearchForm = props => {
-	const [input, setInput] = useState('');
-
 	const onChange = event => {
-		setInput(event.target.value);
+		props.setQuery(event.target.value);
 	};
 
 	const onSubmit = event => {
 		event.preventDefault();
-		props.getGoogleResults(input);
+		props.getGoogleResults(props.query);
 		props.history.push('/search');
 	};
 
@@ -65,7 +63,7 @@ const ExternalSearchForm = props => {
 			<input
 				type="text"
 				placeholder="Search for a book"
-				value={input}
+				value={props.query}
 				onChange={onChange}
 			/>
 			<button type="submit">
@@ -75,4 +73,12 @@ const ExternalSearchForm = props => {
 	);
 };
 
-export default connect(null, { getGoogleResults })(ExternalSearchForm);
+const mapStateToProps = state => {
+	return {
+		query: state.search.query
+	};
+};
+
+export default connect(mapStateToProps, { getGoogleResults, setQuery })(
+	ExternalSearchForm
+);

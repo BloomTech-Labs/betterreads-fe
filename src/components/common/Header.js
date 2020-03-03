@@ -19,12 +19,14 @@ const HeaderContainer = styled.div`
 			font-weight: bold;
 			color: #5c7c69;
 			line-height: 34px;
+			cursor: pointer;
 		}
 
 		img {
 			height: 40px;
 			width: 40px;
 			border-radius: 50%;
+			cursor: pointer;
 		}
 
 		.default-profile-icon {
@@ -35,6 +37,7 @@ const HeaderContainer = styled.div`
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			cursor: pointer;
 
 			i {
 				font-size: 1.25rem;
@@ -47,38 +50,6 @@ const HeaderContainer = styled.div`
 const Header = props => {
 	return (
 		<HeaderContainer>
-			{/* <Row
-				type="flex"
-				justify="center"
-				align="middle"
-				gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}
-			>
-				<Col span={11}>
-					<div
-						className="fs-18"
-						style={{ height: '42px', lineHeight: '42px' }}
-					>
-						BetterReads
-					</div>
-				</Col>
-				<Col span={3} offset={8}>
-					{(!localStorage.getItem('image') ||
-						localStorage.getItem('image') === 'null') && (
-						<Avatar icon="user" size="small" />
-					)}
-
-					{localStorage.getItem('image') &&
-						localStorage.getItem('image') !== 'null' && (
-							<img
-								src={localStorage.getItem('image')}
-								alt="profile icon"
-								align="right"
-								onClick={() => props.signOut(props.history)}
-							/>
-						)}
-				</Col>
-			</Row> */}
-
 			<div className="header">
 				<h1 onClick={() => props.history.push('/')}>BetterReads</h1>
 
