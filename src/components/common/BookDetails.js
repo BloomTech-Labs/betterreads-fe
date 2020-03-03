@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Event } from '../tracking/';
-import { Row, Col, Button, Icon, Rate, Select, Menu, Dropdown } from 'antd';
+import { Row, Col, Button, Icon, Rate, Select, Menu, Dropdown, Breadcrumb } from 'antd';
 import styled from 'styled-components';
 import { saveBookToLibrary } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
+import Breadcrumbs from "./Breadcrumbs"
 
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
+
 
 const HeaderWrapper = styled.div`
 	margin: 0 auto;
@@ -197,17 +199,21 @@ export function BookDetails(props) {
 		}
 	};
 
+console.log(props, "props")
+
 	useEffect(() => {
 		setSelectedBook(
-			props.searchResults.items
-				? props.searchResults.items.find(
+			props.searchResults.books.items
+				? props.searchResults.books.items.find(
 						book => book.id === props.match.params.id
 				  )
-				: results.searchResults.items.find(
+				: results.searchResults.books.items.find(
 						book => book.id === results.searchResults.items.id
 				  )
 		);
 	}, []);
+
+
 
 	const ThumbContainer = styled.div`
 		height: 95px;
@@ -226,21 +232,21 @@ export function BookDetails(props) {
 		const modifiedBook = {
 			book: {
 				googleId: book.id,
-				title: book.volumeInfo.title,
-				author: book.volumeInfo.authors[0],
-				publisher: book.volumeInfo.publisher,
-				publishDate: book.volumeInfo.publishedDate,
+				title: book.volumeInfo.title || null,
+				author: book.volumeInfo.authors.toString() || null,
+				publisher: book.volumeInfo.publisher || null,
+				publishDate: book.volumeInfo.publishedDate || null,
 				description: 'book.volumeInfo.description',
-				// isbn10: book.volumeInfo.industryIdentifiers[0].identifier,
-				// isbn13: book.volumeInfo.industryIdentifiers[1].identifier,
-				pageCount: book.volumeInfo.pageCount,
-				categories: book.volumeInfo.categories[0],
-				thumbnail: book.volumeInfo.imageLinks.thumbnail,
-				smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail,
-				language: book.volumeInfo.language,
-				webRenderLink: book.accessInfo.webReaderLink,
-				textSnippet: book.searchInfo.textSnippet,
-				isEbook: book.saleInfo.isEbook
+				isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
+				isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
+				pageCount: book.volumeInfo.pageCount || null,
+				categories: book.volumeInfo.categories.toString() || null,
+				thumbnail: book.volumeInfo.imageLinks || null.thumbnail || null,
+				smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail || null,
+				language: book.volumeInfo.language || null,
+				webRenderLink: book.accessInfo.webReaderLink || null,
+				textSnippet: book.searchInfo.textSnippet || null,
+				isEbook: book.saleInfo.isEbook || null
 			},
 			readingStatus: 1
 		};
@@ -251,7 +257,7 @@ export function BookDetails(props) {
 	const { id } = props.match.params.id;
 
 	return (
-		<div>
+		<>
 			{selectedBook && (
 				<Wrapper id={id}>
 					
@@ -260,8 +266,10 @@ export function BookDetails(props) {
 						<div className="innerWrapper">
 							<div className="form">
 								<SearchForm />
+								
 							</div>
-						</div>
+							
+						</div><Breadcrumbs history={props.history} crumbs={[['Search Results','/search'], ['Book Detail','']]}/>
 					</HeaderWrapper>
 
 					<div className="flexer">
@@ -275,7 +283,7 @@ export function BookDetails(props) {
 
 							<Dropdown overlay={TrackMenu}>
 								<Button>
-									Track this <DownOutlined />
+							track this <DownOutlined />
 								</Button>
 							</Dropdown>
 						</div>
@@ -326,7 +334,7 @@ export function BookDetails(props) {
 								</p>
 								</div>
 								<div>
-								{selectedBook.volumeInfo.categories.map(G => (
+								{selectedBook.volumeInfo.categories && selectedBook.volumeInfo.categories.map(G => (
 									<GenreBox key={G.id}>{G} </GenreBox>
 								))},
 							
@@ -335,7 +343,7 @@ export function BookDetails(props) {
 					</div>
 				</Wrapper>
 			)}
-		</div>
+		</>
 	);
 }
 
