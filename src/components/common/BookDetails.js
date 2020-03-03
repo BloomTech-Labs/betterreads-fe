@@ -204,10 +204,12 @@ console.log(props, "props")
 	useEffect(() => {
 		setSelectedBook(
 			props.searchResults.books.items
-				? props.searchResults.books.items.find(
+				&& props.searchResults.books.items.find(
 						book => book.id === props.match.params.id
 				  )
-				: results.searchResults.books.items.find(
+			||
+			results.searchResults.books.items
+				&& results.searchResults.books.items.find(
 						book => book.id === results.searchResults.items.id
 				  )
 		);
