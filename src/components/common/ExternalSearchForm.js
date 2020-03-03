@@ -36,7 +36,7 @@ const ExternalSearchFormContainer = styled.form`
 		cursor: pointer;
 
 		i {
-			font-size: 1.125rem;
+			font-size: 1rem;
 			color: #ffffff;
 		}
 	}

@@ -6,7 +6,21 @@ import ExternalSearchForm from '../common/ExternalSearchForm';
 import styled from 'styled-components';
 import houseicon from '../../img/house-icon.svg';
 
-const ShelfContainer = styled.div``;
+const ShelfContainer = styled.div`
+	.external-search-form-container {
+		background-color: #f3f6f5;
+
+		.external-search-form {
+			width: 90%;
+			margin: 0 auto;
+
+			form {
+				padding-top: 12px;
+				padding-bottom: 12px;
+			}
+		}
+	}
+`;
 
 const Shelf = props => {
 	const shelfID = props.match.params.shelfID;
@@ -18,7 +32,11 @@ const Shelf = props => {
 	return (
 		<ShelfContainer>
 			<Header history={props.history} />
-			<ExternalSearchForm history={props.history} />
+			<div className="external-search-form-container">
+				<div className="external-search-form">
+					<ExternalSearchForm history={props.history} />
+				</div>
+			</div>
 			<p className="search-for-a-book">
 				Search for a book to track you reading progress and add books to
 				shelves.
