@@ -55,30 +55,20 @@ const Search = props => {
 	return (
 		<>
 			<Header history={props.history} />
-			<Wrapper>
-				<div className="innerWrapper">
-					<SearchForm />
-				</div>
-			</Wrapper>
-			<Breadcrumbs
-				history={props.history}
-				crumbs={[{ label: 'Search results', path: '/search' }]}
-			/>
-			{props.searchResults.books && (
-				<BookList
-					history={props.history}
-					bookList={props.searchResults.books.items}
-					count={props.searchResults.books.totalItems}
-					query={props.searchResults.query}
-				/>
-			)}
-			{!props.searchResults.books && (
-				<Wrapper>
-					<div className="innerWrapper">
-						<h3>Search for your favorite title or author.</h3>
-					</div>
-				</Wrapper>
-			)}
+			<SearchForm />
+			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: "/search"}]} />
+			{
+				props.searchResults.books &&
+				<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />
+			}
+			{
+				!props.searchResults.books && (
+					<Wrapper>
+						<div className="innerWrapper">
+						<h3>Search for your favorite title or author.</h3></div>
+					</Wrapper>
+				)
+			}
 		</>
 	);
 };

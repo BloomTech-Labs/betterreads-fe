@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Event } from '../tracking/';
+import { Event } from '../tracking';
 import { Row, Col, Button, Icon, Rate, Select, Menu, Dropdown } from 'antd';
 
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
