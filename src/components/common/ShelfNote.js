@@ -8,6 +8,7 @@ const ResultCount = styled.div`
     .fs-16{font-size: 16px;}
     .lh-40{line-height: 40px;}
     .fw-bold{font-weight: bold;}
+    
     .innerWrapper {
         width: 90%;
         margin: 0 auto;

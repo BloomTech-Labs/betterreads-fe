@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import SearchItem from './SearchItem';
+import SearchItem from './_SearchItem';
 import SearchPagination from './SearchPagination';
 
 const SearchList = props => {

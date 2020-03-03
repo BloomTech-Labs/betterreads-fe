@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { PageView, Event } from '../tracking/';
-
+import Header from '../common/Header';
 import Breadcrumbs from '../common/Breadcrumbs';
 
 import SearchForm from './SearchForm';
@@ -53,12 +53,9 @@ const Search = props => {
 
 	return (
 		<>
-			<Wrapper>
-				<div className="innerWrapper">
- 					<SearchForm />
-				</div>
-			</Wrapper>
-			<Breadcrumbs history={props.history} crumbs={[['Search results','']]} />
+			<Header />
+			<SearchForm />
+			<Breadcrumbs history={props.history} crumbs={[{label: "Search", link: ""},{label: "Details", link: ""}]} />
 			{
 				props.searchResults.books &&
 				<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />

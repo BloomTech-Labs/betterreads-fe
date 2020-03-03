@@ -28,7 +28,7 @@ const Breadcrumbs = (props) => {
                 {
                     props.crumbs &&
                     props.crumbs.map((crumb, index) => (
-                        <Breadcrumb.Item key={index}>{crumb[0]}</Breadcrumb.Item>    
+                        <Breadcrumb.Item key={index} onClick={() => props.history.push(crumb.link)}>{crumb.label}</Breadcrumb.Item>    
                     ))
                 }
             </Breadcrumb>
