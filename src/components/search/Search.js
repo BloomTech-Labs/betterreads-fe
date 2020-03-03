@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { PageView, Event } from '../tracking/';
 
+import Header from '../common/Header';
 import Breadcrumbs from '../common/Breadcrumbs';
 
 import SearchForm from './SearchForm';
@@ -53,34 +54,40 @@ const Search = props => {
 
 	return (
 		<>
+			<Header history={props.history} />
 			<Wrapper>
 				<div className="innerWrapper">
- 					<SearchForm />
+					<SearchForm />
 				</div>
 			</Wrapper>
-			<Breadcrumbs history={props.history} crumbs={[['Search results','']]} />
-			{
-				props.searchResults.books &&
-				<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />
-			}
-			{
-				!props.searchResults.books && (
-					<Wrapper>
-						<div className="innerWrapper">
-						<h3>Search for your favorite title or author.</h3></div>
-					</Wrapper>
-				)
-			}
+			<Breadcrumbs
+				history={props.history}
+				crumbs={[{ label: 'Search results', path: '/search' }]}
+			/>
+			{props.searchResults.books && (
+				<BookList
+					history={props.history}
+					bookList={props.searchResults.books.items}
+					count={props.searchResults.books.totalItems}
+					query={props.searchResults.query}
+				/>
+			)}
+			{!props.searchResults.books && (
+				<Wrapper>
+					<div className="innerWrapper">
+						<h3>Search for your favorite title or author.</h3>
+					</div>
+				</Wrapper>
+			)}
 		</>
 	);
 };
 
-
 const mapStateToProps = state => {
-    return {
-        fetching: state.search.fetching,
-        searchResults: state.search.searchResults
-    }
-}
+	return {
+		fetching: state.search.fetching,
+		searchResults: state.search.searchResults
+	};
+};
 
 export default connect(mapStateToProps)(Search);
