@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { PageView, Event } from '../tracking/';
 
 import Header from '../common/Header';
 import Breadcrumbs from '../common/Breadcrumbs';
-
 import SearchForm from './SearchForm';
-// import SearchBreadcrumb from './SearchBreadCrumbs';
-// import SearchList from './_SearchList';
-
 import BookList from '../common/BookList';
 
 import styled from 'styled-components';
@@ -45,8 +41,6 @@ const Wrapper = styled.div`
 `;
 
 const Search = props => {
-	const [source, setSource] = useState(props.source || 'library');
-
 	useEffect(() => {
 		Event('Search', 'loaded search', 'SEARCH_COMPONENT');
 		PageView();

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
-import { Button, Rate, Menu, Dropdown } from 'antd';
+import { Button, Rate, Menu, Dropdown, Notification, notification } from 'antd';
 
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
@@ -119,6 +119,22 @@ const BookItem = props => {
     const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
     const [favorite, setFavorite] = useState(false);
 
+    const firstRun = useRef(true);
+    useEffect(() => {
+        if(firstRun.current){
+            firstRun.current = false;
+            return;
+        }
+
+        notification.open({
+            type: (favorite ? 'success' : 'info'),
+            message: 'Success',
+            description: (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'),
+            duration: 1.5
+        });
+
+    }, [favorite])
+
     const TrackMenu = (
         <Menu onClick={() => saveBookToLibrary(props.book)}>
             <Menu.Item key="1" value="0">To be read</Menu.Item>
@@ -126,10 +142,6 @@ const BookItem = props => {
             <Menu.Item key="3" value="2">In Progress</Menu.Item>
         </Menu>
     )
-
-    const markAsFavorite = (id) => {
-        setFavorite(!favorite);
-    }
 
 	const saveBookToLibrary = book => {
 		Event(
@@ -183,7 +195,8 @@ const BookItem = props => {
                             volumeInfo.authors &&
                             volumeInfo.authors.map((author, index) => (
                                 <div key={index}>
-                                    { index === 0 && 'by' } {author}</div>
+                                    { index === 0 && 'by' } {author}
+                                </div>
                             ))
                         }
                     </div>
@@ -193,8 +206,8 @@ const BookItem = props => {
                 </div>
                 <div className="bookFav">
                     {   favorite
-                        ? <HeartFilled onClick={() => markAsFavorite(id)} /> 
-                        : <HeartOutlined onClick={() => markAsFavorite(id)} />
+                        ? <HeartFilled onClick={() => setFavorite(!favorite)} /> 
+                        : <HeartOutlined onClick={() => setFavorite(!favorite)} />
                     }
                     
                 </div>
