@@ -1,16 +1,11 @@
 import React from 'react';
 import BookItem from './BookItems';
-import Breadcrumbs from './Breadcrumbs';
 import ShelfNote from './ShelfNote';
 
 const BookList = props => {
 	return (
 		<>
-			<ShelfNote
-				type="search"
-				query={props.query || ''}
-				count={props.count}
-			/>
+            <ShelfNote note={`${props.count} results for "${props.query}"`}/>
 			{props.bookList &&
 				props.bookList.map((book, index) => (
 					<>
