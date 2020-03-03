@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
-import { Button, Rate, Menu, Dropdown, Notification, notification } from 'antd';
+import { Button, Rate, Menu, Dropdown, Select, Notification, notification } from 'antd';
 
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
@@ -10,12 +10,16 @@ import DownOutlined from '@ant-design/icons/DownOutlined';
 import BookIcon from './BookIcon';
 import styled from 'styled-components';
 
-
-// const apiURL = "http://localhost:5000/api";
-
 const Wrapper = styled.div`
     width: 90%;
     margin: 0 auto;
+
+    .ant-dropdown-menu {
+        z-index: 1001;
+    }
+
+    .betterReadsOrange {background: #D24719;}
+    .betterReadsGreen{background-color: #547862;}
 
     .frank{font-family: 'Frank Ruhl Libre', serif;}
     .openSans{font-family: 'Open Sans', sans-serif;}
@@ -59,11 +63,10 @@ const Wrapper = styled.div`
                     height: auto;
                 }
             }
-    
+            
             .ant-btn {
                 color: #F7F7F7;
                 width: 82px;
-                background: #D24719;
                 border: none;
                 border-radius: 0 0 0 5px;
                 font-size: 13px;
@@ -118,6 +121,8 @@ const ThumbContainer = styled.div`
 const BookItem = props => {
     const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
     const [favorite, setFavorite] = useState(false);
+    const [readingStatus, setReadingStatus] = useState();
+    const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
 
     const firstRun = useRef(true);
     useEffect(() => {
@@ -125,6 +130,13 @@ const BookItem = props => {
             firstRun.current = false;
             return;
         }
+
+        // Record google analytics event when a book is favorited
+        Event(
+			'Search',
+			(favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),
+			'SEARCH_RESULT'
+		);        
 
         notification.open({
             type: (favorite ? 'success' : 'info'),
@@ -135,11 +147,38 @@ const BookItem = props => {
 
     }, [favorite])
 
+    const firstRunStatus = useRef(true);
+    useEffect(() => {
+        if(firstRunStatus.current){
+            firstRunStatus.current = false;
+            return;
+        }
+        
+        Event(
+			'Search',
+			'User added a book with a reading status',
+			'SEARCH_RESULT'
+		);  
+
+    }, [readingStatus])
+
+    const readingStatusUpdate = key => {
+        // Send book to library and add reading status
+        setTrackBtnLabel(key.item.props.children);
+        notification.open({
+            type: 'info',
+            message: 'Success',
+            description: 'You are now tracking a book',
+            duration: 1.5
+        });
+        
+    }
+
     const TrackMenu = (
-        <Menu onClick={() => saveBookToLibrary(props.book)}>
-            <Menu.Item key="1" value="0">To be read</Menu.Item>
-            <Menu.Item key="2" value="1">Finished</Menu.Item>
-            <Menu.Item key="3" value="2">In Progress</Menu.Item>
+        <Menu onClick={key => readingStatusUpdate(key)}>
+            <Menu.Item key="80" value="1">To read</Menu.Item>
+            <Menu.Item key="71" value="2">In Progress</Menu.Item>
+            <Menu.Item key="62" value="3">Finished</Menu.Item>
         </Menu>
     )
 
@@ -151,26 +190,26 @@ const BookItem = props => {
 		);
 
 		const modifiedBook = {
-			book: {
-				googleId: book.id,
-				title: book.volumeInfo.title,
-				author: book.volumeInfo.authors[0],
-				publisher: book.volumeInfo.publisher,
-				publishDate: book.volumeInfo.publishedDate,
-				description: 'book.volumeInfo.description',
-				// isbn10: book.volumeInfo.industryIdentifiers[0].identifier,
-				// isbn13: book.volumeInfo.industryIdentifiers[1].identifier,
-				pageCount: book.volumeInfo.pageCount,
-				categories: book.volumeInfo.categories[0],
-				thumbnail: book.volumeInfo.imageLinks.thumbnail,
-				smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail,
-				language: book.volumeInfo.language,
-				webRenderLink: book.accessInfo.webReaderLink,
-				textSnippet: book.searchInfo.textSnippet,
-				isEbook: book.saleInfo.isEbook
-			},
-			readingStatus: 1
-		};
+            book: {
+                googleId: book.id,
+                title: book.volumeInfo.title || null,
+                author: book.volumeInfo.authors.toString() || null,
+                publisher: book.volumeInfo.publisher || null,
+                publishDate: book.volumeInfo.publishedDate || null,
+                description: 'book.volumeInfo.description',
+                isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
+                isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
+                pageCount: book.volumeInfo.pageCount || null,
+                categories: book.volumeInfo.categories.toString() || null,
+                thumbnail: book.volumeInfo.imageLinks || null.thumbnail || null,
+                smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail || null,
+                language: book.volumeInfo.language || null,
+                webRenderLink: book.accessInfo.webReaderLink || null,
+                textSnippet: book.searchInfo.textSnippet || null,
+                isEbook: book.saleInfo.isEbook || null
+            },
+            readingStatus: 1
+        };
 
         props.saveBookToLibrary(1, book.id, modifiedBook);
     }
@@ -185,7 +224,7 @@ const BookItem = props => {
                         </Link>
                     )}
                     <Dropdown overlay={TrackMenu}>
-                        <Button>Track this <DownOutlined /></Button>
+                        <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')}>{trackBtnLabel} <DownOutlined /></Button>
                     </Dropdown>
                 </div>
                 <div className="bookDetail openSans">
@@ -194,7 +233,7 @@ const BookItem = props => {
                         {
                             volumeInfo.authors &&
                             volumeInfo.authors.map((author, index) => (
-                                <div key={index}>
+                                <div key={index} data-key={index}>
                                     { index === 0 && 'by' } {author}
                                 </div>
                             ))
