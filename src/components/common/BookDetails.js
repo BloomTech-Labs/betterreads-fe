@@ -232,21 +232,21 @@ console.log(props, "props")
 		const modifiedBook = {
 			book: {
 				googleId: book.id,
-				title: book.volumeInfo.title,
-				author: book.volumeInfo.authors[0],
-				publisher: book.volumeInfo.publisher,
-				publishDate: book.volumeInfo.publishedDate,
+				title: book.volumeInfo.title || null,
+				author: book.volumeInfo.authors.toString() || null,
+				publisher: book.volumeInfo.publisher || null,
+				publishDate: book.volumeInfo.publishedDate || null,
 				description: 'book.volumeInfo.description',
-				// isbn10: book.volumeInfo.industryIdentifiers[0].identifier,
-				// isbn13: book.volumeInfo.industryIdentifiers[1].identifier,
-				pageCount: book.volumeInfo.pageCount,
-				categories: book.volumeInfo.categories[0],
-				thumbnail: book.volumeInfo.imageLinks.thumbnail,
-				smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail,
-				language: book.volumeInfo.language,
-				webRenderLink: book.accessInfo.webReaderLink,
-				textSnippet: book.searchInfo.textSnippet,
-				isEbook: book.saleInfo.isEbook
+				isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
+				isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
+				pageCount: book.volumeInfo.pageCount || null,
+				categories: book.volumeInfo.categories.toString() || null,
+				thumbnail: book.volumeInfo.imageLinks || null.thumbnail || null,
+				smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail || null,
+				language: book.volumeInfo.language || null,
+				webRenderLink: book.accessInfo.webReaderLink || null,
+				textSnippet: book.searchInfo.textSnippet || null,
+				isEbook: book.saleInfo.isEbook || null
 			},
 			readingStatus: 1
 		};
@@ -283,7 +283,7 @@ console.log(props, "props")
 
 							<Dropdown overlay={TrackMenu}>
 								<Button>
-									Track this <DownOutlined />
+							track this <DownOutlined />
 								</Button>
 							</Dropdown>
 						</div>
@@ -334,7 +334,7 @@ console.log(props, "props")
 								</p>
 								</div>
 								<div>
-								{selectedBook.volumeInfo.categories.map(G => (
+								{selectedBook.volumeInfo.categories && selectedBook.volumeInfo.categories.map(G => (
 									<GenreBox key={G.id}>{G} </GenreBox>
 								))},
 							
