@@ -189,7 +189,7 @@ const SearchItem = props => {
                         <Rate allowHalf defaultValue={volumeInfo.averageRating} />
                     </div>
                 </div>
-                <div className="">
+                <div className="bookFav">
                     {/* Favorite */}
                     {   favorite
                         ? <HeartFilled onClick={() => markAsFavorite(id)} /> 

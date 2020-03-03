@@ -11,6 +11,21 @@ import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 
+const HeaderWrapper = styled.div`
+	margin: 0 auto;
+
+	.innerWrapper {
+		background-color: #f3f6f5;
+		padding: 16px 0;
+		margin: 0 0 8px 0;
+
+		.form {
+			width: 90%;
+			margin: 0 auto;
+		}
+	}
+`;
+
 const Wrapper = styled.div`
 
 
@@ -22,18 +37,13 @@ const Wrapper = styled.div`
 .pb-12{padding-bottom: 12px;}
 .pb-16{padding-bottom: 16px;}
 
-	.innerWrapper{
-		
-		margin: 0 auto;
-		background-color: #F3F6F5;
-padding: 16px 0;
-margin: 0 0 8px 0;
-	}
-    .flexer{
-        display: flex;
-        border-bottom: 1px solid #cecece;
-        padding: 16px 0;
 
+    .flexer{
+		display: flex;
+		flex-direction: column;
+        padding: 16px 0;
+		width: 90%;
+		margin: 0 auto;
         &:first-child {
             padding-right: 12px;
         }
@@ -60,16 +70,16 @@ margin: 0 0 8px 0;
             }
     
             .ant-btn {
-                color: #F7F7F7;
+                background: #547862;
+				border-radius: 0px 0px 0px 3px;
                 width: 82px;
-                background: #D24719;
-                border: none;
-                border-radius: 0 0 0 5px;
-                font-size: 13px;
+               	border: none;
+				font-size: 13px;
                 font-weight: 600;
                 line-height: 20px;
                 padding: 0 3px;
-        
+				color: #FFFFFF;
+		
                 .anticon-down{
                     margin-left: 2px;
                 }
@@ -85,7 +95,7 @@ margin: 0 0 8px 0;
             flex-direction: column;
             
             .bookTitle{
-                line-height: 22px
+                line-height: 22px;
                 margin-bottom: 12px;
             }
 
@@ -94,19 +104,43 @@ margin: 0 0 8px 0;
             }
 
             .bookRating{
+				
                 .anticon-star svg {
                     height: 16px;
-                    width: 16px;
+					width: 16px;
+					box-sizing: border-box;
                 }
             }
         }
 
         .bookFav {
             margin-left: auto;
-        }
+		}
+		.top{
+			display: flex;
+			flex-direction: row
+			width: 90%;
+			padding: 0 0 20px 0;
+			border-bottom: 1px solid #cecece;
+		}
+		.bookDeets{
+			
+			margin: 16px auto;
+			.genre{
+			 display: flex;
+			 flex-direction: column;
+			 font-family: Frank Ruhl Libre;
+font-style: normal;
+font-weight: bold;
+font-size: 20px;
+line-height: 30px;
+color: #4E4C4A;
+			}
+		}
+
     }
 `;
-const GenreBox = styled.div`
+const GenreBox = styled.button`
 	background: #547862;
 	border-radius: 4px;
 	font-family: Open Sans;
@@ -114,10 +148,10 @@ const GenreBox = styled.div`
 	font-weight: 600;
 	font-size: 18px;
 	line-height: 20px;
-	display: flex;
-	align-items: center;
-
 	color: #ffffff;
+	width: auto;
+	padding: 5px 10px;
+	border: none;
 `;
 
 export function BookDetails(props) {
@@ -217,14 +251,21 @@ export function BookDetails(props) {
 	const { id } = props.match.params.id;
 
 	return (
-		<>
+		<div>
 			{selectedBook && (
 				<Wrapper id={id}>
-					<Header />
-					<div className="innerWrapper">
-					<SearchForm />
-					</div>
+					
+					<HeaderWrapper>
+						<Header />
+						<div className="innerWrapper">
+							<div className="form">
+								<SearchForm />
+							</div>
+						</div>
+					</HeaderWrapper>
+
 					<div className="flexer">
+						<div className="top">
 						<div className="imgContainer">
 							<ThumbContainer
 								bgImage={
@@ -261,6 +302,7 @@ export function BookDetails(props) {
 									}
 								/>
 							</div>
+							</div>
 							<div className="bookFav">
 								{favorite ? (
 									<HeartFilled
@@ -272,26 +314,28 @@ export function BookDetails(props) {
 									/>
 								)}
 							</div>
-						</div>
+						
 					</div>
-					<Row
-						type="flex"
-						justify="center"
-						gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}
-					>
-						<p>{selectedBook.volumeInfo.description}</p>
-						<div>
+					<div className="bookDeets">
+						<p >
+							{selectedBook.volumeInfo.description}
+						</p>
+						<div className="genre">
 							<p>
 								Genre
+								</p>
+								</div>
+								<div>
 								{selectedBook.volumeInfo.categories.map(G => (
-									<GenreBox key={G.id}>{G}, </GenreBox>
-								))}
-							</p>
+									<GenreBox key={G.id}>{G} </GenreBox>
+								))},
+							
 						</div>
-					</Row>
+					</div>
+					</div>
 				</Wrapper>
 			)}
-		</>
+		</div>
 	);
 }
 
