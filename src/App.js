@@ -23,7 +23,7 @@ const App = () => {
 				<Route path="/pagenotfound" component={PageNotFound} />
 				<PrivateRoute path="/search" component={Search} />
 				<PrivateRoute path="/book/:id" component={BookDetails} />
-				<PrivateRoute path="/shelf/:shelfID" component={Shelf} />
+				<PrivateRoute path="/shelf/:shelf" component={Shelf} />
 				<Route component={PageNotFound} />
 			</Switch>
 		</Router>

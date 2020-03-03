@@ -1,9 +1,16 @@
-import { FETCH_SEARCH_START, FETCH_SEARCH_SUCCESS, FETCH_SEARCH_FAILURE, CLEAR_SEARCH_RESULTS } from '../actions';
+import {
+	FETCH_SEARCH_START,
+	FETCH_SEARCH_SUCCESS,
+	FETCH_SEARCH_FAILURE,
+	CLEAR_SEARCH_RESULTS,
+	SET_QUERY
+} from '../actions';
 
 const initialState = {
 	fetching: false,
 	error: '',
-	searchResults: {}
+	searchResults: {},
+	query: ''
 };
 
 export default function reducer(state = initialState, action) {
@@ -30,7 +37,12 @@ export default function reducer(state = initialState, action) {
 				...state,
 				fetching: false,
 				searchResults: {}
-			}
+			};
+		case SET_QUERY:
+			return {
+				...state,
+				query: action.payload
+			};
 		default:
 			return state;
 	}
