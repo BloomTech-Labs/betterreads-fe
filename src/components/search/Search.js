@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { PageView, Event } from '../tracking/';
 
 import Header from '../common/Header';
 import Breadcrumbs from '../common/Breadcrumbs';
-
 import SearchForm from './SearchForm';
-// import SearchBreadcrumb from './SearchBreadCrumbs';
-// import SearchList from './_SearchList';
-
 import BookList from '../common/BookList';
 
 import styled from 'styled-components';
@@ -45,8 +41,6 @@ const Wrapper = styled.div`
 `;
 
 const Search = props => {
-	const [source, setSource] = useState(props.source || 'library');
-
 	useEffect(() => {
 		Event('Search', 'loaded search', 'SEARCH_COMPONENT');
 		PageView();
@@ -54,9 +48,9 @@ const Search = props => {
 
 	return (
 		<>
-			<Header history={props.history} />
+			<Header history={props.history} />	
 			<SearchForm />
-			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: "/search"}]} />
+			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: null}]} />
 			{
 				props.searchResults.books &&
 				<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />
