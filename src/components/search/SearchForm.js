@@ -16,8 +16,7 @@ const Wrapper = styled.div`
             background-color: #547862;
             border-color: #547862;
         }    
-    }
-    
+    }    
 `;
 
 const SearchForm = props => {

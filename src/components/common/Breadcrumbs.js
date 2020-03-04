@@ -34,15 +34,17 @@ const Breadcrumbs = props => {
 				<Breadcrumb.Item onClick={() => props.history.push('/')}>
 					<HomeOutlined /> Library
 				</Breadcrumb.Item>
-				{props.crumbs &&
+				{
+					props.crumbs &&
 					props.crumbs.map((crumb, index) => (
 						<Breadcrumb.Item
 							key={index}
-							onClick={() => props.history.push(`${crumb.path}`)}
+							onClick={() => (crumb.path ? props.history.push(`${crumb.path}`) : null)}
 						>
 							{crumb.label}
 						</Breadcrumb.Item>
-					))}
+					))
+				}
 			</Breadcrumb>
 		</Wrapper>
 	);
