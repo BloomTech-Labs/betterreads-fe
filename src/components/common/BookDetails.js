@@ -72,7 +72,8 @@ const Wrapper = styled.div`
             }
     
             .ant-btn {
-                background: #547862;
+				background: #D24719;
+				color: #FFFFFF;
 				border-radius: 0px 0px 0px 3px;
                 width: 82px;
                	border: none;
@@ -80,7 +81,7 @@ const Wrapper = styled.div`
                 font-weight: 600;
                 line-height: 20px;
                 padding: 0 3px;
-				color: #FFFFFF;
+				
 		
                 .anticon-down{
                     margin-left: 2px;
@@ -212,6 +213,7 @@ console.log(props, "props")
 				&& results.searchResults.books.items.find(
 						book => book.id === results.searchResults.items.id
 				  )
+
 		);
 	}, []);
 
@@ -261,20 +263,14 @@ console.log(props, "props")
 	return (
 		<>
 			{selectedBook && (
+				<div>
+					<Header />
+			<SearchForm />
+			<Breadcrumbs history={props.history} crumbs={[{label: 'Search', path: '/search'}, { label: 'Book Detail', path: null}]}/>
+			
+		
 				<Wrapper id={id}>
-					
-					<HeaderWrapper>
-						<Header />
-						<div className="innerWrapper">
-							<div className="form">
-								<SearchForm />
-								
-							</div>
-							
-						</div><Breadcrumbs history={props.history} crumbs={[['Search Results','/search'], ['Book Detail','']]}/>
-					</HeaderWrapper>
-
-					<div className="flexer">
+						<div className="flexer">
 						<div className="top">
 						<div className="imgContainer">
 							<ThumbContainer
@@ -344,6 +340,7 @@ console.log(props, "props")
 					</div>
 					</div>
 				</Wrapper>
+				</div>
 			)}
 		</>
 	);
