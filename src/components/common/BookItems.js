@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
-import { Button, Rate, Menu, Dropdown, Select, Notification, notification } from 'antd';
+import { Button, Rate, Menu, Dropdown, Notification, notification } from 'antd';
 
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
@@ -51,14 +51,13 @@ const Wrapper = styled.div`
 
         .imgContainer{
             margin-right: 16px; 
-
+            
             .thumbContainer{
                 width: 125px;
                 height: 198px;
                 overflow: hidden;
                 
                 .smallThumbnail {
-                    border-radius: 5px 5px 0 0;
                     width: 135px;
                     height: auto;
                 }
@@ -112,6 +111,7 @@ const Wrapper = styled.div`
 `;
 
 const ThumbContainer = styled.div`
+    border-radius: 5px 0 0;
     height: 95px;
     width: 82px;
     background-image: url(${props => props.bgImage});
@@ -210,7 +210,7 @@ const BookItem = props => {
             },
             readingStatus: 1
         };
-
+        // (userId, googleId, book Object)
         props.saveBookToLibrary(1, book.id, modifiedBook);
     }
     
@@ -223,7 +223,7 @@ const BookItem = props => {
                             <ThumbContainer bgImage={volumeInfo.imageLinks.smallThumbnail} />
                         </Link>
                     )}
-                    <Dropdown overlay={TrackMenu}>
+                    <Dropdown overlay={TrackMenu} trigger={['click']}>
                         <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')}>{trackBtnLabel} <DownOutlined /></Button>
                     </Dropdown>
                 </div>

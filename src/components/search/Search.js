@@ -48,9 +48,9 @@ const Search = props => {
 
 	return (
 		<>
-			<Header history={props.history} />
+			<Header history={props.history} />	
 			<SearchForm />
-			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: "/search"}]} />
+			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: null}]} />
 			{
 				props.searchResults.books &&
 				<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />
