@@ -6,7 +6,7 @@ import { Input } from 'antd';
 
 const Wrapper = styled.div`
     background-color: #f3f6f5;
-    padding: 16px 0;
+    padding: 1.375rem 0;
     
     .innerWrapper {
         width: 90%;
@@ -16,7 +16,16 @@ const Wrapper = styled.div`
             background-color: #547862;
             border-color: #547862;
         }    
-    }    
+    }
+
+    @media (min-width: 1120px) {
+        .innerWrapper {
+            width: 1120px;
+        }
+        .innerWrapper .ant-input-search{
+            width: 400px;
+        }
+    }
 `;
 
 const SearchForm = props => {
@@ -25,7 +34,8 @@ const SearchForm = props => {
 	};
 
 	const handleSearch = e => {
-		props.getGoogleResults(props.query);
+        props.getGoogleResults(props.query);
+        props.history.push('/search');
 	};
 
 	return (

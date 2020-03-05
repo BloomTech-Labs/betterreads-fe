@@ -45,6 +45,12 @@ const HeaderContainer = styled.div`
 			}
 		}
 	}
+
+	@media (min-width: 1120px) {
+		.header{
+			width: 1120px;
+		}
+	}
 `;
 
 const Header = props => {

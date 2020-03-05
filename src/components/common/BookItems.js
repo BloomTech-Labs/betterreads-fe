@@ -1,7 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { Event } from '../tracking/';
 import { Button, Rate, Menu, Dropdown, notification } from 'antd';
+
+import { saveBookToLibrary } from '../../actions'
+
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
@@ -105,6 +109,11 @@ const Wrapper = styled.div`
             margin-left: auto;
         }
     }
+
+    @media (min-width: 1120px) {
+        width: 45%;
+        margin: 0 18px 0 0;
+    }
 `;
 
 const ThumbContainer = styled.div`
@@ -116,10 +125,11 @@ const ThumbContainer = styled.div`
 `;
 
 const BookItem = props => {
-	const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
-	const [favorite, setFavorite] = useState(false);
-	const [readingStatus, setReadingStatus] = useState();
-	const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
+  const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
+  const [favorite, setFavorite] = useState(false);
+  const [readingStatus, setReadingStatus] = useState();
+  const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
+
 
 	const firstRun = useRef(true);
 	useEffect(() => {
@@ -136,16 +146,16 @@ const BookItem = props => {
 				: 'User removed a book from favorites on search list.',
 			'SEARCH_RESULT'
 		);
-
-		notification.open({
-			type: favorite ? 'success' : 'info',
-			message: 'Success',
-			description: favorite
-				? 'Book added to favorites.'
-				: 'Book removed from favorites.',
-			duration: 1.5
-		});
-	}, [favorite]);
+    notification.open({
+            type: (favorite ? 'success' : 'info'),
+            message: 'Success',
+            description: (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'),
+            duration: 1.5
+        });
+        // (userId, googleId, book Object, reading status, favorite)
+        props.saveBookToLibrary(localStorage.getItem('id'), props.book.id, props.book, 1, favorite);
+    }, [favorite])
+  
 
 	const firstRunStatus = useRef(true);
 	useEffect(() => {
@@ -158,130 +168,82 @@ const BookItem = props => {
 			'Search',
 			'User added a book with a reading status',
 			'SEARCH_RESULT'
-		);
-	}, [readingStatus]);
+    );
+        // (userId, googleId, book Object, reading status, favorite)
+        props.saveBookToLibrary(localStorage.getItem('id'), props.book.id, props.book, readingStatus, null);
+    }, [readingStatus])
 
-	const readingStatusUpdate = key => {
-		// Send book to library and add reading status
-		setTrackBtnLabel(key.item.props.children);
-		notification.open({
-			type: 'info',
-			message: 'Success',
-			description: 'You are now tracking a book',
-			duration: 1.5
-		});
-	};
+    const readingStatusUpdate = key => {
+        // Send book to library and add reading status
+        setReadingStatus(key.item.props.value);
+        setTrackBtnLabel(key.item.props.children);
+        notification.open({
+            type: 'info',
+            message: 'Success',
+            description: 'You are now tracking a book',
+            duration: 1.5
+        });
+        
+    }
 
-	const TrackMenu = (
-		<Menu onClick={key => readingStatusUpdate(key)}>
-			<Menu.Item key="80" value="1">
-				To read
-			</Menu.Item>
-			<Menu.Item key="71" value="2">
-				In Progress
-			</Menu.Item>
-			<Menu.Item key="62" value="3">
-				Finished
-			</Menu.Item>
-		</Menu>
-	);
+    const TrackMenu = (
+        <Menu onClick={key => readingStatusUpdate(key)}>
+            <Menu.Item key="80" value="1">To read</Menu.Item>
+            <Menu.Item key="71" value="2">In Progress</Menu.Item>
+            <Menu.Item key="62" value="3">Finished</Menu.Item>
+        </Menu>
+    )
 
-	const saveBookToLibrary = book => {
-		Event(
-			'Search',
-			'User added a book library from search list.',
-			'SEARCH_RESULT'
-		);
+	// const saveBookToLibrary = book => {
+	// 	Event(
+	// 		'Search',
+	// 		'User added a book library from search list.',
+	// 		'SEARCH_RESULT'
+	// 	);
 
-		const modifiedBook = {
-			book: {
-				googleId: book.id,
-				title: book.volumeInfo.title || null,
-				author: book.volumeInfo.authors.toString() || null,
-				publisher: book.volumeInfo.publisher || null,
-				publishDate: book.volumeInfo.publishedDate || null,
-				description: 'book.volumeInfo.description',
-				isbn10:
-					book.volumeInfo.industryIdentifiers[0].identifier || null,
-				isbn13:
-					book.volumeInfo.industryIdentifiers[1].identifier || null,
-				pageCount: book.volumeInfo.pageCount || null,
-				categories: book.volumeInfo.categories.toString() || null,
-				thumbnail: book.volumeInfo.imageLinks || null.thumbnail || null,
-				smallThumbnail:
-					book.volumeInfo.imageLinks.smallThumbnail || null,
-				language: book.volumeInfo.language || null,
-				webRenderLink: book.accessInfo.webReaderLink || null,
-				textSnippet: book.searchInfo.textSnippet || null,
-				isEbook: book.saleInfo.isEbook || null
-			},
-			readingStatus: 1
-		};
-		// (userId, googleId, book Object)
-		props.saveBookToLibrary(1, book.id, modifiedBook);
-	};
-
-	return (
-		<Wrapper id={id}>
-			<div className="flexer">
-				<div className="imgContainer">
-					{volumeInfo.imageLinks && (
-						<Link
-							to={`/Book/${id}`}
-							onClick={() =>
-								Event(
-									'Book',
-									'User clicked for book details',
-									'SEARCH_RESULTS'
-								)
-							}
-						>
-							<ThumbContainer
-								bgImage={volumeInfo.imageLinks.smallThumbnail}
-							/>
-						</Link>
-					)}
-					<Dropdown overlay={TrackMenu} trigger={['click']}>
-						<Button
-							className={
-								trackBtnLabel === 'Track this'
-									? 'betterReadsOrange'
-									: 'betterReadsGreen'
-							}
-						>
-							{trackBtnLabel} <DownOutlined />
-						</Button>
-					</Dropdown>
-				</div>
-				<div className="bookDetail openSans">
-					<div className="bookTitle fs-16 fw-600">
-						{volumeInfo.title}
-					</div>
-					<div className="bookAuthors fs-16 openSans lh-22">
-						{volumeInfo.authors &&
-							volumeInfo.authors.map((author, index) => (
-								<div key={index} data-key={index}>
-									{index === 0 && 'by'} {author}
-								</div>
-							))}
-					</div>
-					<div className="bookRating">
-						<Rate
-							allowHalf
-							defaultValue={volumeInfo.averageRating}
-						/>
-					</div>
-				</div>
-				<div className="bookFav">
-					{favorite ? (
-						<HeartFilled onClick={() => setFavorite(!favorite)} />
-					) : (
-						<HeartOutlined onClick={() => setFavorite(!favorite)} />
-					)}
-				</div>
-			</div>
-		</Wrapper>
-	);
+    //     // (userId, googleId, book Object)
+    //     props.saveBookToLibrary(localStorage.getItem('user_id'), book.id, props.book, readingStatus, favorite);
+    // }
+    
+    return (
+        <Wrapper id={id}>
+            <div className="flexer">
+                <div className="imgContainer">
+                    {volumeInfo.imageLinks && (
+                        <Link to={`/Book/${id}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
+                            <ThumbContainer bgImage={volumeInfo.imageLinks.smallThumbnail} />
+                        </Link>
+                    )}
+                    <Dropdown overlay={TrackMenu} trigger={['click']}>
+                        <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')} onClick={saveBookToLibrary()}>{trackBtnLabel} <DownOutlined /></Button>
+                    </Dropdown>
+                </div>
+                <div className="bookDetail openSans">
+                    <div className="bookTitle fs-16 fw-600">{volumeInfo.title}</div>
+                    <div className="bookAuthors fs-16 openSans lh-22">
+                        {
+                            volumeInfo.authors &&
+                            volumeInfo.authors.map((author, index) => (
+                                <div key={index} data-key={index}>
+                                    { index === 0 && 'by' } {author}
+                                </div>
+                            ))
+                        }
+                    </div>
+                    <div className="bookRating">
+                        <Rate allowHalf defaultValue={volumeInfo.averageRating} />
+                    </div>
+                </div>
+                <div className="bookFav">
+                    {   favorite
+                        ? <HeartFilled onClick={() => setFavorite(!favorite)} /> 
+                        : <HeartOutlined onClick={() => setFavorite(!favorite)} />
+                    }
+                    
+                </div>
+            </div>
+        </Wrapper>
+    );
 };
 
-export default BookItem;
+export default connect(null, {saveBookToLibrary})(BookItem);
