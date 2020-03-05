@@ -15,7 +15,7 @@ import ShelfContainer from '../common/ShelfContainer';
 const Wrapper = styled.div`
 	@media (min-width: 1120px) {
 		.somethingClever{
-			width: 90%;
+			width: 1120px;
 			margin: 0 auto;
 			display: flex;
 			flex-direction: row;

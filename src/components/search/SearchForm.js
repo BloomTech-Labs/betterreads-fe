@@ -19,6 +19,9 @@ const Wrapper = styled.div`
     }
 
     @media (min-width: 1120px) {
+        .innerWrapper {
+            width: 1120px;
+        }
         .innerWrapper .ant-input-search{
             width: 400px;
         }

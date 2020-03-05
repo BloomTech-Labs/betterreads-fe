@@ -216,7 +216,7 @@ const BookItem = props => {
             readingStatus: 1
         };
         // (userId, googleId, book Object)
-        props.saveBookToLibrary(1, book.id, modifiedBook);
+        props.saveBookToLibrary(localStorage.getItem('user_id'), book.id, modifiedBook);
     }
     
     return (

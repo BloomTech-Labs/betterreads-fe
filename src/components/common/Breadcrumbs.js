@@ -25,6 +25,12 @@ const Wrapper = styled.div`
 			cursor: pointer;
 		}
 	}
+
+	@media (min-width: 1120px) {
+		.ant-breadcrumb {
+			width: 1120px;
+		}
+	}
 `;
 
 const Breadcrumbs = props => {
