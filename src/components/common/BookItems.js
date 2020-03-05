@@ -224,7 +224,7 @@ const BookItem = props => {
                         </Link>
                     )}
                     <Dropdown overlay={TrackMenu} trigger={['click']}>
-                        <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')}>{trackBtnLabel} <DownOutlined /></Button>
+                        <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')} onClick={saveBookToLibrary()}>{trackBtnLabel} <DownOutlined /></Button>
                     </Dropdown>
                 </div>
                 <div className="bookDetail openSans">
