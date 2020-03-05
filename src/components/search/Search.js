@@ -42,7 +42,7 @@ const Search = props => {
 	return (
 		<Wrapper>
 			<Header history={props.history} />	
-			<SearchForm />
+			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: null}]} />
 			{
 				!props.searchResults.books && <ShelfNote note="Search for your favorite title or author." />

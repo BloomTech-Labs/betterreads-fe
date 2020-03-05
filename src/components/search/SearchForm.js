@@ -34,7 +34,8 @@ const SearchForm = props => {
 	};
 
 	const handleSearch = e => {
-		props.getGoogleResults(props.query);
+        props.getGoogleResults(props.query);
+        props.history.push('/search');
 	};
 
 	return (

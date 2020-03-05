@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
 import { Button, Rate, Menu, Dropdown, notification } from 'antd';
+
+import { saveBookToLibrary } from '../../actions'
 
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
@@ -125,7 +128,7 @@ const ThumbContainer = styled.div`
 
 const BookItem = props => {
     const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
-    const [favorite, setFavorite] = useState(false);
+    const [favorite, setFavorite] = useState((localStorage.get('favorites').find(googleId => googleId === props.id) ? true : false));
     const [readingStatus, setReadingStatus] = useState();
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
 
@@ -149,7 +152,8 @@ const BookItem = props => {
             description: (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'),
             duration: 1.5
         });
-
+        // (userId, googleId, book Object, reading status, favorite)
+        props.saveBookToLibrary(localStorage.getItem('id'), props.book.id, props.book, 1, favorite);
     }, [favorite])
 
     const firstRunStatus = useRef(true);
@@ -163,12 +167,14 @@ const BookItem = props => {
 			'Search',
 			'User added a book with a reading status',
 			'SEARCH_RESULT'
-		);  
-
+        );
+        // (userId, googleId, book Object, reading status, favorite)
+        props.saveBookToLibrary(localStorage.getItem('id'), props.book.id, props.book, readingStatus, null);
     }, [readingStatus])
 
     const readingStatusUpdate = key => {
         // Send book to library and add reading status
+        setReadingStatus(key.item.props.value);
         setTrackBtnLabel(key.item.props.children);
         notification.open({
             type: 'info',
@@ -187,37 +193,16 @@ const BookItem = props => {
         </Menu>
     )
 
-	const saveBookToLibrary = book => {
-		Event(
-			'Search',
-			'User added a book library from search list.',
-			'SEARCH_RESULT'
-		);
+	// const saveBookToLibrary = book => {
+	// 	Event(
+	// 		'Search',
+	// 		'User added a book library from search list.',
+	// 		'SEARCH_RESULT'
+	// 	);
 
-		const modifiedBook = {
-            book: {
-                googleId: book.id,
-                title: book.volumeInfo.title || null,
-                author: book.volumeInfo.authors.toString() || null,
-                publisher: book.volumeInfo.publisher || null,
-                publishDate: book.volumeInfo.publishedDate || null,
-                description: 'book.volumeInfo.description',
-                isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
-                isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
-                pageCount: book.volumeInfo.pageCount || null,
-                categories: book.volumeInfo.categories.toString() || null,
-                thumbnail: book.volumeInfo.imageLinks || null.thumbnail || null,
-                smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail || null,
-                language: book.volumeInfo.language || null,
-                webRenderLink: book.accessInfo.webReaderLink || null,
-                textSnippet: book.searchInfo.textSnippet || null,
-                isEbook: book.saleInfo.isEbook || null
-            },
-            readingStatus: 1
-        };
-        // (userId, googleId, book Object)
-        props.saveBookToLibrary(localStorage.getItem('user_id'), book.id, modifiedBook);
-    }
+    //     // (userId, googleId, book Object)
+    //     props.saveBookToLibrary(localStorage.getItem('user_id'), book.id, props.book, readingStatus, favorite);
+    // }
     
     return (
         <Wrapper id={id}>
@@ -261,4 +246,4 @@ const BookItem = props => {
 
 };
 
-export default BookItem;
+export default connect(null, {saveBookToLibrary})(BookItem);
