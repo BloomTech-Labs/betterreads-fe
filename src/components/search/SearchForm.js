@@ -19,6 +19,9 @@ const Wrapper = styled.div`
     }
 
     @media (min-width: 1120px) {
+        .innerWrapper {
+            width: 1120px;
+        }
         .innerWrapper .ant-input-search{
             width: 400px;
         }
@@ -31,7 +34,8 @@ const SearchForm = props => {
 	};
 
 	const handleSearch = e => {
-		props.getGoogleResults(props.query);
+        props.getGoogleResults(props.query);
+        props.history.push('/search');
 	};
 
 	return (

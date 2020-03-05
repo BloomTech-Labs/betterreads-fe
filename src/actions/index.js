@@ -143,13 +143,38 @@ export const clearSearchResults = () => dispatch => {
 	dispatch({ type: CLEAR_SEARCH_RESULTS, payload: {} });
 };
 
-export const saveBookToLibrary = (userId, bookId, book) => dispatch => {
+export const saveBookToLibrary = (userId, bookId, book, readingStatus, favorite) => dispatch => {
 	dispatch({ type: SENDING_BOOK_LIBRARY });
-	// axios.post(`${apiLocal}/${userId}/library/${bookId}`, book)
+ Aasa was here! test save
+	const modifiedBook = {
+		book: {
+			googleId: book.id,
+			title: book.volumeInfo.title || null,
+			authors: book.volumeInfo.authors.toString() || null,
+			publisher: book.volumeInfo.publisher || null,
+			publishedDate: book.volumeInfo.publishedDate || null,
+			description: book.volumeInfo.description || null,
+			isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
+			isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
+			pageCount: book.volumeInfo.pageCount || null,
+			categories: book.volumeInfo.categories.toString() || null,
+			thumbnail: book.volumeInfo.imageLinks.thumbnail || null,
+			smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail || null,
+			language: book.volumeInfo.language || null,
+			webReaderLink: book.accessInfo.webReaderLink || null,
+			textSnippet: book.searchInfo.textSnippet || null,
+			isEbook: book.saleInfo.isEbook || null
+		},
+		readingStatus: readingStatus || null,
+		favorite: favorite  // true || false
+	};
+
+	// axios.post(`${apiLocal}/${userId}/library/${bookId}`, modifiedBook)
 	//     .then(results => dispatch({ type: SENDING_BOOK_LIBRARY_SUCCESS, payload: results.data}))
 	//     .catch(err => dispatch({ type: SENDING_BOOK_LIBRARY_FAILURE, payload: err.response }))
 	axios
-		.post(`${apiLocal}/${userId}/library`, book)
+		.post(`${apiLocal}/${userId}/library`, modifiedBook)
+		//.post(`${apiLocal}/${userId}/${(favorite) ? 'libraryfav' : 'library'}`, modifiedBook)
 		.then(results => console.log(results))
 		.catch(err => console.log(err.response));
 };

@@ -21,6 +21,12 @@ const ResultCount = styled.div`
 		width: 90%;
 		margin: 0 auto;
 	}
+
+	@media (min-width: 1120px) {
+		.innerWrapper{
+			width: 1120px;
+		}
+	}
 `;
 
 const ShelfNote = props => {
