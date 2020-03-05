@@ -145,7 +145,7 @@ export const clearSearchResults = () => dispatch => {
 
 export const saveBookToLibrary = (userId, bookId, book, readingStatus, favorite) => dispatch => {
 	dispatch({ type: SENDING_BOOK_LIBRARY });
- Aasa was here! test save
+ 
 	const modifiedBook = {
 		book: {
 			googleId: book.id,
