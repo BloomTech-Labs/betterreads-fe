@@ -31,7 +31,9 @@ const BookList = props => {
 	return (
 		<>
 			<ListContainer>
-				{props.bookList &&
+				{
+					!props.fetching &&
+					props.bookList &&
 					props.bookList.map((book, index) => (
 						<>
 							<BookItem key={index} book={book} />

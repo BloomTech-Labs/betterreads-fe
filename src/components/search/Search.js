@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { PageView, Event } from '../tracking/';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 import Header from '../common/Header';
 import Breadcrumbs from '../common/Breadcrumbs';
@@ -19,8 +21,17 @@ const Wrapper = styled.div`
 			flex-direction: row;
 			justify-content: space-between;
 		}
+
+		.spinnerContainer {
+			width: 90%;
+			height: 100vh;
+
+			margin-top: 4rem;
+		}
 	}
 `;
+
+const antIcon = <LoadingOutlined style={{ fontSize: 48 }} spin />
 
 const Search = props => {
 	useEffect(() => {
@@ -37,8 +48,12 @@ const Search = props => {
 				!props.searchResults.books && <ShelfNote note="Search for your favorite title or author." />
 			}
 			{
+				!props.fetching &&
 				props.searchResults.books &&
 				<ShelfNote note={`${props.searchResults.books.totalItems} results for "${props.searchResults.query}"`} />
+			}
+			{
+				props.fetching && <div className="spinnerContainer"><Spin indicator={antIcon} /></div>
 			}
 			<div className="somethingClever">
 				{
@@ -46,6 +61,7 @@ const Search = props => {
 						<div style={{width: '90%'}}>&nbsp;</div>
 				}
 				{
+					!props.fetching &&
 					props.searchResults.books &&
 					<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />
 				}
