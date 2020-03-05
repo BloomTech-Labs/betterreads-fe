@@ -9,9 +9,7 @@ import { saveBookToLibrary } from '../../actions'
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
-
-import BookIcon from './BookIcon';
-import styled from 'styled-components';
+import { Event } from '../tracking/';
 
 const Wrapper = styled.div`
     width: 90%;
@@ -119,34 +117,36 @@ const Wrapper = styled.div`
 `;
 
 const ThumbContainer = styled.div`
-    border-radius: 5px 0 0;
-    height: 95px;
-    width: 82px;
-    background-image: url(${props => props.bgImage});
-    background-size: cover;
+	border-radius: 5px 0 0;
+	height: 95px;
+	width: 82px;
+	background-image: url(${props => props.bgImage});
+	background-size: cover;
 `;
 
 const BookItem = props => {
-    const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
-    const [favorite, setFavorite] = useState((localStorage.get('favorites').find(googleId => googleId === props.id) ? true : false));
-    const [readingStatus, setReadingStatus] = useState();
-    const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
+  const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
+  const [favorite, setFavorite] = useState(false);
+  const [readingStatus, setReadingStatus] = useState();
+  const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
 
-    const firstRun = useRef(true);
-    useEffect(() => {
-        if(firstRun.current){
-            firstRun.current = false;
-            return;
-        }
 
-        // Record google analytics event when a book is favorited
-        Event(
+	const firstRun = useRef(true);
+	useEffect(() => {
+		if (firstRun.current) {
+			firstRun.current = false;
+			return;
+		}
+
+		// Record google analytics event when a book is favorited
+		Event(
 			'Search',
-			(favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),
+			favorite
+				? 'User added a book to favorites from search list.'
+				: 'User removed a book from favorites on search list.',
 			'SEARCH_RESULT'
-		);        
-
-        notification.open({
+		);
+    notification.open({
             type: (favorite ? 'success' : 'info'),
             message: 'Success',
             description: (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'),
@@ -155,19 +155,20 @@ const BookItem = props => {
         // (userId, googleId, book Object, reading status, favorite)
         props.saveBookToLibrary(localStorage.getItem('id'), props.book.id, props.book, 1, favorite);
     }, [favorite])
+  
 
-    const firstRunStatus = useRef(true);
-    useEffect(() => {
-        if(firstRunStatus.current){
-            firstRunStatus.current = false;
-            return;
-        }
-        
-        Event(
+	const firstRunStatus = useRef(true);
+	useEffect(() => {
+		if (firstRunStatus.current) {
+			firstRunStatus.current = false;
+			return;
+		}
+
+		Event(
 			'Search',
 			'User added a book with a reading status',
 			'SEARCH_RESULT'
-        );
+    );
         // (userId, googleId, book Object, reading status, favorite)
         props.saveBookToLibrary(localStorage.getItem('id'), props.book.id, props.book, readingStatus, null);
     }, [readingStatus])
@@ -243,7 +244,6 @@ const BookItem = props => {
             </div>
         </Wrapper>
     );
-
 };
 
 export default connect(null, {saveBookToLibrary})(BookItem);

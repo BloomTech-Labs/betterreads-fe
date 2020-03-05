@@ -1,7 +1,7 @@
 import { FETCH_USERS_BOOKS, FETCH_USERS_SHELVES } from '../actions';
 
 const initialState = {
-	userLibrary: [],
+	userBooks: [],
 	userShelves: []
 };
 
@@ -10,7 +10,7 @@ export default function reducer(state = initialState, action) {
 		case FETCH_USERS_BOOKS:
 			return {
 				...state,
-				userLibrary: action.payload
+				userBooks: action.payload
 			};
 
 		case FETCH_USERS_SHELVES:

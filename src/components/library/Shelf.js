@@ -38,18 +38,14 @@ const Shelf = props => {
 				history={props.history}
 				crumbs={[{ label: 'All books', path: null }]}
 			/>
-			<ShelfList
-				history={props.history}
-				bookList={props.userLibrary}
-				count={props.userLibrary.length}
-			/>
+			<ShelfList history={props.history} userBooks={props.userBooks} />
 		</ShelfContainer>
 	);
 };
 
 const mapStateToProps = state => {
 	return {
-		userLibrary: state.library.userLibrary
+		userBooks: state.library.userBooks
 	};
 };
 

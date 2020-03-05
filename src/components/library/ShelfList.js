@@ -5,11 +5,11 @@ import ShelfItem from './ShelfItem';
 const ShelfList = props => {
 	return (
 		<>
-			<ShelfNote type="allbooks" count={props.count} />
-			{/* {props.bookList &&
-				props.bookList.map((book, index) => (
+			<ShelfNote type="allbooks" count={props.userBooks.length} />
+			{props.userBooks &&
+				props.userBooks.map((book, index) => (
 					<ShelfItem key={index} book={book} />
-				))} */}
+				))}
 		</>
 	);
 };
