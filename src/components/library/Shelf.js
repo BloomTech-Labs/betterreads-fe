@@ -4,7 +4,7 @@ import { fetchShelfsBooks } from '../../actions';
 import Header from '../common/Header';
 import ExternalSearchForm from '../common/ExternalSearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
-import BookList from '../common/BookList';
+import ShelfList from '../library/ShelfList';
 import styled from 'styled-components';
 
 const ShelfContainer = styled.div`
@@ -34,8 +34,11 @@ const Shelf = props => {
 					<ExternalSearchForm history={props.history} />
 				</div>
 			</div>
-			<Breadcrumbs history={props.history} crumbs={['All books']} />
-			<BookList
+			<Breadcrumbs
+				history={props.history}
+				crumbs={[{ label: 'All books', path: null }]}
+			/>
+			<ShelfList
 				history={props.history}
 				bookList={props.userLibrary}
 				count={props.userLibrary.length}

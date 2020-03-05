@@ -1,32 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Event } from '../tracking/';
-import { Row, Col, Button, Icon, Rate, Select, Menu, Dropdown, Breadcrumb } from 'antd';
+import { notification, Button, Rate, Menu, Dropdown, Breadcrumb } from 'antd';
 import styled from 'styled-components';
 import { saveBookToLibrary } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
-import Breadcrumbs from "./Breadcrumbs"
+import Breadcrumbs from './Breadcrumbs';
 
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
-
-
-const HeaderWrapper = styled.div`
-	margin: 0 auto;
-
-	.innerWrapper {
-		background-color: #f3f6f5;
-		padding: 16px 0;
-		margin: 0 0 8px 0;
-
-		.form {
-			width: 90%;
-			margin: 0 auto;
-		}
-	}
-`;
 
 const Wrapper = styled.div`
 
@@ -39,7 +23,9 @@ const Wrapper = styled.div`
 .pb-12{padding-bottom: 12px;}
 .pb-16{padding-bottom: 16px;}
 
-
+.betterReadsOrange {background: #D24719;}
+	.betterReadsGreen{background-color: #547862;}
+	
     .flexer{
 		display: flex;
 		flex-direction: column;
@@ -71,22 +57,20 @@ const Wrapper = styled.div`
                 }
             }
     
-            .ant-btn {
-				background: #D24719;
-				color: #FFFFFF;
-				border-radius: 0px 0px 0px 3px;
+			.ant-btn {
+                color: #F7F7F7;
                 width: 82px;
-               	border: none;
-				font-size: 13px;
+                border: none;
+                border-radius: 0 0 0 5px;
+                font-size: 13px;
                 font-weight: 600;
                 line-height: 20px;
                 padding: 0 3px;
-				
-		
+        
                 .anticon-down{
                     margin-left: 2px;
                 }
-
+		
                 svg {
                     margin-right: 4px;
                 }
@@ -107,7 +91,6 @@ const Wrapper = styled.div`
             }
 
             .bookRating{
-				
                 .anticon-star svg {
                     height: 16px;
 					width: 16px;
@@ -127,22 +110,23 @@ const Wrapper = styled.div`
 			border-bottom: 1px solid #cecece;
 		}
 		.bookDeets{
-			
 			margin: 16px auto;
-			.genre{
-			 display: flex;
-			 flex-direction: column;
-			 font-family: Frank Ruhl Libre;
-font-style: normal;
-font-weight: bold;
-font-size: 20px;
-line-height: 30px;
-color: #4E4C4A;
-			}
+
+				.genre{
+				display: flex;
+				flex-direction: column;
+				font-family: Frank Ruhl Libre;
+				font-style: normal;
+				font-weight: bold;
+				font-size: 20px;
+				line-height: 30px;
+				color: #4E4C4A;
+				}
 		}
 
     }
 `;
+
 const GenreBox = styled.button`
 	background: #547862;
 	border-radius: 4px;
@@ -160,24 +144,73 @@ const GenreBox = styled.button`
 export function BookDetails(props) {
 	const [selectedBook, setSelectedBook] = useState();
 	const [favorite, setFavorite] = useState(false);
+	const [readingStatus, setReadingStatus] = useState();
+	const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
+
+	const firstRun = useRef(true);
+	useEffect(() => {
+		if (firstRun.current) {
+			firstRun.current = false;
+			return;
+		}
+
+		// Record google analytics event when a book is favorited
+		Event(
+			'Book Details',
+			favorite
+				? 'User added a book to favorites from book details.'
+				: 'User removed a book from favorites on search list.',
+			'BOOK_DETAILS'
+		);
+
+		notification.open({
+			type: favorite ? 'success' : 'info',
+			message: 'Success',
+			description: favorite
+				? 'Book added to favorites.'
+				: 'Book removed from favorites.',
+			duration: 1.5
+		});
+	}, [favorite]);
+
+	const firstRunStatus = useRef(true);
+	useEffect(() => {
+		if (firstRunStatus.current) {
+			firstRunStatus.current = false;
+			return;
+		}
+
+		Event(
+			'Search',
+			'User added a book with a reading status',
+			'SEARCH_RESULT'
+		);
+	}, [readingStatus]);
+
+	const readingStatusUpdate = key => {
+		// Send book to library and add reading status
+		setTrackBtnLabel(key.item.props.children);
+		notification.open({
+			type: 'info',
+			message: 'Success',
+			description: 'You are now tracking a book',
+			duration: 1.5
+		});
+	};
 
 	const TrackMenu = (
-		<Menu onClick={() => saveBookToLibrary(props.book)}>
-			<Menu.Item key="1" value="0">
-				To be read
+		<Menu onClick={key => readingStatusUpdate(key)}>
+			<Menu.Item key="80" value="1">
+				To read
 			</Menu.Item>
-			<Menu.Item key="2" value="1">
-				Finished
-			</Menu.Item>
-			<Menu.Item key="3" value="2">
+			<Menu.Item key="71" value="2">
 				In Progress
+			</Menu.Item>
+			<Menu.Item key="62" value="3">
+				Finished
 			</Menu.Item>
 		</Menu>
 	);
-
-	const markAsFavorite = id => {
-		setFavorite(!favorite);
-	};
 
 	const results = {
 		searchResults: {
@@ -200,147 +233,165 @@ export function BookDetails(props) {
 		}
 	};
 
-console.log(props, "props")
+	console.log(props, 'props');
 
 	useEffect(() => {
 		setSelectedBook(
-			props.searchResults.books.items
-				&& props.searchResults.books.items.find(
-						book => book.id === props.match.params.id
-				  )
-			||
-			results.searchResults.books.items
-				&& results.searchResults.books.items.find(
+			(props.searchResults.books.items &&
+				props.searchResults.books.items.find(
+					book => book.id === props.match.params.id
+				)) ||
+				(results.searchResults.books.items &&
+					results.searchResults.books.items.find(
 						book => book.id === results.searchResults.items.id
-				  )
-
+					))
 		);
 	}, []);
-
-
 
 	const ThumbContainer = styled.div`
 		height: 95px;
 		width: 82px;
 		background-image: url(${props => props.bgImage});
 		background-size: cover;
+		border-radius: 5px 0 0;
 	`;
 
-	const saveBookToLibrary = book => {
-		console.log(book, 'book');
-		Event(
-			'bookDetail',
-			'User added a book library from book details.',
-			'BOOK_DETAILS'
-		);
-		const modifiedBook = {
-			book: {
-				googleId: book.id,
-				title: book.volumeInfo.title || null,
-				author: book.volumeInfo.authors.toString() || null,
-				publisher: book.volumeInfo.publisher || null,
-				publishDate: book.volumeInfo.publishedDate || null,
-				description: 'book.volumeInfo.description',
-				isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
-				isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
-				pageCount: book.volumeInfo.pageCount || null,
-				categories: book.volumeInfo.categories.toString() || null,
-				thumbnail: book.volumeInfo.imageLinks || null.thumbnail || null,
-				smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail || null,
-				language: book.volumeInfo.language || null,
-				webRenderLink: book.accessInfo.webReaderLink || null,
-				textSnippet: book.searchInfo.textSnippet || null,
-				isEbook: book.saleInfo.isEbook || null
-			},
-			readingStatus: 1
-		};
+	// const saveBookToLibrary = book => {
+	// 	console.log(book, 'book');
+	// 	Event(
+	// 		'bookDetail',
+	// 		'User added a book library from book details.',
+	// 		'BOOK_DETAILS'
+	// 	);
+	// 	const modifiedBook = {
+	// 		book: {
+	// 			googleId: book.id,
+	// 			title: book.volumeInfo.title || null,
+	// 			author: book.volumeInfo.authors.toString() || null,
+	// 			publisher: book.volumeInfo.publisher || null,
+	// 			publishDate: book.volumeInfo.publishedDate || null,
+	// 			description: 'book.volumeInfo.description',
+	// 			isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
+	// 			isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
+	// 			pageCount: book.volumeInfo.pageCount || null,
+	// 			categories: book.volumeInfo.categories.toString() || null,
+	// 			thumbnail: book.volumeInfo.imageLinks || null.thumbnail || null,
+	// 			smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail || null,
+	// 			language: book.volumeInfo.language || null,
+	// 			webRenderLink: book.accessInfo.webReaderLink || null,
+	// 			textSnippet: book.searchInfo.textSnippet || null,
+	// 			isEbook: book.saleInfo.isEbook || null
+	// 		},
+	// 		readingStatus: 1
+	// 	};
 
-		props.saveBookToLibrary(1, book.id, modifiedBook);
-	};
-	console.log(selectedBook);
+	// 	props.saveBookToLibrary(1, book.id, modifiedBook);
+	// };
+
 	const { id } = props.match.params.id;
 	const userId = localStorage.getItem('user_id');
-
+	
 	return (
 		<>
 			{selectedBook && (
 				<div>
 					<Header />
-			<SearchForm />
-			<Breadcrumbs history={props.history} crumbs={[{label: 'Search', path: '/search'}, { label: 'Book Detail', path: null}]}/>
-			
-		
-				<Wrapper id={id}>
+					<SearchForm />
+					<Breadcrumbs
+						history={props.history}
+						crumbs={[
+							{ label: 'Search', path: '/search' },
+							{ label: 'Book Detail', path: null }
+						]}
+					/>
+
+					<Wrapper id={id}>
 						<div className="flexer">
-						<div className="top">
-						<div className="imgContainer">
-							<ThumbContainer
-								bgImage={
-									selectedBook.volumeInfo.imageLinks.thumbnail
-								}
-							/>
+							<div className="top">
+								<div className="imgContainer">
+									<ThumbContainer
+										bgImage={
+											selectedBook.volumeInfo.imageLinks
+												.thumbnail
+										}
+									/>
 
-							<Dropdown overlay={TrackMenu}>
-								<Button>
-							track this <DownOutlined />
-								</Button>
-							</Dropdown>
-						</div>
+									<Dropdown
+										overlay={TrackMenu}
+										trigger={['click']}
+									>
+										<Button
+											className={
+												trackBtnLabel === 'Track this'
+													? 'betterReadsOrange'
+													: 'betterReadsGreen'
+											}
+										>
+											{trackBtnLabel} <DownOutlined />
+										</Button>
+									</Dropdown>
+								</div>
 
-						<div className="bookDetail openSans">
-							<div className="bookTitle fs-16 fw-600">
-								{selectedBook.volumeInfo.title}
-							</div>
-							<div className="bookAuthors fs-16 openSans lh-22">
-								{selectedBook.volumeInfo.authors &&
-									selectedBook.volumeInfo.authors.map(
-										(author, index) => (
-											<div key={index}>
-												{index === 0 && 'by'} {author}
-											</div>
-										)
+								<div className="bookDetail openSans">
+									<div className="bookTitle fs-16 fw-600">
+										{selectedBook.volumeInfo.title}
+									</div>
+									<div className="bookAuthors fs-16 openSans lh-22">
+										{selectedBook.volumeInfo.authors &&
+											selectedBook.volumeInfo.authors.map(
+												(author, index) => (
+													<div key={index}>
+														{index === 0 && 'by'}{' '}
+														{author}
+													</div>
+												)
+											)}
+									</div>
+									<div className="bookRating">
+										<Rate
+											allowHalf
+											defaultValue={
+												selectedBook.volumeInfo
+													.averageRating
+											}
+										/>
+									</div>
+								</div>
+								<div className="bookFav">
+									{favorite ? (
+										<HeartFilled
+											onClick={() =>
+												setFavorite(!favorite)
+											}
+										/>
+									) : (
+										<HeartOutlined
+											onClick={() =>
+												setFavorite(!favorite)
+											}
+										/>
 									)}
+								</div>
 							</div>
-							<div className="bookRating">
-								<Rate
-									allowHalf
-									defaultValue={
-										selectedBook.volumeInfo.averageRating
-									}
-								/>
-							</div>
-							</div>
-							<div className="bookFav">
-								{favorite ? (
-									<HeartFilled
-										onClick={() => markAsFavorite(id)}
-									/>
-								) : (
-									<HeartOutlined
-										onClick={() => markAsFavorite(id)}
-									/>
-								)}
-							</div>
-						
-					</div>
-					<div className="bookDeets">
-						<p >
-							{selectedBook.volumeInfo.description}
-						</p>
-						<div className="genre">
-							<p>
-								Genre
-								</p>
+							<div className="bookDeets">
+								<p>{selectedBook.volumeInfo.description}</p>
+								<div className="genre">
+									<p>Genre</p>
 								</div>
 								<div>
-								{selectedBook.volumeInfo.categories && selectedBook.volumeInfo.categories.map(G => (
-									<GenreBox key={G.id}>{G} </GenreBox>
-								))},
-							
+									{selectedBook.volumeInfo.categories &&
+										selectedBook.volumeInfo.categories.map(
+											G => (
+												<GenreBox key={G.id}>
+													{G}{' '}
+												</GenreBox>
+											)
+										)}
+									,
+								</div>
+							</div>
 						</div>
-					</div>
-					</div>
-				</Wrapper>
+					</Wrapper>
 				</div>
 			)}
 		</>
