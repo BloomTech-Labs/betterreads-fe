@@ -6,8 +6,7 @@ import {
 	getGoogleResults
 } from '../../actions/index';
 import Header from '../common/Header';
-import ExternalSearchForm from '../common/ExternalSearchForm';
-import styled from 'styled-components';
+import SearchForm from '../search/SearchForm';
 import LibraryContainer from './LibraryStyle';
 import BookIcon from '../common/BookIcon';
 import { PageView, Event } from '../tracking/';
@@ -35,9 +34,8 @@ const Library = props => {
 						Search for a book that you want to track and add to
 						shelves.
 					</p>
-
-					<ExternalSearchForm history={props.history} />
 				</div>
+				<SearchForm history={props.history} />
 			</div>
 
 			<div className="reading-status">
