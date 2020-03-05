@@ -9,6 +9,7 @@ import Failure from './components/authentication/Failure';
 import Search from './components/search/Search';
 import BookDetails from './components/common/BookDetails';
 import Shelf from './components/library/Shelf';
+import ShelfBook from './components/library/ShelfBook';
 import PageNotFound from './components/authentication/PageNotFound';
 
 const App = () => {
@@ -23,7 +24,8 @@ const App = () => {
 				<Route path="/pagenotfound" component={PageNotFound} />
 				<PrivateRoute path="/search" component={Search} />
 				<PrivateRoute path="/book/:id" component={BookDetails} />
-				<PrivateRoute path="/shelf/:shelf" component={Shelf} />
+				<PrivateRoute exact path="/shelf/:shelf" component={Shelf} />
+				<PrivateRoute path="/shelf/book/:id" component={ShelfBook} />
 				<Route component={PageNotFound} />
 			</Switch>
 		</Router>
