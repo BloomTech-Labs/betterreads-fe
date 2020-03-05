@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
-import { Button, Rate, Menu, Dropdown, Notification, notification } from 'antd';
+import { Button, Rate, Menu, Dropdown, notification } from 'antd';
 
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
@@ -107,6 +107,11 @@ const Wrapper = styled.div`
         .bookFav {
             margin-left: auto;
         }
+    }
+
+    @media (min-width: 1120px) {
+        width: 45%;
+        margin: 0 18px 0 0;
     }
 `;
 
