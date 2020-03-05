@@ -289,7 +289,8 @@ export function BookDetails(props) {
 	// };
 
 	const { id } = props.match.params.id;
-
+	const userId = localStorage.getItem('user_id');
+	
 	return (
 		<>
 			{selectedBook && (
