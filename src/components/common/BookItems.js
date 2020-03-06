@@ -115,6 +115,7 @@ const Wrapper = styled.div`
     @media (min-width: 1120px) {
         width: 45%;
         margin: 0 18px 0 0;
+        
     }
 `;
 
