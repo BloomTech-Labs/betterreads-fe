@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { Event } from '../tracking/';
-import { notification, Button, Rate, Menu, Dropdown, Breadcrumb } from 'antd';
+import { notification, Button, Rate, Menu, Dropdown } from 'antd';
 import styled from 'styled-components';
 import { saveBookToLibrary } from '../../actions';
 import Header from '../common/Header';
@@ -13,8 +13,6 @@ import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 
 const Wrapper = styled.div`
-
-
 .frank{font-family: 'Frank Ruhl Libre', serif;}
 .openSans{font-family: 'Open Sans', sans-serif;}
 .fs-16{font-size: 16px;}
@@ -142,10 +140,14 @@ const GenreBox = styled.button`
 `;
 
 export function BookDetails(props) {
+
+	const { bookId } = props.match.params.id;
 	const [selectedBook, setSelectedBook] = useState();
 	const [favorite, setFavorite] = useState(false);
 	const [readingStatus, setReadingStatus] = useState();
 	const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
+
+
 
 	const firstRun = useRef(true);
 	useEffect(() => {
@@ -171,6 +173,7 @@ export function BookDetails(props) {
 				: 'Book removed from favorites.',
 			duration: 1.5
 		});
+		props.saveBookToLibrary(localStorage.getItem('id'), selectedBook.id, selectedBook, readingStatus, favorite);
 	}, [favorite]);
 
 	const firstRunStatus = useRef(true);
@@ -185,10 +188,12 @@ export function BookDetails(props) {
 			'User added a book with a reading status',
 			'SEARCH_RESULT'
 		);
+		props.saveBookToLibrary(localStorage.getItem('id'), selectedBook.id, selectedBook, readingStatus, favorite);
 	}, [readingStatus]);
 
 	const readingStatusUpdate = key => {
 		// Send book to library and add reading status
+		setReadingStatus(key.item.props.value);
 		setTrackBtnLabel(key.item.props.children);
 		notification.open({
 			type: 'info',
@@ -256,7 +261,7 @@ export function BookDetails(props) {
 		border-radius: 5px 0 0;
 	`;
 
-	const { id } = props.match.params.id;
+	console.log(selectedBook, "selected book")
 	
 	return (
 		<>
@@ -272,7 +277,7 @@ export function BookDetails(props) {
 						]}
 					/>
 
-					<Wrapper id={id}>
+					<Wrapper id={bookId}>
 						<div className="flexer">
 							<div className="top">
 								<div className="imgContainer">
