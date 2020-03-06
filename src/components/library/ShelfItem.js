@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from 'react-redux';
 import { saveBookToLibrary } from '../../actions'
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, Rate, Menu, Dropdown, notification } from 'antd';
+import { Button, Menu, Dropdown, notification, DatePicker } from 'antd';
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 import { Event } from '../tracking/';
 
 const ShelfItemContainer = styled.div`
+    max-width: 288px;
     height: 148px;
     width: 100%;
     margin-bottom: 16px;
@@ -17,20 +17,22 @@ const ShelfItemContainer = styled.div`
     border-radius: 4px;
     display: flex;
 
-    .thumbnail {
+    .thumbnail-container {
         min-width: 83px;
-        height: 100%;
         width: 83px;
-        background: url(${props => props.thumbnail});
-        background-size: contain;
-        border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px;
-        display: flex;
-        align-items: flex-end;
+
+        .thumbnail {
+            height: 117px;
+            width: 100%;
+            background: url(${props => props.thumbnail});
+            background-size: cover;
+            border-top-left-radius: 4px;
+            cursor: pointer;
+        }
 
         .ant-btn {
-            width: 100%;
-            padding: 0;
+            height: 29px;
+            width: 100%;     
             background-color: #547862;
             border: none;
             border-radius: 0;
@@ -47,16 +49,17 @@ const ShelfItemContainer = styled.div`
     }
 
     .information {
+        max-width: 205px;
         width: 205px;
         padding: 16px;
         
         .title-and-heart {
             display: flex;
             justify-content: space-between;
-            align-items: center;
 
             .title {
-                width: 100%;
+                max-width: 129px;
+                width: 129px;
                 margin-bottom: 0;
                 font-family: 'Opens Sans', sans-serif;
                 font-size: 1rem;
@@ -80,11 +83,46 @@ const ShelfItemContainer = styled.div`
         }
 
         .author {
-            margin-bottom: 0;
+            margin-bottom: 32px;
             font-family: 'Open Sans', sans-serif;
             font-size: 0.875rem;
             color: #4e4c4a;
             cursor: pointer;
+        }
+
+        .calendar {
+            display: flex;
+
+            .input {
+                max-width: 100px;
+                width: 50%;
+                padding-right: 8px;
+                display: flex;
+                flex-direction: column;
+
+                .prompt {
+                    margin-bottom: 0;
+                    font-family: Open Sans;
+                    font-weight: bold;
+                    font-size: 0.625rem;
+                }
+            }
+
+            .input:first-child {
+                border-right: 1px solid #bfbfbf;
+            }
+
+            .input:last-child {
+                padding-right: 0;
+                padding-left: 8px;
+            }
+
+            .ant-calendar-picker-input {
+                height: 16px;
+                padding: 0;
+                background-color: #f3f6f5;
+                border: none;
+            }
         }
     }
 
@@ -92,12 +130,13 @@ const ShelfItemContainer = styled.div`
         max-width: 375px;
 
         .information {
-            max-width: 292px;
-            width: 292px;
+            max-width: 254.5px;
+            width: 254.5px;
 
             .title-and-heart {
                 .title {
-                    width: 184.5px;
+                    max-width: 178.5px;
+                    width: 178.5px;
                 }
             }
         }
@@ -107,11 +146,12 @@ const ShelfItemContainer = styled.div`
         max-width: 414px;
 
         .information {
-            max-width: 414px;
+            max-width: 331px;
             width: 331px;
 
             .title-and-heart {
                 .title {
+                    max-width: 219.59px;
                     width: 219.59px;
                 }
             }
@@ -124,6 +164,19 @@ const ShelfItemContainer = styled.div`
         .information {
             max-width: 252px;
             width: 252px;
+
+            .title-and-heart {
+                .title {
+                    max-width: 176px;
+                    width: 176px;
+                }
+            }
+
+            .calendar {
+                .ant-calendar-picker-input {
+                    background-color: #ffffff;
+                }
+            }
         }
     }
 `;
@@ -195,10 +248,14 @@ const ShelfItem = props => {
         </Menu>
     );
     // keys?
+
+    // calendar
+    const { RangePicker } = DatePicker;
     
     return (
         <ShelfItemContainer thumbnail={props.book.thumbnail}>
-            <div className='thumbnail'>
+            <div className='thumbnail-container'>
+                <div className='thumbnail' onClick={() => props.history.push(`/shelf/book/${props.book.bookId}`)}></div>
                 <Dropdown overlay={TrackMenu} trigger={['click']}>
                     <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')}>{trackBtnLabel}<DownOutlined /></Button>
                 </Dropdown>
@@ -209,10 +266,20 @@ const ShelfItem = props => {
                     {favorite ? <HeartFilled onClick={() => setFavorite(!favorite)} /> : <HeartOutlined onClick={() => setFavorite(!favorite)} />}
                 </div>
                 <p className='author' onClick={() => props.history.push(`/shelf/book/${props.book.bookId}`)}>{props.book.authors.split(',')[0]}</p>
+                <div className='calendar'>
+                    <div className='input'>
+                        <p className='prompt'>DATE STARTED</p>
+                        <DatePicker placeholder='Started' />
+                    </div>
+                    <div className='input'>
+                        <p className='prompt'>DATE ENDED</p>
+                        <DatePicker placeholder='Ended' />
+                    </div>
+                </div>
             </div>
         </ShelfItemContainer>
     );
 
 };
 
-export default connect(null, {saveBookToLibrary})(ShelfItem);
+export default connect(null, { saveBookToLibrary })(ShelfItem);
