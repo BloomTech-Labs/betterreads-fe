@@ -9,120 +9,129 @@ import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 import { Event } from '../tracking/';
 
-const Wrapper = styled.div`
-    .ant-dropdown-menu {
-        z-index: 1001;
+const ShelfItemContainer = styled.div`
+    height: 148px;
+    width: 100%;
+    margin-bottom: 16px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    display: flex;
+
+    .thumbnail {
+        min-width: 83px;
+        height: 100%;
+        width: 83px;
+        background: url(${props => props.thumbnail});
+        background-size: contain;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        display: flex;
+        align-items: flex-end;
+
+        .ant-btn {
+            width: 100%;
+            padding: 0;
+            background-color: #547862;
+            border: none;
+            border-radius: 0;
+            border-bottom-left-radius: 4px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+
+            .anticon {
+                margin-left: 4px;
+            }
+        }
     }
 
-    .betterReadsOrange {background: #D24719;}
-    .betterReadsGreen{background-color: #547862;}
-
-    .frank{font-family: 'Frank Ruhl Libre', serif;}
-    .openSans{font-family: 'Open Sans', sans-serif;}
-    
-    .fs-13{font-size: 13px;}
-    .fs-14{font-size: 14px;}
-    .fs-16{font-size: 16px;}
-
-    .fw-600{font-weight: 600;}
-    .fw-bold{font-wieght: bold;} 
-
-    .lh-20{line-height: 20px;}
-    .lh-22{line-height: 22px;}
-
-    .flexer{
-        display: flex;
-        border-bottom: 1px solid #cecece;
-        padding: 16px 0;
-
-        &:first-child {
-            
-        }
-
-        .anticon-heart svg{
-            height: 26px;
-            width: 29px;
-            color: #D24719;
-        }
-
-        .imgContainer{
-            margin-right: 16px; 
-            
-            .thumbContainer{
-                width: 125px;
-                height: 198px;
-                overflow: hidden;
-                
-                .smallThumbnail {
-                    width: 135px;
-                    height: auto;
-                }
-            }
-            
-            .ant-btn {
-                color: #F7F7F7;
-                width: 82px;
-                border: none;
-                border-radius: 0 0 0 5px;
-                font-size: 13px;
-                font-weight: 600;
-                line-height: 20px;
-                padding: 0 3px;
+    .information {
+        width: 205px;
+        padding: 16px;
         
-                .anticon-down{
-                    margin-left: 2px;
-                }
+        .title-and-heart {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .title {
+                width: 100%;
+                margin-bottom: 0;
+                font-family: 'Opens Sans', sans-serif;
+                font-size: 1rem;
+                font-weight: 600;
+                color: #4e4c4a;
+                cursor: pointer;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .anticon-heart {
+                margin-left: 8px;
+                color: #d24719;
 
                 svg {
-                    margin-right: 4px;
-                }
-            }
-        }
-    
-        .bookDetail {
-            display: flex;
-            flex-direction: column;
-            
-            .bookTitle{
-                line-height: 22px
-                margin-bottom: 12px;
-            }
-
-            .ant-select-selection {   
-                background-color: rgba(0,0,0,0);
-            }
-
-            .bookRating{
-                .anticon-star svg {
-                    height: 16px;
-                    width: 16px;
+                    height: 28px;
+                    width: 28px;
                 }
             }
         }
 
-        .bookFav {
-            margin-left: auto;
+        .author {
+            margin-bottom: 0;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.875rem;
+            color: #4e4c4a;
+            cursor: pointer;
+        }
+    }
+
+    @media (min-width: 375px) {
+        max-width: 375px;
+
+        .information {
+            max-width: 292px;
+            width: 292px;
+
+            .title-and-heart {
+                .title {
+                    width: 184.5px;
+                }
+            }
+        }
+    }
+
+    @media (min-width: 414px) {
+        max-width: 414px;
+
+        .information {
+            max-width: 414px;
+            width: 331px;
+
+            .title-and-heart {
+                .title {
+                    width: 219.59px;
+                }
+            }
         }
     }
 
     @media (min-width: 1120px) {
-        width: 45%;
-        margin: 0 18px 0 0;
+        max-width: 335px;
+
+        .information {
+            max-width: 252px;
+            width: 252px;
+        }
     }
 `;
 
-const ThumbContainer = styled.div`
-    border-radius: 5px 0 0;
-    height: 95px;
-    width: 82px;
-    background-image: url(${props => props.bgImage});
-    background-size: cover;
-`;
-
-const BookItem = props => {
+const ShelfItem = props => {
     const [favorite, setFavorite] = useState(false);
     const [readingStatus, setReadingStatus] = useState();
-    const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
+    const [trackBtnLabel, setTrackBtnLabel] = useState('Track');
 
     // favorite status
     const firstRun = useRef(true);
@@ -147,7 +156,7 @@ const BookItem = props => {
         });
 
         props.saveBookToLibrary(localStorage.getItem('id'), props.book.id, props.book, 1, favorite);
-    }, [favorite])
+    }, [favorite]);
 
     // reading status
     const firstRunStatus = useRef(true);
@@ -165,7 +174,7 @@ const BookItem = props => {
         );
 
         props.saveBookToLibrary(localStorage.getItem('id'), props.book.id, props.book, readingStatus, null);
-    }, [readingStatus])
+    }, [readingStatus]);
 
     const readingStatusUpdate = key => {
         setReadingStatus(key.item.props.value);
@@ -176,8 +185,7 @@ const BookItem = props => {
             description: 'You are now tracking a book',
             duration: 1.5
         });
-        
-    }
+    };
 
     const TrackMenu = (
         <Menu onClick={key => readingStatusUpdate(key)}>
@@ -185,45 +193,26 @@ const BookItem = props => {
             <Menu.Item key="71" value="2">In progress</Menu.Item>
             <Menu.Item key="62" value="3">Finished</Menu.Item>
         </Menu>
-    )
+    );
+    // keys?
     
     return (
-        <Wrapper>
-            <div className="flexer">
-                <div className="imgContainer">
-                    {props.book && (
-                        <Link to={`/book/${props.book.id}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
-                            <ThumbContainer bgImage={props.book.thumbnail} />
-                        </Link>
-                    )}
-                    <Dropdown overlay={TrackMenu} trigger={['click']}>
-                        <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')}>{trackBtnLabel} <DownOutlined /></Button>
-                    </Dropdown>
-                </div>
-                <div className="bookDetail openSans">
-                    <div className="bookTitle fs-16 fw-600">{props.book.title}</div>
-                    <div className="bookAuthors fs-16 openSans lh-22">
-                        {
-                            props.book &&
-                            props.book.authors.split(',').map((author, index) => (
-                                <div key={index} data-key={index}>
-                                    { index === 0 && 'by' } {author}
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div>
-                <div className="bookFav">
-                    {   favorite
-                        ? <HeartFilled onClick={() => setFavorite(!favorite)} /> 
-                        : <HeartOutlined onClick={() => setFavorite(!favorite)} />
-                    }
-                    
-                </div>
+        <ShelfItemContainer thumbnail={props.book.thumbnail}>
+            <div className='thumbnail'>
+                <Dropdown overlay={TrackMenu} trigger={['click']}>
+                    <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')}>{trackBtnLabel}<DownOutlined /></Button>
+                </Dropdown>
             </div>
-        </Wrapper>
+            <div className='information'>
+                <div className='title-and-heart'>
+                    <p className='title' onClick={() => props.history.push(`/shelf/book/${props.book.bookId}`)}>{props.book.title}</p>
+                    {favorite ? <HeartFilled onClick={() => setFavorite(!favorite)} /> : <HeartOutlined onClick={() => setFavorite(!favorite)} />}
+                </div>
+                <p className='author' onClick={() => props.history.push(`/shelf/book/${props.book.bookId}`)}>{props.book.authors.split(',')[0]}</p>
+            </div>
+        </ShelfItemContainer>
     );
 
 };
 
-export default connect(null, {saveBookToLibrary})(BookItem);
+export default connect(null, {saveBookToLibrary})(ShelfItem);

@@ -16,6 +16,7 @@ const LibraryContainer = styled.div`
 				font-size: 2rem;
 				font-weight: bold;
 				color: #3b403d;
+				line-height: 40px;
 			}
 
 			p {
@@ -38,20 +39,43 @@ const LibraryContainer = styled.div`
 				max-width: 1120px;
 				width: 90%;
 				margin: 0 auto;
+				padding-top: 16px;
+				border-bottom: 1.5px solid rgba(217, 217, 217, 0.5);
+				display: flex;
+				flex-direction: column;
 
-				p {
-					margin-bottom: 0;
-					padding: 16px 0;
-					border-bottom: 1.5px solid rgba(217, 217, 217, 0.5);
-					font-family: 'Frank Ruhl Libre', sans-serif;
-					font-size: 1.25rem;
-					font-weight: bold;
-					color: #4e4c4a;
+				.header {
+					margin-bottom: 16px;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+
+					.status {
+						margin-bottom: 0;
+						font-family: 'Frank Ruhl Libre', sans-serif;
+						font-size: 1.25rem;
+						font-weight: bold;
+						color: #4e4c4a;
+					}
+	
+					.view-all {
+						margin-bottom: 0;
+						font-family: 'Open Sans', sans-serif;
+						font-size: 0.875rem;
+						font-weight: 600;
+						color: #868585;
+						cursor: pointer;
+					}
 				}
 
-				p:last-child {
-					border-bottom: none;
+				.section {
+					display: flex;
+					flex-direction: column;
 				}
+			}
+
+			.reading-status:last-child {
+				border-bottom: none;
 			}
 		}
 
@@ -138,33 +162,14 @@ const LibraryContainer = styled.div`
 				}
 			}
 		}
+	}
 
-		@media (min-width: 1120px) {
+	@media (min-width: 1120px) {
+		.reading-status-and-my-shelves-container {
 			width: 1120px;
 			margin: 0 auto;
 			flex-direction: row;
 			justify-content: space-between;
-
-			.my-shelves {
-				width: 216px;
-				margin: 0;
-
-				.create-new-shelf-button {
-					width: 162px;
-				}
-
-				.shelves-container {
-					flex-direction: column;
-					justify-content: flex-start;
-					flex-wrap: nowrap;
-
-					.shelf {
-						height: 162px;
-						width: 162px;
-						margin-bottom: 16px;
-					}
-				}
-			}
 
 			.reading-status-container {
 				background-color: #ffffff;
@@ -172,6 +177,33 @@ const LibraryContainer = styled.div`
 				.reading-status {
 					width: 687px;
 					margin: 0;
+
+					.section  {
+						flex-direction: row;
+						justify-content: space-between;
+						flex-wrap: wrap;
+					}
+				}
+			}
+
+			.my-shelves {
+				width: 216px;
+				margin: 0;
+	
+				.create-new-shelf-button {
+					width: 162px;
+				}
+	
+				.shelves-container {
+					flex-direction: column;
+					justify-content: flex-start;
+					flex-wrap: nowrap;
+	
+					.shelf {
+						height: 162px;
+						width: 162px;
+						margin-bottom: 16px;
+					}
 				}
 			}
 		}
