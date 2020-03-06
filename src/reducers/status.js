@@ -16,7 +16,7 @@ const initialState = {
 }
 
 export default function reducer(state = initialState, action) {
-    switch (action.state) {
+    switch (action.type) {
         case ADD_BOOK_TO_LIBRARY_START:
             return {
                 ...state,
@@ -25,7 +25,8 @@ export default function reducer(state = initialState, action) {
         case ADD_BOOK_TO_LIBRARY_SUCCESS:
             return {
                 ...state,
-                adding: false
+                adding: false,
+                action: action.payload
             }
         case ADD_BOOK_TO_LIBRARY_FAILURE:
             return {
@@ -36,7 +37,8 @@ export default function reducer(state = initialState, action) {
         case ADD_BOOK_TO_FAVORITE_SUCCESS:
             return {
                 ...state,
-                adding: false
+                adding: false,
+                action: action.payload
             }
         case ADD_BOOK_TO_FAVORITE_FAILURE:
             return {

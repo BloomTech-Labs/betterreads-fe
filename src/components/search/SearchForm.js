@@ -29,9 +29,6 @@ const Wrapper = styled.div`
 `;
 
 const SearchForm = props => {
-    console.log(props)
-    console.log(props.history.location.pathname)
-    console.log((props.history.location.pathname === '/search'))
 	const handleChange = e => {
 		props.setQuery(e.target.value);
 	};

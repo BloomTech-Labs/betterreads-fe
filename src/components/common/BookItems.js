@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
 import { Button, Rate, Menu, Dropdown, notification } from 'antd';
-
-import { saveBookToLibrary } from '../../actions'
-
+import axios from 'axios';
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 
 import BookIcon from './BookIcon';
 import styled from 'styled-components';
+
+const apiURL = 'https://www.googleapis.com/books/v1/volumes?q=';
+const apiLocal = 'http://localhost:5000/api';
 
 const Wrapper = styled.div`
     width: 90%;
@@ -127,7 +127,7 @@ const ThumbContainer = styled.div`
 `;
 
 const BookItem = props => {
-    const { id, selfLink, volumeInfo, accessInfo, searchInfo } = props.book;
+    const { id, selfLink, volumeInfo, accessInfo, searchInfo, saleInfo } = props.book;
     const [favorite, setFavorite] = useState(false);
     const [readingStatus, setReadingStatus] = useState();
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
@@ -144,40 +144,63 @@ const BookItem = props => {
         // Run if reading status changes
         if(readingStatusRef.current !== readingStatus){
             actionType = 'readingStatus';
-            Event(
-                'Search',
-                'User added a book to start tracking from search list.',
-                'SEARCH_RESULT'
-            );
-            notification.open({
-                type: 'info',
-                message: 'Success',
-                description: 'You are now tracking a book',
-                duration: 1.5
-            });
             readingStatusRef.current = readingStatus;
         }
         
         // Run if favorite status changes
         if(favoriteRef.current !== favorite){
             actionType = 'favorite';
-            // Record google analytics event when a book is favorited
-            Event(
-                'Search',
-                (favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),
-                'SEARCH_RESULT'
-            );
-            notification.open({
-                type: (favorite ? 'success' : 'info'),
-                message: 'Success',
-                description: (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'),
-                duration: 1.5
-            });
             favoriteRef.current = favorite;
         }
+
         // (userId, googleId, book Object, reading status, favorite)
-        props.saveBookToLibrary(localStorage.getItem('id'), actionType, props.book.id, props.book, readingStatus, favorite);
-    }, [favorite, readingStatus])
+        // props.saveBookToLibrary(localStorage.getItem('id'), actionType, props.book.id, props.book, readingStatus, favorite);
+        const modifiedBook = {
+            book: {
+                googleId: id,
+                title: volumeInfo.title || null,
+                authors: volumeInfo.authors.toString() || null,
+                publisher: volumeInfo.publisher || null,
+                publishedDate: volumeInfo.publishedDate || null,
+                description: volumeInfo.description || null,
+                isbn10: volumeInfo.industryIdentifiers[0].identifier || null,
+                isbn13: volumeInfo.industryIdentifiers[1].identifier || null,
+                pageCount: volumeInfo.pageCount || null,
+                categories: volumeInfo.categories.toString() || null,
+                thumbnail: volumeInfo.imageLinks.thumbnail || null,
+                smallThumbnail: volumeInfo.imageLinks.smallThumbnail || null,
+                language: volumeInfo.language || null,
+                webReaderLink: accessInfo.webReaderLink || null,
+                textSnippet: searchInfo.textSnippet || null,
+                isEbook: saleInfo.isEbook || null
+            },
+            readingStatus: readingStatus || null,
+            favorite: favorite  // true || false
+        };
+
+        axios
+            .post(`${apiLocal}/${localStorage.getItem('id')}/library`, modifiedBook)
+            .then(results => {
+                // Analytics Event action
+                if(actionType === 'favorite') {
+                    Event('Search', (favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),'SEARCH_RESULT');
+                    sendUpTheFlares('success', 'Success', (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'));
+                }else{
+                    Event('Search', 'User added a book to start tracking from search list.', 'SEARCH_RESULT');
+                    sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
+                }                
+            })
+            .catch(err => console.log(err));
+    }, [favorite, readingStatus]);
+
+    const sendUpTheFlares = (type, message, description) => {
+        notification.open({
+            type,
+            message,
+            description,
+            duration: 1.5
+        });   
+    }
 
     const readingStatusUpdate = key => {
         setReadingStatus(key.item.props.value);
@@ -234,10 +257,4 @@ const BookItem = props => {
 
 };
 
-const mapStateToProps = state => {
-    return {
-        adding: state.status.adding
-    }
-}
-
-export default connect(mapStateToProps, {saveBookToLibrary})(BookItem);
+export default BookItem;

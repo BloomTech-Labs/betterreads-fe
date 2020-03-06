@@ -19,13 +19,6 @@ export const CREATE_USER_SHELF_SUCCESS = 'CREATE_USER_SHELF_SUCCESS';
 export const CREATE_USER_SHELF_FAILURE = 'CREATE_USER_SHELF_FAILURE';
 export const CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS';
 export const SET_QUERY = 'SET_QUERY';
-export const ADD_BOOK_TO_LIBRARY_START = "ADD_BOOK_TO_LIBRARY_START";
-export const ADD_BOOK_TO_LIBRARY_SUCCESS = "ADD_BOOK_TO_LIBRARY_SUCCESS";
-export const ADD_BOOK_TO_LIBRARY_FAILURE = "ADD_BOOK_TO_LIBRARY_FAILURE";
-export const ADD_BOOK_TO_FAVORITE_SUCCESS = "ADD_BOOK_TO_FAVORITE_SUCCESS";
-export const ADD_BOOK_TO_FAVORITE_FAILURE = "ADD_BOOK_TO_FAVORITE_FAILURE";
-export const ADD_BOOK_STATUS_SUCCESS = "ADD_BOOK_STATUS_SUCCESS";
-export const ADD_BOOK_STATUS_FAILURE = "ADD_BOOK_STATUS_FAILURE";
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -151,35 +144,41 @@ export const clearSearchResults = () => dispatch => {
 };
 
 export const saveBookToLibrary = (userId, actionType, bookId, book, readingStatus, favorite) => dispatch => {
-	dispatch({ type: ADD_BOOK_TO_LIBRARY_START });
-	console.log(actionType)
-	const modifiedBook = {
-		book: {
-			googleId: book.id,
-			title: book.volumeInfo.title || null,
-			authors: book.volumeInfo.authors.toString() || null,
-			publisher: book.volumeInfo.publisher || null,
-			publishedDate: book.volumeInfo.publishedDate || null,
-			description: book.volumeInfo.description || null,
-			isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
-			isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
-			pageCount: book.volumeInfo.pageCount || null,
-			categories: book.volumeInfo.categories.toString() || null,
-			thumbnail: book.volumeInfo.imageLinks.thumbnail || null,
-			smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail || null,
-			language: book.volumeInfo.language || null,
-			webReaderLink: book.accessInfo.webReaderLink || null,
-			textSnippet: book.searchInfo.textSnippet || null,
-			isEbook: book.saleInfo.isEbook || null
-		},
-		readingStatus: readingStatus || null,
-		favorite: favorite  // true || false
-	};
+	// dispatch({ type: ADD_BOOK_TO_LIBRARY_START });
+	
+	// if(actionType === 'favorite'){
+		
+	// }else{
 
-	axios
-		.post(`${apiLocal}/${userId}/library`, modifiedBook)
-		.then(results => dispatch({ type: ADD_BOOK_TO_LIBRARY_SUCCESS, payload: results.data}))
-		.catch(err => dispatch({ type: ADD_BOOK_TO_LIBRARY_FAILURE, payload: err.response }));
+	// }
+
+	// const modifiedBook = {
+	// 	book: {
+	// 		googleId: book.id,
+	// 		title: book.volumeInfo.title || null,
+	// 		authors: book.volumeInfo.authors.toString() || null,
+	// 		publisher: book.volumeInfo.publisher || null,
+	// 		publishedDate: book.volumeInfo.publishedDate || null,
+	// 		description: book.volumeInfo.description || null,
+	// 		isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
+	// 		isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
+	// 		pageCount: book.volumeInfo.pageCount || null,
+	// 		categories: book.volumeInfo.categories.toString() || null,
+	// 		thumbnail: book.volumeInfo.imageLinks.thumbnail || null,
+	// 		smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail || null,
+	// 		language: book.volumeInfo.language || null,
+	// 		webReaderLink: book.accessInfo.webReaderLink || null,
+	// 		textSnippet: book.searchInfo.textSnippet || null,
+	// 		isEbook: book.saleInfo.isEbook || null
+	// 	},
+	// 	readingStatus: readingStatus || null,
+	// 	favorite: favorite  // true || false
+	// };
+
+	// axios
+	// 	.post(`${apiLocal}/${userId}/library`, modifiedBook)
+	// 	.then(results => dispatch({ type: ADD_BOOK_TO_LIBRARY_SUCCESS, payload: results.data}))
+	// 	.catch(err => dispatch({ type: ADD_BOOK_TO_LIBRARY_FAILURE, payload: err.response }));
 };
 
 export const createUserShelf = (

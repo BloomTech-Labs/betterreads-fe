@@ -10,10 +10,7 @@ const ListContainer = styled.div`
 		display: none;
 	}
 
-	@media (min-width: 1120px) {
-		width: 90%;
-		margin: 0 auto;
-		
+	@media (min-width: 1120px) {		
 		flex-direction: row;
 		flex-wrap: wrap;
 		margin-top: 52px;
