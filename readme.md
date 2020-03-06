@@ -1,4 +1,4 @@
-# [betterReads](https://github.com/Lambda-School-Labs/betterreads-frontend)
+# [Readrr](https://github.com/Lambda-School-Labs/betterreads-frontend)
 
 ![React](https://img.shields.io/badge/react-v16.7.0--alpha.2-blue.svg)
 ![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)
@@ -6,7 +6,7 @@
 ![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
 
-betterReads is a social media platform that allows users to connect with other readers alike, search its database of books, browse recommendations, and manage their own library.
+Readrr is a social media platform that allows users to connect with other readers alike, search its database of books, browse recommendations, and manage their own library.
 
 ## Installation
 
@@ -36,7 +36,7 @@ See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for detail
 
 -   OAuth 2.0
 -   Google Books API
--   BetterReads API
+-   Readrr API
 
 ### Google Analytics
 
