@@ -1,7 +1,6 @@
 import React from 'react';
 import BookItem from './BookItems';
 import styled from 'styled-components';
-import ShelfNote from '../common/ShelfNote';
 
 const ListContainer = styled.div`
 	display: flex;

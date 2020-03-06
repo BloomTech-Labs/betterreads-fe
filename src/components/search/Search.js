@@ -20,6 +20,14 @@ const Wrapper = styled.div`
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
+
+			.bookList{
+				width: 72%;
+			}
+
+			.shelfList{
+				width: 26%;
+			}
 		}
 
 		.spinnerContainer {
@@ -48,24 +56,29 @@ const Search = props => {
 				!props.searchResults.books && <ShelfNote note="Search for your favorite title or author." />
 			}
 			{
-				!props.fetching &&
 				props.searchResults.books &&
 				<ShelfNote note={`${props.searchResults.books.totalItems} results for "${props.searchResults.query}"`} />
 			}
-			{
-				props.fetching && <div className="spinnerContainer"><Spin indicator={antIcon} /></div>
-			}
 			<div className="somethingClever">
 				{
-					!props.searchResults.books &&
-						<div style={{width: '90%'}}>&nbsp;</div>
+					props.fetching && <div className="bookList"><div className="spinnerContainer"><Spin indicator={antIcon} /></div></div>
 				}
 				{
 					!props.fetching &&
-					props.searchResults.books &&
-					<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />
+					!props.searchResults.books &&
+						<div className="bookList">&nbsp;</div>
 				}
-				<ShelfContainer history={props.history} />
+				
+				{
+					!props.fetching &&
+					props.searchResults.books &&
+					<div className="bookList">
+						<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />
+					</div>
+				}
+				<div className="shelfList">
+					<ShelfContainer history={props.history} />
+				</div>
 			</div>
 		</Wrapper>
 	);

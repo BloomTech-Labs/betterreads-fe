@@ -132,57 +132,56 @@ const BookItem = props => {
     const [readingStatus, setReadingStatus] = useState();
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
 
+    let actionType = null;
+    const readingStatusRef = useRef(readingStatus);
+    const favoriteRef = useRef(favorite);
     const firstRun = useRef(true);
     useEffect(() => {
         if(firstRun.current){
             firstRun.current = false;
             return;
         }
-
-        // Record google analytics event when a book is favorited
-        Event(
-			'Search',
-			(favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),
-			'SEARCH_RESULT'
-		);        
-
-        notification.open({
-            type: (favorite ? 'success' : 'info'),
-            message: 'Success',
-            description: (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'),
-            duration: 1.5
-        });
-        // (userId, googleId, book Object, reading status, favorite)
-        props.saveBookToLibrary(localStorage.getItem('id'), props.book.id, props.book, 1, favorite);
-    }, [favorite])
-
-    const firstRunStatus = useRef(true);
-    useEffect(() => {
-        if(firstRunStatus.current){
-            firstRunStatus.current = false;
-            return;
+        // Run if reading status changes
+        if(readingStatusRef.current !== readingStatus){
+            actionType = 'readingStatus';
+            Event(
+                'Search',
+                'User added a book to start tracking from search list.',
+                'SEARCH_RESULT'
+            );
+            notification.open({
+                type: 'info',
+                message: 'Success',
+                description: 'You are now tracking a book',
+                duration: 1.5
+            });
+            readingStatusRef.current = readingStatus;
         }
         
-        Event(
-			'Search',
-			'User added a book with a reading status',
-			'SEARCH_RESULT'
-        );
+        // Run if favorite status changes
+        if(favoriteRef.current !== favorite){
+            actionType = 'favorite';
+            // Record google analytics event when a book is favorited
+            Event(
+                'Search',
+                (favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),
+                'SEARCH_RESULT'
+            );
+            notification.open({
+                type: (favorite ? 'success' : 'info'),
+                message: 'Success',
+                description: (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'),
+                duration: 1.5
+            });
+            favoriteRef.current = favorite;
+        }
         // (userId, googleId, book Object, reading status, favorite)
-        props.saveBookToLibrary(localStorage.getItem('id'), props.book.id, props.book, readingStatus, null);
-    }, [readingStatus])
+        props.saveBookToLibrary(localStorage.getItem('id'), actionType, props.book.id, props.book, readingStatus, favorite);
+    }, [favorite, readingStatus])
 
     const readingStatusUpdate = key => {
-        // Send book to library and add reading status
         setReadingStatus(key.item.props.value);
         setTrackBtnLabel(key.item.props.children);
-        notification.open({
-            type: 'info',
-            message: 'Success',
-            description: 'You are now tracking a book',
-            duration: 1.5
-        });
-        
     }
 
     const TrackMenu = (
@@ -192,17 +191,6 @@ const BookItem = props => {
             <Menu.Item key="62" value="3">Finished</Menu.Item>
         </Menu>
     )
-
-	// const saveBookToLibrary = book => {
-	// 	Event(
-	// 		'Search',
-	// 		'User added a book library from search list.',
-	// 		'SEARCH_RESULT'
-	// 	);
-
-    //     // (userId, googleId, book Object)
-    //     props.saveBookToLibrary(localStorage.getItem('user_id'), book.id, props.book, readingStatus, favorite);
-    // }
     
     return (
         <Wrapper id={id}>
@@ -246,4 +234,10 @@ const BookItem = props => {
 
 };
 
-export default connect(null, {saveBookToLibrary})(BookItem);
+const mapStateToProps = state => {
+    return {
+        adding: state.status.adding
+    }
+}
+
+export default connect(mapStateToProps, {saveBookToLibrary})(BookItem);

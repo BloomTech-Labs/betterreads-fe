@@ -19,6 +19,13 @@ export const CREATE_USER_SHELF_SUCCESS = 'CREATE_USER_SHELF_SUCCESS';
 export const CREATE_USER_SHELF_FAILURE = 'CREATE_USER_SHELF_FAILURE';
 export const CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS';
 export const SET_QUERY = 'SET_QUERY';
+export const ADD_BOOK_TO_LIBRARY_START = "ADD_BOOK_TO_LIBRARY_START";
+export const ADD_BOOK_TO_LIBRARY_SUCCESS = "ADD_BOOK_TO_LIBRARY_SUCCESS";
+export const ADD_BOOK_TO_LIBRARY_FAILURE = "ADD_BOOK_TO_LIBRARY_FAILURE";
+export const ADD_BOOK_TO_FAVORITE_SUCCESS = "ADD_BOOK_TO_FAVORITE_SUCCESS";
+export const ADD_BOOK_TO_FAVORITE_FAILURE = "ADD_BOOK_TO_FAVORITE_FAILURE";
+export const ADD_BOOK_STATUS_SUCCESS = "ADD_BOOK_STATUS_SUCCESS";
+export const ADD_BOOK_STATUS_FAILURE = "ADD_BOOK_STATUS_FAILURE";
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -143,9 +150,9 @@ export const clearSearchResults = () => dispatch => {
 	dispatch({ type: CLEAR_SEARCH_RESULTS, payload: {} });
 };
 
-export const saveBookToLibrary = (userId, bookId, book, readingStatus, favorite) => dispatch => {
-	dispatch({ type: SENDING_BOOK_LIBRARY });
- 
+export const saveBookToLibrary = (userId, actionType, bookId, book, readingStatus, favorite) => dispatch => {
+	dispatch({ type: ADD_BOOK_TO_LIBRARY_START });
+	console.log(actionType)
 	const modifiedBook = {
 		book: {
 			googleId: book.id,
@@ -169,14 +176,10 @@ export const saveBookToLibrary = (userId, bookId, book, readingStatus, favorite)
 		favorite: favorite  // true || false
 	};
 
-	// axios.post(`${apiLocal}/${userId}/library/${bookId}`, modifiedBook)
-	//     .then(results => dispatch({ type: SENDING_BOOK_LIBRARY_SUCCESS, payload: results.data}))
-	//     .catch(err => dispatch({ type: SENDING_BOOK_LIBRARY_FAILURE, payload: err.response }))
 	axios
 		.post(`${apiLocal}/${userId}/library`, modifiedBook)
-		//.post(`${apiLocal}/${userId}/${(favorite) ? 'libraryfav' : 'library'}`, modifiedBook)
-		.then(results => console.log(results))
-		.catch(err => console.log(err.response));
+		.then(results => dispatch({ type: ADD_BOOK_TO_LIBRARY_SUCCESS, payload: results.data}))
+		.catch(err => dispatch({ type: ADD_BOOK_TO_LIBRARY_FAILURE, payload: err.response }));
 };
 
 export const createUserShelf = (
