@@ -6,7 +6,7 @@ import { Input } from 'antd';
 
 const Wrapper = styled.div`
     background-color: #f3f6f5;
-    padding: 1.375rem 0;
+    padding: 16px 0;
     
     .innerWrapper {
         width: 90%;
