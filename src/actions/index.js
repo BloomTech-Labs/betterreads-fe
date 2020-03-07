@@ -25,7 +25,7 @@ export const signUp = (input, history) => dispatch => {
 		dispatch({ type: SET_ERROR, payload: 'Passwords do not match' });
 	} else {
 		axios
-			.post('${apiLocal}/auth/signup', {
+			.post(`${apiLocal}/auth/signup`, {
 				fullName: input.fullName,
 				emailAddress: input.emailAddress,
 				username: input.fullName,
@@ -50,7 +50,7 @@ export const signUp = (input, history) => dispatch => {
 
 export const signIn = (input, history) => dispatch => {
 	axios
-		.post('${apiLocal}/auth/signin', input)
+		.post(`${apiLocal}/auth/signin`, input)
 		.then(response => {
 			console.log(response);
 			localStorage.setItem('id', response.data.user.id);
@@ -75,7 +75,7 @@ export const resetError = () => dispatch => {
 export const successRedirect = history => dispatch => {
 	// even though im not dispatching an action type, i still need to include dispatch or else redux logger throws an error
 	axios
-		.get('${apiLocal}/auth/success')
+		.get(`${apiLocal}/auth/success`)
 		.then(response => {
 			console.log('social media user object', response);
 			localStorage.setItem('id', response.data.user.id);
@@ -88,7 +88,7 @@ export const successRedirect = history => dispatch => {
 
 export const signOut = history => dispatch => {
 	axios
-		.get('${apiLocal}/auth/signout')
+		.get(`${apiLocal}/auth/signout`)
 		.then(response => {
 			console.log(response);
 			localStorage.removeItem('id');
