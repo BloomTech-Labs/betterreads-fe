@@ -102,14 +102,14 @@ const SignUp = props => {
 
 					<p className="or">OR</p>
 
-					<a href="${apiLocal}/auth/facebook">
+					<a href={`${apiLocal}/auth/facebook`}>
 						<button type="button" className="facebook-button">
 							<img src={facebooklogo} alt="facebook logo" />
 							Sign up with Facebook
 						</button>
 					</a>
 
-					<a href="${apiLocal}/auth/google">
+					<a href={`${apiLocal}/auth/google`}>
 						<button type="button" className="google-button">
 							<img src={googlelogo} alt="google logo" />
 							Sign up with Google
