@@ -2,7 +2,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 const apiURL = 'https://www.googleapis.com/books/v1/volumes?q=';
-const apiLocal = 'http://localhost:5000/api';
+const apiLocal = process.env.APIURL || 'http://localhost:5000/api';
 
 export const FETCH_SEARCH_START = 'FETCH_SEARCH_START';
 export const FETCH_SEARCH_SUCCESS = 'FETCH_SEARCH_SUCCESS';
@@ -13,7 +13,7 @@ export const SENDING_BOOK_LIBRARY_FAILURE = 'SENDING_BOOK_LIBRARY_FAILURE';
 export const SET_ERROR = 'SET_ERROR';
 export const RESET_ERROR = 'RESET_ERROR';
 export const FETCH_USERS_BOOKS = 'FETCH_USERS_BOOKS';
-export const FETCH_USERS_SHELVES = 'FETCH_SHELVES_BOOKS';
+export const FETCH_USERS_SHELVES = 'FETCH_USERS_SHELVES';
 export const CREATE_USER_SHELF = 'CREATE_USER_SHELF';
 export const CREATE_USER_SHELF_SUCCESS = 'CREATE_USER_SHELF_SUCCESS';
 export const CREATE_USER_SHELF_FAILURE = 'CREATE_USER_SHELF_FAILURE';
@@ -25,7 +25,7 @@ export const signUp = (input, history) => dispatch => {
 		dispatch({ type: SET_ERROR, payload: 'Passwords do not match' });
 	} else {
 		axios
-			.post('http://localhost:5000/api/auth/signup', {
+			.post('${apiLocal}/auth/signup', {
 				fullName: input.fullName,
 				emailAddress: input.emailAddress,
 				username: input.fullName,
@@ -50,7 +50,7 @@ export const signUp = (input, history) => dispatch => {
 
 export const signIn = (input, history) => dispatch => {
 	axios
-		.post('http://localhost:5000/api/auth/signin', input)
+		.post('${apiLocal}/auth/signin', input)
 		.then(response => {
 			console.log(response);
 			localStorage.setItem('id', response.data.user.id);
@@ -75,7 +75,7 @@ export const resetError = () => dispatch => {
 export const successRedirect = history => dispatch => {
 	// even though im not dispatching an action type, i still need to include dispatch or else redux logger throws an error
 	axios
-		.get('http://localhost:5000/api/auth/success')
+		.get('${apiLocal}/auth/success')
 		.then(response => {
 			console.log('social media user object', response);
 			localStorage.setItem('id', response.data.user.id);
@@ -88,7 +88,7 @@ export const successRedirect = history => dispatch => {
 
 export const signOut = history => dispatch => {
 	axios
-		.get('http://localhost:5000/api/auth/signout')
+		.get('${apiLocal}/auth/signout')
 		.then(response => {
 			console.log(response);
 			localStorage.removeItem('id');
@@ -101,7 +101,7 @@ export const signOut = history => dispatch => {
 
 export const fetchUsersBooks = userID => dispatch => {
 	axios
-		.get(`http://localhost:5000/api/${userID}/library`)
+		.get(`${apiLocal}/${userID}/library`)
 		.then(response => {
 			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
 		})
@@ -110,7 +110,7 @@ export const fetchUsersBooks = userID => dispatch => {
 
 export const fetchUsersShelves = userID => dispatch => {
 	axios
-		.get(`http://localhost:5000/api/shelves/user/${userID}`)
+		.get(`${apiLocal}/shelves/user/${userID}`)
 		.then(response => {
 			dispatch({ type: FETCH_USERS_SHELVES, payload: response.data });
 		})
@@ -119,7 +119,7 @@ export const fetchUsersShelves = userID => dispatch => {
 
 export const fetchShelfsBooks = shelfID => dispatch => {
 	axios
-		.get(`http://localhost:5000/api/shelves/${shelfID}`)
+		.get(`${apiLocal}/shelves/${shelfID}`)
 		.then(response => console.log(response.data))
 		.catch(error => console.log(error));
 };
@@ -189,7 +189,7 @@ export const createUserShelf = (
 ) => dispatch => {
 	dispatch({ type: CREATE_USER_SHELF });
 	axios
-		.post(`http://localhost:5000/api/shelves/${userId}`, {
+		.post(`${apiLocal}/shelves/${userId}`, {
 			shelfName: shelfName,
 			isPrivate: shelfPrivate
 		})

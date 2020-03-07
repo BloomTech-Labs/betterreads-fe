@@ -61,23 +61,18 @@ const Wrapper = styled.div`
     }
 
     @media (min-width: 1120px) {
-        // width: 26%;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-
         .hideOnMobile{display: block;}
-
         .create-new-shelf-button{
             width: 162px;
         }
-
         .shelves-container {
             width: 100%;
             display: flex;
             justify-content: space-between;
         }
-
     }
 `;
 

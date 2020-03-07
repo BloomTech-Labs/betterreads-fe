@@ -11,6 +11,9 @@ import Breadcrumbs from './Breadcrumbs';
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
+import ShelfContainer from '../common/ShelfContainer';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const Wrapper = styled.div`
 .frank{font-family: 'Frank Ruhl Libre', serif;}
@@ -122,8 +125,45 @@ const Wrapper = styled.div`
 				}
 		}
 
+	}
+	@media (min-width: 1120px) {
+
+		.somethingClever{
+			width: 1120px;
+			margin: 0 auto;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			
+			.flexer{
+				width: 74%;
+				margin-top 24px;
+				
+				.top{
+					width: 90%;
+					margin: 10px 0;
+				}
+				.bookDeets{
+					margin: 10px 0;
+   					width: 90%;
+				}
+			}
+			.shelf {
+				width: 26%;
+			}
+
+
+}
+		.spinnerContainer {
+			width: 90%;
+			height: 100vh;
+
+			margin-top: 4rem;
+		}
     }
 `;
+
+const antIcon = <LoadingOutlined style={{ fontSize: 48 }} spin />;
 
 const GenreBox = styled.button`
 	background: #547862;
@@ -140,14 +180,11 @@ const GenreBox = styled.button`
 `;
 
 export function BookDetails(props) {
-
 	const { bookId } = props.match.params.id;
 	const [selectedBook, setSelectedBook] = useState();
 	const [favorite, setFavorite] = useState(false);
 	const [readingStatus, setReadingStatus] = useState();
 	const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
-
-
 
 	const firstRun = useRef(true);
 	useEffect(() => {
@@ -173,7 +210,13 @@ export function BookDetails(props) {
 				: 'Book removed from favorites.',
 			duration: 1.5
 		});
-		props.saveBookToLibrary(localStorage.getItem('id'), selectedBook.id, selectedBook, readingStatus, favorite);
+		props.saveBookToLibrary(
+			localStorage.getItem('id'),
+			selectedBook.id,
+			selectedBook,
+			readingStatus,
+			favorite
+		);
 	}, [favorite]);
 
 	const firstRunStatus = useRef(true);
@@ -188,7 +231,13 @@ export function BookDetails(props) {
 			'User added a book with a reading status',
 			'SEARCH_RESULT'
 		);
-		props.saveBookToLibrary(localStorage.getItem('id'), selectedBook.id, selectedBook, readingStatus, favorite);
+		props.saveBookToLibrary(
+			localStorage.getItem('id'),
+			selectedBook.id,
+			selectedBook,
+			readingStatus,
+			favorite
+		);
 	}, [readingStatus]);
 
 	const readingStatusUpdate = key => {
@@ -261,8 +310,8 @@ export function BookDetails(props) {
 		border-radius: 5px 0 0;
 	`;
 
-	console.log(selectedBook, "selected book")
-	
+	console.log(selectedBook, 'selected book');
+
 	return (
 		<>
 			{selectedBook && (
@@ -276,91 +325,102 @@ export function BookDetails(props) {
 							{ label: 'Book Detail', path: null }
 						]}
 					/>
-
+					{props.fetching && (
+						<div className="spinnerContainer">
+							<Spin indicator={antIcon} />
+						</div>
+					)}
 					<Wrapper id={bookId}>
-						<div className="flexer">
-							<div className="top">
-								<div className="imgContainer">
-									<ThumbContainer
-										bgImage={
-											selectedBook.volumeInfo.imageLinks
-												.thumbnail
-										}
-									/>
-
-									<Dropdown
-										overlay={TrackMenu}
-										trigger={['click']}
-									>
-										<Button
-											className={
-												trackBtnLabel === 'Track this'
-													? 'betterReadsOrange'
-													: 'betterReadsGreen'
+						<div className="somethingClever">
+							<div className="flexer">
+								<div className="top">
+									<div className="imgContainer">
+										<ThumbContainer
+											bgImage={
+												selectedBook.volumeInfo
+													.imageLinks.thumbnail
 											}
-										>
-											{trackBtnLabel} <DownOutlined />
-										</Button>
-									</Dropdown>
-								</div>
+										/>
 
-								<div className="bookDetail openSans">
-									<div className="bookTitle fs-16 fw-600">
-										{selectedBook.volumeInfo.title}
+										<Dropdown
+											overlay={TrackMenu}
+											trigger={['click']}
+										>
+											<Button
+												className={
+													trackBtnLabel ===
+													'Track this'
+														? 'betterReadsOrange'
+														: 'betterReadsGreen'
+												}
+											>
+												{trackBtnLabel} <DownOutlined />
+											</Button>
+										</Dropdown>
 									</div>
-									<div className="bookAuthors fs-16 openSans lh-22">
-										{selectedBook.volumeInfo.authors &&
-											selectedBook.volumeInfo.authors.map(
-												(author, index) => (
-													<div key={index}>
-														{index === 0 && 'by'}{' '}
-														{author}
-													</div>
+
+									<div className="bookDetail openSans">
+										<div className="bookTitle fs-16 fw-600">
+											{selectedBook.volumeInfo.title}
+										</div>
+										<div className="bookAuthors fs-16 openSans lh-22">
+											{selectedBook.volumeInfo.authors &&
+												selectedBook.volumeInfo.authors.map(
+													(author, index) => (
+														<div key={index}>
+															{index === 0 &&
+																'by'}{' '}
+															{author}
+														</div>
+													)
+												)}
+										</div>
+										<div className="bookRating">
+											<Rate
+												allowHalf
+												defaultValue={
+													selectedBook.volumeInfo
+														.averageRating
+												}
+											/>
+										</div>
+									</div>
+									<div className="bookFav">
+										{favorite ? (
+											<HeartFilled
+												onClick={() =>
+													setFavorite(!favorite)
+												}
+											/>
+										) : (
+											<HeartOutlined
+												onClick={() =>
+													setFavorite(!favorite)
+												}
+											/>
+										)}
+									</div>
+								</div>
+								<div className="bookDeets">
+									<p>{selectedBook.volumeInfo.description}</p>
+									<div className="genre">
+										<p>Genre</p>
+									</div>
+									<div>
+										{selectedBook.volumeInfo.categories &&
+											selectedBook.volumeInfo.categories.map(
+												G => (
+													<GenreBox key={G.id}>
+														{G}{' '}
+													</GenreBox>
 												)
 											)}
+										,
 									</div>
-									<div className="bookRating">
-										<Rate
-											allowHalf
-											defaultValue={
-												selectedBook.volumeInfo
-													.averageRating
-											}
-										/>
-									</div>
-								</div>
-								<div className="bookFav">
-									{favorite ? (
-										<HeartFilled
-											onClick={() =>
-												setFavorite(!favorite)
-											}
-										/>
-									) : (
-										<HeartOutlined
-											onClick={() =>
-												setFavorite(!favorite)
-											}
-										/>
-									)}
 								</div>
 							</div>
-							<div className="bookDeets">
-								<p>{selectedBook.volumeInfo.description}</p>
-								<div className="genre">
-									<p>Genre</p>
-								</div>
-								<div>
-									{selectedBook.volumeInfo.categories &&
-										selectedBook.volumeInfo.categories.map(
-											G => (
-												<GenreBox key={G.id}>
-													{G}{' '}
-												</GenreBox>
-											)
-										)}
-									,
-								</div>
+							<div className="shelf">
+							<ShelfContainer history={props.history} />
 							</div>
 						</div>
 					</Wrapper>

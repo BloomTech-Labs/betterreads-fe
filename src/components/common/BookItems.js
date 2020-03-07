@@ -11,7 +11,7 @@ import BookIcon from './BookIcon';
 import styled from 'styled-components';
 
 const apiURL = 'https://www.googleapis.com/books/v1/volumes?q=';
-const apiLocal = 'http://localhost:5000/api';
+const apiLocal = process.env.APIURL || 'http://localhost:5000/api';
 
 const Wrapper = styled.div`
     width: 90%;
@@ -115,6 +115,7 @@ const Wrapper = styled.div`
     @media (min-width: 1120px) {
         width: 45%;
         margin: 0 18px 0 0;
+        
     }
 `;
 
@@ -188,7 +189,7 @@ const BookItem = props => {
                 }else{
                     Event('Search', 'User added a book to start tracking from search list.', 'SEARCH_RESULT');
                     sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
-                }                
+                }
             })
             .catch(err => console.log(err));
     }, [favorite, readingStatus]);
