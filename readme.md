@@ -1,4 +1,4 @@
-# [Readrr](https://github.com/Lambda-School-Labs/betterreads-frontend)
+# [Readrr](https://readrr.app)
 
 ![React](https://img.shields.io/badge/react-v16.7.0--alpha.2-blue.svg)
 ![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)
