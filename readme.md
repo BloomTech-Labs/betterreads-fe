@@ -92,4 +92,4 @@ See [this repo](https://github.com/Lambda-School-Labs/betterreads-ds) for detail
 
 ### License
 
-[Readrr](https://readrr.app) is [MIT licensed](./license).
+Readrr is [MIT licensed](./license).
