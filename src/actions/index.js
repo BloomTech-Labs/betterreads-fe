@@ -2,7 +2,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 const apiURL = 'https://www.googleapis.com/books/v1/volumes?q=';
-const apiLocal = 'http://localhost:5000/api';
+const apiLocal = process.env.APIURL || 'http://localhost:5000/api';
 
 export const FETCH_SEARCH_START = 'FETCH_SEARCH_START';
 export const FETCH_SEARCH_SUCCESS = 'FETCH_SEARCH_SUCCESS';
@@ -25,7 +25,7 @@ export const signUp = (input, history) => dispatch => {
 		dispatch({ type: SET_ERROR, payload: 'Passwords do not match' });
 	} else {
 		axios
-			.post('http://localhost:5000/api/auth/signup', {
+			.post('${apiLocal}/auth/signup', {
 				fullName: input.fullName,
 				emailAddress: input.emailAddress,
 				username: input.fullName,
@@ -50,7 +50,7 @@ export const signUp = (input, history) => dispatch => {
 
 export const signIn = (input, history) => dispatch => {
 	axios
-		.post('http://localhost:5000/api/auth/signin', input)
+		.post('${apiLocal}/auth/signin', input)
 		.then(response => {
 			console.log(response);
 			localStorage.setItem('id', response.data.user.id);
@@ -75,7 +75,7 @@ export const resetError = () => dispatch => {
 export const successRedirect = history => dispatch => {
 	// even though im not dispatching an action type, i still need to include dispatch or else redux logger throws an error
 	axios
-		.get('http://localhost:5000/api/auth/success')
+		.get('${apiLocal}/auth/success')
 		.then(response => {
 			console.log('social media user object', response);
 			localStorage.setItem('id', response.data.user.id);
@@ -88,7 +88,7 @@ export const successRedirect = history => dispatch => {
 
 export const signOut = history => dispatch => {
 	axios
-		.get('http://localhost:5000/api/auth/signout')
+		.get('${apiLocal}/auth/signout')
 		.then(response => {
 			console.log(response);
 			localStorage.removeItem('id');
@@ -101,7 +101,7 @@ export const signOut = history => dispatch => {
 
 export const fetchUsersBooks = userID => dispatch => {
 	axios
-		.get(`http://localhost:5000/api/${userID}/library`)
+		.get(`${apiLocal}/${userID}/library`)
 		.then(response => {
 			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
 		})
@@ -110,7 +110,7 @@ export const fetchUsersBooks = userID => dispatch => {
 
 export const fetchUsersShelves = userID => dispatch => {
 	axios
-		.get(`http://localhost:5000/api/shelves/user/${userID}`)
+		.get(`${apiLocal}/shelves/user/${userID}`)
 		.then(response => {
 			dispatch({ type: FETCH_USERS_SHELVES, payload: response.data });
 		})
@@ -119,7 +119,7 @@ export const fetchUsersShelves = userID => dispatch => {
 
 export const fetchShelfsBooks = shelfID => dispatch => {
 	axios
-		.get(`http://localhost:5000/api/shelves/${shelfID}`)
+		.get(`${apiLocal}/shelves/${shelfID}`)
 		.then(response => console.log(response.data))
 		.catch(error => console.log(error));
 };
@@ -143,40 +143,42 @@ export const clearSearchResults = () => dispatch => {
 	dispatch({ type: CLEAR_SEARCH_RESULTS, payload: {} });
 };
 
-export const saveBookToLibrary = (userId, bookId, book, readingStatus, favorite) => dispatch => {
-	dispatch({ type: SENDING_BOOK_LIBRARY });
- 
-	const modifiedBook = {
-		book: {
-			googleId: book.id,
-			title: book.volumeInfo.title || null,
-			authors: book.volumeInfo.authors.toString() || null,
-			publisher: book.volumeInfo.publisher || null,
-			publishedDate: book.volumeInfo.publishedDate || null,
-			description: book.volumeInfo.description || null,
-			isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
-			isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
-			pageCount: book.volumeInfo.pageCount || null,
-			categories: book.volumeInfo.categories.toString() || null,
-			thumbnail: book.volumeInfo.imageLinks.thumbnail || null,
-			smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail || null,
-			language: book.volumeInfo.language || null,
-			webReaderLink: book.accessInfo.webReaderLink || null,
-			textSnippet: book.searchInfo.textSnippet || null,
-			isEbook: book.saleInfo.isEbook || null
-		},
-		readingStatus: readingStatus || null,
-		favorite: favorite  // true || false
-	};
+export const saveBookToLibrary = (userId, actionType, bookId, book, readingStatus, favorite) => dispatch => {
+	// dispatch({ type: ADD_BOOK_TO_LIBRARY_START });
+	
+	// if(actionType === 'favorite'){
+		
+	// }else{
 
-	// axios.post(`${apiLocal}/${userId}/library/${bookId}`, modifiedBook)
-	//     .then(results => dispatch({ type: SENDING_BOOK_LIBRARY_SUCCESS, payload: results.data}))
-	//     .catch(err => dispatch({ type: SENDING_BOOK_LIBRARY_FAILURE, payload: err.response }))
-	axios
-		.post(`${apiLocal}/${userId}/library`, modifiedBook)
-		//.post(`${apiLocal}/${userId}/${(favorite) ? 'libraryfav' : 'library'}`, modifiedBook)
-		.then(results => console.log(results))
-		.catch(err => console.log(err.response));
+	// }
+
+	// const modifiedBook = {
+	// 	book: {
+	// 		googleId: book.id,
+	// 		title: book.volumeInfo.title || null,
+	// 		authors: book.volumeInfo.authors.toString() || null,
+	// 		publisher: book.volumeInfo.publisher || null,
+	// 		publishedDate: book.volumeInfo.publishedDate || null,
+	// 		description: book.volumeInfo.description || null,
+	// 		isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
+	// 		isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
+	// 		pageCount: book.volumeInfo.pageCount || null,
+	// 		categories: book.volumeInfo.categories.toString() || null,
+	// 		thumbnail: book.volumeInfo.imageLinks.thumbnail || null,
+	// 		smallThumbnail: book.volumeInfo.imageLinks.smallThumbnail || null,
+	// 		language: book.volumeInfo.language || null,
+	// 		webReaderLink: book.accessInfo.webReaderLink || null,
+	// 		textSnippet: book.searchInfo.textSnippet || null,
+	// 		isEbook: book.saleInfo.isEbook || null
+	// 	},
+	// 	readingStatus: readingStatus || null,
+	// 	favorite: favorite  // true || false
+	// };
+
+	// axios
+	// 	.post(`${apiLocal}/${userId}/library`, modifiedBook)
+	// 	.then(results => dispatch({ type: ADD_BOOK_TO_LIBRARY_SUCCESS, payload: results.data}))
+	// 	.catch(err => dispatch({ type: ADD_BOOK_TO_LIBRARY_FAILURE, payload: err.response }));
 };
 
 export const createUserShelf = (
@@ -187,7 +189,7 @@ export const createUserShelf = (
 ) => dispatch => {
 	dispatch({ type: CREATE_USER_SHELF });
 	axios
-		.post(`http://localhost:5000/api/shelves/${userId}`, {
+		.post(`${apiLocal}/shelves/${userId}`, {
 			shelfName: shelfName,
 			isPrivate: shelfPrivate
 		})

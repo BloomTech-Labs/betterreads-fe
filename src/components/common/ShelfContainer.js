@@ -55,6 +55,11 @@ const Wrapper = styled.div`
         flex-wrap: wrap;
     }
 
+    .search-magic{
+        display: flex;
+        flex-direction: column;
+    }
+
     @media (min-width: 1120px) {
         display: flex;
         flex-direction: row;
@@ -74,11 +79,14 @@ const Wrapper = styled.div`
 const MyShelf = props => {
     return (
         <Wrapper>
-            <h2 className="lh-30 frank">My Shelves</h2>
-            <p className="create-shelves openSans lh-22">
-                Create shelves and add <br className="hideOnMobile" /> books to your custom shelves.
-            </p>
-            <Button danger default className="create-new-shelf-button openSans fs-16 fw-600 goodReadOrange">Create new shelf</Button>
+            <div className="searchMagic">
+                <h2 className="lh-30 frank">My Shelves</h2>
+                <p className="create-shelves openSans lh-22">
+                    Create shelves and add <br className="hideOnMobile" /> books to your custom shelves.
+                </p>
+                <Button danger default className="create-new-shelf-button openSans fs-16 fw-600 goodReadOrange">Create new shelf</Button>
+            </div>
+            
             <div className="shelves-container">
                 <Shelf history={props.history} name="All Books" link="/shelf/allbooks" count="28" />
                 <Shelf history={props.history} name="Favorites" link="/shelf/favorites" count="21" />

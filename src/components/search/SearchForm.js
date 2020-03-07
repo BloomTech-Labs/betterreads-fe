@@ -35,7 +35,8 @@ const SearchForm = props => {
 
 	const handleSearch = e => {
         props.getGoogleResults(props.query);
-        props.history.push('/search');
+        if(props.history.location.pathname !== '/search') props.history.push('/search');
+        
 	};
 
 	return (
