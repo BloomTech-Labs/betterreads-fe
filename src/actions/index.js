@@ -27,7 +27,6 @@ export const signUp = (input, history) => dispatch => {
 			.post(`${API_URL}/api/auth/signup`, {
 				fullName: input.fullName,
 				emailAddress: input.emailAddress,
-				username: input.fullName,
 				password: input.password
 			})
 			.then(response => {

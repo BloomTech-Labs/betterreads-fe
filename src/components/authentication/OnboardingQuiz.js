@@ -76,7 +76,7 @@ export function OnboardingQuiz(props) {
 		event.preventDefault();
 		const userId = localStorage.getItem('user_id');
 		Axios.post(
-			`${API_URL}/genres`,
+			`${API_URL}/api/genres`,
 			{ genres: checkedArr, userId },
 			{ withCredentials: true }
 		)
