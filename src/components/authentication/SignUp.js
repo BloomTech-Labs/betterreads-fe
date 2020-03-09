@@ -5,7 +5,7 @@ import SignUpContainer from './SignUpStyle';
 import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';
 
-const apiLocal = process.env.APIURL || 'http://localhost:5000/api';
+const apiLocal = 'http://api.readrr.app';
 
 const SignUp = props => {
 	const [input, setInput] = useState({
