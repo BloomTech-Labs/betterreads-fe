@@ -21,6 +21,7 @@ const Library = props => {
 	const toBeRead = props.userBooks.filter(item => item.readingStatus === 1);
 	const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
 	const finished = props.userBooks.filter(item => item.readingStatus === 3);
+	const favorite = props.userBooks.filter(item => item.favorite === true);
 
 	return (
 		<LibraryContainer>
@@ -90,7 +91,7 @@ const Library = props => {
 						<div className="shelf">
 							<p className="shelf-name">Favorites</p>
 							<BookIcon height="40px" width="40px" fill="#D9D9D9" />
-							<p className="shelf-quantity">0 books</p>
+							{favorite.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{favorite.length} books</p>}
 						</div>
 
 						{/* {props.userShelves.map(item => {
