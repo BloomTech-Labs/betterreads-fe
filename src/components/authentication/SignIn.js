@@ -6,7 +6,7 @@ import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';
 import { PageView, Event } from '../tracking/';
 
-const apiLocal = 'http://api.readrr.app';
+const API_URL = 'https://api.readrr.app';
 
 const SignIn = props => {
 	const [input, setInput] = useState({
@@ -80,14 +80,14 @@ const SignIn = props => {
 
 					<p className="or">OR</p>
 
-					<a href={`${apiLocal}/api/auth/facebook`}>
+					<a href={`${API_URL}/api/auth/facebook`}>
 						<button type="button" className="facebook-button">
 							<img src={facebooklogo} alt="facebook logo" />
 							Sign in with Facebook
 						</button>
 					</a>
 
-					<a href={`${apiLocal}/api/auth/google`}>
+					<a href={`${API_URL}/api/auth/google`}>
 						<button type="button" className="google-button">
 							<img src={googlelogo} alt="google logo" />
 							Sign in with Google

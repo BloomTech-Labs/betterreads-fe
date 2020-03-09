@@ -10,8 +10,7 @@ import DownOutlined from '@ant-design/icons/DownOutlined';
 import BookIcon from './BookIcon';
 import styled from 'styled-components';
 
-const apiURL = 'https://www.googleapis.com/books/v1/volumes?q=';
-const apiLocal = process.env.APIURL || 'http://localhost:5000/api';
+const API_URL = 'http://api.readrr.app';
 
 const Wrapper = styled.div`
     width: 90%;
@@ -180,7 +179,7 @@ const BookItem = props => {
         };
 
         axios
-            .post(`${apiLocal}/${localStorage.getItem('id')}/library`, modifiedBook)
+            .post(`${API_URL}/api/${localStorage.getItem('id')}/library`, modifiedBook)
             .then(results => {
                 // Analytics Event action
                 if(actionType === 'favorite') {

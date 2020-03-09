@@ -6,6 +6,8 @@ import axios from 'axios';
 //import { createUserShelf } from '../../actions'
 import { Row, Col, Modal, Button, Input, Checkbox } from 'antd';
 
+const API_URL = 'https://api.readrr.app';
+
 const Wrapper = styled.div`
 
     width: 90%;
@@ -61,7 +63,7 @@ const ShelfModal = props => {
 	const handleOk = () => {
 		const userId = localStorage.getItem('id');
 		axios
-			.post(`http://localhost:5000/api/shelves/${userId}`, {
+			.post(`${API_URL}/api/shelves/${userId}`, {
 				shelfName: modalConfig.shelfName,
 				isPrivate: modalConfig.shelfPrivate
 			})
