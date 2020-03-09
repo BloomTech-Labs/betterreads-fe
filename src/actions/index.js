@@ -2,7 +2,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 const apiURL = 'https://www.googleapis.com/books/v1/volumes?q=';
-const apiLocal = 'http://api.readrr.app';
+const apiLocal = 'http://api.readrr.app/api';
 
 export const FETCH_SEARCH_START = 'FETCH_SEARCH_START';
 export const FETCH_SEARCH_SUCCESS = 'FETCH_SEARCH_SUCCESS';
