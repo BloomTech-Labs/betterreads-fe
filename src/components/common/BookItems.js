@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
 import { Button, Rate, Menu, Dropdown, notification } from 'antd';
@@ -6,6 +7,11 @@ import axios from 'axios';
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
+import {
+	fetchUsersBooks,
+	fetchUsersShelves,
+	getGoogleResults
+} from '../../actions/index';
 
 import BookIcon from './BookIcon';
 import styled from 'styled-components';
@@ -127,8 +133,9 @@ const ThumbContainer = styled.div`
 `;
 
 const BookItem = props => {
-    const { id, selfLink, volumeInfo, accessInfo, searchInfo, saleInfo } = props.book;
-    const [favorite, setFavorite] = useState(false);
+    //const { id, selfLink, volumeInfo, accessInfo, searchInfo, saleInfo } = props.book;    
+    const { googleId } = props.book;
+    const [favorite, setFavorite] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? true : false);
     const [readingStatus, setReadingStatus] = useState();
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
 
@@ -157,27 +164,27 @@ const BookItem = props => {
         // props.saveBookToLibrary(localStorage.getItem('id'), actionType, props.book.id, props.book, readingStatus, favorite);
         const modifiedBook = {
             book: {
-                googleId: id,
-                title: volumeInfo.title || null,
-                authors: volumeInfo.authors.toString() || null,
-                publisher: volumeInfo.publisher || null,
-                publishedDate: volumeInfo.publishedDate || null,
-                description: volumeInfo.description || null,
-                isbn10: volumeInfo.industryIdentifiers[0].identifier || null,
-                isbn13: volumeInfo.industryIdentifiers[1].identifier || null,
-                pageCount: volumeInfo.pageCount || null,
-                categories: volumeInfo.categories.toString() || null,
-                thumbnail: volumeInfo.imageLinks.thumbnail || null,
-                smallThumbnail: volumeInfo.imageLinks.smallThumbnail || null,
-                language: volumeInfo.language || null,
-                webReaderLink: accessInfo.webReaderLink || null,
-                textSnippet: searchInfo.textSnippet || null,
-                isEbook: saleInfo.isEbook || null
+                googleId: props.book.googleId,
+                title: props.book.title || null,
+                authors: props.book.authors.toString() || null,
+                publisher: props.book.publisher || null,
+                publishedDate: props.book.publishedDate || null,
+                description: props.book.description || null,
+                isbn10: props.book.isbn10 || null,
+                isbn13: props.book.isbn13 || null,
+                pageCount: props.book.pageCount || null,
+                categories: props.book.categories.toString() || null,
+                thumbnail: props.book.thumbnail || null,
+                smallThumbnail: props.book.smallThumbnail || null,
+                language: props.book.language || null,
+                webReaderLink: props.book.webReaderLink || null,
+                textSnippet: props.book.textSnippet || null,
+                isEbook: props.book.isEbook || null
             },
             readingStatus: readingStatus || null,
             favorite: favorite  // true || false
         };
-
+        //{book: props.book, readingStatus: readingStatus || null, favorite}
         axios
             .post(`${API_URL}/api/${localStorage.getItem('id')}/library`, modifiedBook)
             .then(results => {
@@ -216,12 +223,12 @@ const BookItem = props => {
     )
     
     return (
-        <Wrapper id={id}>
+        <Wrapper id={googleId}>
             <div className="flexer">
                 <div className="imgContainer">
-                    {volumeInfo.imageLinks && (
-                        <Link to={`/Book/${id}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
-                            <ThumbContainer bgImage={volumeInfo.imageLinks.smallThumbnail} />
+                    {props.book.smallThumbnail && (
+                        <Link to={`/Book/${googleId}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
+                            <ThumbContainer bgImage={props.book.smallThumbnail} />
                         </Link>
                     )}
                     <Dropdown overlay={TrackMenu} trigger={['click']}>
@@ -229,19 +236,19 @@ const BookItem = props => {
                     </Dropdown>
                 </div>
                 <div className="bookDetail openSans">
-                    <div className="bookTitle fs-16 fw-600">{volumeInfo.title}</div>
+                    <div className="bookTitle fs-16 fw-600">{props.book.title}</div>
                     <div className="bookAuthors fs-16 openSans lh-22">
                         {
-                            volumeInfo.authors &&
-                            volumeInfo.authors.map((author, index) => (
-                                <div key={index} data-key={index}>
+                            props.book.authors &&
+                            props.book.authors.map((author, index) => (
+                                <div key={((index+1)*Math.random())} data-key={index}>
                                     { index === 0 && 'by' } {author}
                                 </div>
                             ))
                         }
                     </div>
                     <div className="bookRating">
-                        <Rate allowHalf defaultValue={volumeInfo.averageRating} />
+                        <Rate allowHalf defaultValue={props.book.averageRating} />
                     </div>
                 </div>
                 <div className="bookFav">
@@ -257,4 +264,17 @@ const BookItem = props => {
 
 };
 
-export default BookItem;
+const mapStateToProps = state => {
+	return {
+		userBooks: state.library.userBooks,
+		userShelves: state.library.userShelves
+	};
+};
+
+export default connect(mapStateToProps, {
+	fetchUsersBooks,
+	fetchUsersShelves,
+	getGoogleResults
+})(BookItem);
+
+//export default BookItem;

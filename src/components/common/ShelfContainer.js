@@ -77,6 +77,9 @@ const Wrapper = styled.div`
 `;
 
 const MyShelf = props => {
+    const favorite = props.userBooks.filter(item => item.favorite);
+    
+    console.log(props.userBooks)
     return (
         <Wrapper>
             <div className="searchMagic">
@@ -84,12 +87,12 @@ const MyShelf = props => {
                 <p className="create-shelves openSans lh-22">
                     Create shelves and add <br className="hideOnMobile" /> books to your custom shelves.
                 </p>
-                <Button danger default className="create-new-shelf-button openSans fs-16 fw-600 goodReadOrange">Create new shelf</Button>
+                {/* <Button danger default className="create-new-shelf-button openSans fs-16 fw-600 goodReadOrange">Create new shelf</Button> */}
             </div>
             
             <div className="shelves-container">
-                <Shelf history={props.history} name="All Books" link="/shelf/allbooks" count="28" />
-                <Shelf history={props.history} name="Favorites" link="/shelf/favorites" count="21" />
+                <Shelf history={props.history} name="All Books" link="/shelf/allbooks" count={props.userBooks.length || `0`} />
+                <Shelf history={props.history} name="Favorites" link="/shelf/favorites" count={favorite.length || `0`} />
                 <Shelf history={props.history} name="In Progress" link="/shelf/inprogress" count="2" />
                 <Shelf history={props.history} name="To Be Read" link="/shelf/toberead" count="12" />
                 <Shelf history={props.history} name="Finished" link="/shelf/finished" count="220" />
@@ -100,7 +103,7 @@ const MyShelf = props => {
 
 const mapStateToProps = state => {
 	return {
-		userLibrary: state.library.userLibrary,
+		userBooks: state.library.userBooks,
 		userShelves: state.library.userShelves
 	};
 };

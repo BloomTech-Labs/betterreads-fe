@@ -46,7 +46,7 @@ const Search = props => {
 		Event('Search', 'loaded search', 'SEARCH_COMPONENT');
 		PageView();
 	}, []);
-
+	
 	return (
 		<Wrapper>
 			<Header history={props.history} />	

@@ -1,6 +1,7 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
+const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes?q=';
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 export const FETCH_SEARCH_START = 'FETCH_SEARCH_START';
@@ -125,15 +126,38 @@ export const fetchShelfsBooks = shelfID => dispatch => {
 export const getGoogleResults = search => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
 	axios
-		.get(`https://www.googleapis.com/books/v1/volumes?q=${search}`)
-		.then(results =>
+		.get(`${googleBooksURL}${search}`)
+		.then(results =>{
+			const newBookArray = results.data.items.map(book => {
+				return {
+					googleId: book.id,
+					title: book.volumeInfo.title || null,
+					authors: book.volumeInfo.authors || null,
+					publisher: book.volumeInfo.publisher || null,
+					publishedDate: book.volumeInfo.publishedDate || null,
+					description: book.volumeInfo.description || null,
+					isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
+					isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
+					pageCount: book.volumeInfo.pageCount || null,
+					categories: book.volumeInfo.categories || null,
+					averageRating: book.volumeInfo.averageRating || null,
+					thumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : null),
+					smallThumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : null),
+					language: book.volumeInfo.language || null,
+					webReaderLink: book.accessInfo.webReaderLink || null,
+					textSnippet: null,
+					isEbook: book.saleInfo.isEbook || null
+				}
+			});
 			dispatch({
 				type: FETCH_SEARCH_SUCCESS,
-				payload: { query: search, books: results.data }
+				payload: {books: {totalItems: results.data.totalItems,  items: newBookArray}}
 			})
-		)
+		})
 		.catch(err =>
-			dispatch({ type: FETCH_SEARCH_FAILURE, payload: err.response })
+			{
+				console.log(err)
+				dispatch({ type: FETCH_SEARCH_FAILURE, payload: err.response })}
 		);
 };
 
