@@ -47,6 +47,9 @@ const Search = props => {
 		PageView();
 	}, []);
 
+	
+	console.log(props.searchResults.books)
+	
 	return (
 		<Wrapper>
 			<Header history={props.history} />	
@@ -87,7 +90,7 @@ const Search = props => {
 const mapStateToProps = state => {
 	return {
 		fetching: state.search.fetching,
-		searchResults: state.search.searchResults
+		searchResults: state.search
 	};
 };
 

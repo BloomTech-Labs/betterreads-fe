@@ -128,14 +128,37 @@ export const getGoogleResults = search => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
 	axios
 		.get(`${apiURL}${search}`)
-		.then(results =>
+		.then(results =>{
+			const newBookArray = results.data.items.map(book => {
+				return {
+					googleId: book.id,
+					title: book.volumeInfo.title || null,
+					authors: book.volumeInfo.authors || null,
+					publisher: book.volumeInfo.publisher || null,
+					publishedDate: book.volumeInfo.publishedDate || null,
+					description: book.volumeInfo.description || null,
+					isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
+					isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
+					pageCount: book.volumeInfo.pageCount || null,
+					categories: book.volumeInfo.categories || null,
+					averageRating: book.volumeInfo.averageRating || null,
+					thumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : null),
+					smallThumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : null),
+					language: book.volumeInfo.language || null,
+					webReaderLink: book.accessInfo.webReaderLink || null,
+					textSnippet: null,
+					isEbook: book.saleInfo.isEbook || null
+				}
+			});
 			dispatch({
 				type: FETCH_SEARCH_SUCCESS,
-				payload: { query: search, books: results.data }
+				payload: {books: {totalItems: results.data.totalItems,  items: newBookArray}}
 			})
-		)
+		})
 		.catch(err =>
-			dispatch({ type: FETCH_SEARCH_FAILURE, payload: err.response })
+			{
+				console.log(err)
+				dispatch({ type: FETCH_SEARCH_FAILURE, payload: err.response })}
 		);
 };
 
