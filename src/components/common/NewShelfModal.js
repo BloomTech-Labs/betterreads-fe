@@ -6,7 +6,7 @@ import axios from 'axios';
 //import { createUserShelf } from '../../actions'
 import { Row, Col, Modal, Button, Input, Checkbox } from 'antd';
 
-const API_URL = 'https://api.readrr.app';
+const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 const Wrapper = styled.div`
 
