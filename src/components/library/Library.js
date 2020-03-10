@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchUsersBooks, fetchUsersShelves, getGoogleResults } from '../../actions';
 import Header from '../common/Header';
@@ -11,18 +11,20 @@ import { PageView, Event } from '../tracking';
 const Library = props => {
 	useEffect(() => {
 		props.fetchUsersBooks(localStorage.getItem('id'));
-		props.fetchUsersShelves(localStorage.getItem('id'));
+		
+		// release canvas 2
+		// props.fetchUsersShelves(localStorage.getItem('id'));
+
 		// google analytics
 		Event('Library', 'User library loaded', 'LIBRARY');
 		PageView();
-		console.log('LOOK HERE', process.env.REACT_APP_API_URL);
 	}, []);
 
-	const fullName = localStorage.getItem('full_name').split(' ');
+	const fullName = localStorage.getItem('full_name').split(' ')[0];
 	const toBeRead = props.userBooks.filter(item => item.readingStatus === 1);
 	const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
 	const finished = props.userBooks.filter(item => item.readingStatus === 3);
-	const favorites = props.userBooks.filter(item => item.favorite == true);
+	const favorites = props.userBooks.filter(item => item.favorite === true);
 
 	return (
 		<LibraryContainer>
