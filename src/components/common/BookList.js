@@ -1,6 +1,6 @@
 import React from 'react';
-import BookItem from './BookItems';
-// import BookItem from '../search/_SearchAgain'
+// import BookItem from './BookItems';
+import BookItem from '../search/_SearchAgain'
 import styled from 'styled-components';
 
 const ListContainer = styled.div`
@@ -22,9 +22,18 @@ const ListContainer = styled.div`
 			height: 0;
 		}
 
-		// & > div {
-		// 	width: 336px;
-		// }
+		& > div {
+			width: 336px;
+		}
+
+		& > div:nth-child(even) {
+			margin-right: 0px;
+		}
+
+		& > div:nth-child(odd) {
+			margin: 8px 0;
+		}
+		
     }
 `;
 
@@ -37,7 +46,7 @@ const BookList = props => {
 					props.bookList &&
 					props.bookList.map((book, index) => (
 						<>
-							<BookItem key={index} book={book} source="search" />
+							<BookItem key={index} book={book} source="library" />
 						</>
 					))}
 			</ListContainer>

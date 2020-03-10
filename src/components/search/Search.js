@@ -22,7 +22,8 @@ const Wrapper = styled.div`
 			justify-content: space-between;
 
 			.bookList{
-				width: 72%;
+				//width: 72%;
+				width: 687px;
 			}
 
 			.shelfList{
