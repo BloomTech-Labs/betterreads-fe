@@ -13,8 +13,6 @@ import styled from 'styled-components';
 
 import { saveBookToLibrary } from '../../actions';
 
-// const apiURL = "http://localhost:5000/api";
-
 const Wrapper = styled.div`
     width: 90%;
     margin: 0 auto;

@@ -6,6 +6,8 @@ import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';
 import { PageView, Event } from '../tracking/';
 
+const API_URL = 'https://api.readrr.app';
+
 const SignIn = props => {
 	const [input, setInput] = useState({
 		emailAddress: '',
@@ -36,7 +38,7 @@ const SignIn = props => {
 
 			<div className="form-container">
 				<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
-					<h1>Sign in to BetterReads</h1>
+					<h1>Sign in to Readrr</h1>
 					<p className="already">
 						Already have an account?
 						<b
@@ -78,14 +80,14 @@ const SignIn = props => {
 
 					<p className="or">OR</p>
 
-					<a href="http://localhost:5000/api/auth/facebook">
+					<a href={`${API_URL}/api/auth/facebook`}>
 						<button type="button" className="facebook-button">
 							<img src={facebooklogo} alt="facebook logo" />
 							Sign in with Facebook
 						</button>
 					</a>
 
-					<a href="http://localhost:5000/api/auth/google">
+					<a href={`${API_URL}/api/auth/google`}>
 						<button type="button" className="google-button">
 							<img src={googlelogo} alt="google logo" />
 							Sign in with Google

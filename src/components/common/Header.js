@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 const HeaderContainer = styled.div`
 	.header {
+		max-width: 1120px;
 		height: 72px;
 		width: 90%;
 		margin: 0 auto;
@@ -18,7 +19,6 @@ const HeaderContainer = styled.div`
 			font-size: 1.375rem;
 			font-weight: bold;
 			color: #5c7c69;
-			line-height: 34px;
 			cursor: pointer;
 		}
 
@@ -45,38 +45,23 @@ const HeaderContainer = styled.div`
 			}
 		}
 	}
-
-	@media (min-width: 1120px) {
-		.header{
-			width: 1120px;
-		}
-	}
 `;
 
 const Header = props => {
 	return (
 		<HeaderContainer>
 			<div className="header">
-				<h1 onClick={() => props.history.push('/')}>BetterReads</h1>
+				<h1 onClick={() => props.history.push('/')}>Readrr</h1>
 
-				{(!localStorage.getItem('image') ||
-					localStorage.getItem('image') === 'null') && (
-					<div
-						className="default-profile-icon"
-						onClick={() => props.signOut(props.history)}
-					>
+				{(!localStorage.getItem('image') || localStorage.getItem('image') === 'null') && (
+					<div className="default-profile-icon" onClick={() => props.signOut(props.history)}>
 						<i className="fas fa-user"></i>
 					</div>
 				)}
 
-				{localStorage.getItem('image') &&
-					localStorage.getItem('image') !== 'null' && (
-						<img
-							src={localStorage.getItem('image')}
-							alt="profile icon"
-							onClick={() => props.signOut(props.history)}
-						/>
-					)}
+				{localStorage.getItem('image') && localStorage.getItem('image') !== 'null' && (
+					<img src={localStorage.getItem('image')} alt="profile icon" onClick={() => props.signOut(props.history)} />
+				)}
 			</div>
 		</HeaderContainer>
 	);

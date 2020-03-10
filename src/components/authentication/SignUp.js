@@ -5,6 +5,8 @@ import SignUpContainer from './SignUpStyle';
 import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';
 
+const API_URL = 'https://api.readrr.app';
+
 const SignUp = props => {
 	const [input, setInput] = useState({
 		fullName: '',
@@ -35,7 +37,7 @@ const SignUp = props => {
 					<h1>
 						Create an account to
 						<br />
-						join BetterReads
+						join Readrr
 					</h1>
 
 					<p className="already">
@@ -100,14 +102,14 @@ const SignUp = props => {
 
 					<p className="or">OR</p>
 
-					<a href="http://localhost:5000/api/auth/facebook">
+					<a href={`${API_URL}/api/auth/facebook`}>
 						<button type="button" className="facebook-button">
 							<img src={facebooklogo} alt="facebook logo" />
 							Sign up with Facebook
 						</button>
 					</a>
 
-					<a href="http://localhost:5000/api/auth/google">
+					<a href={`${API_URL}/api/auth/google`}>
 						<button type="button" className="google-button">
 							<img src={googlelogo} alt="google logo" />
 							Sign up with Google
@@ -115,7 +117,7 @@ const SignUp = props => {
 					</a>
 
 					<p className="policy">
-						By signing up, I agree to BetterReads' Terms of Service
+						By signing up, I agree to Readrr' Terms of Service
 						and Privacy Policy.
 					</p>
 				</form>
