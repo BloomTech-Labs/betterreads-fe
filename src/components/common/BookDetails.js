@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Event } from '../tracking/';
 import { notification, Button, Rate, Menu, Dropdown } from 'antd';
 import styled from 'styled-components';
-import { saveBookToLibrary } from '../../actions';
+import { saveBookToLibrary, getCurrentBook } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from './Breadcrumbs';
@@ -181,12 +181,20 @@ const GenreBox = styled.button`
 
 export function BookDetails(props) {
 	const { bookId } = props.match.params.id;
+	const book = props.match.params.id;
 	const [selectedBook, setSelectedBook] = useState();
 	const [favorite, setFavorite] = useState(false);
 	const [readingStatus, setReadingStatus] = useState();
 	const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
 
+	useEffect(() => {
+		props.getCurrentBook(book)
+		console.log(props.currentBook, "deets currentBook")
+	}, []);
+
+
 	const firstRun = useRef(true);
+
 	useEffect(() => {
 		if (firstRun.current) {
 			firstRun.current = false;
@@ -266,55 +274,44 @@ export function BookDetails(props) {
 		</Menu>
 	);
 
-	const results = {
-		searchResults: {
-			items: [
-				{
-					id: 'Gz1jn_5OafMC',
-					volumeInfo: {
-						title: "Wizard's First Rule",
-						authors: ['Terry Goodkind'],
-						catagories: ['Fiction'],
-						imageLinks: [
-							{
-								thumbnail:
-									'http://books.google.com/books/content?id=Gz1jn_5OafMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
-							}
-						]
-					}
-				}
-			]
-		}
-	};
+	// const results = {
+	// 	searchResults: {
+	// 		items: [
+	// 			{
+	// 				id: 'Gz1jn_5OafMC',
+	// 				volumeInfo: {
+	// 					title: "Wizard's First Rule",
+	// 					authors: ['Terry Goodkind'],
+	// 					catagories: ['Fiction'],
+	// 					imageLinks: [
+	// 						{
+	// 							thumbnail:
+	// 								'http://books.google.com/books/content?id=Gz1jn_5OafMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
+	// 						}
+	// 					]
+	// 				}
+	// 			}
+	// 		]
+	// 	}
+	// };
 
 	console.log(props, 'props');
 
-	useEffect(() => {
-		setSelectedBook(
-			(props.searchResults.books.items &&
-				props.searchResults.books.items.find(
-					book => book.id === props.match.params.id
-				)) ||
-				(results.searchResults.books.items &&
-					results.searchResults.books.items.find(
-						book => book.id === results.searchResults.items.id
-					))
-		);
-	}, []);
+
 
 	const ThumbContainer = styled.div`
 		height: 95px;
 		width: 82px;
-		background-image: url(${props => props.bgImage});
+		background-image: url(${props.bgImage});
 		background-size: cover;
 		border-radius: 5px 0 0;
 	`;
 
-	console.log(selectedBook, 'selected book');
+
 
 	return (
 		<>
-			{selectedBook && (
+			{props.currentBook && (
 				<div>
 					<Header />
 					<SearchForm history={props.history} />
@@ -337,8 +334,7 @@ export function BookDetails(props) {
 									<div className="imgContainer">
 										<ThumbContainer
 											bgImage={
-												selectedBook.volumeInfo
-													.imageLinks.thumbnail
+												props.currentBook.thumbnail
 											}
 										/>
 
@@ -361,11 +357,11 @@ export function BookDetails(props) {
 
 									<div className="bookDetail openSans">
 										<div className="bookTitle fs-16 fw-600">
-											{selectedBook.volumeInfo.title}
+											{props.currentBook.title}
 										</div>
 										<div className="bookAuthors fs-16 openSans lh-22">
-											{selectedBook.volumeInfo.authors &&
-												selectedBook.volumeInfo.authors.map(
+											{props.currentBook.authors &&
+												props.currentBook.authors.map(
 													(author, index) => (
 														<div key={index}>
 															{index === 0 &&
@@ -379,8 +375,7 @@ export function BookDetails(props) {
 											<Rate
 												allowHalf
 												defaultValue={
-													selectedBook.volumeInfo
-														.averageRating
+													props.currentBook.averageRating
 												}
 											/>
 										</div>
@@ -402,13 +397,13 @@ export function BookDetails(props) {
 									</div>
 								</div>
 								<div className="bookDeets">
-									<p>{selectedBook.volumeInfo.description}</p>
+									<p>{props.currentBook.description}</p>
 									<div className="genre">
 										<p>Genre</p>
 									</div>
 									<div>
-										{selectedBook.volumeInfo.categories &&
-											selectedBook.volumeInfo.categories.map(
+										{props.currentBook.categories &&
+											props.currentBook.categories.map(
 												G => (
 													<GenreBox key={G.id}>
 														{G}{' '}
@@ -434,8 +429,9 @@ const mapStateToProps = state => {
 	return {
 		searchResults: state.search.searchResults,
 		error: state.search.error,
-		fetching: state.search.fetching
+		fetching: state.search.fetching,
+		currentBook: state.book.currentBook
 	};
 };
 
-export default connect(mapStateToProps, { saveBookToLibrary })(BookDetails);
+export default connect(mapStateToProps, { saveBookToLibrary, getCurrentBook })(BookDetails);
