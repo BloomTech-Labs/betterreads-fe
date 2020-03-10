@@ -1,7 +1,7 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes?q=';
+const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes';
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 export const FETCH_SEARCH_START = 'FETCH_SEARCH_START';
@@ -19,6 +19,7 @@ export const CREATE_USER_SHELF_SUCCESS = 'CREATE_USER_SHELF_SUCCESS';
 export const CREATE_USER_SHELF_FAILURE = 'CREATE_USER_SHELF_FAILURE';
 export const CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS';
 export const SET_QUERY = 'SET_QUERY';
+export const SET_CURRENT_BOOK = "SET_CURRENT_BOOK";
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -126,7 +127,7 @@ export const fetchShelfsBooks = shelfID => dispatch => {
 export const getGoogleResults = search => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
 	axios
-		.get(`${googleBooksURL}${search}`)
+		.get(`${googleBooksURL}?q=${search}`)
 		.then(results =>{
 			const newBookArray = results.data.items.map(book => {
 				return {
@@ -225,4 +226,43 @@ export const createUserShelf = (
 
 export const setQuery = input => dispatch => {
 	dispatch({ type: SET_QUERY, payload: input });
+};
+
+
+export const getCurrentBook = BookId => dispatch => {
+	//dispatch({ type: FETCH_SEARCH_START });
+	axios
+		.get(`${googleBooksURL}/${BookId}`)
+		.then(results =>{
+			console.log(results)
+			
+			const currentBook = {
+					googleId: results.data.id,
+					title: results.data.volumeInfo.title || null,
+					authors: results.data.volumeInfo.authors || null,
+					publisher: results.data.volumeInfo.publisher || null,
+					publishedDate: results.data.volumeInfo.publishedDate || null,
+					description: results.data.volumeInfo.description || null,
+					isbn10: results.data.volumeInfo.industryIdentifiers[0].identifier || null,
+					isbn13: results.data.volumeInfo.industryIdentifiers[1].identifier || null,
+					pageCount: results.data.volumeInfo.pageCount || null,
+					categories: results.data.volumeInfo.categories || null,
+					averageRating: results.data.volumeInfo.averageRating || null,
+					thumbnail: (results.data.volumeInfo.imageLinks ? results.data.volumeInfo.imageLinks.thumbnail : null),
+					smallThumbnail: (results.data.volumeInfo.imageLinks ? results.data.volumeInfo.imageLinks.smallThumbnail : null),
+					language: results.data.volumeInfo.language || null,
+					webReaderLink: results.data.accessInfo.webReaderLink || null,
+					textSnippet: null,
+					isEbook: results.data.saleInfo.isEbook || null
+				}
+			
+			dispatch({
+				type: SET_CURRENT_BOOK,
+				payload: currentBook})
+		})
+		.catch(err =>
+			{
+				console.log(err)
+				dispatch(console.log("Book Not Found"));
+			})
 };
