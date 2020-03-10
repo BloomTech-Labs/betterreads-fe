@@ -110,6 +110,8 @@ export const fetchUsersBooks = userID => dispatch => {
 export const setCurrentShelf = shelf => dispatch => {
 	axios.get(`${API_URL}/api/${localStorage.getItem('id')}/library`)
 		.then(response => {
+			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
+
 			if (shelf === 'allbooks') {
 				dispatch({ type: SET_CURRENT_SHELF, payload: response.data });
 			} else if (shelf === 'favorites') {
