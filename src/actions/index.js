@@ -1,7 +1,9 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-const API_URL = process.env.API_URL || 'https://api.readrr.app';
+const API_URL = 
+'http://localhost:5000'
+//'https://api.readrr.app';
 
 export const FETCH_SEARCH_START = 'FETCH_SEARCH_START';
 export const FETCH_SEARCH_SUCCESS = 'FETCH_SEARCH_SUCCESS';
