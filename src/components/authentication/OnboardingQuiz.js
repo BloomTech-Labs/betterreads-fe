@@ -5,7 +5,7 @@ import Axios from 'axios';
 import { Checkbox, Col, Row } from 'antd';
 import styled from 'styled-components';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 const Wrapper = styled.div`
 	.ant-checkbox-wrapper{

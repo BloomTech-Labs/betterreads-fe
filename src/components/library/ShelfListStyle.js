@@ -121,9 +121,9 @@ const ShelfListContainer = styled.div`
 				margin: 0;
                 display: block;
 
-                // h2 {
-                //     margin-top: 0;
-                // }
+                h2 {
+                    margin-top: 0;
+                }
 	
 				.create-new-shelf-button {
 					width: 162px;

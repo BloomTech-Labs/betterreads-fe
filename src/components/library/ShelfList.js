@@ -10,8 +10,10 @@ const ShelfList = props => {
 	const [currentShelf, setCurrentShelf] = useState([]);
 
 	useEffect(() => {
+		// populates user books array in redux state with all of user's books
 		props.fetchUsersBooks(localStorage.getItem('id'));
 
+		// populate current shelf with correct books, this will be in redux state
 		if (props.shelf === 'allbooks') {
 			setCurrentShelf(props.userBooks);
 		} else if (props.shelf === 'favorites') {
@@ -25,6 +27,9 @@ const ShelfList = props => {
 		} else {
 			// fetch custom shelf books here
 		};
+
+		console.log('props.shelf', props.shelf);
+		console.log('currentShelf', currentShelf);
 	}, [props.shelf]);
 
 	const favorites = props.userBooks.filter(item => item.favorite == true);
@@ -46,7 +51,7 @@ const ShelfList = props => {
 					<div className="my-shelves">
 						<h2>My Shelves</h2>
 						<p className="create-shelves">Create shelves and add books to your custom shelf.</p>
-						<button className="create-new-shelf-button">Create new shelf</button>
+						{/* <button className="create-new-shelf-button">Create new shelf</button> */}
 
 						<div className="shelves-container">
 							<div className="shelf" onClick={() => props.history.push('/shelf/allbooks')}>
@@ -55,8 +60,8 @@ const ShelfList = props => {
 								{props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
 							</div>
 
-							<div className="shelf">
-								<p className="shelf-name" onClick={() => props.history.push('/shelf/favorites')}>Favorites</p>
+							<div className="shelf" onClick={() => props.history.push('/shelf/favorites')}>
+								<p className="shelf-name">Favorites</p>
 								<BookIcon height="40px" width="40px" fill="#d9d9d9" />
 								{favorites.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{favorites.length} books</p>}
 							</div>

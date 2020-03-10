@@ -15,6 +15,7 @@ const Library = props => {
 		// google analytics
 		Event('Library', 'User library loaded', 'LIBRARY');
 		PageView();
+		console.log('LOOK HERE', process.env.REACT_APP_API_URL);
 	}, []);
 
 	const fullName = localStorage.getItem('full_name').split(' ');
@@ -79,7 +80,7 @@ const Library = props => {
 				<div className="my-shelves">
 					<h2>My Shelves</h2>
 					<p className="create-shelves">Create shelves and add books to your custom shelf.</p>
-					<button className="create-new-shelf-button">Create new shelf</button>
+					{/* <button className="create-new-shelf-button">Create new shelf</button> */}
 
 					<div className="shelves-container">
 						<div className="shelf" onClick={() => props.history.push('/shelf/allbooks')}>
