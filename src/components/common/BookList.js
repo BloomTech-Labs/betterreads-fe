@@ -1,5 +1,6 @@
 import React from 'react';
 import BookItem from './BookItems';
+// import BookItem from '../search/_SearchAgain'
 import styled from 'styled-components';
 
 const ListContainer = styled.div`
@@ -20,6 +21,10 @@ const ListContainer = styled.div`
 			flex-basis: 100%;
 			height: 0;
 		}
+
+		// & > div {
+		// 	width: 336px;
+		// }
     }
 `;
 
@@ -32,10 +37,7 @@ const BookList = props => {
 					props.bookList &&
 					props.bookList.map((book, index) => (
 						<>
-							<BookItem key={index} book={book} />
-							{
-								index % 2 > 0 && <div className="breaker">&nbsp;</div>
-							}
+							<BookItem key={index} book={book} source="search" />
 						</>
 					))}
 			</ListContainer>
