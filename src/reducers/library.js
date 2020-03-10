@@ -2,7 +2,8 @@ import { FETCH_USERS_BOOKS, FETCH_USERS_SHELVES } from '../actions';
 
 const initialState = {
 	userBooks: [],
-	userShelves: []
+	userShelves: [],
+	currentShelf: []
 };
 
 export default function reducer(state = initialState, action) {
