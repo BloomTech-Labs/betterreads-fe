@@ -16,8 +16,7 @@ import {
 import BookIcon from './BookIcon';
 import styled from 'styled-components';
 
-const apiURL = 'https://www.googleapis.com/books/v1/volumes?q=';
-const apiLocal = process.env.APIURL || 'http://localhost:5000/api';
+const API_URL = process.env.API_URL || 'https://api.readrr.app';
 
 const Wrapper = styled.div`
     width: 90%;
@@ -187,7 +186,7 @@ const BookItem = props => {
         };
         //{book: props.book, readingStatus: readingStatus || null, favorite}
         axios
-            .post(`${apiLocal}/${localStorage.getItem('id')}/library`, modifiedBook)
+            .post(`${API_URL}/api/${localStorage.getItem('id')}/library`, modifiedBook)
             .then(results => {
                 // Analytics Event action
                 if(actionType === 'favorite') {
@@ -242,7 +241,7 @@ const BookItem = props => {
                         {
                             props.book.authors &&
                             props.book.authors.map((author, index) => (
-                                <div key={index} data-key={index}>
+                                <div key={((index+1)*Math.random())} data-key={index}>
                                     { index === 0 && 'by' } {author}
                                 </div>
                             ))

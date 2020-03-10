@@ -5,7 +5,7 @@ import Axios from 'axios';
 import { Checkbox, Col, Row } from 'antd';
 import styled from 'styled-components';
 
-const apiLocal = process.env.APIURL || 'http://localhost:5000/api';
+const API_URL = 'https://api.readrr.app';
 
 const Wrapper = styled.div`
 	.ant-checkbox-wrapper{
@@ -65,7 +65,6 @@ highth: 50px;
 
 export function OnboardingQuiz(props) {
 	let checkedArr = [];
-	//let apiURL = 'http://localhost:5000/api';
 
 	function handleChange(checkedValues) {
 		console.log('checked = ', checkedValues);
@@ -77,7 +76,7 @@ export function OnboardingQuiz(props) {
 		event.preventDefault();
 		const userId = localStorage.getItem('user_id');
 		Axios.post(
-			`${apiLocal}/genres`,
+			`${API_URL}/api/genres`,
 			{ genres: checkedArr, userId },
 			{ withCredentials: true }
 		)

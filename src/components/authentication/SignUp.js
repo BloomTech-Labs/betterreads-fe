@@ -5,7 +5,7 @@ import SignUpContainer from './SignUpStyle';
 import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';
 
-const apiLocal = process.env.APIURL || 'http://localhost:5000/api';
+const API_URL = process.env.API_URL || 'https://api.readrr.app';
 
 const SignUp = props => {
 	const [input, setInput] = useState({
@@ -102,14 +102,14 @@ const SignUp = props => {
 
 					<p className="or">OR</p>
 
-					<a href={`${apiLocal}/auth/facebook`}>
+					<a href={`${API_URL}/api/auth/facebook`}>
 						<button type="button" className="facebook-button">
 							<img src={facebooklogo} alt="facebook logo" />
 							Sign up with Facebook
 						</button>
 					</a>
 
-					<a href={`${apiLocal}/auth/google`}>
+					<a href={`${API_URL}/api/auth/google`}>
 						<button type="button" className="google-button">
 							<img src={googlelogo} alt="google logo" />
 							Sign up with Google

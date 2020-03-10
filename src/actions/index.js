@@ -1,8 +1,8 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-const apiURL = 'https://www.googleapis.com/books/v1/volumes?q=';
-const apiLocal = process.env.APIURL || 'http://localhost:5000/api';
+const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes?q=';
+const API_URL = process.env.API_URL || 'https://api.readrr.app';
 
 export const FETCH_SEARCH_START = 'FETCH_SEARCH_START';
 export const FETCH_SEARCH_SUCCESS = 'FETCH_SEARCH_SUCCESS';
@@ -25,10 +25,9 @@ export const signUp = (input, history) => dispatch => {
 		dispatch({ type: SET_ERROR, payload: 'Passwords do not match' });
 	} else {
 		axios
-			.post(`${apiLocal}/auth/signup`, {
+			.post(`${API_URL}/api/auth/signup`, {
 				fullName: input.fullName,
 				emailAddress: input.emailAddress,
-				username: input.fullName,
 				password: input.password
 			})
 			.then(response => {
@@ -50,7 +49,7 @@ export const signUp = (input, history) => dispatch => {
 
 export const signIn = (input, history) => dispatch => {
 	axios
-		.post(`${apiLocal}/auth/signin`, input)
+		.post(`${API_URL}/api/auth/signin`, input)
 		.then(response => {
 			console.log(response);
 			localStorage.setItem('id', response.data.user.id);
@@ -75,7 +74,7 @@ export const resetError = () => dispatch => {
 export const successRedirect = history => dispatch => {
 	// even though im not dispatching an action type, i still need to include dispatch or else redux logger throws an error
 	axios
-		.get(`${apiLocal}/auth/success`)
+		.get(`${API_URL}/api/auth/success`)
 		.then(response => {
 			console.log('social media user object', response);
 			localStorage.setItem('id', response.data.user.id);
@@ -88,7 +87,7 @@ export const successRedirect = history => dispatch => {
 
 export const signOut = history => dispatch => {
 	axios
-		.get(`${apiLocal}/auth/signout`)
+		.get(`${API_URL}/api/auth/signout`)
 		.then(response => {
 			console.log(response);
 			localStorage.removeItem('id');
@@ -101,7 +100,7 @@ export const signOut = history => dispatch => {
 
 export const fetchUsersBooks = userID => dispatch => {
 	axios
-		.get(`${apiLocal}/${userID}/library`)
+		.get(`${API_URL}/api/${userID}/library`)
 		.then(response => {
 			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
 		})
@@ -110,7 +109,7 @@ export const fetchUsersBooks = userID => dispatch => {
 
 export const fetchUsersShelves = userID => dispatch => {
 	axios
-		.get(`${apiLocal}/shelves/user/${userID}`)
+		.get(`${API_URL}/api/shelves/user/${userID}`)
 		.then(response => {
 			dispatch({ type: FETCH_USERS_SHELVES, payload: response.data });
 		})
@@ -119,7 +118,7 @@ export const fetchUsersShelves = userID => dispatch => {
 
 export const fetchShelfsBooks = shelfID => dispatch => {
 	axios
-		.get(`${apiLocal}/shelves/${shelfID}`)
+		.get(`${API_URL}/api/shelves/${shelfID}`)
 		.then(response => console.log(response.data))
 		.catch(error => console.log(error));
 };
@@ -127,7 +126,7 @@ export const fetchShelfsBooks = shelfID => dispatch => {
 export const getGoogleResults = search => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
 	axios
-		.get(`${apiURL}${search}`)
+		.get(`${googleBooksURL}${search}`)
 		.then(results =>{
 			const newBookArray = results.data.items.map(book => {
 				return {
@@ -199,7 +198,7 @@ export const saveBookToLibrary = (userId, actionType, bookId, book, readingStatu
 	// };
 
 	// axios
-	// 	.post(`${apiLocal}/${userId}/library`, modifiedBook)
+	// 	.post(`${API_URL}/api/${userId}/library`, modifiedBook)
 	// 	.then(results => dispatch({ type: ADD_BOOK_TO_LIBRARY_SUCCESS, payload: results.data}))
 	// 	.catch(err => dispatch({ type: ADD_BOOK_TO_LIBRARY_FAILURE, payload: err.response }));
 };
@@ -212,7 +211,7 @@ export const createUserShelf = (
 ) => dispatch => {
 	dispatch({ type: CREATE_USER_SHELF });
 	axios
-		.post(`${apiLocal}/shelves/${userId}`, {
+		.post(`${API_URL}/api/shelves/${userId}`, {
 			shelfName: shelfName,
 			isPrivate: shelfPrivate
 		})
