@@ -13,6 +13,8 @@ import {
 	getGoogleResults
 } from '../../actions/index';
 
+import { favoriteMe } from '../helpers';
+
 import BookIcon from './BookIcon';
 import styled from 'styled-components';
 
@@ -160,8 +162,6 @@ const BookItem = props => {
             favoriteRef.current = favorite;
         }
 
-        // (userId, googleId, book Object, reading status, favorite)
-        // props.saveBookToLibrary(localStorage.getItem('id'), actionType, props.book.id, props.book, readingStatus, favorite);
         const modifiedBook = {
             book: {
                 googleId: props.book.googleId,
@@ -185,19 +185,9 @@ const BookItem = props => {
             favorite: favorite  // true || false
         };
         //{book: props.book, readingStatus: readingStatus || null, favorite}
-        axios
-            .post(`${API_URL}/api/${localStorage.getItem('id')}/library`, modifiedBook)
-            .then(results => {
-                // Analytics Event action
-                if(actionType === 'favorite') {
-                    Event('Search', (favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),'SEARCH_RESULT');
-                    sendUpTheFlares('success', 'Success', (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'));
-                }else{
-                    Event('Search', 'User added a book to start tracking from search list.', 'SEARCH_RESULT');
-                    sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
-                }
-            })
-            .catch(err => console.log(err));
+        
+        favoriteMe(localStorage.getItem('id'), modifiedBook, actionType);
+
     }, [favorite, readingStatus]);
 
     const sendUpTheFlares = (type, message, description) => {

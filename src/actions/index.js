@@ -19,7 +19,8 @@ export const CREATE_USER_SHELF_SUCCESS = 'CREATE_USER_SHELF_SUCCESS';
 export const CREATE_USER_SHELF_FAILURE = 'CREATE_USER_SHELF_FAILURE';
 export const CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS';
 export const SET_QUERY = 'SET_QUERY';
-export const SET_CURRENT_BOOK = "SET_CURRENT_BOOK";
+export const SET_CURRENT_SHELF = 'SET_CURRENT_SHELF';
+export const SET_CURRENT_BOOK = 'SET_CURRENT_BOOK';
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -100,27 +101,51 @@ export const signOut = history => dispatch => {
 };
 
 export const fetchUsersBooks = userID => dispatch => {
-	axios
-		.get(`${API_URL}/api/${userID}/library`)
+	axios.get(`${API_URL}/api/${userID}/library`)
 		.then(response => {
 			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
 		})
 		.catch(error => console.log(error));
 };
 
-export const fetchUsersShelves = userID => dispatch => {
-	axios
-		.get(`${API_URL}/api/shelves/user/${userID}`)
+export const setCurrentShelf = shelf => dispatch => {
+	axios.get(`${API_URL}/api/${localStorage.getItem('id')}/library`)
 		.then(response => {
-			dispatch({ type: FETCH_USERS_SHELVES, payload: response.data });
+			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
+
+			if (shelf === 'allbooks') {
+				dispatch({ type: SET_CURRENT_SHELF, payload: response.data });
+			} else if (shelf === 'favorites') {
+				dispatch({ type: SET_CURRENT_SHELF, payload: response.data.filter(item => item.favorite === true) });
+			} else if (shelf === 'toberead') {
+				dispatch({ type: SET_CURRENT_SHELF, payload: response.data.filter(item => item.readingStatus === 1) });
+			} else if (shelf === 'inprogress') {
+				dispatch({ type: SET_CURRENT_SHELF, payload: response.data.filter(item => item.readingStatus === 2) });
+			} else if (shelf === 'finished') {
+				dispatch({ type: SET_CURRENT_SHELF, payload: response.data.filter(item => item.readingStatus === 3) });
+			} else {
+				// fetch custom shelf books here
+			};
 		})
 		.catch(error => console.log(error));
 };
 
+// axios call to fetch shelf's books to be done in else of if statement up there, might not need action
+
+// fetches shelf's books
+// release canvas 2, custom shelves
 export const fetchShelfsBooks = shelfID => dispatch => {
-	axios
-		.get(`${API_URL}/api/shelves/${shelfID}`)
+	axios.get(`${API_URL}/api/shelves/${shelfID}`)
 		.then(response => console.log(response.data))
+		.catch(error => console.log(error));
+};
+
+// release canvas 2
+export const fetchUsersShelves = userID => dispatch => {
+	axios.get(`${API_URL}/api/shelves/user/${userID}`)
+		.then(response => {
+			dispatch({ type: FETCH_USERS_SHELVES, payload: response.data });
+		})
 		.catch(error => console.log(error));
 };
 

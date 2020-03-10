@@ -1,35 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks } from '../../actions'
+import { setCurrentShelf } from '../../actions'
 import ShelfNote from '../common/ShelfNote';
 import ShelfItem from './ShelfItem';
 import ShelfListContainer from './ShelfListStyle';
 import BookIcon from '../common/BookIcon';
 
 const ShelfList = props => {
-	const [currentShelf, setCurrentShelf] = useState([]);
-
 	useEffect(() => {
-		// populates user books array in redux state with all of user's books
-		props.fetchUsersBooks(localStorage.getItem('id'));
-
-		// populate current shelf with correct books, this will be in redux state
-		if (props.shelf === 'allbooks') {
-			setCurrentShelf(props.userBooks);
-		} else if (props.shelf === 'favorites') {
-			setCurrentShelf(props.userBooks.filter(item => item.favorite === true));
-		} else if (props.shelf === 'toberead') {
-			setCurrentShelf(props.userBooks.filter(item => item.readingStatus === 1));
-		} else if (props.shelf === 'inprogress') {
-			setCurrentShelf(props.userBooks.filter(item => item.readingStatus === 2));
-		} else if (props.shelf === 'finished') {
-			setCurrentShelf(props.userBooks.filter(item => item.readingStatus === 3));
-		} else {
-			// fetch custom shelf books here
-		};
-
-		console.log('props.shelf', props.shelf);
-		console.log('currentShelf', currentShelf);
+		props.setCurrentShelf(props.shelf);
 	}, [props.shelf]);
 
 	const favorites = props.userBooks.filter(item => item.favorite == true);
@@ -42,7 +21,7 @@ const ShelfList = props => {
 
 					<div className="shelf-item-container">
 						<div className="shelf-items">
-							{currentShelf.map((book, index) => (
+							{props.currentShelf.map((book, index) => (
 								<ShelfItem key={index} book={book} />
 							))}
 						</div>
@@ -76,8 +55,9 @@ const ShelfList = props => {
 
 const mapStateToProps = state => {
 	return {
-		userBooks: state.library.userBooks
+		userBooks: state.library.userBooks,
+		currentShelf: state.library.currentShelf
 	};
 };
 
-export default connect(mapStateToProps, { fetchUsersBooks })(ShelfList);
+export default connect(mapStateToProps, { setCurrentShelf })(ShelfList);
