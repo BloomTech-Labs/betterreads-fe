@@ -415,7 +415,7 @@ export function BookDetails(props) {
 													</GenreBox>
 												)
 											)}
-										,
+								
 									</div>
 								</div>
 							</div>

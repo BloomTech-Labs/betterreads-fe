@@ -10,7 +10,7 @@ import DownOutlined from '@ant-design/icons/DownOutlined';
 import BookIcon from './BookIcon';
 import styled from 'styled-components';
 
-const API_URL = 'https://api.readrr.app';
+const API_URL = process.env.API_URL || 'https://api.readrr.app';
 
 const Wrapper = styled.div`
     width: 90%;
