@@ -46,9 +46,6 @@ const Search = props => {
 		Event('Search', 'loaded search', 'SEARCH_COMPONENT');
 		PageView();
 	}, []);
-
-	
-	console.log(props.searchResults.books)
 	
 	return (
 		<Wrapper>
@@ -90,7 +87,7 @@ const Search = props => {
 const mapStateToProps = state => {
 	return {
 		fetching: state.search.fetching,
-		searchResults: state.search
+		searchResults: state.search.searchResults
 	};
 };
 
