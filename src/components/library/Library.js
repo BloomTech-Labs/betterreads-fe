@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, fetchUsersShelves, getGoogleResults } from '../../actions/index';
+import { fetchUsersBooks, fetchUsersShelves, getGoogleResults } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import ShelfItem from './ShelfItem';
 import LibraryContainer from './LibraryStyle';
 import BookIcon from '../common/BookIcon';
-import { PageView, Event } from '../tracking/';
+import { PageView, Event } from '../tracking';
 
 const Library = props => {
 	useEffect(() => {
 		props.fetchUsersBooks(localStorage.getItem('id'));
 		props.fetchUsersShelves(localStorage.getItem('id'));
-
+		// google analytics
 		Event('Library', 'User library loaded', 'LIBRARY');
 		PageView();
 	}, []);
@@ -21,7 +21,7 @@ const Library = props => {
 	const toBeRead = props.userBooks.filter(item => item.readingStatus === 1);
 	const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
 	const finished = props.userBooks.filter(item => item.readingStatus === 3);
-	const favorite = props.userBooks.filter(item => item.favorite === true);
+	const favorites = props.userBooks.filter(item => item.favorite == true);
 
 	return (
 		<LibraryContainer>
@@ -29,19 +29,19 @@ const Library = props => {
 
 			<div className="what-are-you-reading-container">
 				<div className="what-are-you-reading">
-					{/* {props.userBooks.length > 0 ? <h2>Welcome back, {fullName[0]}!</h2> : <h2>What are you reading?</h2>} */}
-					<h2>What are you reading, {fullName[0]}?</h2>
+					{props.userBooks.length > 10 ? <h2>Welcome back, {fullName[0]}!</h2> : <h2>What are you reading?</h2>}
 					<p>Search for a book that you want to track and add to shelves.</p>
 				</div>
 				<SearchForm history={props.history} />
 			</div>
 
 			<div className='reading-status-and-my-shelves-container'>
+
 				<div className="reading-status-container">
 					<div className="reading-status">
 						<div className='header'>
 							<p className='status'>To be read ({toBeRead.length})</p>
-							<p className='view-all'>View all</p>
+							<p className='view-all' onClick={() => props.history.push('/shelf/toberead')}>View all</p>
 						</div>
 						<div className='section'>
 							{toBeRead[0] && <ShelfItem history={props.history} book={toBeRead[0]} />}
@@ -53,7 +53,7 @@ const Library = props => {
 					<div className="reading-status">
 						<div className='header'>
 							<p className='status'>In progress ({inProgress.length})</p>
-							<p className='view-all'>View all</p>
+							<p className='view-all' onClick={() => props.history.push('/shelf/inprogress')}>View all</p>
 						</div>
 						<div className='section'>
 							{inProgress[0] && <ShelfItem history={props.history} book={inProgress[0]} />}
@@ -65,7 +65,7 @@ const Library = props => {
 					<div className="reading-status">
 						<div className='header'>
 							<p className='status'>Finished ({finished.length})</p>
-							<p className='view-all'>View all</p>
+							<p className='view-all' onClick={() => props.history.push('/shelf/finished')}>View all</p>
 						</div>
 						<div className='section'>
 							{finished[0] && <ShelfItem history={props.history} book={finished[0]} />}
@@ -88,10 +88,10 @@ const Library = props => {
 							{props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
 						</div>
 
-						<div className="shelf">
+						<div className="shelf" onClick={() => props.history.push('/shelf/favorites')}>
 							<p className="shelf-name">Favorites</p>
 							<BookIcon height="40px" width="40px" fill="#D9D9D9" />
-							{favorite.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{favorite.length} books</p>}
+							{favorites.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{favorites.length} books</p>}
 						</div>
 
 						{/* {props.userShelves.map(item => {
@@ -106,6 +106,7 @@ const Library = props => {
 						nothing is being done with private value yet, waiting on design */}
 					</div>
 				</div>
+
 			</div>
 		</LibraryContainer>
 	);

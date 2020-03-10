@@ -85,7 +85,7 @@ const LibraryContainer = styled.div`
 			margin: 0 auto;
 
 			h2 {
-				margin-top: 24px;
+				margin-top: 16px;
 				margin-bottom: 0;
 				font-family: 'Frank Ruhl Libre', sans-serif;
 				font-size: 1.5rem;
@@ -176,7 +176,6 @@ const LibraryContainer = styled.div`
 
 				.reading-status {
 					width: 687px;
-					margin: 0;
 
 					.section  {
 						flex-direction: row;

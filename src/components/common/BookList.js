@@ -33,9 +33,6 @@ const BookList = props => {
 					props.bookList.map((book, index) => (
 						<>
 							<BookItem key={index} book={book} />
-							{
-								index % 2 > 0 && <div className="breaker">&nbsp;</div>
-							}
 						</>
 					))}
 			</ListContainer>

@@ -6,7 +6,7 @@ import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';
 import { PageView, Event } from '../tracking/';
 
-const API_URL = 'https://api.readrr.app';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const SignIn = props => {
 	const [input, setInput] = useState({
