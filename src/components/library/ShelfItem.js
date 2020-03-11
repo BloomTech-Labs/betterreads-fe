@@ -65,7 +65,7 @@ const ShelfItemContainer = styled.div`
                 font-size: 1rem;
                 font-weight: 600;
                 color: #4e4c4a;
-                cursor: pointer;
+                // cursor: pointer;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -87,7 +87,7 @@ const ShelfItemContainer = styled.div`
             font-family: 'Open Sans', sans-serif;
             font-size: 0.875rem;
             color: #4e4c4a;
-            cursor: pointer;
+            // cursor: pointer;
         }
 
         .calendar {

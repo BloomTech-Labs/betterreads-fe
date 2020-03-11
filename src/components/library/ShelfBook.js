@@ -22,11 +22,6 @@ const ShelfBook = props => {
 			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={props.breadcrumbs} />
 
-			{/* three ways you get to book details component
-			- straight from library component
-			- shelf
-			- search */}
-
 			<ShelfBookContainer readMore={readMore}>
 
 				<div className='book'>
@@ -39,7 +34,6 @@ const ShelfBook = props => {
 							<div className='title-and-author'>
 								<p className='title'>{props.currentBook.title && props.currentBook.title}</p>
 								<p className='author'>{props.currentBook.authors && props.currentBook.authors.split(',')[0]}</p>
-								{/* multiple authors? */}
 							</div>
 							{/* heart */}
 						</div>

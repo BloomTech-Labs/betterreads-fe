@@ -117,6 +117,24 @@ const ShelfBookContainer = styled.div`
             }
         }
     }
+
+    @media (min-width: 1120px) {
+        .book {
+            max-width: 687px;
+        }
+
+        .description {
+            max-width: 687px;
+        }
+
+        .genre-big-container {
+            background-color: #ffffff;
+
+            .genre-small-container {
+                max-width: 687px;
+            }
+        }
+    }
 `;
 
 export default ShelfBookContainer;
