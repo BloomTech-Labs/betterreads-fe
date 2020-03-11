@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
 import { Button, Rate, Menu, Dropdown, notification, DatePicker } from 'antd';
@@ -7,10 +8,16 @@ import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 
+import {
+	fetchUsersBooks,
+	fetchUsersShelves,
+	getGoogleResults
+} from '../../actions/index';
+
 import BookIcon from '../common/BookIcon';
 import styled from 'styled-components';
 
-import { favoriteMe } from '../helpers';
+import { updateBookItem } from '../helpers';
 
 const apiURL = 'https://www.googleapis.com/books/v1/volumes?q=';
 const apiLocal = process.env.APIURL || 'http://localhost:5000/api';
@@ -19,7 +26,7 @@ const BookContainer = styled.div`
     width: 90%;
     margin: ${props => props.source === 'search' ? '0 auto' : '8px auto'};
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
 
     border-bottom: ${props => props.source === 'search' ? '1px solid #cecece' : ''};
     border: ${props => props.source === 'library' ? '1px solid #cecece' : ''};
@@ -76,6 +83,7 @@ const BookContainer = styled.div`
     .book{
         display: flex;
         flex-direction: column;
+        width: 100%;
         justify-content: space-between;
         padding: 12px 8px;
 
@@ -151,12 +159,14 @@ const BookContainer = styled.div`
 
 const BookItem = props => {
     // const { id, selfLink, volumeInfo, accessInfo, searchInfo, saleInfo } = props.book;
-    const { googleId } = props.book; 
-    const [favorite, setFavorite] = useState(false);
-    const [readingStatus, setReadingStatus] = useState();
+    const { googleId } = props.book;
+    const [inLibrary, setInLibrary] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? true : false)
+    const [favorite, setFavorite] = useState(props.userBooks.filter(b => b.googleId === googleId && b.favorite).length ? true : false);
+    const [readingStatus, setReadingStatus] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? props.userBooks.find(b => b.googleId === googleId).readingStatus : null);
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
-
+    
     let actionType = null;
+    
     const readingStatusRef = useRef(readingStatus);
     const favoriteRef = useRef(favorite);
     const firstRun = useRef(true);
@@ -177,31 +187,21 @@ const BookItem = props => {
             favoriteRef.current = favorite;
         }
 
-        const modifiedBook = {
-            book: {
-                googleId: googleId,
-                title: props.book.title || null,
-                authors: props.book.authors.toString() || null,
-                publisher: props.book.publisher || null,
-                publishedDate: props.book.publishedDate || null,
-                description: props.book.description || null,
-                isbn10: props.book.isbn10 || null,
-                isbn13: props.book.isbn13 || null,
-                pageCount: props.book.pageCount || null,
-                categories: props.book.categories.toString() || null,
-                thumbnail: props.book.thumbnail || null,
-                smallThumbnail: props.booksmallThumbnail || null,
-                language: props.book.language || null,
-                webReaderLink: props.book.webReaderLink || null,
-                textSnippet: props.book.textSnippet || null,
-                isEbook: props.book.isEbook || null
-            },
-            readingStatus: readingStatus || null,
-            favorite: favorite  // true || false
-        };
-
-        favoriteMe(localStorage.getItem('id'), modifiedBook, actionType);
+        updateBookItem(localStorage.getItem('id'), inLibrary, props.book, actionType, favorite, readingStatus);
     }, [favorite, readingStatus]);
+
+    useEffect(() => {
+        if(readingStatus === 1){
+            setTrackBtnLabel('To read');
+        }else if(readingStatus === 2){
+            setTrackBtnLabel('In progress');
+        }else if(readingStatus === 3){
+            setTrackBtnLabel('Finised');
+        }else{
+            setTrackBtnLabel('Track this');
+        }
+    }, [])
+    
 
     const readingStatusUpdate = key => {
         setReadingStatus(key.item.props.value);
@@ -210,14 +210,14 @@ const BookItem = props => {
 
     const TrackMenu = (
         <Menu onClick={key => readingStatusUpdate(key)}>
-            <Menu.Item key="80" value="1">To read</Menu.Item>
-            <Menu.Item key="71" value="2">In Progress</Menu.Item>
-            <Menu.Item key="62" value="3">Finished</Menu.Item>
+            <Menu.Item key="1" value="1">To read</Menu.Item>
+            <Menu.Item key="2" value="2">In Progress</Menu.Item>
+            <Menu.Item key="3" value="3">Finished</Menu.Item>
         </Menu>
     )
 
 	return (
-		<BookContainer conWidth="100%" conHeight="143px" bgImage={props.book.smallThumbnail} source={props.source}>
+		<BookContainer conWidth="100%" conHeight="143px" bgImage={props.book.smallThumbnail} source={props.source}  data-library={inLibrary}>
 			<div className="thumbContainer">
                 <Link to={`/Book/${googleId}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
 				    <div className="thumbnail"></div>
@@ -267,4 +267,17 @@ const BookItem = props => {
 	)
 }
 
-export default BookItem;
+const mapStateToProps = state => {
+	return {
+		userBooks: state.library.userBooks,
+		userShelves: state.library.userShelves
+	};
+};
+
+export default connect(mapStateToProps, {
+	fetchUsersBooks,
+	fetchUsersShelves,
+	getGoogleResults
+})(BookItem);
+
+// export default BookItem;

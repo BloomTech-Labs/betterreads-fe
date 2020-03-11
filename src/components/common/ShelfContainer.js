@@ -78,8 +78,6 @@ const Wrapper = styled.div`
 
 const MyShelf = props => {
     const favorite = props.userBooks.filter(item => item.favorite);
-    
-    console.log(props.userBooks)
     return (
         <Wrapper>
             <div className="searchMagic">

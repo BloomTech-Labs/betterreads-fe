@@ -5,10 +5,22 @@ import { Event } from '../tracking';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
-export const favoriteMe = (userId, book, action, favorite, readingStatus) => {
+export const updateBookItem = (userId, newBook, book, action, favorite, readingStatus) => {
+
+    console.log(userId, newBook, book, action, favorite, readingStatus)
+
+    const method = (!newBook ? 'post' : 'put');
+    console.log(method)
     // Save a book as a favorite or update its reading status
-    axios
-    .post(`${API_URL}/api/${userId}/library`, book)
+    axios({
+        method,
+        url: `${API_URL}/api/${userId}/library`,
+        data: {
+            book, 
+            favorite: favorite, 
+            readingStatus: readingStatus
+            }
+    })
     .then(results => {
         // Analytics Event action
         if(action === 'favorite') {

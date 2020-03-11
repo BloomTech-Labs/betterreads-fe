@@ -40,7 +40,7 @@ const Wrapper = styled.div`
 	}
 `;
 
-const antIcon = <LoadingOutlined style={{ fontSize: 48 }} spin />
+// const antIcon = <LoadingOutlined style={{ fontSize: 48 }} spin />
 
 const Search = props => {
 	useEffect(() => {
@@ -54,27 +54,27 @@ const Search = props => {
 			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: null}]} />
 			{
-				!props.searchResults.books && <ShelfNote note="Search for your favorite title or author." />
+				!props.searchResults.searchResults.books && <ShelfNote note="Search for your favorite title or author." />
 			}
 			{
-				props.searchResults.books &&
-				<ShelfNote note={`${props.searchResults.books.totalItems} results for "${props.searchResults.query}"`} />
+				props.searchResults.searchResults.books &&
+				<ShelfNote note={`${props.searchResults.searchResults.books.totalItems} results for "${props.searchResults.query}"`} />
 			}
 			<div className="somethingClever">
-				{
+				{/* {
 					props.fetching && <div className="bookList"><div className="spinnerContainer"><Spin indicator={antIcon} /></div></div>
-				}
+				} */}
 				{
 					!props.fetching &&
-					!props.searchResults.books &&
+					!props.searchResults.searchResults.books &&
 						<div className="bookList">&nbsp;</div>
 				}
 				
 				{
 					!props.fetching &&
-					props.searchResults.books &&
+					props.searchResults.searchResults.books &&
 					<div className="bookList">
-						<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.searchResults.query} />
+						<BookList history={props.history} bookList={props.searchResults.searchResults.books.items} count={props.searchResults.searchResults.books.totalItems} query={props.searchResults.query} />
 					</div>
 				}
 				<div className="shelfList">
@@ -88,7 +88,7 @@ const Search = props => {
 const mapStateToProps = state => {
 	return {
 		fetching: state.search.fetching,
-		searchResults: state.search.searchResults
+		searchResults: state.search
 	};
 };
 

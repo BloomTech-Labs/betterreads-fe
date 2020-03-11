@@ -30,14 +30,15 @@ const ListContainer = styled.div`
 			margin-right: 0px;
 		}
 
-		& > div:nth-child(odd) {
-			margin: 8px 0;
-		}
+		// & > div:nth-child(odd) {
+		// 	margin: 8px 0;
+		// }
 		
     }
 `;
 
 const BookList = props => {
+	console.log(props)
 	return (
 		<>
 			<ListContainer>
@@ -46,7 +47,7 @@ const BookList = props => {
 					props.bookList &&
 					props.bookList.map((book, index) => (
 						<>
-							<BookItem key={index} book={book} source="library" />
+							<BookItem key={index} book={book} source="search" />
 						</>
 					))}
 			</ListContainer>
