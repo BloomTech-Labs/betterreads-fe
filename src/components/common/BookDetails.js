@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Event } from '../tracking/';
 import { notification, Button, Rate, Menu, Dropdown } from 'antd';
 import styled from 'styled-components';
-import { saveBookToLibrary, getCurrentBook } from '../../actions';
+import { saveBookToLibrary, fetchCurrentBook } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from './Breadcrumbs';
@@ -188,7 +188,7 @@ export function BookDetails(props) {
 	const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
 
 	useEffect(() => {
-		props.getCurrentBook(book)
+		props.fetchCurrentBook(book)
 		console.log(props.currentBook, "deets currentBook")
 	}, []);
 
@@ -434,4 +434,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { saveBookToLibrary, getCurrentBook })(BookDetails);
+export default connect(mapStateToProps, { saveBookToLibrary, fetchCurrentBook })(BookDetails);

@@ -8,7 +8,7 @@ const Shelf = props => {
 	const shelf = props.match.params.shelf;
 	
 	let label;
-
+	
 	if (shelf === 'allbooks') {
 		label = 'All books';
 	} else if (shelf === 'favorites') {
@@ -20,7 +20,7 @@ const Shelf = props => {
 	} else if (shelf === 'finished') {
 		label = 'Finished';
 	} else {
-		// fetch custom shelf name by using find method on shelf array in redux state
+		// fetch custom shelf name by using find method on shelf array in redux state, user doesn't want to see number
 	};
 
 	return (

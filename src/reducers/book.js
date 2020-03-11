@@ -1,8 +1,7 @@
-import { FETCH_CURRENT_BOOK, SET_CURRENT_BOOK } from '../actions';
+import { SET_CURRENT_BOOK } from '../actions';
 
 const initialState = {
-currentBook: {}
-
+	currentBook: {}
 };
 
 export default function reducer(state = initialState, action) {

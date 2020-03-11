@@ -229,18 +229,9 @@ export const saveBookToLibrary = (userId, actionType, bookId, book, readingStatu
 	// 	.catch(err => dispatch({ type: ADD_BOOK_TO_LIBRARY_FAILURE, payload: err.response }));
 };
 
-export const createUserShelf = (
-	userId,
-	shelfName,
-	shelfPrivate,
-	setModalConfig
-) => dispatch => {
+export const createUserShelf = (userId, shelfName, shelfPrivate, setModalConfig) => dispatch => {
 	dispatch({ type: CREATE_USER_SHELF });
-	axios
-		.post(`${API_URL}/api/shelves/${userId}`, {
-			shelfName: shelfName,
-			isPrivate: shelfPrivate
-		})
+	axios.post(`${API_URL}/api/shelves/${userId}`, { shelfName: shelfName, isPrivate: shelfPrivate })
 		.then(res => {
 			//dispatch({ type: CREATE_USER_SHELF_SUCCESS, payload: res.data });
 		})
@@ -254,40 +245,21 @@ export const setQuery = input => dispatch => {
 };
 
 
-export const getCurrentBook = BookId => dispatch => {
-	//dispatch({ type: FETCH_SEARCH_START });
-	axios
-		.get(`${googleBooksURL}/${BookId}`)
-		.then(results =>{
-			console.log(results)
-			
-			const currentBook = {
-					googleId: results.data.id,
-					title: results.data.volumeInfo.title || null,
-					authors: results.data.volumeInfo.authors || null,
-					publisher: results.data.volumeInfo.publisher || null,
-					publishedDate: results.data.volumeInfo.publishedDate || null,
-					description: results.data.volumeInfo.description || null,
-					isbn10: results.data.volumeInfo.industryIdentifiers[0].identifier || null,
-					isbn13: results.data.volumeInfo.industryIdentifiers[1].identifier || null,
-					pageCount: results.data.volumeInfo.pageCount || null,
-					categories: results.data.volumeInfo.categories || null,
-					averageRating: results.data.volumeInfo.averageRating || null,
-					thumbnail: (results.data.volumeInfo.imageLinks ? results.data.volumeInfo.imageLinks.thumbnail : null),
-					smallThumbnail: (results.data.volumeInfo.imageLinks ? results.data.volumeInfo.imageLinks.smallThumbnail : null),
-					language: results.data.volumeInfo.language || null,
-					webReaderLink: results.data.accessInfo.webReaderLink || null,
-					textSnippet: null,
-					isEbook: results.data.saleInfo.isEbook || null
-				}
-			
-			dispatch({
-				type: SET_CURRENT_BOOK,
-				payload: currentBook})
+export const fetchCurrentBook = googleID => dispatch => {
+	axios.get(`${googleBooksURL}/${googleID}`)
+		.then(response => {
+			console.log('BOOK DATA STRAIGHT FROM GOOGLE', response.data);
+			dispatch({ type: SET_CURRENT_BOOK, payload: {
+				googleId: response.data.id,
+				title: response.data.volumeInfo.title,
+				authors: response.data.volumeInfo.authors.toString(),
+				// description: response.data.volumeInfo.description.replace(/<br>/g,' ').replace(/<p>/g,' ').replace(/<\/p>/g,' ').replace(/<i>/g,' ').replace(/<\/i>/g,' '),
+				description: response.data.volumeInfo.description,
+				categories: response.data.volumeInfo.categories.toString(),
+				averageRating: response.data.volumeInfo.averageRating,
+				thumbnail: response.data.volumeInfo.imageLinks.thumbnail,
+				smallThumbnail: response.data.volumeInfo.imageLinks.smallThumbnail
+			}})
 		})
-		.catch(err =>
-			{
-				console.log(err)
-				dispatch(console.log("Book Not Found"));
-			})
+		.catch(error => console.log(error));
 };
