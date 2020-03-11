@@ -96,9 +96,6 @@ const MyShelf = props => {
             <div className="shelves-container">
                 <Shelf history={props.history} name="All Books" link="/shelf/allbooks" count={props.userBooks.length || `0`} />
                 <Shelf history={props.history} name="Favorites" link="/shelf/favorites" count={favorite.length || `0`} />
-                <Shelf history={props.history} name="In Progress" link="/shelf/inprogress" count={inProgress.length || `0`} />
-                <Shelf history={props.history} name="To Be Read" link="/shelf/toberead" count={toBeRead.length || `0`} />
-                <Shelf history={props.history} name="Finished" link="/shelf/finished" count={finished.length || `0`} />
             </div>
         </Wrapper>
     )

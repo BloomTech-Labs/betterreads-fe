@@ -21,19 +21,15 @@ export const CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS';
 export const SET_QUERY = 'SET_QUERY';
 export const SET_CURRENT_SHELF = 'SET_CURRENT_SHELF';
 export const SET_CURRENT_BOOK = 'SET_CURRENT_BOOK';
+export const SET_BREADCRUMBS = 'SET_BREADCRUMBS';
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
 		dispatch({ type: SET_ERROR, payload: 'Passwords do not match' });
 	} else {
-		axios
-			.post(`${API_URL}/api/auth/signup`, {
-				fullName: input.fullName,
-				emailAddress: input.emailAddress,
-				password: input.password
-			})
+		axios.post(`${API_URL}/api/auth/signup`, { fullName: input.fullName, emailAddress: input.emailAddress, password: input.password })
 			.then(response => {
-				console.log(response);
+				console.log('SIGN_UP', response);
 				localStorage.setItem('id', response.data.user.id);
 				localStorage.setItem('full_name', response.data.user.fullName);
 				localStorage.setItem('image', response.data.user.image);
@@ -41,19 +37,15 @@ export const signUp = (input, history) => dispatch => {
 			})
 			.catch(error => {
 				console.log(error);
-				dispatch({
-					type: SET_ERROR,
-					payload: 'Email address already in use'
-				});
+				dispatch({ type: SET_ERROR, payload: 'Email address already in use' });
 			});
 	}
 };
 
 export const signIn = (input, history) => dispatch => {
-	axios
-		.post(`${API_URL}/api/auth/signin`, input)
+	axios.post(`${API_URL}/api/auth/signin`, input)
 		.then(response => {
-			console.log(response);
+			console.log('SIGN_IN', response);
 			localStorage.setItem('id', response.data.user.id);
 			localStorage.setItem('full_name', response.data.user.fullName);
 			localStorage.setItem('image', response.data.user.image);
@@ -61,10 +53,7 @@ export const signIn = (input, history) => dispatch => {
 		})
 		.catch(error => {
 			console.log(error);
-			dispatch({
-				type: SET_ERROR,
-				payload: 'Invalid credentials'
-			});
+			dispatch({ type: SET_ERROR, payload: 'Invalid credentials' });
 		});
 };
 
@@ -75,10 +64,9 @@ export const resetError = () => dispatch => {
 
 export const successRedirect = history => dispatch => {
 	// even though im not dispatching an action type, i still need to include dispatch or else redux logger throws an error
-	axios
-		.get(`${API_URL}/api/auth/success`)
+	axios.get(`${API_URL}/api/auth/success`)
 		.then(response => {
-			console.log('social media user object', response);
+			console.log('SUCCESS_REDIRECT', response);
 			localStorage.setItem('id', response.data.user.id);
 			localStorage.setItem('full_name', response.data.user.fullName);
 			localStorage.setItem('image', response.data.user.image);
@@ -88,10 +76,9 @@ export const successRedirect = history => dispatch => {
 };
 
 export const signOut = history => dispatch => {
-	axios
-		.get(`${API_URL}/api/auth/signout`)
+	axios.get(`${API_URL}/api/auth/signout`)
 		.then(response => {
-			console.log(response);
+			console.log('SIGN_OUT', response);
 			localStorage.removeItem('id');
 			localStorage.removeItem('full_name');
 			localStorage.removeItem('image');
@@ -102,9 +89,7 @@ export const signOut = history => dispatch => {
 
 export const fetchUsersBooks = userID => dispatch => {
 	axios.get(`${API_URL}/api/${userID}/library`)
-		.then(response => {
-			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
-		})
+		.then(response => dispatch({ type: FETCH_USERS_BOOKS, payload: response.data }))
 		.catch(error => console.log(error));
 };
 
@@ -143,9 +128,7 @@ export const fetchShelfsBooks = shelfID => dispatch => {
 // release canvas 2
 export const fetchUsersShelves = userID => dispatch => {
 	axios.get(`${API_URL}/api/shelves/user/${userID}`)
-		.then(response => {
-			dispatch({ type: FETCH_USERS_SHELVES, payload: response.data });
-		})
+		.then(response => dispatch({ type: FETCH_USERS_SHELVES, payload: response.data }))
 		.catch(error => console.log(error));
 };
 
@@ -162,8 +145,8 @@ export const getGoogleResults = search => dispatch => {
 					publisher: book.volumeInfo.publisher || null,
 					publishedDate: book.volumeInfo.publishedDate || null,
 					description: book.volumeInfo.description || null,
-					isbn10: book.volumeInfo.industryIdentifiers[0].identifier || null,
-					isbn13: book.volumeInfo.industryIdentifiers[1].identifier || null,
+					isbn10: null,
+					isbn13: null,
 					pageCount: book.volumeInfo.pageCount || null,
 					categories: book.volumeInfo.categories || null,
 					averageRating: book.volumeInfo.averageRating || null,
@@ -188,7 +171,7 @@ export const getGoogleResults = search => dispatch => {
 };
 
 export const clearSearchResults = () => dispatch => {
-	dispatch({ type: CLEAR_SEARCH_RESULTS, payload: {} });
+	dispatch({ type: CLEAR_SEARCH_RESULTS, payload: '' });
 };
 
 export const saveBookToLibrary = (userId, actionType, bookId, book, readingStatus, favorite) => dispatch => {
@@ -229,24 +212,13 @@ export const saveBookToLibrary = (userId, actionType, bookId, book, readingStatu
 	// 	.catch(err => dispatch({ type: ADD_BOOK_TO_LIBRARY_FAILURE, payload: err.response }));
 };
 
-export const createUserShelf = (
-	userId,
-	shelfName,
-	shelfPrivate,
-	setModalConfig
-) => dispatch => {
+export const createUserShelf = (userId, shelfName, shelfPrivate, setModalConfig) => dispatch => {
 	dispatch({ type: CREATE_USER_SHELF });
-	axios
-		.post(`${API_URL}/api/shelves/${userId}`, {
-			shelfName: shelfName,
-			isPrivate: shelfPrivate
-		})
+	axios.post(`${API_URL}/api/shelves/${userId}`, { shelfName: shelfName, isPrivate: shelfPrivate })
 		.then(res => {
 			//dispatch({ type: CREATE_USER_SHELF_SUCCESS, payload: res.data });
 		})
-		.catch(err =>
-			dispatch({ type: CREATE_USER_SHELF_FAILURE, payload: err.resonse })
-		);
+		.catch(err => dispatch({ type: CREATE_USER_SHELF_FAILURE, payload: err.resonse }));
 };
 
 export const setQuery = input => dispatch => {
@@ -254,40 +226,23 @@ export const setQuery = input => dispatch => {
 };
 
 
-export const getCurrentBook = BookId => dispatch => {
-	//dispatch({ type: FETCH_SEARCH_START });
-	axios
-		.get(`${googleBooksURL}/${BookId}`)
-		.then(results =>{
-			console.log(results)
-			
-			const currentBook = {
-					googleId: results.data.id,
-					title: results.data.volumeInfo.title || null,
-					authors: results.data.volumeInfo.authors || null,
-					publisher: results.data.volumeInfo.publisher || null,
-					publishedDate: results.data.volumeInfo.publishedDate || null,
-					description: results.data.volumeInfo.description || null,
-					isbn10: results.data.volumeInfo.industryIdentifiers[0].identifier || null,
-					isbn13: results.data.volumeInfo.industryIdentifiers[1].identifier || null,
-					pageCount: results.data.volumeInfo.pageCount || null,
-					categories: results.data.volumeInfo.categories || null,
-					averageRating: results.data.volumeInfo.averageRating || null,
-					thumbnail: (results.data.volumeInfo.imageLinks ? results.data.volumeInfo.imageLinks.thumbnail : null),
-					smallThumbnail: (results.data.volumeInfo.imageLinks ? results.data.volumeInfo.imageLinks.smallThumbnail : null),
-					language: results.data.volumeInfo.language || null,
-					webReaderLink: results.data.accessInfo.webReaderLink || null,
-					textSnippet: null,
-					isEbook: results.data.saleInfo.isEbook || null
-				}
-			
-			dispatch({
-				type: SET_CURRENT_BOOK,
-				payload: currentBook})
+export const fetchCurrentBook = googleID => dispatch => {
+	axios.get(`${googleBooksURL}/${googleID}`).then(response => {
+			console.log('GOOGLE_SINGLE_BOOK_DATA', response.data);
+			dispatch({ type: SET_CURRENT_BOOK, payload: {
+				googleId: response.data.id,
+				title: response.data.volumeInfo.title,
+				authors: response.data.volumeInfo.authors.toString(),
+				description: response.data.volumeInfo.description,
+				categories: response.data.volumeInfo.categories.toString(),
+				averageRating: response.data.volumeInfo.averageRating,
+				thumbnail: response.data.volumeInfo.imageLinks.thumbnail,
+				smallThumbnail: response.data.volumeInfo.imageLinks.smallThumbnail
+			}})
 		})
-		.catch(err =>
-			{
-				console.log(err)
-				dispatch(console.log("Book Not Found"));
-			})
+		.catch(error => console.log(error));
+};
+
+export const setBreadcrumbs = breadcrumbs => dispatch => {
+	dispatch({ type: SET_BREADCRUMBS, payload: breadcrumbs });
 };

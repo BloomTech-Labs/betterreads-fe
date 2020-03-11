@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, fetchUsersShelves, getGoogleResults } from '../../actions';
+import { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import ShelfItem from './ShelfItem';
@@ -44,37 +44,48 @@ const Library = props => {
 					<div className="reading-status">
 						<div className='header'>
 							<p className='status'>To be read ({toBeRead.length})</p>
-							<p className='view-all' onClick={() => props.history.push('/shelf/toberead')}>View all</p>
+							<p className='view-all' onClick={() => {
+								props.setBreadcrumbs([{ label: 'To be read', path: '/shelf/toberead' }, { label: 'Book details', path: null }]);
+								props.history.push('/shelf/toberead');
+							}}>View all</p>
 						</div>
 						<div className='section'>
-							{toBeRead[0] && <ShelfItem history={props.history} book={toBeRead[0]} />}
-							{toBeRead[1] && <ShelfItem history={props.history} book={toBeRead[1]} />}
-							{toBeRead[2] && <ShelfItem history={props.history} book={toBeRead[2]} />}
-							{toBeRead[3] && <ShelfItem history={props.history} book={toBeRead[3]} />}
+							{toBeRead[0] && <ShelfItem history={props.history} book={toBeRead[0]} label='To be read' path='/shelf/toberead' />}
+							{toBeRead[1] && <ShelfItem history={props.history} book={toBeRead[1]} label='To be read' path='/shelf/toberead' />}
+							{toBeRead[2] && <ShelfItem history={props.history} book={toBeRead[2]} label='To be read' path='/shelf/toberead' />}
+							{toBeRead[3] && <ShelfItem history={props.history} book={toBeRead[3]} label='To be read' path='/shelf/toberead' />}
 						</div>
 					</div>
+
 					<div className="reading-status">
 						<div className='header'>
 							<p className='status'>In progress ({inProgress.length})</p>
-							<p className='view-all' onClick={() => props.history.push('/shelf/inprogress')}>View all</p>
+							<p className='view-all' onClick={() => {
+								props.setBreadcrumbs([{ label: 'In progress', path: '/shelf/inprogress' }, { label: 'Book details', path: null }]);
+								props.history.push('/shelf/inprogress');
+							}}>View all</p>
 						</div>
 						<div className='section'>
-							{inProgress[0] && <ShelfItem history={props.history} book={inProgress[0]} />}
-							{inProgress[1] && <ShelfItem history={props.history} book={inProgress[1]} />}
-							{inProgress[2] && <ShelfItem history={props.history} book={inProgress[2]} />}
-							{inProgress[3] && <ShelfItem history={props.history} book={inProgress[3]} />}
+							{inProgress[0] && <ShelfItem history={props.history} book={inProgress[0]} label='In progress' path='/shelf/inprogress' />}
+							{inProgress[1] && <ShelfItem history={props.history} book={inProgress[1]} label='In progress' path='/shelf/inprogress' />}
+							{inProgress[2] && <ShelfItem history={props.history} book={inProgress[2]} label='In progress' path='/shelf/inprogress' />}
+							{inProgress[3] && <ShelfItem history={props.history} book={inProgress[3]} label='In progress' path='/shelf/inprogress' />}
 						</div>
 					</div>
+
 					<div className="reading-status">
 						<div className='header'>
 							<p className='status'>Finished ({finished.length})</p>
-							<p className='view-all' onClick={() => props.history.push('/shelf/finished')}>View all</p>
+							<p className='view-all' onClick={() => {
+								props.setBreadcrumbs([{ label: 'Finished', path: '/shelf/finished' }, { label: 'Book details', path: null }]);
+								props.history.push('/shelf/finished');
+							}}>View all</p>
 						</div>
 						<div className='section'>
-							{finished[0] && <ShelfItem history={props.history} book={finished[0]} />}
-							{finished[1] && <ShelfItem history={props.history} book={finished[1]} />}
-							{finished[2] && <ShelfItem history={props.history} book={finished[2]} />}
-							{finished[3] && <ShelfItem history={props.history} book={finished[3]} />}
+							{finished[0] && <ShelfItem history={props.history} book={finished[0]} label='Finished' path='/shelf/finished' />}
+							{finished[1] && <ShelfItem history={props.history} book={finished[1]} label='Finished' path='/shelf/finished' />}
+							{finished[2] && <ShelfItem history={props.history} book={finished[2]} label='Finished' path='/shelf/finished' />}
+							{finished[3] && <ShelfItem history={props.history} book={finished[3]} label='Finished' path='/shelf/finished' />}
 						</div>
 					</div>
 				</div>
@@ -122,4 +133,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchUsersBooks, fetchUsersShelves, getGoogleResults })(Library);
+export default connect(mapStateToProps, { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs })(Library);
