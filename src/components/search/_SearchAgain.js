@@ -162,6 +162,7 @@ const BookItem = props => {
     const { googleId } = props.book;
     const [inLibrary, setInLibrary] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? true : false)
     const [favorite, setFavorite] = useState(props.userBooks.filter(b => b.googleId === googleId && b.favorite).length ? true : false);
+    const [readrrId, setReadrrId] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? props.userBooks.find(b => b.googleId === googleId).userBooksId : null);
     const [readingStatus, setReadingStatus] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? props.userBooks.find(b => b.googleId === googleId).readingStatus : null);
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
     
@@ -187,7 +188,7 @@ const BookItem = props => {
             favoriteRef.current = favorite;
         }
 
-        updateBookItem(localStorage.getItem('id'), inLibrary, props.book, actionType, favorite, readingStatus);
+        updateBookItem(localStorage.getItem('id'), readrrId, inLibrary, props.book, actionType, favorite, readingStatus);
     }, [favorite, readingStatus]);
 
     useEffect(() => {
@@ -233,7 +234,7 @@ const BookItem = props => {
                         <div className="author fs-16">
                             {
                                 props.book.authors &&
-                                props.book.authors[0]
+                                props.book.authors
                             }
                         </div>
                     </div>

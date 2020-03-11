@@ -3,7 +3,7 @@ axios.defaults.withCredentials = true;
 
 const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes';
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
-const readrrAPI = 'http://betterreadsds-env.eba-dwk2av3g.us-east-2.elasticbeanstalk.com/search'
+const readrr_API_URL = 'https://betterreadsds-env.eba-dwk2av3g.us-east-2.elasticbeanstalk.com/search'
 
 export const FETCH_SEARCH_START = 'FETCH_SEARCH_START';
 export const FETCH_SEARCH_SUCCESS = 'FETCH_SEARCH_SUCCESS';
@@ -154,20 +154,20 @@ export const getGoogleResults = search => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
 	axios
 		.get(`${googleBooksURL}?q=${search}`)
-		//.post(readrrAPI, {type: 'search', query: search})
+		//.post(readrr_API_URL, {type: 'search', query: search})
 		.then(results =>{
 			const newBookArray = results.data.items.map(book => {
 				return {
 					googleId: book.id,
 					title: book.volumeInfo.title || null,
-					authors: book.volumeInfo.authors[0] || null,
+					authors: book.volumeInfo.authors || null,
 					publisher: book.volumeInfo.publisher || null,
 					publishedDate: book.volumeInfo.publishedDate || null,
 					description: book.volumeInfo.description || null,
 					isbn10: null,
 					isbn13: null,
 					pageCount: book.volumeInfo.pageCount || null,
-					categories: book.volumeInfo.categories.toString() || null,
+					categories: book.volumeInfo.categories || null,
 					averageRating: book.volumeInfo.averageRating || null,
 					thumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : null),
 					smallThumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : null),
