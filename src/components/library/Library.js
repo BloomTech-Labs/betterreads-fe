@@ -32,7 +32,7 @@ const Library = props => {
 
 			<div className="what-are-you-reading-container">
 				<div className="what-are-you-reading">
-					{props.userBooks.length > 10 ? <h2>Welcome back, {fullName[0]}!</h2> : <h2>What are you reading?</h2>}
+					{props.userBooks.length > 10 ? <h2>Welcome back, {fullName}!</h2> : <h2>What are you reading?</h2>}
 					<p>Search for a book that you want to track and add to shelves.</p>
 				</div>
 				<SearchForm history={props.history} />

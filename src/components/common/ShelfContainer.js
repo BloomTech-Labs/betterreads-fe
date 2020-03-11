@@ -77,12 +77,8 @@ const Wrapper = styled.div`
 `;
 
 const MyShelf = props => {
-    const favorite = props.userBooks.filter(item => item.favorite === true);
-    const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
-    const toBeRead = props.userBooks.filter(item => item.readingStatus === 1);
-    const finished = props.userBooks.filter(item => item.readingStatus === 3);
-
-    //console.log(props, "SC props")
+    const favorite = props.userBooks.filter(item => item.favorite);
+  
     return (
         <Wrapper>
             <div className="searchMagic">

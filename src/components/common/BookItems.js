@@ -137,6 +137,7 @@ const ThumbContainer = styled.div`
 const BookItem = props => {
     //const { id, selfLink, volumeInfo, accessInfo, searchInfo, saleInfo } = props.book;    
     const { googleId } = props.book;
+    const [inLibrary, setInLibrary] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? true : false)
     const [favorite, setFavorite] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? true : false);
     const [readingStatus, setReadingStatus] = useState();
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');

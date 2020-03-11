@@ -3,6 +3,7 @@ axios.defaults.withCredentials = true;
 
 const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes';
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
+const readrr_API_URL = 'https://betterreadsds-env.eba-dwk2av3g.us-east-2.elasticbeanstalk.com/search'
 
 export const FETCH_SEARCH_START = 'FETCH_SEARCH_START';
 export const FETCH_SEARCH_SUCCESS = 'FETCH_SEARCH_SUCCESS';
@@ -136,6 +137,7 @@ export const getGoogleResults = search => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
 	axios
 		.get(`${googleBooksURL}?q=${search}`)
+		//.post(readrr_API_URL, {type: 'search', query: search})
 		.then(results =>{
 			const newBookArray = results.data.items.map(book => {
 				return {
@@ -154,7 +156,7 @@ export const getGoogleResults = search => dispatch => {
 					smallThumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : null),
 					language: book.volumeInfo.language || null,
 					webReaderLink: book.accessInfo.webReaderLink || null,
-					textSnippet: null,
+					textSnippet: (book.searchInfo && book.searchInfo.textSnippet) || null,
 					isEbook: book.saleInfo.isEbook || null
 				}
 			});

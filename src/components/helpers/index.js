@@ -5,10 +5,32 @@ import { Event } from '../tracking';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
-export const favoriteMe = (userId, book, action, favorite, readingStatus) => {
+export const updateBookItem = (userId, readrrId, inLibrary, book, action, favorite, readingStatus) => {
+
+    const method = (inLibrary ? 'put' : 'post');
+
+    let data;
+    if(inLibrary){
+        data = {
+            userId: parseInt(userId),
+            bookId: readrrId,
+            readingStatus: parseInt(readingStatus),
+            favorite: favorite
+        }
+    }else{
+        data = {
+            book,
+            favorite: favorite, 
+            readingStatus: parseInt(readingStatus)
+        }
+    }
+
     // Save a book as a favorite or update its reading status
-    axios
-    .post(`${API_URL}/api/${userId}/library`, book)
+    axios({
+        method,
+        url: `${API_URL}/api/${userId}/library`,
+        data
+    })
     .then(results => {
         // Analytics Event action
         if(action === 'favorite') {
@@ -19,7 +41,11 @@ export const favoriteMe = (userId, book, action, favorite, readingStatus) => {
             sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
         }
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+        console.log(err)
+        Event('Search', 'Error adding a book to favorites/tracking.', 'UPDATE_BOOK_ITEM');
+        sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
+    });
 }
 
 export const sendUpTheFlares = (type, message, description) => {
