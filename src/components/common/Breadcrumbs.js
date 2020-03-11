@@ -1,5 +1,4 @@
 import React from 'react';
-
 import styled from 'styled-components';
 import { Breadcrumb } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
@@ -40,17 +39,11 @@ const Breadcrumbs = props => {
 				<Breadcrumb.Item onClick={() => props.history.push('/')}>
 					<HomeOutlined /> Library
 				</Breadcrumb.Item>
-				{
-					props.crumbs &&
-					props.crumbs.map((crumb, index) => (
-						<Breadcrumb.Item
-							key={index}
-							onClick={() => (crumb.path ? props.history.push(`${crumb.path}`) : null)}
-						>
-							{crumb.label}
-						</Breadcrumb.Item>
-					))
-				}
+				{props.crumbs && props.crumbs.map((crumb, index) => (
+					<Breadcrumb.Item key={index} onClick={() => (crumb.path ? props.history.push(`${crumb.path}`) : null)}>
+						{crumb.label}
+					</Breadcrumb.Item>
+				))}
 			</Breadcrumb>
 		</Wrapper>
 	);

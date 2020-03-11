@@ -78,6 +78,7 @@ const Wrapper = styled.div`
 
 const MyShelf = props => {
     const favorite = props.userBooks.filter(item => item.favorite);
+  
     return (
         <Wrapper>
             <div className="searchMagic">
@@ -91,9 +92,6 @@ const MyShelf = props => {
             <div className="shelves-container">
                 <Shelf history={props.history} name="All Books" link="/shelf/allbooks" count={props.userBooks.length || `0`} />
                 <Shelf history={props.history} name="Favorites" link="/shelf/favorites" count={favorite.length || `0`} />
-                <Shelf history={props.history} name="In Progress" link="/shelf/inprogress" count="2" />
-                <Shelf history={props.history} name="To Be Read" link="/shelf/toberead" count="12" />
-                <Shelf history={props.history} name="Finished" link="/shelf/finished" count="220" />
             </div>
         </Wrapper>
     )

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getGoogleResults, clearSearchResults, setQuery } from '../../actions';
+import { getGoogleResults, clearSearchResults, setQuery, setBreadcrumbs } from '../../actions';
 import styled from 'styled-components';
 import { Input } from 'antd';
 
@@ -35,8 +35,8 @@ const SearchForm = props => {
 
 	const handleSearch = e => {
         props.getGoogleResults(props.query);
+        props.setBreadcrumbs([{ label: 'Search results', path: '/search' }, { label: 'Book details', path: null }]);
         if(props.history.location.pathname !== '/search') props.history.push('/search');
-        
 	};
 
 	return (
@@ -65,8 +65,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, {
-	getGoogleResults,
-	clearSearchResults,
-	setQuery
-})(SearchForm);
+export default connect(mapStateToProps, { getGoogleResults, clearSearchResults, setQuery, setBreadcrumbs })(SearchForm);

@@ -22,7 +22,7 @@ const ShelfList = props => {
 					<div className="shelf-item-container">
 						<div className="shelf-items">
 							{props.currentShelf.map((book, index) => (
-								<ShelfItem key={index} book={book} />
+								<ShelfItem history={props.history} key={index} book={book} label={props.label} path={`/shelf/${props.shelf}`} />
 							))}
 						</div>
 					</div>
