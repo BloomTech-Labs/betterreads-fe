@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Event } from '../tracking/';
 import { notification, Button, Rate, Menu, Dropdown } from 'antd';
 import styled from 'styled-components';
-import { saveBookToLibrary, getCurrentBook } from '../../actions';
+import { saveBookToLibrary, fetchCurrentBook } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from './Breadcrumbs';
@@ -177,6 +177,7 @@ const GenreBox = styled.button`
 	width: auto;
 	padding: 5px 10px;
 	border: none;
+	margin: 5px;
 `;
 
 export function BookDetails(props) {
@@ -188,7 +189,7 @@ export function BookDetails(props) {
 	const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
 
 	useEffect(() => {
-		props.getCurrentBook(book)
+		props.fetchCurrentBook(book)
 		console.log(props.currentBook, "deets currentBook")
 	}, []);
 
@@ -300,11 +301,11 @@ export function BookDetails(props) {
 
 
 	const ThumbContainer = styled.div`
+	img{
 		height: 95px;
 		width: 82px;
-		background-image: url(${props.bgImage});
-		background-size: cover;
 		border-radius: 5px 0 0;
+	}
 	`;
 
 
@@ -332,11 +333,9 @@ export function BookDetails(props) {
 							<div className="flexer">
 								<div className="top">
 									<div className="imgContainer">
-										<ThumbContainer
-											bgImage={
-												props.currentBook.thumbnail
-											}
-										/>
+										<ThumbContainer>
+											<img src={props.currentBook.thumbnail} />
+										</ThumbContainer>
 
 										<Dropdown
 											overlay={TrackMenu}
@@ -397,7 +396,7 @@ export function BookDetails(props) {
 									</div>
 								</div>
 								<div className="bookDeets">
-									<p>{props.currentBook.description}</p>
+									{props.currentBook.description}
 									<div className="genre">
 										<p>Genre</p>
 									</div>
@@ -434,4 +433,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { saveBookToLibrary, getCurrentBook })(BookDetails);
+export default connect(mapStateToProps, { saveBookToLibrary, fetchCurrentBook })(BookDetails);

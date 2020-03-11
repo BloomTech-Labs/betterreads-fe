@@ -220,7 +220,7 @@ const BookItem = props => {
 	return (
 		<BookContainer conWidth="100%" conHeight="143px" bgImage={props.book.smallThumbnail} source={props.source}  data-library={inLibrary}>
 			<div className="thumbContainer">
-                <Link to={`/Book/${googleId}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
+                <Link to={`/shelf/book/${googleId}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
 				    <div className="thumbnail"></div>
                 </Link>
 				<Dropdown overlay={TrackMenu} trigger={['click']}>

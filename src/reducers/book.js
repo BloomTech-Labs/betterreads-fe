@@ -1,8 +1,8 @@
-import { FETCH_CURRENT_BOOK, SET_CURRENT_BOOK } from '../actions';
+import { SET_CURRENT_BOOK, SET_BREADCRUMBS } from '../actions';
 
 const initialState = {
-currentBook: {}
-
+	currentBook: {},
+	breadcrumbs: [{ label: 'Book details', path: null }]
 };
 
 export default function reducer(state = initialState, action) {
@@ -12,6 +12,13 @@ export default function reducer(state = initialState, action) {
 				...state,
 				currentBook: action.payload
 			};
+
+		case SET_BREADCRUMBS:
+			return {
+				...state,
+				breadcrumbs: action.payload
+			};
+
 		default:
 			return state;
 	}
