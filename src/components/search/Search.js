@@ -61,9 +61,9 @@ const Search = props => {
 				<ShelfNote note={`${props.searchResults.searchResults.books.totalItems} results for "${props.searchResults.query}"`} />
 			}
 			<div className="somethingClever">
-				{/* {
-					props.fetching && <div className="bookList"><div className="spinnerContainer"><Spin indicator={antIcon} /></div></div>
-				} */}
+				{
+					props.fetching && <div className="bookList">&nbsp;</div>
+				}
 				{
 					!props.fetching &&
 					!props.searchResults.searchResults.books &&
