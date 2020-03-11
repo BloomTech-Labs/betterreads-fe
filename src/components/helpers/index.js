@@ -12,7 +12,6 @@ export const updateBookItem = (userId, readrrId, inLibrary, book, action, favori
     let data;
     if(inLibrary){
         data = {
-            userId: parseInt(userId),
             bookId: readrrId,
             readingStatus: parseInt(readingStatus),
             favorite: favorite
