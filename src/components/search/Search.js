@@ -62,7 +62,7 @@ const Search = props => {
 			}
 			<div className="somethingClever">
 				{
-					props.fetching && <div className="bookList"></div>
+					props.fetching && <div className="bookList">&nbsp;</div>
 				}
 				{
 					!props.fetching &&
