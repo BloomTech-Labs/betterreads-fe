@@ -28,7 +28,7 @@ const Shelf = props => {
 			<Header history={props.history} />
 			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={[{ label, path: null }]} />
-			<ShelfList history={props.history} shelf={shelf} />
+			<ShelfList history={props.history} shelf={shelf} label={label}/>
 		</>
 	);
 };

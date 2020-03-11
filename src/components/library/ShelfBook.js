@@ -20,7 +20,12 @@ const ShelfBook = props => {
 		<>
 			<Header history={props.history} />
 			<SearchForm history={props.history} />
-			<Breadcrumbs history={props.history} crumbs={[{ label: 'Search results', path: '/search' }, { label: 'Book details', path: null }]} />
+			<Breadcrumbs history={props.history} crumbs={props.breadcrumbs} />
+
+			{/* three ways you get to book details component
+			- straight from library component
+			- shelf
+			- search */}
 
 			<ShelfBookContainer readMore={readMore}>
 
@@ -46,9 +51,6 @@ const ShelfBook = props => {
 
 				<div className='description'>
 					<p className='heading'>Description</p>
-					{/* {props.currentBook.description && <p className='content'>{props.currentBook.description}</p>} */}
-					{/* how to make breadcrumbs dynamic? */}
-					{/* search shows shelves at the bottom on mobile */}
 					<div className='content' dangerouslySetInnerHTML={{__html: props.currentBook.description}}></div>
 					<p className='read-more' onClick={() => setReadMore(!readMore)}>{readMore ? 'Read less...' : 'Read more...'}</p>
 				</div>
@@ -69,7 +71,8 @@ const ShelfBook = props => {
 
 const mapStateToProps = state => {
 	return {
-		currentBook: state.book.currentBook
+		currentBook: state.book.currentBook,
+		breadcrumbs: state.book.breadcrumbs
 	};
 };
 

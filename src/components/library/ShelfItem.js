@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from 'react-redux';
-import { saveBookToLibrary } from '../../actions'
+import { saveBookToLibrary, setBreadcrumbs } from '../../actions'
 import styled from 'styled-components';
 import { Button, Menu, Dropdown, notification, DatePicker } from 'antd';
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
@@ -252,17 +252,25 @@ const ShelfItem = props => {
     return (
         <ShelfItemContainer thumbnail={props.book.thumbnail}>
             <div className='thumbnail-container'>
-                <div className='thumbnail' onClick={() => props.history.push(`/shelf/book/${props.book.googleId}`)}></div>
+                <div className='thumbnail' onClick={() => {
+                    props.setBreadcrumbs([{ label: props.label, path: props.path }, { label: 'Book details', path: null }]);
+                    props.history.push(`/shelf/book/${props.book.googleId}`);
+                }}></div>
                 <Dropdown overlay={TrackMenu} trigger={['click']}>
                     <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')}>{trackBtnLabel}<DownOutlined /></Button>
                 </Dropdown>
             </div>
+            
             <div className='information'>
                 <div className='title-and-heart'>
-                    <p className='title' onClick={() => props.history.push(`/shelf/book/${props.book.googleId}`)}>{props.book.title}</p>
+                    <p className='title'>{props.book.title}</p>
+                    {/* onClick={() => props.history.push(`/shelf/book/${props.book.googleId}`)} */}
                     {favorite ? <HeartFilled onClick={() => setFavorite(!favorite)} /> : <HeartOutlined onClick={() => setFavorite(!favorite)} />}
                 </div>
-                <p className='author' onClick={() => props.history.push(`/shelf/book/${props.book.googleId}`)}>{props.book.authors.split(',')[0]}</p>
+                
+                <p className='author'>{props.book.authors.split(',')[0]}</p>
+                {/* onClick={() => props.history.push(`/shelf/book/${props.book.googleId}`)} */}
+                
                 <div className='calendar'>
                     <div className='input'>
                         <p className='prompt'>DATE STARTED</p>
@@ -279,4 +287,4 @@ const ShelfItem = props => {
 
 };
 
-export default connect(null, { saveBookToLibrary })(ShelfItem);
+export default connect(null, { saveBookToLibrary, setBreadcrumbs })(ShelfItem);
