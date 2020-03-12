@@ -179,6 +179,10 @@ const ShelfBookContainer = styled.div`
                 .content {
                     height: auto;
                 }
+
+                .read-more {
+                    display: none;
+                }
             }
 
             .genre-big-container {
