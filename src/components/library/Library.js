@@ -4,6 +4,7 @@ import { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs } 
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import ShelfItem from './ShelfItem';
+import BookItem from '../search/_SearchAgain'; 
 import LibraryContainer from './LibraryStyle';
 import BookIcon from '../common/BookIcon';
 import { PageView, Event } from '../tracking';
@@ -50,10 +51,13 @@ const Library = props => {
 							}}>View all</p>
 						</div>
 						<div className='section'>
-							{toBeRead[0] && <ShelfItem history={props.history} book={toBeRead[0]} label='To be read' path='/shelf/toberead' />}
+							{/* {toBeRead[0] && <ShelfItem history={props.history} book={toBeRead[0]} label='To be read' path='/shelf/toberead' />}
 							{toBeRead[1] && <ShelfItem history={props.history} book={toBeRead[1]} label='To be read' path='/shelf/toberead' />}
 							{toBeRead[2] && <ShelfItem history={props.history} book={toBeRead[2]} label='To be read' path='/shelf/toberead' />}
-							{toBeRead[3] && <ShelfItem history={props.history} book={toBeRead[3]} label='To be read' path='/shelf/toberead' />}
+							{toBeRead[3] && <ShelfItem history={props.history} book={toBeRead[3]} label='To be read' path='/shelf/toberead' />} */}
+							{toBeRead[0] && <BookItem history={props.history} book={toBeRead[0]} source='library' />}
+							{toBeRead[1] && <BookItem history={props.history} book={toBeRead[1]} source='library' />}
+							{toBeRead[2] && <BookItem history={props.history} book={toBeRead[2]} source='library' />}
 						</div>
 					</div>
 

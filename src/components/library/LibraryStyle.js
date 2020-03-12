@@ -71,6 +71,22 @@ const LibraryContainer = styled.div`
 				.section {
 					display: flex;
 					flex-direction: column;
+
+					& > div {
+						width: 100%;
+						margin-top: 0;
+						margin-bottom: 16px;
+
+						.book {
+							.calendars {
+								.input {
+									.ant-calendar-picker-input {
+										background-color: #f3f6f5;
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 
@@ -181,6 +197,22 @@ const LibraryContainer = styled.div`
 						flex-direction: row;
 						justify-content: space-between;
 						flex-wrap: wrap;
+
+						& > div {
+							max-width: 336px;
+							margin-left: 0;
+							margin-right: 0;
+
+							.book {
+								.calendars {
+									.input {
+										.ant-calendar-picker-input {
+											background-color: #ffffff;
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 			}

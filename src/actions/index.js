@@ -143,7 +143,7 @@ export const getGoogleResults = search => dispatch => {
 				return {
 					googleId: book.id,
 					title: book.volumeInfo.title || null,
-					authors: book.volumeInfo.authors || null,
+					authors: book.volumeInfo.authors && book.volumeInfo.authors.toString(),
 					publisher: book.volumeInfo.publisher || null,
 					publishedDate: book.volumeInfo.publishedDate || null,
 					description: book.volumeInfo.description || null,

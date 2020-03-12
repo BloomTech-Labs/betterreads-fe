@@ -21,6 +21,7 @@ const ShelfList = props => {
 
 					<div className="shelf-item-container">
 						<div className="shelf-items">
+							{props.currentShelf.length === 0 && <p className='add'>Add a reading status to a book to see it here!</p>}
 							{props.currentShelf.map((book, index) => (
 								<ShelfItem history={props.history} key={index} book={book} label={props.label} path={`/shelf/${props.shelf}`} />
 							))}

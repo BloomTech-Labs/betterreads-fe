@@ -218,7 +218,7 @@ const BookItem = props => {
     )
 
 	return (
-		<BookContainer conWidth="100%" conHeight="143px" bgImage={props.book.smallThumbnail} source={props.source}  data-library={inLibrary}>
+		<BookContainer conWidth="100%" conHeight="143px" bgImage={props.book.thumbnail || props.book.smallThumbnail} source={props.source}  data-library={inLibrary}>
 			<div className="thumbContainer">
                 <Link to={`/shelf/book/${googleId}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
 				    <div className="thumbnail"></div>
@@ -232,10 +232,8 @@ const BookItem = props => {
 					<div className="titleAuthor">
                         <div className="title fs-16 fw-600">{props.book.title}</div>
                         <div className="author fs-16">
-                            {
-                                props.book.authors &&
-                                props.book.authors
-                            }
+                            
+                            {props.book.authors && props.book.authors.split(',')[0]}
                         </div>
                     </div>
 					<div className="bookFav">
@@ -245,7 +243,7 @@ const BookItem = props => {
                         }
                     </div>
 				</div>
-				{
+				{/* {
                     props.source === 'library' &&
                     <div className="calendars">
                         <div className="input">
@@ -261,8 +259,9 @@ const BookItem = props => {
 				}
 				{
 					props.source === 'search' &&
-					<Rate allowHalf defaultValue={props.book.averageRating} />
-				}
+					<Rate allowHalf disabled defaultValue={props.book.averageRating} />
+				} */}
+                <Rate allowHalf disabled defaultValue={Math.floor(Math.random() * (5)) + 1} />
 			</div>
 		</BookContainer>
 	)

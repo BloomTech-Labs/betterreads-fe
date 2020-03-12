@@ -12,6 +12,14 @@ const ShelfListContainer = styled.div`
             .shelf-items {
                 display: flex;
                 flex-direction: column;
+
+                .add {
+                    margin-top: 16px;
+                    font-family: 'Open Sans';
+                    font-size: 1rem;
+                    font-weight: 500;
+                    text-align: center;
+                }
             }
         }
 

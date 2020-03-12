@@ -13,6 +13,11 @@ Readrr is a social media platform that allows users to connect with other reader
 1. Once you have cloned the repository, download the dependencies with `npm install`.
 2. Start the server with `npm start`.
 
+## Environment Variables
+
+In order to get the app running locally, you need to set this environment variable in a .env.local file.
+-   REACT_APP_API_URL=http://localhost:5000
+
 ## Documentation
 
 -   [Product Canvas](https://www.notion.so/Better-Reads-66b5ba5a4c7e4036ab786e10b8c2de4d)

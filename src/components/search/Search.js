@@ -12,6 +12,8 @@ import ShelfNote from '../common/ShelfNote';
 import styled from 'styled-components';
 import ShelfContainer from '../common/ShelfContainer';
 
+import SearchPagination from './SearchPagination';
+
 const Wrapper = styled.div`
 	@media (min-width: 1120px) {
 		.somethingClever{
@@ -53,6 +55,7 @@ const Search = props => {
 			<Header history={props.history} />	
 			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: null}]} />
+			<SearchPagination />
 			{
 				!props.searchResults.searchResults.books && <ShelfNote note="Search for your favorite title or author." />
 			}
