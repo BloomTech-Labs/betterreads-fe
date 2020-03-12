@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, fetchCurrentBook } from '../../actions';
+import { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
@@ -53,13 +53,19 @@ const ShelfBook = props => {
 					{/* <button className="create-new-shelf-button">Create new shelf</button> */}
 
 					<div className="shelves-container">
-						<div className="shelf" onClick={() => props.history.push('/shelf/allbooks')}>
+						<div className="shelf" onClick={() => {
+							props.setBreadcrumbs([{ label: 'All books', path: '/shelf/allbooks' }, { label: 'Book details', path: null }]);
+							props.history.push('/shelf/allbooks');
+						}}>
 							<p className="shelf-name">All books</p>
 							<BookIcon height="40px" width="40px" fill="#d9d9d9" />
 							{props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
 						</div>
 
-						<div className="shelf" onClick={() => props.history.push('/shelf/favorites')}>
+						<div className="shelf" onClick={() => {
+							props.setBreadcrumbs([{ label: 'Favorites', path: '/shelf/favorites' }, { label: 'Book details', path: null }]);
+							props.history.push('/shelf/favorites');
+						}}>
 							<p className="shelf-name">Favorites</p>
 							<BookIcon height="40px" width="40px" fill="#d9d9d9" />
 							{favorites.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{favorites.length} books</p>}
@@ -80,4 +86,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchUsersBooks, fetchCurrentBook })(ShelfBook);
+export default connect(mapStateToProps, { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs })(ShelfBook);
