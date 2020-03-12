@@ -58,6 +58,10 @@ const Wrapper = styled.div`
     .search-magic{
         display: flex;
         flex-direction: column;
+
+        h2 {
+            cursor: pointer;
+        }
     }
 
     @media (min-width: 1120px) {
@@ -82,7 +86,7 @@ const MyShelf = props => {
     return (
         <Wrapper>
             <div className="searchMagic">
-                <h2 className="lh-30 frank">My Shelves</h2>
+                <h2 className="lh-30 frank" onClick={() => props.history.push('/')}>My Shelves</h2>
                 <p className="create-shelves openSans lh-22">
                     Create shelves and add <br className="hideOnMobile" /> books to your custom shelves.
                 </p>
