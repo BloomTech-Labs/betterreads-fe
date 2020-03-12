@@ -39,6 +39,7 @@ export const updateBookItem = (userId, readrrId, inLibrary, book, action, favori
             Event('Search', 'User added a book to start tracking from search list.', 'SEARCH_RESULT');
             sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
         }
+        return results.bookId
     })
     .catch(err => {
         console.log(err)
@@ -54,4 +55,29 @@ export const sendUpTheFlares = (type, message, description) => {
         description,
         duration: 1.5
     });   
+}
+
+export const updateDates = (userId, readrrId, dateString, whichDate) => {
+
+    let dateObj;
+    // whichDate 0/true for start date 
+    // 1/false for end date
+    if(!whichDate){
+        dateObj = {
+            bookId: readrrId,
+            dateStarted: dateString
+        }
+    }else{
+        dateObj = {
+            bookId: readrrId,
+            dateEnded: dateString
+        }
+    }
+    
+    axios
+        .put(`${API_URL}/api/${userId}/library`, dateObj)
+        .then(result => {console.log(result)
+            return result
+        })
+        .catch(err => console.log(err))
 }
