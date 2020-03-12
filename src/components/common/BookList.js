@@ -37,7 +37,7 @@ const BookList = props => {
 		<>
 			<ListContainer>
 				{!props.fetching && props.bookList && props.bookList.map((book, index) => (
-					<BookCard key={index} book={book} source="search" />
+					<BookCard key={index} book={book} source="library" />
 				))}
 			</ListContainer>
 		</>

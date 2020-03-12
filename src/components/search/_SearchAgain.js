@@ -17,11 +17,8 @@ import {
 import BookIcon from '../common/BookIcon';
 import styled from 'styled-components';
 
-import { updateBookItem, updateDates } from '../helpers';
+import { updateBookItem, updateDates, sendUpTheFlares } from '../helpers';
 import LibraryContainer from '../library/LibraryStyle';
-
-const apiURL = 'https://www.googleapis.com/books/v1/volumes?q=';
-const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 const BookContainer = styled.div`
     width: 90%;
@@ -164,8 +161,10 @@ const BookItem = props => {
     const [inLibrary, setInLibrary] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? true : false)
     const [favorite, setFavorite] = useState(props.userBooks.filter(b => b.googleId === googleId && b.favorite).length ? true : false);
     const [readrrId, setReadrrId] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? props.userBooks.find(b => b.googleId === googleId).bookId : null);
+    
     const [startDate, setStartDate] = useState();
     const [endedDate, setEndedDate] = useState();
+    
     const [readingStatus, setReadingStatus] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? props.userBooks.find(b => b.googleId === googleId).readingStatus : null);
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
     
@@ -194,6 +193,28 @@ const BookItem = props => {
         }
 
         updateBookItem(localStorage.getItem('id'), readrrId, inLibrary, props.book, actionType, favorite, readingStatus)
+            .then(results => {
+                setReadrrId(results.data.bookId)
+                setInLibrary(true)
+                // Analytics Event action
+                if(actionType === 'favorite') {
+                    // favorite update
+                    Event('TRACKING', (favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),'BOOK_CARD');
+                    sendUpTheFlares('success', 'Success', (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'));
+                }else if(actionType === 'readingStatus'){
+                    // reading status update
+                    Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');
+                    sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
+                }else{
+                    //delete
+                    Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');
+                    sendUpTheFlares('success', 'Success', 'Book deleted from your library.')
+                }
+            })
+            .catch(err => {
+                Event('Search', 'Error tracking/favoriting/deleting a book.', 'BOOK_CARD');
+                sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
+            });
         
     }, [favorite, readingStatus]);
 
@@ -216,26 +237,11 @@ const BookItem = props => {
     }
 
     const handleDates = (date, dateString, whichDate) => {
-        let dateObj;
-        if(!whichDate){
-            dateObj = {
-                bookId: readrrId,
-                dateStarted: dateString
-            }
-        }else{
-            dateObj = {
-                bookId: readrrId,
-                dateEnded: dateString
-            }
-        }
-        
-        axios
-        .put(`${API_URL}/api/${localStorage.getItem('id')}/library`, dateObj)
-        .then(result => {console.log(result)
-            return result
-        })
-        .catch(err => console.log(err))
-        // updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate)
+        updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate)
+            .then(result => {
+                console.log(result)                
+            })
+            .catch(err => console.log(err))
     }
 
         
@@ -299,25 +305,25 @@ const BookItem = props => {
                         }
                     </div>
 				</div>
-				{/* {
+				{
                     props.source === 'library' &&
                     <div className="calendars">
                         <div className="input">
                             <div className='dateLabel'>DATE STARTED</div>
-                            <DatePicker placeholder='Started' onChange={(date, dateString) => handleDates(date, dateString, 0)} value={startDate} />
+                            <DatePicker placeholder='Started' defaultValue={startDate} onChange={(date, dateString) => handleDates(date, dateString, 0)} />
                         </div>
 
                         <div className="input">
                             <div className='dateLabel'>DATE STARTED</div>
-                            <DatePicker placeholder='Ended' onChange={(date, dateString) => handleDates(date, dateString, 1)} value={endedDate} />
+                            <DatePicker placeholder='Ended' defaultValue={endedDate} onChange={(date, dateString) => handleDates(date, dateString, 1)} />
                         </div>
                     </div>
 				}
 				{
 					props.source === 'search' &&
 					<Rate allowHalf disabled defaultValue={props.book.averageRating} />
-				} */}
-                <Rate allowHalf disabled defaultValue={Math.floor(Math.random() * (5)) + 1} />
+				}
+                {/* <Rate allowHalf disabled defaultValue={Math.floor(Math.random() * (5)) + 1} /> */}
 			</div>
 		</BookContainer>
 	)
