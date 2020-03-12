@@ -68,10 +68,10 @@ const Library = props => {
 							}}>View all</p>
 						</div>
 						<div className='section'>
-							{inProgress[0] && <BookCard history={props.history} book={toBeRead[0]} source='library' />}
-							{inProgress[1] && <BookCard history={props.history} book={toBeRead[1]} source='library' />}
-							{inProgress[2] && <BookCard history={props.history} book={toBeRead[2]} source='library' />}
-							{inProgress[3] && <BookCard history={props.history} book={toBeRead[3]} source='library' />}
+							{inProgress[0] && <BookCard history={props.history} book={inProgress[0]} source='library' />}
+							{inProgress[1] && <BookCard history={props.history} book={inProgress[1]} source='library' />}
+							{inProgress[2] && <BookCard history={props.history} book={inProgress[2]} source='library' />}
+							{inProgress[3] && <BookCard history={props.history} book={inProgress[3]} source='library' />}
 						</div>
 					</div>
 
@@ -85,15 +85,15 @@ const Library = props => {
 						</div>
 						<div className='section'>
 							{finished[0] && <BookCard history={props.history} book={finished[0]} />}
-							{finished[1] && <BookCard history={props.history} book={finished[0]} />}
-							{finished[2] && <BookCard history={props.history} book={finished[0]} />}
-							{finished[3] && <BookCard history={props.history} book={finished[0]} />}
+							{finished[1] && <BookCard history={props.history} book={finished[1]} />}
+							{finished[2] && <BookCard history={props.history} book={finished[2]} />}
+							{finished[3] && <BookCard history={props.history} book={finished[3]} />}
 						</div>
 					</div>
 				</div>
 
 				<div className="my-shelves">
-					<h2>My Shelves</h2>
+					<h2 onClick={() => props.history.push('/')}>My Shelves</h2>
 					<p className="create-shelves">Create shelves and add books to your custom shelf.</p>
 					{/* <button className="create-new-shelf-button">Create new shelf</button> */}
 

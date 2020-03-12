@@ -86,6 +86,7 @@ const ShelfBookContainer = styled.div`
             font-size: 1.5rem;
             font-weight: bold;
             color: #547862;
+            cursor: pointer;
         }
 
         .create-shelves {

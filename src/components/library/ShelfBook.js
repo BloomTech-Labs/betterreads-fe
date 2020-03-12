@@ -48,7 +48,7 @@ const ShelfBook = props => {
 				</div>
 
 				<div className="my-shelves">
-					<h2>My Shelves</h2>
+					<h2 onClick={() => props.history.push('/')}>My Shelves</h2>
 					<p className="create-shelves">Create shelves and add books to your custom shelf.</p>
 					{/* <button className="create-new-shelf-button">Create new shelf</button> */}
 
