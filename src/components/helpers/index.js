@@ -7,7 +7,8 @@ const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 export const updateBookItem = (userId, readrrId, inLibrary, book, action, favorite, readingStatus) => {
 
-    const method = (inLibrary ? 'put' : 'post');
+    let method = (inLibrary ? 'put' : 'post');
+    // method = (readingStatus === 4 ? 'delete' : method);
 
     let data;
     if(inLibrary){
@@ -24,6 +25,13 @@ export const updateBookItem = (userId, readrrId, inLibrary, book, action, favori
         }
     }
 
+    if(parseInt(readingStatus) === 4){
+        method = action = 'delete';
+        data = {
+            bookId: readrrId
+        }   
+    }
+
     // Save a book as a favorite or update its reading status
     axios({
         method,
@@ -33,17 +41,22 @@ export const updateBookItem = (userId, readrrId, inLibrary, book, action, favori
     .then(results => {
         // Analytics Event action
         if(action === 'favorite') {
-            Event('Search', (favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),'SEARCH_RESULT');
+            // favorite update
+            Event('TRACKING', (favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),'BOOK_CARD');
             sendUpTheFlares('success', 'Success', (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'));
-        }else{
-            Event('Search', 'User added a book to start tracking from search list.', 'SEARCH_RESULT');
+        }else if(action === 'readingStatus'){
+            // reading status update
+            Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');
             sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
+        }else if(action === 'delete') {
+            //delete
+            Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');
+            sendUpTheFlares('success', 'Success', 'Book deleted from your library.')
         }
-        return results.bookId
     })
     .catch(err => {
         console.log(err)
-        Event('Search', 'Error adding a book to favorites/tracking.', 'UPDATE_BOOK_ITEM');
+        Event('Search', 'Error tracking/favoriting/deleting a book.', 'BOOK_CARD');
         sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
     });
 }

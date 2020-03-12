@@ -215,39 +215,43 @@ const BookItem = props => {
     }
 
     const handleDates = (date, dateString, whichDate) => {
-        console.log(updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate))
+        updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate)
     }
 
-    const items = [
-        {key: 1, value: 1, label: 'To read'},
-        {key: 2, value: 2, label: 'In progress'},
-        {key: 3, value: 3, label: 'Finished'},
-        {key: 4, value: 4, label: 'Delete'}
-    ];
-
-    const mapList = list => {
-        // if(props.source !== 'search') {
-        //     return list.map(item => <Menu.Item key={item.key} value={item.value}>{item.label}</Menu.Item>)
-        // }else{
-            return list.map(item => (       
-                <Menu.Item key={item.key} value={item.value}>{item.label}</Menu.Item>
-            )) 
-        // }
-    }
-    
-    // <Menu.Item key="1" value="1">To read</Menu.Item>
-    //         <Menu.Item key="2" value="2">In Progress</Menu.Item>
-    //         <Menu.Item key="3" value="3">Finished</Menu.Item>
-    //         <Menu.Divider />
-    //         <Menu.Item key="4" value="4">Delete</Menu.Item>        
-    
-    const TrackMenu = (
+        
+    const searchMenu = (
         <Menu onClick={key => readingStatusUpdate(key)}>
-            {
-                items.map((item) => { return (<Menu.Item key={item.key} value={item.value}>{item.label}</Menu.Item>) })
-            }
+            <Menu.Item key="1" value="1">To read</Menu.Item>
+            <Menu.Item key="2" value="2">In Progress</Menu.Item>
+            <Menu.Item key="3" value="3">Finished</Menu.Item>
         </Menu>
     )
+
+    const libraryMenu = (
+        <Menu onClick={key => readingStatusUpdate(key)}>
+            <Menu.Item key="1" value="1">To read</Menu.Item>
+            <Menu.Item key="2" value="2">In Progress</Menu.Item>
+            <Menu.Item key="3" value="3">Finished</Menu.Item>
+            <Menu.Divider />
+            <Menu.Item key="4" value="4">Delete</Menu.Item>
+        </Menu>
+    )
+
+
+    // const items = [
+    //     {key: 1, value: 1, label: 'To read'},
+    //     {key: 2, value: 2, label: 'In progress'},
+    //     {key: 3, value: 3, label: 'Finished'},
+    //     {key: 4, value: 4, label: 'Delete'}
+    // ];
+
+    // const TrackMenu = (
+    //     <Menu onClick={key => readingStatusUpdate(key)}>
+    //         {
+    //             items.map((item) => { return (<Menu.Item key={item.key} value={item.value}>{item.label}</Menu.Item>) })
+    //         }
+    //     </Menu>
+    // )
 
 	return (
 		<BookContainer conWidth="100%" conHeight="143px" bgImage={props.book.smallThumbnail} source={props.source}  data-library={inLibrary}>
@@ -255,7 +259,7 @@ const BookItem = props => {
                 <Link to={`/shelf/book/${googleId}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
 				    <div className="thumbnail"></div>
                 </Link>
-				<Dropdown overlay={TrackMenu} trigger={['click']}>
+				<Dropdown overlay={props.source === 'search' ? searchMenu : libraryMenu} trigger={['click']}>
                     <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')}>{trackBtnLabel} <DownOutlined /></Button>
                 </Dropdown>
 			</div>
@@ -282,12 +286,12 @@ const BookItem = props => {
                     <div className="calendars">
                         <div className="input">
                             <div className='dateLabel'>DATE STARTED</div>
-                            <DatePicker placeholder='Started' onChange={(date, dateString) => handleDates(date, dateString, 0)} />
+                            <DatePicker placeholder='Started' onChange={(date, dateString) => handleDates(date, dateString, 0)} value={startDate} />
                         </div>
 
                         <div className="input">
                             <div className='dateLabel'>DATE STARTED</div>
-                            <DatePicker placeholder='Ended' onChange={(date, dateString) => handleDates(date, dateString, 1)} />
+                            <DatePicker placeholder='Ended' onChange={(date, dateString) => handleDates(date, dateString, 1)} value={endedDate} />
                         </div>
                     </div>
 				}
