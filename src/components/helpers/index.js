@@ -8,7 +8,6 @@ const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 export const updateBookItem = (userId, readrrId, inLibrary, book, action, favorite, readingStatus) => {
 
     let method = (inLibrary ? 'put' : 'post');
-    // method = (readingStatus === 4 ? 'delete' : method);
 
     let data;
     if(inLibrary){
@@ -55,7 +54,6 @@ export const updateBookItem = (userId, readrrId, inLibrary, book, action, favori
         }
     })
     .catch(err => {
-        console.log(err)
         Event('Search', 'Error tracking/favoriting/deleting a book.', 'BOOK_CARD');
         sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
     });

@@ -29,10 +29,6 @@ const ListContainer = styled.div`
 		& > div:nth-child(even) {
 			margin-right: 0px;
 		}
-
-		// & > div:nth-child(odd) {
-		// 	margin: 8px 0;
-		// }
 		
     }
 `;

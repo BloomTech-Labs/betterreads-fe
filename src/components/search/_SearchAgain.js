@@ -194,6 +194,7 @@ const BookItem = props => {
         }
 
         updateBookItem(localStorage.getItem('id'), readrrId, inLibrary, props.book, actionType, favorite, readingStatus)
+        
     }, [favorite, readingStatus]);
 
     useEffect(() => {
