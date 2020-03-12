@@ -137,7 +137,7 @@ export const getGoogleResults = search => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
 	axios
 		.get(`${googleBooksURL}?q=${search}`)
-		//.post(readrr_API_URL, {type: 'search', query: search})
+		// .post(readrr_API_URL, {type: 'search', query: search})
 		.then(results =>{
 			const newBookArray = results.data.items.map(book => {
 				return {

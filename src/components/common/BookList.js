@@ -29,10 +29,7 @@ const ListContainer = styled.div`
 			margin-right: 0px;
 		}
 
-		// & > div:nth-child(odd) {
-		// 	margin: 8px 0;
-		// }
-    }
+   }
 `;
 
 const BookList = props => {
