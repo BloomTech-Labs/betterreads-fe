@@ -21,7 +21,7 @@ import { updateBookItem, updateDates } from '../helpers';
 import LibraryContainer from '../library/LibraryStyle';
 
 const apiURL = 'https://www.googleapis.com/books/v1/volumes?q=';
-const apiLocal = process.env.APIURL || 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 const BookContainer = styled.div`
     width: 90%;
@@ -160,8 +160,8 @@ const BookContainer = styled.div`
 
 const BookItem = props => {
     const { googleId } = props.book;
-    const [libraryBook] = useState(props.userBooks.filter(b => b.googleId === googleId) || null);
-    const [inLibrary, setInLibrary] = useState((libraryBook != null && libraryBook != '') ? true : false)
+    //const [libraryBook] = useState(props.userBooks.filter(b => b.googleId === googleId) || null);
+    const [inLibrary, setInLibrary] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? true : false)
     const [favorite, setFavorite] = useState(props.userBooks.filter(b => b.googleId === googleId && b.favorite).length ? true : false);
     const [readrrId, setReadrrId] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? props.userBooks.find(b => b.googleId === googleId).bookId : null);
     const [startDate, setStartDate] = useState();
@@ -203,7 +203,7 @@ const BookItem = props => {
         }else if(readingStatus === 2){
             setTrackBtnLabel('In progress');
         }else if(readingStatus === 3){
-            setTrackBtnLabel('Finised');
+            setTrackBtnLabel('Finished');
         }else{
             setTrackBtnLabel('Track this');
         }
@@ -216,7 +216,26 @@ const BookItem = props => {
     }
 
     const handleDates = (date, dateString, whichDate) => {
-        updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate)
+        let dateObj;
+        if(!whichDate){
+            dateObj = {
+                bookId: readrrId,
+                dateStarted: dateString
+            }
+        }else{
+            dateObj = {
+                bookId: readrrId,
+                dateEnded: dateString
+            }
+        }
+        
+        axios
+        .put(`${API_URL}/api/${localStorage.getItem('id')}/library`, dateObj)
+        .then(result => {console.log(result)
+            return result
+        })
+        .catch(err => console.log(err))
+        // updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate)
     }
 
         
