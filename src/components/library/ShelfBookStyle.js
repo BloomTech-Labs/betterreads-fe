@@ -175,6 +175,10 @@ const ShelfBookContainer = styled.div`
             .description {
                 width: 100%;
                 margin: 0;
+
+                .content {
+                    height: auto;
+                }
             }
 
             .genre-big-container {

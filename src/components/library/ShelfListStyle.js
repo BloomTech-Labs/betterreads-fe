@@ -13,6 +13,10 @@ const ShelfListContainer = styled.div`
                 display: flex;
                 flex-direction: column;
 
+                & > div {
+                    width: 100%;
+                }
+
                 .add {
                     margin-top: 16px;
                     font-family: 'Open Sans';
@@ -121,6 +125,12 @@ const ShelfListContainer = styled.div`
                     flex-direction: row;
                     justify-content: space-between;
                     flex-wrap: wrap;
+
+                    & > div {
+                        width: 335px;
+                        margin-left: 0;
+                        margin-right: 0;
+                    }
                 }
             }
 
