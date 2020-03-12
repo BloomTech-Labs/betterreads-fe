@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchCurrentBook } from '../../actions';
+import { fetchUsersBooks, fetchCurrentBook } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
+import BookCard from '../search/_SearchAgain';
 import ShelfBookContainer from './ShelfBookStyle';
-import { Rate } from 'antd';
+import BookIcon from '../common/BookIcon';
 
 const ShelfBook = props => {
 	const [readMore, setReadMore] =  useState(false);
@@ -13,8 +14,11 @@ const ShelfBook = props => {
 	const googleID = props.match.params.id;
 
 	useEffect(() => {
+		props.fetchUsersBooks();
 		props.fetchCurrentBook(googleID);
 	}, []);
+
+	const favorites = props.userBooks.filter(item => item.favorite === true);
 	
 	return (
 		<>
@@ -24,36 +28,41 @@ const ShelfBook = props => {
 
 			<ShelfBookContainer readMore={readMore}>
 
-				<div className='book'>
-					<div className='thumbnail'>
-						<img src={props.currentBook.smallThumbnail} alt='book thumbnail'/>
-						{/* dropdown button */}
+				<div className='book-details'>
+					<BookCard history={props.history} book={props.currentBook} source='search' />
+
+					<div className='description'>
+						<p className='heading'>Description</p>
+						<div className='content' dangerouslySetInnerHTML={{__html: props.currentBook.description}}></div>
+						<p className='read-more' onClick={() => setReadMore(!readMore)}>{readMore ? 'Read less...' : 'Read more...'}</p>
 					</div>
-					<div className='information'>
-						<div className='top'>
-							<div className='title-and-author'>
-								<p className='title'>{props.currentBook.title && props.currentBook.title}</p>
-								<p className='author'>{props.currentBook.authors && props.currentBook.authors.split(',')[0]}</p>
+
+					<div className='genre-big-container'>
+						<div className='genre-small-container'>
+							<p className='heading'>Genres</p>
+							<div className='genres'>
+								{props.currentBook.categories && props.currentBook.categories.split(',').map(item => <p className='genre'>{item}</p>)}
 							</div>
-							{/* heart */}
-						</div>
-						<div className='bottom'>
-							{props.currentBook.averageRating && <Rate allowHalf disabled value={props.currentBook.averageRating} />}
 						</div>
 					</div>
 				</div>
 
-				<div className='description'>
-					<p className='heading'>Description</p>
-					<div className='content' dangerouslySetInnerHTML={{__html: props.currentBook.description}}></div>
-					<p className='read-more' onClick={() => setReadMore(!readMore)}>{readMore ? 'Read less...' : 'Read more...'}</p>
-				</div>
+				<div className="my-shelves">
+					<h2>My Shelves</h2>
+					<p className="create-shelves">Create shelves and add books to your custom shelf.</p>
+					{/* <button className="create-new-shelf-button">Create new shelf</button> */}
 
-				<div className='genre-big-container'>
-					<div className='genre-small-container'>
-						<p className='heading'>Genres</p>
-						<div className='genres'>
-							{props.currentBook.categories && props.currentBook.categories.split(',').map(item => <p className='genre'>{item}</p>)}
+					<div className="shelves-container">
+						<div className="shelf" onClick={() => props.history.push('/shelf/allbooks')}>
+							<p className="shelf-name">All books</p>
+							<BookIcon height="40px" width="40px" fill="#d9d9d9" />
+							{props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
+						</div>
+
+						<div className="shelf" onClick={() => props.history.push('/shelf/favorites')}>
+							<p className="shelf-name">Favorites</p>
+							<BookIcon height="40px" width="40px" fill="#d9d9d9" />
+							{favorites.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{favorites.length} books</p>}
 						</div>
 					</div>
 				</div>
@@ -65,9 +74,10 @@ const ShelfBook = props => {
 
 const mapStateToProps = state => {
 	return {
+		userBooks: state.library.userBooks,
 		currentBook: state.book.currentBook,
 		breadcrumbs: state.book.breadcrumbs
 	};
 };
 
-export default connect(mapStateToProps, { fetchCurrentBook })(ShelfBook);
+export default connect(mapStateToProps, { fetchUsersBooks, fetchCurrentBook })(ShelfBook);

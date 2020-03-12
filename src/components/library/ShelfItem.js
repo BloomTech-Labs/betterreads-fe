@@ -254,7 +254,7 @@ const ShelfItem = props => {
             <div className='thumbnail-container'>
                 <div className='thumbnail' onClick={() => {
                     props.setBreadcrumbs([{ label: props.label, path: props.path }, { label: 'Book details', path: null }]);
-                    props.history.push(`/shelf/book/${props.book.googleId}`);
+                    props.history.push(`/book/${props.book.googleId}`);
                 }}></div>
                 <Dropdown overlay={TrackMenu} trigger={['click']}>
                     <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')}>{trackBtnLabel}<DownOutlined /></Button>
@@ -264,12 +264,10 @@ const ShelfItem = props => {
             <div className='information'>
                 <div className='title-and-heart'>
                     <p className='title'>{props.book.title}</p>
-                    {/* onClick={() => props.history.push(`/shelf/book/${props.book.googleId}`)} */}
                     {favorite ? <HeartFilled onClick={() => setFavorite(!favorite)} /> : <HeartOutlined onClick={() => setFavorite(!favorite)} />}
                 </div>
                 
                 <p className='author'>{props.book.authors.split(',')[0]}</p>
-                {/* onClick={() => props.history.push(`/shelf/book/${props.book.googleId}`)} */}
                 
                 <div className='calendar'>
                     <div className='input'>

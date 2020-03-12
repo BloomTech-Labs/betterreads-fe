@@ -1,6 +1,5 @@
 import React from 'react';
-// import BookItem from './BookItems';
-import BookItem from '../search/_SearchAgain'
+import BookCard from '../search/_SearchAgain'
 import styled from 'styled-components';
 
 const ListContainer = styled.div`
@@ -33,23 +32,16 @@ const ListContainer = styled.div`
 		// & > div:nth-child(odd) {
 		// 	margin: 8px 0;
 		// }
-		
     }
 `;
 
 const BookList = props => {
-	console.log(props)
 	return (
 		<>
 			<ListContainer>
-				{
-					!props.fetching &&
-					props.bookList &&
-					props.bookList.map((book, index) => (
-						<>
-							<BookItem key={index} book={book} source="search" />
-						</>
-					))}
+				{!props.fetching && props.bookList && props.bookList.map((book, index) => (
+					<BookCard key={index} book={book} source="search" />
+				))}
 			</ListContainer>
 		</>
 	);

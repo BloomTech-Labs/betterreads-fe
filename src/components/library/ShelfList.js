@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { setCurrentShelf } from '../../actions'
 import ShelfNote from '../common/ShelfNote';
 import ShelfItem from './ShelfItem';
+import BookCard from '../search/_SearchAgain';
 import ShelfListContainer from './ShelfListStyle';
 import BookIcon from '../common/BookIcon';
 
@@ -24,6 +25,7 @@ const ShelfList = props => {
 							{props.currentShelf.length === 0 && <p className='add'>Add a reading status to a book to see it here!</p>}
 							{props.currentShelf.map((book, index) => (
 								<ShelfItem history={props.history} key={index} book={book} label={props.label} path={`/shelf/${props.shelf}`} />
+								// <BookCard  />
 							))}
 						</div>
 					</div>

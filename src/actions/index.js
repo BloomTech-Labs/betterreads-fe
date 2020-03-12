@@ -88,8 +88,8 @@ export const signOut = history => dispatch => {
 		.catch(error => console.log(error));
 };
 
-export const fetchUsersBooks = userID => dispatch => {
-	axios.get(`${API_URL}/api/${userID}/library`)
+export const fetchUsersBooks = () => dispatch => {
+	axios.get(`${API_URL}/api/${localStorage.getItem('id')}/library`)
 		.then(response => dispatch({ type: FETCH_USERS_BOOKS, payload: response.data }))
 		.catch(error => console.log(error));
 };

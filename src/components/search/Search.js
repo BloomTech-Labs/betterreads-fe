@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { PageView, Event } from '../tracking/';
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
-
 import Header from '../common/Header';
 import Breadcrumbs from '../common/Breadcrumbs';
 import SearchForm from './SearchForm';
@@ -11,8 +8,6 @@ import BookList from '../common/BookList';
 import ShelfNote from '../common/ShelfNote';
 import styled from 'styled-components';
 import ShelfContainer from '../common/ShelfContainer';
-
-import SearchPagination from './SearchPagination';
 
 const Wrapper = styled.div`
 	@media (min-width: 1120px) {
@@ -36,13 +31,10 @@ const Wrapper = styled.div`
 		.spinnerContainer {
 			width: 90%;
 			height: 100vh;
-
 			margin-top: 4rem;
 		}
 	}
 `;
-
-// const antIcon = <LoadingOutlined style={{ fontSize: 48 }} spin />
 
 const Search = props => {
 	useEffect(() => {
@@ -55,27 +47,12 @@ const Search = props => {
 			<Header history={props.history} />	
 			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: null}]} />
-			<SearchPagination />
-			{
-				!props.searchResults.searchResults.books && <ShelfNote note="Search for your favorite title or author." />
-			}
-			{
-				props.searchResults.searchResults.books &&
-				<ShelfNote note={`${props.searchResults.searchResults.books.totalItems} results for "${props.searchResults.query}"`} />
-			}
+			{!props.searchResults.searchResults.books && <ShelfNote note="Search for your favorite title or author." />}
+			{props.searchResults.searchResults.books && <ShelfNote note={`${props.searchResults.searchResults.books.totalItems} results for "${props.searchResults.query}"`} />}
 			<div className="somethingClever">
-				{
-					props.fetching && <div className="bookList">&nbsp;</div>
-				}
-				{
-					!props.fetching &&
-					!props.searchResults.searchResults.books &&
-						<div className="bookList">&nbsp;</div>
-				}
-				
-				{
-					!props.fetching &&
-					props.searchResults.searchResults.books &&
+				{props.fetching && <div className="bookList">&nbsp;</div>}
+				{!props.fetching && !props.searchResults.searchResults.books && <div className="bookList">&nbsp;</div>}	
+				{!props.fetching && props.searchResults.searchResults.books &&
 					<div className="bookList">
 						<BookList history={props.history} bookList={props.searchResults.searchResults.books.items} count={props.searchResults.searchResults.books.totalItems} query={props.searchResults.query} />
 					</div>
