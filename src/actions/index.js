@@ -88,8 +88,8 @@ export const signOut = history => dispatch => {
 		.catch(error => console.log(error));
 };
 
-export const fetchUsersBooks = userID => dispatch => {
-	axios.get(`${API_URL}/api/${userID}/library`)
+export const fetchUsersBooks = () => dispatch => {
+	axios.get(`${API_URL}/api/${localStorage.getItem('id')}/library`)
 		.then(response => dispatch({ type: FETCH_USERS_BOOKS, payload: response.data }))
 		.catch(error => console.log(error));
 };
@@ -143,7 +143,7 @@ export const getGoogleResults = search => dispatch => {
 				return {
 					googleId: book.id,
 					title: book.volumeInfo.title || null,
-					authors: book.volumeInfo.authors || null,
+					authors: book.volumeInfo.authors && book.volumeInfo.authors.toString(),
 					publisher: book.volumeInfo.publisher || null,
 					publishedDate: book.volumeInfo.publishedDate || null,
 					description: book.volumeInfo.description || null,

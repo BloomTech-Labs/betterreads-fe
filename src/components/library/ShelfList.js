@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { setCurrentShelf } from '../../actions'
 import ShelfNote from '../common/ShelfNote';
 import ShelfItem from './ShelfItem';
+import BookCard from '../search/_SearchAgain';
 import ShelfListContainer from './ShelfListStyle';
 import BookIcon from '../common/BookIcon';
 
@@ -21,8 +22,9 @@ const ShelfList = props => {
 
 					<div className="shelf-item-container">
 						<div className="shelf-items">
+							{props.currentShelf.length === 0 && <p className='add'>Add a reading status to a book to see it here!</p>}
 							{props.currentShelf.map((book, index) => (
-								<ShelfItem history={props.history} key={index} book={book} label={props.label} path={`/shelf/${props.shelf}`} />
+								<BookCard history={props.history} key={index} book={book} source='library' />
 							))}
 						</div>
 					</div>
@@ -33,13 +35,19 @@ const ShelfList = props => {
 						{/* <button className="create-new-shelf-button">Create new shelf</button> */}
 
 						<div className="shelves-container">
-							<div className="shelf" onClick={() => props.history.push('/shelf/allbooks')}>
+							<div className="shelf" onClick={() => {
+								props.setBreadcrumbs([{ label: 'All books', path: '/shelf/allbooks' }, { label: 'Book details', path: null }]);
+								props.history.push('/shelf/allbooks');
+							}}>
 								<p className="shelf-name">All books</p>
 								<BookIcon height="40px" width="40px" fill="#d9d9d9" />
 								{props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
 							</div>
 
-							<div className="shelf" onClick={() => props.history.push('/shelf/favorites')}>
+							<div className="shelf" onClick={() => {
+								props.setBreadcrumbs([{ label: 'Favorites', path: '/shelf/favorites' }, { label: 'Book details', path: null }]);
+								props.history.push('/shelf/favorites');
+							}}>
 								<p className="shelf-name">Favorites</p>
 								<BookIcon height="40px" width="40px" fill="#d9d9d9" />
 								{favorites.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{favorites.length} books</p>}
