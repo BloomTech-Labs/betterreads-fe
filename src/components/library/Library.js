@@ -85,9 +85,9 @@ const Library = props => {
 						</div>
 						<div className='section'>
 							{finished[0] && <BookCard history={props.history} book={finished[0]} />}
-							{finished[1] && <BookCard history={props.history} book={finished[0]} />}
-							{finished[2] && <BookCard history={props.history} book={finished[0]} />}
-							{finished[3] && <BookCard history={props.history} book={finished[0]} />}
+							{finished[1] && <BookCard history={props.history} book={finished[1]} />}
+							{finished[2] && <BookCard history={props.history} book={finished[2]} />}
+							{finished[3] && <BookCard history={props.history} book={finished[3]} />}
 						</div>
 					</div>
 				</div>
