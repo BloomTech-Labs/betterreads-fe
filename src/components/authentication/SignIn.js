@@ -40,7 +40,7 @@ const SignIn = props => {
 				<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
 					<h1>Sign in to Readrr</h1>
 					<p className="already">
-						Already have an account?
+						Don't have an account?
 						<b
 							onClick={() => {
 								props.resetError();
