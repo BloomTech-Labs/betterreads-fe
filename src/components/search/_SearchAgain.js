@@ -97,6 +97,11 @@ const BookContainer = styled.div`
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;  
                     overflow: hidden;
+                    cursor: pointer;
+                }
+
+                .author {
+                    cursor: pointer;
                 }
             }
 
@@ -285,6 +290,7 @@ const BookItem = props => {
                 <Link to={`/book/${googleId}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
 				    <div className="thumbnail"></div>
                 </Link>
+
 				<Dropdown overlay={props.source === 'search' ? searchMenu : libraryMenu} trigger={['click']}>
                     <Button className={(trackBtnLabel === 'Track this' ? 'betterReadsOrange' : 'betterReadsGreen')}>{trackBtnLabel} <DownOutlined /></Button>
                 </Dropdown>
@@ -292,8 +298,8 @@ const BookItem = props => {
 			<div className="book">
 				<div className="bookDetail">
 					<div className="titleAuthor">
-                        <div className="title fs-16 fw-600">{props.book.title}</div>
-                        <div className="author fs-16">
+                        <div className="title fs-16 fw-600" onClick={() => props.history.push(`/book/${googleId}`)}>{props.book.title}</div>
+                        <div className="author fs-16" onClick={() => props.history.push(`/book/${googleId}`)}>
                             
                             {props.book.authors && props.book.authors.split(',')[0]}
                         </div>
@@ -305,7 +311,7 @@ const BookItem = props => {
                         }
                     </div>
 				</div>
-				{
+				{/* {
                     props.source === 'library' &&
                     <div className="calendars">
                         <div className="input">
@@ -318,7 +324,7 @@ const BookItem = props => {
                             <DatePicker placeholder='Ended' defaultValue={endedDate} onChange={(date, dateString) => handleDates(date, dateString, 1)} />
                         </div>
                     </div>
-				}
+				} */}
 				{
 					props.source === 'search' &&
 					<Rate allowHalf disabled defaultValue={props.book.averageRating} />
