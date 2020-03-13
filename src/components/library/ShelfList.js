@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setCurrentShelf } from '../../actions'
+import { setCurrentShelf, setBreadcrumbs } from '../../actions'
 import ShelfNote from '../common/ShelfNote';
-import ShelfItem from './ShelfItem';
 import BookCard from '../search/_SearchAgain';
 import ShelfListContainer from './ShelfListStyle';
 import BookIcon from '../common/BookIcon';
@@ -68,4 +67,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { setCurrentShelf })(ShelfList);
+export default connect(mapStateToProps, { setCurrentShelf, setBreadcrumbs })(ShelfList);
