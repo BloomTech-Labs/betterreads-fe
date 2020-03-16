@@ -3,22 +3,23 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
 import { Button, Rate, Menu, Dropdown, notification, DatePicker } from 'antd';
-import axios from 'axios';
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import DownOutlined from '@ant-design/icons/DownOutlined';
-
+import moment from 'moment';
 import {
 	fetchUsersBooks,
 	fetchUsersShelves,
-	getGoogleResults
+    getGoogleResults,
+    deleteUserBook,
+    addBookToUserLibrary,
+    updateBookFavorite,
+    updateBookReadingStatus
 } from '../../actions/index';
 
-import BookIcon from '../common/BookIcon';
 import styled from 'styled-components';
 
 import { updateBookItem, updateDates, sendUpTheFlares } from '../helpers';
-import LibraryContainer from '../library/LibraryStyle';
 
 const BookContainer = styled.div`
     width: 90%;
@@ -157,21 +158,16 @@ const BookContainer = styled.div`
 
 const BookItem = props => {
     const { googleId } = props.book;
-    //const [libraryBook] = useState(props.userBooks.filter(b => b.googleId === googleId) || null);
-    const [inLibrary, setInLibrary] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? true : false)
-    const [favorite, setFavorite] = useState(props.userBooks.filter(b => b.googleId === googleId && b.favorite).length ? true : false);
-    const [readrrId, setReadrrId] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? props.userBooks.find(b => b.googleId === googleId).bookId : null);
-    
-    const [startDate, setStartDate] = useState();
-    const [endedDate, setEndedDate] = useState();
-    
-    const [readingStatus, setReadingStatus] = useState(props.userBooks.filter(b => b.googleId === googleId).length ? props.userBooks.find(b => b.googleId === googleId).readingStatus : null);
+    const [libraryBook, setLibraryBook] = useState(props.userBooks.find(b => b.googleId === googleId) || null);
+    const [inLibrary, setInLibrary] = useState(libraryBook !== null ? true : false);
+    const [favorite, setFavorite] = useState(libraryBook !== null && libraryBook.favorite ? true : false);
+    const [readrrId, setReadrrId] = useState(libraryBook !== null ? libraryBook.bookId : null);
+    const [dateStarted, setDateStarted] = useState(libraryBook !== null ? libraryBook.dateStarted : null);
+    const [dateEnded, setDateEnded] = useState(libraryBook !== null ? libraryBook.dateEnded : null);
+    const [readingStatus, setReadingStatus] = useState(inLibrary ? parseInt(libraryBook.readingStatus) : null);
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
     
     let actionType = null;
-
-    // console.log(libraryBook != null && libraryBook != '' ? libraryBook : 'not in library')
-
     const readingStatusRef = useRef(readingStatus);
     const favoriteRef = useRef(favorite);
     const firstRun = useRef(true);
@@ -194,26 +190,35 @@ const BookItem = props => {
 
         updateBookItem(localStorage.getItem('id'), readrrId, inLibrary, props.book, actionType, favorite, readingStatus)
             .then(results => {
-                setReadrrId(results.data.bookId)
-                setInLibrary(true)
+                if(results.config.method === 'post') {
+                    // Add book to library
+                    props.addBookToUserLibrary(results.data);
+                    setLibraryBook(results.data)
+                    setReadrrId(results.data.bookId)
+                    setInLibrary(true)
+                }
                 // Analytics Event action
                 if(actionType === 'favorite') {
                     // favorite update
+                    // create update favorite action
+                    props.updateBookFavorite(readrrId);
                     Event('TRACKING', (favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),'BOOK_CARD');
                     sendUpTheFlares('success', 'Success', (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'));
-                }else if(actionType === 'readingStatus'){
+                }else if(actionType === 'readingStatus' && readingStatus < 4){
                     // reading status update
+                    props.updateBookReadingStatus(readrrId, parseInt(readingStatus));
                     Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');
                     sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
                 }else{
                     //delete
-                    Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');
+                    props.deleteUserBook(readrrId);
+                    Event('TRACKING', 'User deleted a book from library.', 'BOOK_CARD');
                     sendUpTheFlares('success', 'Success', 'Book deleted from your library.')
                 }
             })
             .catch(err => {
                 Event('Search', 'Error tracking/favoriting/deleting a book.', 'BOOK_CARD');
-                sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
+                sendUpTheFlares('warning', 'Success', 'There was an error tracking a book.');
             });
         
     }, [favorite, readingStatus]);
@@ -228,8 +233,7 @@ const BookItem = props => {
         }else{
             setTrackBtnLabel('Track this');
         }
-    }, [])
-    
+    }, [readingStatus])    
 
     const readingStatusUpdate = key => {
         setReadingStatus(key.item.props.value);
@@ -239,12 +243,12 @@ const BookItem = props => {
     const handleDates = (date, dateString, whichDate) => {
         updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate)
             .then(result => {
-                console.log(result)                
+                setDateStarted(result.data.dateStarted.split('T')[0])
+                setDateEnded(result.data.dateEnded.split('T')[0])
             })
             .catch(err => console.log(err))
     }
 
-        
     const searchMenu = (
         <Menu onClick={key => readingStatusUpdate(key)}>
             <Menu.Item key="1" value="1">To read</Menu.Item>
@@ -252,7 +256,7 @@ const BookItem = props => {
             <Menu.Item key="3" value="3">Finished</Menu.Item>
         </Menu>
     )
-
+   
     const libraryMenu = (
         <Menu onClick={key => readingStatusUpdate(key)}>
             <Menu.Item key="1" value="1">To read</Menu.Item>
@@ -263,24 +267,8 @@ const BookItem = props => {
         </Menu>
     )
 
-
-    // const items = [
-    //     {key: 1, value: 1, label: 'To read'},
-    //     {key: 2, value: 2, label: 'In progress'},
-    //     {key: 3, value: 3, label: 'Finished'},
-    //     {key: 4, value: 4, label: 'Delete'}
-    // ];
-
-    // const TrackMenu = (
-    //     <Menu onClick={key => readingStatusUpdate(key)}>
-    //         {
-    //             items.map((item) => { return (<Menu.Item key={item.key} value={item.value}>{item.label}</Menu.Item>) })
-    //         }
-    //     </Menu>
-    // )
-
 	return (
-		<BookContainer conWidth="100%" conHeight="143px" bgImage={props.book.thumbnail || props.book.smallThumbnail} source={props.source}  data-library={inLibrary}>
+		<BookContainer data-book={props.book.googleId} conWidth="100%" conHeight="143px" bgImage={props.book.thumbnail || props.book.smallThumbnail} source={props.source}  data-library={inLibrary}>
 			<div className="thumbContainer">
                 <Link to={`/book/${googleId}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
 				    <div className="thumbnail"></div>
@@ -310,12 +298,12 @@ const BookItem = props => {
                     <div className="calendars">
                         <div className="input">
                             <div className='dateLabel'>DATE STARTED</div>
-                            <DatePicker placeholder='Started' defaultValue={startDate} onChange={(date, dateString) => handleDates(date, dateString, 0)} />
+                            <DatePicker placeholder='Started' defaultValue={moment(dateStarted, 'YYYY-MM-DD')} onChange={(date, dateString) => handleDates(date, dateString, 0)} />
                         </div>
 
                         <div className="input">
-                            <div className='dateLabel'>DATE STARTED</div>
-                            <DatePicker placeholder='Ended' defaultValue={endedDate} onChange={(date, dateString) => handleDates(date, dateString, 1)} />
+                            <div className='dateLabel'>DATE ENDED</div>
+                            <DatePicker placeholder='Ended' defaultValue={moment(dateEnded, 'YYYY-MM-DD')} onChange={(date, dateString) => handleDates(date, dateString, 1)} />
                         </div>
                     </div>
 				}
@@ -339,7 +327,9 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
 	fetchUsersBooks,
 	fetchUsersShelves,
-	getGoogleResults
+    getGoogleResults,
+    deleteUserBook,
+    addBookToUserLibrary,
+    updateBookFavorite,
+    updateBookReadingStatus
 })(BookItem);
-
-// export default BookItem;

@@ -23,6 +23,10 @@ export const SET_QUERY = 'SET_QUERY';
 export const SET_CURRENT_SHELF = 'SET_CURRENT_SHELF';
 export const SET_CURRENT_BOOK = 'SET_CURRENT_BOOK';
 export const SET_BREADCRUMBS = 'SET_BREADCRUMBS';
+export const UPDATE_BOOK_FAVORTIE = 'UPDATE_BOOK_FAVORTIE';
+export const UPDATE_BOOK_READING_STATUS = 'UPDATE_BOOK_READING_STATUS';
+export const ADD_BOOK_TO_LIBRARY = 'ADD_BOOK_TO_LIBRARY';
+export const DELETE_USER_BOOK = 'DELETE_USER_BOOK';
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -94,6 +98,23 @@ export const fetchUsersBooks = () => dispatch => {
 		.catch(error => console.log(error));
 };
 
+export const addBookToUserLibrary = book => dispatch => {
+	console.log(book)
+	dispatch({ type: ADD_BOOK_TO_LIBRARY, payload: book });
+}
+
+export const deleteUserBook = googleId => dispatch => {
+	dispatch({ type: DELETE_USER_BOOK, payload: googleId });
+}
+
+export const updateBookFavorite = bookId => dispatch => {
+	dispatch({ type: UPDATE_BOOK_FAVORTIE, payload: bookId });
+}
+
+export const updateBookReadingStatus = (bookId, status) => dispatch => {
+	dispatch({ type: UPDATE_BOOK_READING_STATUS, payload: {bookId, status}})
+}
+
 export const setCurrentShelf = shelf => dispatch => {
 	axios.get(`${API_URL}/api/${localStorage.getItem('id')}/library`)
 		.then(response => {
@@ -152,8 +173,8 @@ export const getGoogleResults = search => dispatch => {
 					pageCount: book.volumeInfo.pageCount || null,
 					categories: book.volumeInfo.categories || null,
 					averageRating: book.volumeInfo.averageRating || null,
-					thumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : null),
-					smallThumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : null),
+					thumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://') : null),
+					smallThumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail.replace('http://', 'https://') : null),
 					language: book.volumeInfo.language || null,
 					webReaderLink: book.accessInfo.webReaderLink || null,
 					textSnippet: (book.searchInfo && book.searchInfo.textSnippet) || null,
@@ -233,13 +254,22 @@ export const fetchCurrentBook = googleID => dispatch => {
 			console.log('GOOGLE_SINGLE_BOOK_DATA', response.data);
 			dispatch({ type: SET_CURRENT_BOOK, payload: {
 				googleId: response.data.id,
-				title: response.data.volumeInfo.title,
-				authors: response.data.volumeInfo.authors.toString(),
-				description: response.data.volumeInfo.description,
-				categories: response.data.volumeInfo.categories.toString(),
-				averageRating: response.data.volumeInfo.averageRating,
-				thumbnail: response.data.volumeInfo.imageLinks.thumbnail,
-				smallThumbnail: response.data.volumeInfo.imageLinks.smallThumbnail
+				title: response.data.volumeInfo.title || null,
+				authors: response.data.volumeInfo.authors && response.data.volumeInfo.authors.toString(),
+				publisher: response.data.volumeInfo.publisher || null,
+				publishedDate: response.data.volumeInfo.publishedDate || null,
+				description: response.data.volumeInfo.description || null,
+				isbn10: null,
+				isbn13: null,
+				pageCount: response.data.volumeInfo.pageCount || null,
+				categories: response.data.volumeInfo.categories.toString() || null,
+				averageRating: response.data.volumeInfo.averageRating || null,
+				thumbnail: (response.data.volumeInfo.imageLinks ? response.data.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://') : null),
+				smallThumbnail: (response.data.volumeInfo.imageLinks ? response.data.volumeInfo.imageLinks.smallThumbnail.replace('http://', 'https://') : null),
+				language: response.data.volumeInfo.language || null,
+				webReaderLink: response.data.accessInfo.webReaderLink || null,
+				textSnippet: (response.data.searchInfo && response.data.searchInfo.textSnippet) || null,
+				isEbook: response.data.saleInfo.isEbook || null
 			}})
 		})
 		.catch(error => console.log(error));
