@@ -307,7 +307,7 @@ const BookItem = props => {
                         }
                     </div>
 				</div>
-				{/* {
+				{
                     props.source === 'library' &&
                     <div className="calendars">
                         <div className="input">
@@ -320,12 +320,11 @@ const BookItem = props => {
                             <DatePicker placeholder='Ended' defaultValue={dateEnded !== null ? moment(dateEnded, 'YYYY-MM-DD') : null} onChange={(date, dateString) => handleDates(date, dateString, 1)} />
                         </div>
                     </div>
-				} */}
+				}
 				{
 					props.source === 'search' &&
 					<Rate allowHalf disabled defaultValue={props.book.averageRating} />
 				}
-                {/* <Rate allowHalf disabled defaultValue={Math.floor(Math.random() * (5)) + 1} /> */}
 			</div>
 		</BookContainer>
 	)
