@@ -27,6 +27,7 @@ export const UPDATE_BOOK_FAVORTIE = 'UPDATE_BOOK_FAVORTIE';
 export const UPDATE_BOOK_READING_STATUS = 'UPDATE_BOOK_READING_STATUS';
 export const ADD_BOOK_TO_LIBRARY = 'ADD_BOOK_TO_LIBRARY';
 export const DELETE_USER_BOOK = 'DELETE_USER_BOOK';
+export const MOVE_BOOK_FROM_SHELF = 'MOVE_BOOK_FROM_SHELF';
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -34,14 +35,14 @@ export const signUp = (input, history) => dispatch => {
 	} else {
 		axios.post(`${API_URL}/api/auth/signup`, { fullName: input.fullName, emailAddress: input.emailAddress, password: input.password })
 			.then(response => {
-				console.log('SIGN_UP', response);
+				// console.log('SIGN_UP', response);
 				localStorage.setItem('id', response.data.user.id);
 				localStorage.setItem('full_name', response.data.user.fullName);
 				localStorage.setItem('image', response.data.user.image);
 				history.push('/');
 			})
 			.catch(error => {
-				console.log(error);
+				// console.log(error);
 				dispatch({ type: SET_ERROR, payload: 'Email address already in use' });
 			});
 	}
@@ -50,14 +51,14 @@ export const signUp = (input, history) => dispatch => {
 export const signIn = (input, history) => dispatch => {
 	axios.post(`${API_URL}/api/auth/signin`, input)
 		.then(response => {
-			console.log('SIGN_IN', response);
+			// console.log('SIGN_IN', response);
 			localStorage.setItem('id', response.data.user.id);
 			localStorage.setItem('full_name', response.data.user.fullName);
 			localStorage.setItem('image', response.data.user.image);
 			history.push('/');
 		})
 		.catch(error => {
-			console.log(error);
+			// console.log(error);
 			dispatch({ type: SET_ERROR, payload: 'Invalid credentials' });
 		});
 };
@@ -71,7 +72,7 @@ export const successRedirect = history => dispatch => {
 	// even though im not dispatching an action type, i still need to include dispatch or else redux logger throws an error
 	axios.get(`${API_URL}/api/auth/success`)
 		.then(response => {
-			console.log('SUCCESS_REDIRECT', response);
+			// console.log('SUCCESS_REDIRECT', response);
 			localStorage.setItem('id', response.data.user.id);
 			localStorage.setItem('full_name', response.data.user.fullName);
 			localStorage.setItem('image', response.data.user.image);
@@ -83,7 +84,7 @@ export const successRedirect = history => dispatch => {
 export const signOut = history => dispatch => {
 	axios.get(`${API_URL}/api/auth/signout`)
 		.then(response => {
-			console.log('SIGN_OUT', response);
+			// console.log('SIGN_OUT', response);
 			localStorage.removeItem('id');
 			localStorage.removeItem('full_name');
 			localStorage.removeItem('image');
@@ -99,7 +100,6 @@ export const fetchUsersBooks = () => dispatch => {
 };
 
 export const addBookToUserLibrary = book => dispatch => {
-	console.log(book)
 	dispatch({ type: ADD_BOOK_TO_LIBRARY, payload: book });
 }
 
@@ -113,6 +113,10 @@ export const updateBookFavorite = bookId => dispatch => {
 
 export const updateBookReadingStatus = (bookId, status) => dispatch => {
 	dispatch({ type: UPDATE_BOOK_READING_STATUS, payload: {bookId, status}})
+}
+
+export const moveBookFromShelf = bookId => displatch => {
+	displatch({ type: MOVE_BOOK_FROM_SHELF, payload: bookId})
 }
 
 export const setCurrentShelf = shelf => dispatch => {

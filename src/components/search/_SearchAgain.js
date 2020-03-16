@@ -14,7 +14,8 @@ import {
     deleteUserBook,
     addBookToUserLibrary,
     updateBookFavorite,
-    updateBookReadingStatus
+    updateBookReadingStatus,
+    moveBookFromShelf
 } from '../../actions/index';
 
 import styled from 'styled-components';
@@ -116,8 +117,9 @@ const BookContainer = styled.div`
             .input{
                 display: flex;
                 flex-direction: column;
+                min-width: 50%;
                 max-width: 100px;
-                width: 50%;
+                // width: 50%;
 
                 .dateLabel {
                     margin-bottom: 0;
@@ -166,7 +168,7 @@ const BookItem = props => {
     const [dateEnded, setDateEnded] = useState(libraryBook !== null ? libraryBook.dateEnded : null);
     const [readingStatus, setReadingStatus] = useState(inLibrary ? parseInt(libraryBook.readingStatus) : null);
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
-    
+
     let actionType = null;
     const readingStatusRef = useRef(readingStatus);
     const favoriteRef = useRef(favorite);
@@ -188,10 +190,12 @@ const BookItem = props => {
             favoriteRef.current = favorite;
         }
 
-        updateBookItem(localStorage.getItem('id'), readrrId, inLibrary, props.book, actionType, favorite, readingStatus)
+        updateBookItem(localStorage.getItem('id'), readrrId, inLibrary, props.book, actionType, favorite, parseInt(readingStatus))
             .then(results => {
+                let newBookId;
                 if(results.config.method === 'post') {
                     // Add book to library
+                    newBookId = results.data.bookId;
                     props.addBookToUserLibrary(results.data);
                     setLibraryBook(results.data)
                     setReadrrId(results.data.bookId)
@@ -200,18 +204,22 @@ const BookItem = props => {
                 // Analytics Event action
                 if(actionType === 'favorite') {
                     // favorite update
-                    // create update favorite action
-                    props.updateBookFavorite(readrrId);
+                    props.updateBookFavorite(newBookId || readrrId);
                     Event('TRACKING', (favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),'BOOK_CARD');
                     sendUpTheFlares('success', 'Success', (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'));
                 }else if(actionType === 'readingStatus' && readingStatus < 4){
                     // reading status update
-                    props.updateBookReadingStatus(readrrId, parseInt(readingStatus));
+                    props.updateBookReadingStatus(newBookId || readrrId, parseInt(readingStatus));
+                    // only move book if not in allbooks
+                    if(props.history.location.pathname !== '/shelf/allbooks' && props.history.location.pathname !== '/shelf/favorites'){
+                        props.moveBookFromShelf(newBookId || readrrId, parseInt(readingStatus))
+                    }
                     Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');
                     sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
                 }else{
                     //delete
                     props.deleteUserBook(readrrId);
+                    props.moveBookFromShelf(newBookId || readrrId, parseInt(readingStatus))
                     Event('TRACKING', 'User deleted a book from library.', 'BOOK_CARD');
                     sendUpTheFlares('success', 'Success', 'Book deleted from your library.')
                 }
@@ -233,7 +241,7 @@ const BookItem = props => {
         }else{
             setTrackBtnLabel('Track this');
         }
-    }, [readingStatus])    
+    }, []);
 
     const readingStatusUpdate = key => {
         setReadingStatus(key.item.props.value);
@@ -298,12 +306,12 @@ const BookItem = props => {
                     <div className="calendars">
                         <div className="input">
                             <div className='dateLabel'>DATE STARTED</div>
-                            <DatePicker placeholder='Started' defaultValue={moment(dateStarted, 'YYYY-MM-DD')} onChange={(date, dateString) => handleDates(date, dateString, 0)} />
+                            <DatePicker placeholder='Started' defaultValue={dateStarted !== null ? moment(dateStarted, 'YYYY-MM-DD') : null} onChange={(date, dateString) => handleDates(date, dateString, 0)} />
                         </div>
 
                         <div className="input">
                             <div className='dateLabel'>DATE ENDED</div>
-                            <DatePicker placeholder='Ended' defaultValue={moment(dateEnded, 'YYYY-MM-DD')} onChange={(date, dateString) => handleDates(date, dateString, 1)} />
+                            <DatePicker placeholder='Ended' defaultValue={dateEnded !== null ? moment(dateEnded, 'YYYY-MM-DD') : null} onChange={(date, dateString) => handleDates(date, dateString, 1)} />
                         </div>
                     </div>
 				}
@@ -331,5 +339,6 @@ export default connect(mapStateToProps, {
     deleteUserBook,
     addBookToUserLibrary,
     updateBookFavorite,
-    updateBookReadingStatus
+    updateBookReadingStatus,
+    moveBookFromShelf
 })(BookItem);

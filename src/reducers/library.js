@@ -1,4 +1,13 @@
-import { FETCH_USERS_BOOKS, FETCH_USERS_SHELVES, SET_CURRENT_SHELF, UPDATE_BOOK_FAVORTIE, UPDATE_BOOK_READING_STATUS, ADD_BOOK_TO_LIBRARY, DELETE_USER_BOOK } from '../actions';
+import { 
+	FETCH_USERS_BOOKS, 
+	FETCH_USERS_SHELVES, 
+	SET_CURRENT_SHELF, 
+	UPDATE_BOOK_FAVORTIE, 
+	UPDATE_BOOK_READING_STATUS, 
+	ADD_BOOK_TO_LIBRARY, 
+	DELETE_USER_BOOK, 
+	MOVE_BOOK_FROM_SHELF 
+} from '../actions';
 
 const initialState = {
 	userBooks: [],
@@ -66,6 +75,12 @@ export default function reducer(state = initialState, action) {
 			return{
 				...state,
 				userBooks: [...state.userBooks.filter(b => b.bookId !== action.payload)]
+			}
+
+		case MOVE_BOOK_FROM_SHELF:
+			return {
+				...state,
+				currentShelf: [...state.currentShelf.filter(b => b.bookId !== action.payload)]
 			}
 		
 		default:
