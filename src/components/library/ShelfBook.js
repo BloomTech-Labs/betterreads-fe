@@ -14,7 +14,7 @@ const ShelfBook = props => {
 	const googleID = props.match.params.id;
 
 	useEffect(() => {
-		props.fetchUsersBooks();
+		props.fetchUsersBooks();	
 		props.fetchCurrentBook(googleID);
 	}, []);
 

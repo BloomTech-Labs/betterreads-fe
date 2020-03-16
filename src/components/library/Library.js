@@ -52,10 +52,11 @@ const Library = props => {
 							}}>View all</p>
 						</div>
 						<div className='section'>
-							{toBeRead[0] && <BookCard history={props.history} book={toBeRead[0]} source='library' />}
-							{toBeRead[1] && <BookCard history={props.history} book={toBeRead[1]} source='library' />}
-							{toBeRead[2] && <BookCard history={props.history} book={toBeRead[2]} source='library' />}
-							{toBeRead[3] && <BookCard history={props.history} book={toBeRead[3]} source='library' />}
+							{
+								toBeRead.slice(0, 4).map(book => {
+									return <BookCard history={props.history} book={book} source='library' />
+								})
+							}
 						</div>
 					</div>
 
@@ -68,10 +69,11 @@ const Library = props => {
 							}}>View all</p>
 						</div>
 						<div className='section'>
-							{inProgress[0] && <BookCard history={props.history} book={inProgress[0]} source='library' />}
-							{inProgress[1] && <BookCard history={props.history} book={inProgress[1]} source='library' />}
-							{inProgress[2] && <BookCard history={props.history} book={inProgress[2]} source='library' />}
-							{inProgress[3] && <BookCard history={props.history} book={inProgress[3]} source='library' />}
+							{
+								inProgress.slice(0, 4).map(book => {
+									return <BookCard history={props.history} book={book} source='library' />
+								})
+							}
 						</div>
 					</div>
 
@@ -83,11 +85,12 @@ const Library = props => {
 								props.history.push('/shelf/finished');
 							}}>View all</p>
 						</div>
-						<div className='section'>
-							{finished[0] && <BookCard history={props.history} book={finished[0]} />}
-							{finished[1] && <BookCard history={props.history} book={finished[1]} />}
-							{finished[2] && <BookCard history={props.history} book={finished[2]} />}
-							{finished[3] && <BookCard history={props.history} book={finished[3]} />}
+						<div className='section'
+							{
+								finished.slice(0, 4).map(book => {
+									return <BookCard history={props.history} book={book} source='library' />
+								})
+							}
 						</div>
 					</div>
 				</div>

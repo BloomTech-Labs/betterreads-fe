@@ -6,8 +6,6 @@ import { Event } from '../tracking';
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 export const updateBookItem = (userId, readrrId, inLibrary, book, action, favorite, readingStatus) => {
-    console.log(userId, readrrId, inLibrary, action, favorite, readingStatus)
-    
     let method = (inLibrary ? 'put' : 'post');
 
     let data;
@@ -32,33 +30,12 @@ export const updateBookItem = (userId, readrrId, inLibrary, book, action, favori
         }   
     }
 
-    console.log(data)
     // Save a book as a favorite or update its reading status
     return axios({
         method,
         url: `${API_URL}/api/${userId}/library`,
         data
-    })
-    // .then(results => {
-    //     // Analytics Event action
-    //     if(action === 'favorite') {
-    //         // favorite update
-    //         Event('TRACKING', (favorite ? 'User added a book to favorites from search list.' : 'User removed a book from favorites on search list.' ),'BOOK_CARD');
-    //         sendUpTheFlares('success', 'Success', (favorite ? 'Book added to favorites.' : 'Book removed from favorites.'));
-    //     }else if(action === 'readingStatus'){
-    //         // reading status update
-    //         Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');
-    //         sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
-    //     }else if(action === 'delete') {
-    //         //delete
-    //         Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');
-    //         sendUpTheFlares('success', 'Success', 'Book deleted from your library.')
-    //     }
-    // })
-    // .catch(err => {
-    //     Event('Search', 'Error tracking/favoriting/deleting a book.', 'BOOK_CARD');
-    //     sendUpTheFlares('success', 'Success', 'Reading status has been updated.');
-    // });
+    });
 }
 
 export const sendUpTheFlares = (type, message, description) => {
