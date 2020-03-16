@@ -6,14 +6,14 @@ import {
 	SET_QUERY
 } from '../actions';
 
-const initialState = {
+export const initialState = {
 	fetching: false,
 	error: '',
 	searchResults: {},
 	query: ''
 };
 
-export default function reducer(state = initialState, action) {
+export const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case FETCH_SEARCH_START:
 			return {

@@ -33,7 +33,7 @@ const ShelfBook = props => {
 
 					<div className='description'>
 						<p className='heading'>Description</p>
-						<div className='content' dangerouslySetInnerHTML={{__html: props.currentBook.description}}></div>
+						<div className='content' data-testid='description' dangerouslySetInnerHTML={{__html: props.currentBook.description}}></div>
 						<p className='read-more' onClick={() => setReadMore(!readMore)}>{readMore ? 'Read less...' : 'Read more...'}</p>
 					</div>
 

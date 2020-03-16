@@ -1,12 +1,12 @@
 import { FETCH_USERS_BOOKS, FETCH_USERS_SHELVES, SET_CURRENT_SHELF } from '../actions';
 
-const initialState = {
+export const initialState = {
 	userBooks: [],
 	userShelves: [],
 	currentShelf: []
 };
 
-export default function reducer(state = initialState, action) {
+export const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case FETCH_USERS_BOOKS:
 			return {
