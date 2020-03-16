@@ -85,7 +85,7 @@ const Library = props => {
 								props.history.push('/shelf/finished');
 							}}>View all</p>
 						</div>
-						<div className='section'>
+						<div className='section'
 							{
 								finished.slice(0, 4).map(book => {
 									return <BookCard history={props.history} book={book} source='library' />
