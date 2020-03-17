@@ -158,10 +158,10 @@ export const fetchUsersShelves = userID => dispatch => {
 		.catch(error => console.log(error));
 };
 
-export const getGoogleResults = search => dispatch => {
+export const getGoogleResults = (search, offset, limit) => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
 	axios
-		.get(`${googleBooksURL}?q=${search}`)
+		.get(`${googleBooksURL}?q=${search}&startIndex=${offset}&maxResults${limit}`)
 		// .post(readrr_API_URL, {type: 'search', query: search})
 		.then(results =>{
 			const newBookArray = results.data.items.map(book => {
