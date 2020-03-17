@@ -53,7 +53,6 @@ const Library = props => {
 						</div>
 						<div className='section'>
 							{
-								toBeRead &&
 								toBeRead.slice(0, 4).map(book => {
 									return <BookCard history={props.history} book={book} source='library' />
 								})
@@ -71,7 +70,6 @@ const Library = props => {
 						</div>
 						<div className='section'>
 							{
-								inProgress &&
 								inProgress.slice(0, 4).map(book => {
 									return <BookCard history={props.history} book={book} source='library' />
 								})
