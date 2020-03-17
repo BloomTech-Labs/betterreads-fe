@@ -137,9 +137,9 @@ export function OnboardingQuiz(props) {
 							justify="center"
 							gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}
 						>
-							{checkGenre.map(CB => (
+							{checkGenre.map((CB, i) => (
 								<Col span="11">
-									<Checkbox value={CB}>{CB}</Checkbox>
+									<Checkbox value={CB} data-testid={`genre test id ${i}`}>{CB}</Checkbox>
 								</Col>
 							))}
 						</Row>
