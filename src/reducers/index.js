@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import library from './library';
-import search from './search';
-import authentication from './authentication';
-import book from './book'
+import { reducer as library } from './library';
+import { reducer as search } from './search';
+import { reducer as authentication } from './authentication';
+import { reducer as book } from './book'
 
 export default combineReducers({
 	authentication,

@@ -1,10 +1,10 @@
 import { SET_ERROR, RESET_ERROR } from '../actions';
 
-const initialState = {
+export const initialState = {
 	error: ''
 };
 
-export default function reducer(state = initialState, action) {
+export const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_ERROR:
 			return {
@@ -21,4 +21,4 @@ export default function reducer(state = initialState, action) {
 		default:
 			return state;
 	}
-}
+};

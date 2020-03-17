@@ -59,6 +59,7 @@ const SignIn = props => {
 						value={input.emailAddress}
 						onChange={onChange}
 						required
+						data-testid='email-address-input'
 					/>
 
 					<label htmlFor="password">Password</label>
@@ -70,11 +71,12 @@ const SignIn = props => {
 						onChange={onChange}
 						required
 						minLength="5"
+						data-testid='password-input'
 					/>
 
-					{props.error && <p className="error">{props.error}</p>}
+					{props.error && <p className="error" data-testid='error'>{props.error}</p>}
 
-					<button type="submit" className="sign-in">
+					<button type="submit" className="sign-in" data-testid='sign-in-button'>
 						Sign in
 					</button>
 
