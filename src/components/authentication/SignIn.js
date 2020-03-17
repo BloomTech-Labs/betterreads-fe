@@ -46,6 +46,7 @@ const SignIn = props => {
 								props.resetError();
 								props.history.push('/signup');
 							}}
+							data-testid='sign-up-redirect'
 						>
 							Sign up here.
 						</b>

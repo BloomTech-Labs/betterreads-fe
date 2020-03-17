@@ -34,7 +34,7 @@ const SignUp = props => {
 
 			<div className="form-container">
 				<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
-					<h1>
+					<h1 data-testid='sign-up-heading'>
 						Create an account to
 						<br />
 						join Readrr
