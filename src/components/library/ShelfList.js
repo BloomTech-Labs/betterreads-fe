@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setCurrentShelf, setBreadcrumbs } from '../../actions'
 import ShelfNote from '../common/ShelfNote';
-import BookCard from '../search/_SearchAgain';
+import BookCard from '../common/BookCard';
 import ShelfListContainer from './ShelfListStyle';
 import BookIcon from '../common/BookIcon';
 
