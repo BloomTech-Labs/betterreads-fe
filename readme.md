@@ -4,7 +4,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/b6143502292664c1f0b4/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-fe/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b6143502292664c1f0b4/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/betterreads-fe/test_coverage)
 ![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](https://github.com/Lambda-School-Labs/betterreads-fe/pulls)
 
 Readrr is a social media platform that allows users to connect with other readers alike, search its database of books, browse recommendations, and manage their own library.
 
@@ -13,7 +13,7 @@ Readrr is a social media platform that allows users to connect with other reader
 1. Once you have cloned the repository, download the dependencies with `npm install`.
 2. Start the server with `npm start`.
 
-# Environment Variables
+### Environment Variables
 
 In order to get the app running locally and working with the [backend](https://github.com/Lambda-School-Labs/betterreads-be), you need to set this environment variable in a .env.local file.
 ```
