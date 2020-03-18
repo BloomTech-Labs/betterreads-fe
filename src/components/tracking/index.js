@@ -9,9 +9,5 @@ export const PageView = () => {
 };
 
 export const Event = (category, action, label) => {
-    ReactGA.event({
-        category,
-        action,
-        label
-    });
+    ReactGA.event({ category, action, label });
 };
