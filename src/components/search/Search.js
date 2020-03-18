@@ -48,14 +48,14 @@ const Search = props => {
 			<Header history={props.history} />	
 			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: null}]} />
-			{!props.searchResults.searchResults.books && <ShelfNote note="Search for your favorite title or author." />}
-			{props.searchResults.searchResults.books && <ShelfNote note={`${props.searchResults.searchResults.books.totalItems} results for "${props.searchResults.query}"`} />}
+			{!props.searchResults.books && <ShelfNote note="Search for your favorite title or author." />}
+			{props.searchResults.books && <ShelfNote note={`${props.searchResults.books.totalItems} results for "${props.query}"`} />}
+			
 			<div className="somethingClever">
-				{props.fetching && <div className="bookList">&nbsp;</div>}
-				{!props.fetching && !props.searchResults.searchResults.books && <div className="bookList">&nbsp;</div>}	
-				{!props.fetching && props.searchResults.searchResults.books &&
+				{!props.searchResults.books && <div className="bookList">&nbsp;</div>}	
+				{props.searchResults.books &&
 					<div className="bookList">
-						<BookList history={props.history} bookList={props.searchResults.searchResults.books.items} count={props.searchResults.searchResults.books.totalItems} query={props.searchResults.query} />
+						<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.query} />
 						<SearchPagination />
 					</div>
 				}
@@ -70,7 +70,8 @@ const Search = props => {
 const mapStateToProps = state => {
 	return {
 		fetching: state.search.fetching,
-		searchResults: state.search
+		searchResults: state.search.searchResults,
+		query: state.search.query
 	};
 };
 

@@ -35,7 +35,7 @@ const SearchForm = props => {
 	};
 
 	const handleSearch = e => {
-        props.getGoogleResults(props.query, 0, 10);
+        props.getGoogleResults(props.query);
         props.setBreadcrumbs([{ label: 'Search results', path: '/search' }, { label: 'Book details', path: null }]);
         if(props.history.location.pathname !== '/search') props.history.push('/search');
 	};

@@ -28,6 +28,7 @@ export const UPDATE_BOOK_READING_STATUS = 'UPDATE_BOOK_READING_STATUS';
 export const ADD_BOOK_TO_LIBRARY = 'ADD_BOOK_TO_LIBRARY';
 export const DELETE_USER_BOOK = 'DELETE_USER_BOOK';
 export const MOVE_BOOK_FROM_SHELF = 'MOVE_BOOK_FROM_SHELF';
+export const LOAD_MORE = 'LOAD_MORE';
 
 export const signUp = (input, history) => dispatch => {
 	if (input.password !== input.confirmPassword) {
@@ -158,13 +159,11 @@ export const fetchUsersShelves = userID => dispatch => {
 		.catch(error => console.log(error));
 };
 
-export const getGoogleResults = (search, offset, limit) => dispatch => {
+export const getGoogleResults = search => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
-	axios
-		.get(`${googleBooksURL}?q=${search}&startIndex=${offset}&maxResults=${limit}`)
-		// .post(readrr_API_URL, {type: 'search', query: search})
-		.then(results =>{
-			const newBookArray = results.data.items.map(book => {
+	axios.get(`${googleBooksURL}?q=${search}`)
+		.then(response =>{
+			const newBookArray = response.data.items.map(book => {
 				return {
 					googleId: book.id,
 					title: book.volumeInfo.title || null,
@@ -183,18 +182,14 @@ export const getGoogleResults = (search, offset, limit) => dispatch => {
 					webReaderLink: book.accessInfo.webReaderLink || null,
 					textSnippet: (book.searchInfo && book.searchInfo.textSnippet) || null,
 					isEbook: book.saleInfo.isEbook || null
-				}
+				};
 			});
-			dispatch({
-				type: FETCH_SEARCH_SUCCESS,
-				payload: {books: {totalItems: results.data.totalItems,  items: newBookArray}}
-			})
+			dispatch({ type: FETCH_SEARCH_SUCCESS, payload: {books: {totalItems: response.data.totalItems,  items: newBookArray}}});
 		})
-		.catch(err =>
-			{
-				console.log(err)
-				dispatch({ type: FETCH_SEARCH_FAILURE, payload: err.response })}
-		);
+		.catch(error => {
+			console.log(error);
+			dispatch({ type: FETCH_SEARCH_FAILURE, payload: error.response });
+		});
 };
 
 export const clearSearchResults = () => dispatch => {
@@ -281,4 +276,34 @@ export const fetchCurrentBook = googleID => dispatch => {
 
 export const setBreadcrumbs = breadcrumbs => dispatch => {
 	dispatch({ type: SET_BREADCRUMBS, payload: breadcrumbs });
+};
+
+export const loadMore = (query, offset) => dispatch => {
+	dispatch({ type: FETCH_SEARCH_START });
+	axios.get(`${googleBooksURL}?q=${query}&startIndex=${offset}`)
+		.then(response => {
+			const newBookArray = response.data.items.map(book => {
+				return {
+					googleId: book.id,
+					title: book.volumeInfo.title || null,
+					authors: book.volumeInfo.authors && book.volumeInfo.authors.toString(),
+					publisher: book.volumeInfo.publisher || null,
+					publishedDate: book.volumeInfo.publishedDate || null,
+					description: book.volumeInfo.description || null,
+					isbn10: null,
+					isbn13: null,
+					pageCount: book.volumeInfo.pageCount || null,
+					categories: book.volumeInfo.categories || null,
+					averageRating: book.volumeInfo.averageRating || null,
+					thumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://') : null),
+					smallThumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail.replace('http://', 'https://') : null),
+					language: book.volumeInfo.language || null,
+					webReaderLink: book.accessInfo.webReaderLink || null,
+					textSnippet: (book.searchInfo && book.searchInfo.textSnippet) || null,
+					isEbook: book.saleInfo.isEbook || null
+				};
+			});
+			dispatch({ type: LOAD_MORE, payload: newBookArray });
+		})
+		.catch(error => dispatch({ type: FETCH_SEARCH_FAILURE, payload: error.response }));
 };
