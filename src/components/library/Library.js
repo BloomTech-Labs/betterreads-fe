@@ -55,8 +55,6 @@ const Library = props => {
 					{	
 						useLibraryReadingStatus('Finished', finished, [{ label: "Finished", path: "/shelf/finished" }, { label: "Book details", path: null }], '/shelf/finished', props.history)
 					}
-
-					
 				</div>
 
 				<div className="my-shelves">
