@@ -9,6 +9,7 @@ import LibraryContainer from './LibraryStyle';
 import BookIcon from '../common/BookIcon';
 import { PageView, Event } from '../tracking';
 import useDocumentTitle from '../hooks/useDocumentTitle'
+import useLibraryReadingStatus from '../hooks/useLibraryReadingStatus';
 
 const Library = props => {
 	useDocumentTitle('Library - Readrr');
@@ -45,56 +46,17 @@ const Library = props => {
 			<div className='reading-status-and-my-shelves-container'>
 
 				<div className="reading-status-container">
-					<div className="reading-status">
-						<div className='header'>
-							<p className='status'>To be read ({toBeRead.length})</p>
-							<p className='view-all' onClick={() => {
-								props.setBreadcrumbs([{ label: 'To be read', path: '/shelf/toberead' }, { label: 'Book details', path: null }]);
-								props.history.push('/shelf/toberead');
-							}}>View all</p>
-						</div>
-						<div className='section'>
-							{
-								toBeRead.slice(0, 4).map(book => {
-									return <BookCard history={props.history} book={book} source='library' />
-								})
-							}
-						</div>
-					</div>
+					{
+						useLibraryReadingStatus('To be read', toBeRead, [{ label: "To be read", path: "/shelf/toberead" }, { label: "Book details", path: null }], '/shelf/toberead', props.history)
+					}
+					{
+						useLibraryReadingStatus('In progress', inProgress, [{ label: "In progress", path: "/shelf/inprogress" }, { label: "Book details", path: null }], '/shelf/inprogress', props.history)
+					}
+					{	
+						useLibraryReadingStatus('Finished', finished, [{ label: "Finished", path: "/shelf/finished" }, { label: "Book details", path: null }], '/shelf/finished', props.history)
+					}
 
-					<div className="reading-status">
-						<div className='header'>
-							<p className='status'>In progress ({inProgress.length})</p>
-							<p className='view-all' onClick={() => {
-								props.setBreadcrumbs([{ label: 'In progress', path: '/shelf/inprogress' }, { label: 'Book details', path: null }]);
-								props.history.push('/shelf/inprogress');
-							}}>View all</p>
-						</div>
-						<div className='section'>
-							{
-								inProgress.slice(0, 4).map(book => {
-									return <BookCard history={props.history} book={book} source='library' />
-								})
-							}
-						</div>
-					</div>
-
-					<div className="reading-status">
-						<div className='header'>
-							<p className='status'>Finished ({finished.length})</p>
-							<p className='view-all' onClick={() => {
-								props.setBreadcrumbs([{ label: 'Finished', path: '/shelf/finished' }, { label: 'Book details', path: null }]);
-								props.history.push('/shelf/finished');
-							}}>View all</p>
-						</div>
-						<div className='section'>
-							{
-								finished.slice(0, 4).map(book => {
-									return <BookCard history={props.history} book={book} source='library' />
-								})
-							}
-						</div>
-					</div>
+					
 				</div>
 
 				<div className="my-shelves">
