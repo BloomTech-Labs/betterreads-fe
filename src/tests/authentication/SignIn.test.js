@@ -12,7 +12,7 @@ import '@testing-library/jest-dom/extend-expect';
 import App from '../../App';
 import SignIn from '../../components/authentication/SignIn';
 
-const mockStore = configureStore([thunk]);
+// const mockStore = configureStore([thunk]);
 
 const renderWithRedux = (component, { initialState, store = createStore(reducer, initialState, applyMiddleware(thunk)) } = {}) => {
 	return {
