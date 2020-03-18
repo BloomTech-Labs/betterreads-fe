@@ -30,6 +30,7 @@ const Wrapper = styled.div`
 
 const SearchForm = props => {
 	const handleChange = e => {
+        console.log(e)
 		props.setQuery(e.target.value);
 	};
 
@@ -48,7 +49,7 @@ const SearchForm = props => {
                     placeholder="Search for a book" 
                     size="large"
                     onSearch={handleSearch}
-                    onEnter={handleSearch}
+                    onPressEnter={handleSearch}
                     onChange={handleChange}
                     value={props.query}
                     enterButton

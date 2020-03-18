@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
 import { Button, Rate, Menu, Dropdown, notification, DatePicker } from 'antd';
-import HeartOutlined from '@ant-design/icons/HeartOutlined';
-import HeartFilled from '@ant-design/icons/HeartFilled';
+import Heart from './Heart'
 import DownOutlined from '@ant-design/icons/DownOutlined';
+
 import moment from 'moment';
 import {
 	fetchUsersBooks,
@@ -178,6 +178,7 @@ const BookItem = props => {
     const readingStatusRef = useRef(readingStatus);
     const favoriteRef = useRef(favorite);
     const firstRun = useRef(true);
+    
     useEffect(() => {
         if(firstRun.current){
             firstRun.current = false;
@@ -301,10 +302,11 @@ const BookItem = props => {
                         </div>
                     </div>
 					<div className="bookFav">
-                        {   favorite
+                        <Heart color="#D24719" time={500} filled={favorite} clickEvent={() => setFavorite(!favorite) } /> 
+                        {/* {   favorite
                             ? <HeartFilled onClick={() => setFavorite(!favorite)} /> 
                             : <HeartOutlined onClick={() => setFavorite(!favorite)} />
-                        }
+                        } */}
                     </div>
 				</div>
 				{
