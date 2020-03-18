@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Event } from '../tracking/';
+import { Event } from '../tracking';
 import { Button, Rate, Menu, Dropdown, notification, DatePicker } from 'antd';
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
