@@ -20,19 +20,12 @@ const Wrapper = styled.div`
 			justify-content: space-between;
 
 			.bookList{
-				//width: 72%;
 				width: 687px;
 			}
 
 			.shelfList{
 				width: 26%;
 			}
-		}
-
-		.spinnerContainer {
-			width: 90%;
-			height: 100vh;
-			margin-top: 4rem;
 		}
 	}
 `;
