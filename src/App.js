@@ -7,7 +7,6 @@ import SignUp from './components/authentication/SignUp';
 import Success from './components/authentication/Success';
 import Failure from './components/authentication/Failure';
 import Search from './components/search/Search';
-import BookDetails from './components/common/BookDetails';
 import Shelf from './components/library/Shelf';
 import ShelfBook from './components/library/ShelfBook';
 import PageNotFound from './components/authentication/PageNotFound';

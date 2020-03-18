@@ -1,4 +1,4 @@
-import { SET_CURRENT_BOOK, SET_BREADCRUMBS } from '../actions';
+import { SET_CURRENT_BOOK, SET_BREADCRUMBS } from '../actions/types';
 
 export const initialState = {
 	currentBook: {},
