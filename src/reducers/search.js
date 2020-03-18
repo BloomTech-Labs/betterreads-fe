@@ -1,10 +1,4 @@
-import {
-	FETCH_SEARCH_START,
-	FETCH_SEARCH_SUCCESS,
-	FETCH_SEARCH_FAILURE,
-	CLEAR_SEARCH_RESULTS,
-	SET_QUERY
-} from '../actions';
+import { FETCH_SEARCH_START, FETCH_SEARCH_SUCCESS, FETCH_SEARCH_FAILURE, CLEAR_SEARCH_RESULTS, SET_QUERY, LOAD_MORE } from '../actions';
 
 export const initialState = {
 	fetching: false,
@@ -42,6 +36,21 @@ export const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				query: action.payload
+			};
+
+		case LOAD_MORE:
+			return {
+				...state,
+				fetching: false,
+				searchResults: {
+					books: {
+						...state.searchResults.books,
+						items: [
+							...state.searchResults.books.items,
+							...action.payload
+						]
+					}
+				}
 			};
 		default:
 			return state;
