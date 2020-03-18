@@ -41,7 +41,7 @@ const ShelfBook = props => {
 						<div className='genre-small-container'>
 							<p className='heading'>Genres</p>
 							<div className='genres'>
-								{props.currentBook.categories && props.currentBook.categories.split(',').map(item => <p className='genre'>{item}</p>)}
+								{props.currentBook.categories && props.currentBook.categories.split(',').map((item, index) => <p className='genre' key={index}>{item}</p>)}
 							</div>
 						</div>
 					</div>

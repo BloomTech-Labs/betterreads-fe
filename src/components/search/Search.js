@@ -6,6 +6,7 @@ import Breadcrumbs from '../common/Breadcrumbs';
 import SearchForm from './SearchForm';
 import BookList from '../common/BookList';
 import ShelfNote from '../common/ShelfNote';
+import SearchPagination from '../search/SearchPagination';
 import styled from 'styled-components';
 import ShelfContainer from '../common/ShelfContainer';
 
@@ -55,6 +56,7 @@ const Search = props => {
 				{!props.fetching && props.searchResults.searchResults.books &&
 					<div className="bookList">
 						<BookList history={props.history} bookList={props.searchResults.searchResults.books.items} count={props.searchResults.searchResults.books.totalItems} query={props.searchResults.query} />
+						<SearchPagination />
 					</div>
 				}
 				<div className="shelfList">
