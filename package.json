@@ -27,11 +27,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "CI=true npm test --coverage || true"
+    "coverage": "CI=true npm test -- --coverage --watchAll=false || true"
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js}",
+      "src/**/*.js",
       "!**/node_modules/**"
     ]
   },
