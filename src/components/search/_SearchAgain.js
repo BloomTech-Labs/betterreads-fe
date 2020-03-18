@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Event } from '../tracking/';
 import { Button, Rate, Menu, Dropdown, notification, DatePicker } from 'antd';
-import HeartOutlined from '@ant-design/icons/HeartOutlined';
-import HeartFilled from '@ant-design/icons/HeartFilled';
 import Heart from './Heart'
 import DownOutlined from '@ant-design/icons/DownOutlined';
-import useDocumentTitle from '../hooks/useDocumentTitle'
 
 import moment from 'moment';
 import {
@@ -181,6 +178,7 @@ const BookItem = props => {
     const readingStatusRef = useRef(readingStatus);
     const favoriteRef = useRef(favorite);
     const firstRun = useRef(true);
+    
     useEffect(() => {
         if(firstRun.current){
             firstRun.current = false;

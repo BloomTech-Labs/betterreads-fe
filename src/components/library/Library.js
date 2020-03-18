@@ -8,8 +8,10 @@ import BookCard from '../search/_SearchAgain';
 import LibraryContainer from './LibraryStyle';
 import BookIcon from '../common/BookIcon';
 import { PageView, Event } from '../tracking';
+import useDocumentTitle from '../hooks/useDocumentTitle'
 
 const Library = props => {
+	useDocumentTitle('Library - Readrr');
 	useEffect(() => {
 		props.fetchUsersBooks();
 		props.setBreadcrumbs([{ label: 'Book details', path: null }]);
