@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signOut } from '../../actions';
+import { signOut } from '../../actions/authenticationActions';
 import styled from 'styled-components';
 
 const HeaderContainer = styled.div`
