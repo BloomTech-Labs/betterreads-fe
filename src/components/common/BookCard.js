@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Event } from '../tracking/';
+import { Event } from '../tracking';
 import { Button, Rate, Menu, Dropdown, notification, DatePicker } from 'antd';
-import Heart from './Heart'
+import Heart from '../search/Heart'
 import DownOutlined from '@ant-design/icons/DownOutlined';
 
 import moment from 'moment';

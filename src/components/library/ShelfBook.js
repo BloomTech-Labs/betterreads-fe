@@ -4,7 +4,7 @@ import { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs } from '../../actions
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
-import BookCard from '../search/_SearchAgain';
+import BookCard from '../common/BookCard';
 import ShelfBookContainer from './ShelfBookStyle';
 import BookIcon from '../common/BookIcon';
 

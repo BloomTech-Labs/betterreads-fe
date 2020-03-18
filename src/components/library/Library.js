@@ -4,7 +4,7 @@ import { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs } 
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import ShelfItem from './ShelfItem';
-import BookCard from '../search/_SearchAgain'; 
+import BookCard from '../common/BookCard'; 
 import LibraryContainer from './LibraryStyle';
 import BookIcon from '../common/BookIcon';
 import { PageView, Event } from '../tracking';

@@ -1,5 +1,5 @@
 import React from 'react';
-import BookCard from '../search/_SearchAgain'
+import BookCard from './BookCard';
 import styled from 'styled-components';
 
 const ListContainer = styled.div`
