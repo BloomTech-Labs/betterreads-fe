@@ -1,5 +1,6 @@
-import { SET_ERROR, RESET_ERROR,  } from './index';
+import { SET_ERROR, RESET_ERROR } from './types';
 import axios from 'axios';
+
 axios.defaults.withCredentials = true;
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
@@ -15,7 +16,10 @@ export const signUp = (input, history) => dispatch => {
 				localStorage.setItem('image', response.data.user.image);
 				history.push('/');
 			})
-			.catch(error => dispatch({ type: SET_ERROR, payload: 'Email address already in use' }));
+			.catch(error => {
+				console.log(error);
+				dispatch({ type: SET_ERROR, payload: 'Email address already in use' })
+			});
 	};
 };
 
@@ -27,7 +31,10 @@ export const signIn = (input, history) => dispatch => {
 			localStorage.setItem('image', response.data.user.image);
 			history.push('/');
 		})
-		.catch(error => dispatch({ type: SET_ERROR, payload: 'Invalid credentials' }));
+		.catch(error => {
+			console.log(error);
+			dispatch({ type: SET_ERROR, payload: 'Invalid credentials' })
+		});
 };
 
 export const resetError = () => dispatch => dispatch({ type: RESET_ERROR });
@@ -40,6 +47,7 @@ export const successRedirect = history => dispatch => {
 			localStorage.setItem('image', response.data.user.image);
 			history.push('/');
 		})
+		.catch(error => console.log(error));
 };
 
 export const signOut = history => dispatch => {
@@ -50,4 +58,5 @@ export const signOut = history => dispatch => {
 			localStorage.removeItem('image');
 			history.push('/signin');
 		})
+		.catch(error => console.log(error));
 };

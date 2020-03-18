@@ -2,12 +2,12 @@ import {
 	FETCH_USERS_BOOKS, 
 	FETCH_USERS_SHELVES, 
 	SET_CURRENT_SHELF, 
-	UPDATE_BOOK_FAVORTIE, 
+	UPDATE_BOOK_FAVORITE, 
 	UPDATE_BOOK_READING_STATUS, 
 	ADD_BOOK_TO_LIBRARY, 
 	DELETE_USER_BOOK, 
 	MOVE_BOOK_FROM_SHELF 
-} from '../actions';
+} from '../actions/types';
 
 export const initialState = {
 	userBooks: [],
@@ -35,7 +35,7 @@ export const reducer = (state = initialState, action) => {
 				currentShelf: action.payload
 			};
 
-		case UPDATE_BOOK_FAVORTIE:
+		case UPDATE_BOOK_FAVORITE:
 			return {
 				...state,
 				userBooks: state.userBooks.map(book => {
@@ -85,5 +85,5 @@ export const reducer = (state = initialState, action) => {
 		
 		default:
 			return state;
-	}
-}
+	};
+};

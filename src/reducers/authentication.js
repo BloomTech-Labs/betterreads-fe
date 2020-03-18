@@ -1,4 +1,4 @@
-import { SET_ERROR, RESET_ERROR } from '../actions';
+import { SET_ERROR, RESET_ERROR } from '../actions/types';
 
 export const initialState = {
 	error: ''

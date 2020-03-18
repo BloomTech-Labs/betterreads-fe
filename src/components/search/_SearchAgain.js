@@ -16,7 +16,7 @@ import {
     updateBookFavorite,
     updateBookReadingStatus,
     moveBookFromShelf
-} from '../../actions/index';
+} from '../../actions';
 
 import styled from 'styled-components';
 

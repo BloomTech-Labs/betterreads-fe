@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
-import ShelfItem from './ShelfItem';
 import BookCard from '../search/_SearchAgain'; 
 import LibraryContainer from './LibraryStyle';
 import BookIcon from '../common/BookIcon';
