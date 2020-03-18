@@ -40,9 +40,6 @@ const SearchPaginationContainer = styled.div`
 
 const SearchPagination = props => {
     const onClick = () => {
-        // start index, max results
-        // pageNumber times 10 minus 9
-        // start index formula, pageNumber minus 1 times 10
         props.loadMore(props.query, props.searchResults.books.items.length);
     };
 
