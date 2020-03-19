@@ -1,78 +1,66 @@
 import styled from 'styled-components';
 
 const BookCardContainer = styled.div`
-    width: 90%;
-    margin: ${props => props.source === 'search' ? '0 auto' : '8px auto'};
-    display: flex;
-    // justify-content: space-between;
-
-    border-bottom: ${props => props.source === 'search' ? '1px solid #cecece' : ''};
-    border: ${props => props.source === 'library' ? '1px solid #cecece' : ''};
+    height: ${props => props.source === 'library' ? '148px' : ''};
+    margin-bottom: ${props => props.source === 'library' ? '16px' : ''};
+    padding: ${props => props.source === 'library' ? '' : '12px 0'};
+    border: ${props => props.source === 'library' ? '1px solid #d9d9d9' : ''};
+    border-bottom: ${props => props.source === 'library' ? '' : '1px solid #d9d9d9'};
     border-radius: ${props => props.source === 'library' ? '4px' : ''};
+    display: flex;
 
-    padding: ${props => props.source === 'search' ? '16px 0' : ''};
+    .thumbnail-container {
+        width: 88px;
+        display: flex;
+        flex-direction: column;
 
-
-    font-family: 'Open Sans', sans-serif;
-
-    .betterReadsOrange {background: #D24719;}
-    .betterReadsGreen{background-color: #547862;}
-
-    .fs-13{font-size: 13px;}
-    .fs-14{font-size: 14px;}
-    .fs-16{font-size: 16px;}
-
-    .fw-600{font-weight: 600;}
-    .fw-bold{font-wieght: bold;} 
-
-    .lh-20{line-height: 20px;}
-    .lh-22{line-height: 22px;}
-
-
-
-    .thumbContainer{
-        .thumbnail{
-            border-radius: 5px 0 0;
-            height: 112px;
-            width: 82px;
-            background-image: url(${props => props.bgImage});
+        .thumbnail {
+            height: ${props => props.source === 'library' ? '118px' : '98px'};
+            width: 88px;
+            background-image: url(${props => props.thumbnail});
             background-size: cover;
+            border-radius: ${props => props.source === 'library' ? '4px 0 0 0' : '4px 4px 0 0'};
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
         .ant-btn {
-            color: #F7F7F7;
-            width: 82px;
+            height: 30px;
+            width: 88px;
+            padding: 0;
             border: none;
-            border-radius: 0 0 0 5px;
-            font-size: 13px;
+            border-radius: ${props => props.source === 'library' ? '0 0 0 4px' : '0 0 4px 4px'};
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.8125rem;
             font-weight: 600;
-            line-height: 20px;
-            padding: 0 3px;
+            color: #ffffff;
 
-            .anticon-down{
-                margin-left: 2px;
-            }
-
-            svg {
-                margin-right: 4px;
+            .anticon-down {
+                margin-left: 4px;
             }
         }
     }
 
-    .book{
+    .information {
+        height: ${props => props.source === 'library' ? '148px' : '128px'};
+        width: 100%;
+        padding: 12px;
         display: flex;
         flex-direction: column;
-        width: 100%;
-        justify-content: space-between;
-        padding: 12px 8px;
 
-        .bookDetail{
+        .title-author-and-favorite {
             display: flex;
-            flex-direction: row;
             justify-content: space-between;
 
-            .titleAuthor {
-
+            .title-and-author {
                 .title {
+                    margin-bottom: 4px;
+                    font-family: 'Open Sans', sans-serif;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    color: #4e4c4a;
+                    line-height: 22px;
                     display: -webkit-box;
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;  
@@ -81,63 +69,61 @@ const BookCardContainer = styled.div`
                 }
 
                 .author {
+                    margin-bottom: 0;
+                    font-family: 'Open Sans', sans-serif;
+                    font-size: 0.875rem;
+                    color: #4e4c4a;
                     cursor: pointer;
                 }
             }
 
-            .bookFav{
-                .anticon-heart svg{
-                    height: 26px;
-                    width: 29px;
-                    color: #D24719;
-                }
+            .favorite {
+                // .anticon-heart svg {
+                //     height: 26px;
+                //     width: 29px;
+                //     color: #d24719;
+                // }
             }
         }
 
         .calendars {
             display: flex;
 
-            .input{
+            .calendar {
+                width: 50%;
                 display: flex;
                 flex-direction: column;
-                min-width: 50%;
-                max-width: 100px;
-                // width: 50%;
 
-                .dateLabel {
+                p {
                     margin-bottom: 0;
-                    font-family: Open Sans;
+                    font-family: 'Open Sans', sans-serif;
                     font-weight: bold;
                     font-size: 0.625rem;
+                    color: #868585;
+                }
+
+                .ant-calendar-picker-input {
+                    height: 16px;
+                    padding: 0;
+                    border: none;
+                    font-family: 'Open Sans', sans-serif;
+                    font-size: 0.875rem;
+                    color: #bfbfbf;
                 }
             }
-
-            .input:first-child {
-                border-right: 1px solid #bfbfbf;
-            }
-
-            .input:last-child {
-                padding-right: 0;
-                padding-left: 8px;
-            }
-
-            .ant-calendar-picker-input {
-                height: 16px;
-                padding: 0;
-                background-color: #fff;
-                border: none;
-            }
         }
-        
     }
 
-    @media (min-width: 1120px) {
-        width: ${props => props.conWidth} || '336px';
-        // margin: 8px 0 8px 0;
+    .orange {
+        background-color: #d24719;
+    }
 
-        .and-calendar-picker-input{
-            
-        }
+    .green {
+        background-color: #547862;
+    }
+
+    @media(min-width: 1120px) {
+        width: 335px;
     }
 `;
 
