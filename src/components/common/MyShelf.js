@@ -91,24 +91,23 @@ const MyShelfContainer = styled.div`
     }
 
     @media(min-width: 1120px) {
-        width: ${props => props.source === 'library' ? '100%' : '216px'};
-        margin: ${props => props.source === 'library' ? '' : '0'};
+        width: 216px;
+        margin: 0;
         display: block;
 
         .create-new-shelf-button {
-            width: ${props => props.source === 'library' ? '448px' : '162px'};
+            width: 162px;
         }
 
         .shelves-container {
             margin-bottom: 0;
-            flex-direction: ${props => props.source === 'library' ? 'row' : 'column'};
+            flex-direction: column;
             justify-content: flex-start;
             flex-wrap: nowrap;
 
             .shelf {
                 height: 162px;
                 width: 162px;
-                margin-right: ${props => props.source === 'library' ? '16px' : ''};
                 margin-bottom: 16px;
             }
         }

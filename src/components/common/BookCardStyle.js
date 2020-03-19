@@ -48,6 +48,7 @@ const BookCardContainer = styled.div`
         padding: 12px;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
 
         .title-author-and-favorite {
             display: flex;
@@ -78,11 +79,11 @@ const BookCardContainer = styled.div`
             }
 
             .favorite {
-                // .anticon-heart svg {
-                //     height: 26px;
-                //     width: 29px;
-                //     color: #d24719;
-                // }
+                .anticon-heart svg {
+                    height: 26px;
+                    width: 29px;
+                    color: #d24719;
+                }
             }
         }
 
