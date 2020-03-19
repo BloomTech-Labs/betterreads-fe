@@ -50,7 +50,7 @@ const Shelf = props => {
 			{/* <ShelfList history={props.history} shelf={shelf} /> */}
 			<ShelfContainer>
 				<BookCardList history={props.history} books={props.currentShelf} source={'library'} />
-				<MyShelf />
+				<MyShelf history={props.history} />
 			</ShelfContainer>
 
 		</>
