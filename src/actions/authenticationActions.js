@@ -60,3 +60,10 @@ export const signOut = history => dispatch => {
 		})
 		.catch(error => console.log(error));
 };
+
+export const sendUserGenres = genres => {
+	// uncertain from docs what needs to be passed
+	axios.post(`${API_URL}/api/genres`)
+		.then(response => console.log(response))
+		.catch(error => console.log(error));
+};
