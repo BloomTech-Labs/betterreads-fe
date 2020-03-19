@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const BookCardContainer = styled.div`
     height: ${props => props.source === 'library' ? '148px' : ''};
+    margin-top: ${props => props.source === 'library' ? '' : '4px'};
     margin-bottom: ${props => props.source === 'library' ? '16px' : ''};
     padding: ${props => props.source === 'library' ? '' : '12px 0'};
     border: ${props => props.source === 'library' ? '1px solid #d9d9d9' : ''};
@@ -11,23 +12,26 @@ const BookCardContainer = styled.div`
 
     .thumbnail-container {
         width: 88px;
+        border: ${props => props.source === 'library' ? '' : '1px solid #d9d9d9'};
+        border-radius: ${props => props.source === 'library' ? '' : '4px'};
         display: flex;
         flex-direction: column;
 
         .thumbnail {
             height: ${props => props.source === 'library' ? '118px' : '98px'};
-            width: 88px;
+            width: 86px;
             background-image: url(${props => props.thumbnail});
             background-size: cover;
             border-radius: ${props => props.source === 'library' ? '4px 0 0 0' : '4px 4px 0 0'};
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
         }
 
         .ant-btn {
             height: 30px;
-            width: 88px;
+            width: 86px;
             padding: 0;
             border: none;
             border-radius: ${props => props.source === 'library' ? '0 0 0 4px' : '0 0 4px 4px'};
@@ -37,7 +41,7 @@ const BookCardContainer = styled.div`
             color: #ffffff;
 
             .anticon-down {
-                margin-left: 4px;
+                margin-left: 0;
             }
         }
     }
@@ -82,6 +86,7 @@ const BookCardContainer = styled.div`
                 .anticon-heart svg {
                     height: 26px;
                     width: 29px;
+                    margin-left: 12px;
                     color: #d24719;
                 }
             }

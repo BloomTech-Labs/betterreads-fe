@@ -10,18 +10,15 @@ import {
     updateBookReadingStatus,
     moveBookFromShelf
 } from '../../actions/index';
-import { Link } from 'react-router-dom';
 import { updateBookItem, updateDates, sendUpTheFlares } from '../helpers';
 import moment from 'moment';
 import BookCardContainer from './BookCardStyle';
 import BookIcon from '../common/BookIcon';
-import Heart from '../search/Heart';
 import { Button, Rate, Menu, Dropdown, notification, DatePicker } from 'antd';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import { Event } from '../tracking';
-
 
 const BookCard = props => {
     const { googleId } = props.book;
@@ -141,8 +138,6 @@ const BookCard = props => {
         </Menu>
     );
 
-    // const [isClick, setClick] = useState(false);
-
 	return (
 		<BookCardContainer thumbnail={props.book.thumbnail || props.book.smallThumbnail} source={props.source} data-library={inLibrary} data-book={props.book.googleId}>
 			<div className="thumbnail-container">
@@ -162,7 +157,7 @@ const BookCard = props => {
 				<div className='title-author-and-favorite'>
 					<div className='title-and-author'>
                         <p className='title' onClick={() => props.history.push(`/book/${googleId}`)}>{props.book.title}</p>
-                        <p className='author' onClick={() => props.history.push(`/book/${googleId}`)}>{props.book.authors.split(',')[0]}</p>
+                        {props.book.authors && <p className='author' onClick={() => props.history.push(`/book/${googleId}`)}>{props.book.authors.split(',')[0]}</p>}
                     </div>
 					<div className='favorite'>
                         {/* <Heart filled={favorite} time={500} color='#d24719' clickEvent={() => setFavorite(!favorite)} /> */}
@@ -183,6 +178,7 @@ const BookCard = props => {
                         </div>
                     </div>
                 }
+                
 				{props.source === 'search' && <Rate defaultValue={props.book.averageRating} allowHalf disabled />}
 			</div>
 		</BookCardContainer>

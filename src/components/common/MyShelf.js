@@ -93,6 +93,7 @@ const MyShelfContainer = styled.div`
     @media(min-width: 1120px) {
         width: 216px;
         margin: 0;
+        padding-top: 16px;
         display: block;
 
         .create-new-shelf-button {
@@ -118,6 +119,8 @@ const MyShelf = props => {
     useEffect(() => {
         props.fetchUsersBooks();
     }, []);
+
+    // in progress, to read, all books, all shelves button
 
     const favorites = props.userBooks.filter(item => item.favorite === true);
 
