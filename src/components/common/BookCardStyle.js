@@ -130,7 +130,7 @@ const BookCardContainer = styled.div`
     }
 
     @media(min-width: 1120px) {
-        width: ${props => props.conWidth} || '335px';
+        width: ${props => props.conWidth || '335px'};
     }
 `;
 

@@ -31,7 +31,7 @@ const ShelfSwipe = (props) => {
         dots: false,
         infinite: false,
         swipeToSlide: true,
-        slidesToShow: 5,
+        slidesToShow: 6,
         slidesToScroll: 1,
         responsive: [
             {
