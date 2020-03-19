@@ -12,12 +12,24 @@ const Swiper = styled.div`
         .slick-dots li button {
             background-color: #D24719 !important;
         }
+
+        .slick-slide {
+            & > div > div {
+                width: 102px !important;
+            }
+        }
     }
+
+    .thumbnail-container{
+        width: 104px !important;
+    }
+
     .thumbnail{
         height: 136px !important;
         width: 102px !important;
         border-radius: 5px 5px 0 0 !important;
     }
+    
     button {
         width: 102px !important;
         border-radius: 0 0 5px 5px !important;
@@ -31,11 +43,11 @@ const ShelfSwipe = (props) => {
         dots: false,
         infinite: false,
         swipeToSlide: true,
-        slidesToShow: 6,
+        slidesToShow: 5,
         slidesToScroll: 1,
         responsive: [
             {
-                breakpoint: 640,
+                breakpoint: 1119,
                 settings: {
                     slidesToShow: 3,
                     slidesToScroll: 1
