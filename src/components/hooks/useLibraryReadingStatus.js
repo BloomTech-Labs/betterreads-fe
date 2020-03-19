@@ -4,7 +4,6 @@ import BookCardList from '../common/BookCardList';
 
 function LibraryReadyStatus(title, books, crumbs, link, history) {
     const dispatch = useDispatch();
-
     return (
         <div className="reading-status">
             <div className='header'>

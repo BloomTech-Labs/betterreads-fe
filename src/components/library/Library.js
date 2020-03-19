@@ -11,6 +11,8 @@ import { PageView, Event } from '../tracking';
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import useLibraryReadingStatus from '../hooks/useLibraryReadingStatus';
 
+import ShelfSwipe from '../common/ShelfSwipe';
+
 const Library = props => {
 	useDocumentTitle(`Readrr - Library`);
 	
@@ -42,10 +44,19 @@ const Library = props => {
 
 			<div className='reading-status-and-my-shelves-container'>
 				<div className="reading-status-container">
-					{useLibraryReadingStatus('In progress', inProgress, [{ label: "In progress", path: "/shelf/inprogress" }, { label: "Book details", path: null }], '/shelf/inprogress', props.history)}
-					{useLibraryReadingStatus('To be read', toBeRead, [{ label: "To be read", path: "/shelf/toberead" }, { label: "Book details", path: null }], '/shelf/toberead', props.history)}
-					{useLibraryReadingStatus('Finished', finished, [{ label: "Finished", path: "/shelf/finished" }, { label: "Book details", path: null }], '/shelf/finished', props.history)}
+					{
+						useLibraryReadingStatus('To be read', toBeRead, [{ label: "To be read", path: "/shelf/toberead" }, { label: "Book details", path: null }], '/shelf/toberead', props.history)
+					}
+					{
+						useLibraryReadingStatus('In progress', inProgress, [{ label: "In progress", path: "/shelf/inprogress" }, { label: "Book details", path: null }], '/shelf/inprogress', props.history)
+					}
+					{	
+						useLibraryReadingStatus('Finished', finished, [{ label: "Finished", path: "/shelf/finished" }, { label: "Book details", path: null }], '/shelf/finished', props.history)
+					}
+
+					<ShelfSwipe title="Recommendations" bookList={props.userBooks} history={props.history} breadcrumbs={[{ label: "Recommendations", path: "/shelf/recommendations" }, { label: "Book details", path: null }]} />					
 				</div>
+
 				<MyShelf history={props.history} source={'library'} />
 			</div>
 		</LibraryContainer>
