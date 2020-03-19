@@ -49,7 +49,7 @@ const Shelf = props => {
 			<ShelfNote type="allbooks" count={props.userBooks.length} />
 			{/* <ShelfList history={props.history} shelf={shelf} /> */}
 			<ShelfContainer>
-				<BookCardList history={props.history} bookList={props.currentShelf} source={'library'} />
+				<BookCardList history={props.history} books={props.currentShelf} source={'library'} />
 				<MyShelf />
 			</ShelfContainer>
 
