@@ -6,10 +6,10 @@ import SignIn from './components/authentication/SignIn';
 import SignUp from './components/authentication/SignUp';
 import Success from './components/authentication/Success';
 import Failure from './components/authentication/Failure';
+import PageNotFound from './components/authentication/PageNotFound';
 import Search from './components/search/Search';
 import Shelf from './components/library/Shelf';
 import ShelfBook from './components/library/ShelfBook';
-import PageNotFound from './components/authentication/PageNotFound';
 
 const App = () => {
 	return (

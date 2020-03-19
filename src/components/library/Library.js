@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
-import BookCard from '../common/BookCard'; 
+import BookCard from '../common/BookCard';
+import MyShelf from '../common/MyShelf';
 import LibraryContainer from './LibraryStyle';
 import BookIcon from '../common/BookIcon';
 import { PageView, Event } from '../tracking';
@@ -11,15 +12,12 @@ import useDocumentTitle from '../hooks/useDocumentTitle'
 import useLibraryReadingStatus from '../hooks/useLibraryReadingStatus';
 
 const Library = props => {
-	useDocumentTitle('Library - Readrr');
+	useDocumentTitle(`Readrr - Library`);
+	
 	useEffect(() => {
 		props.fetchUsersBooks();
 		props.setBreadcrumbs([{ label: 'Book details', path: null }]);
-		
-		// release canvas 2
 		// props.fetchUsersShelves(localStorage.getItem('id'));
-
-		// google analytics
 		Event('Library', 'User library loaded', 'LIBRARY');
 		PageView();
 	}, []);
@@ -43,56 +41,12 @@ const Library = props => {
 			</div>
 
 			<div className='reading-status-and-my-shelves-container'>
-
 				<div className="reading-status-container">
-					{
-						useLibraryReadingStatus('To be read', toBeRead, [{ label: "To be read", path: "/shelf/toberead" }, { label: "Book details", path: null }], '/shelf/toberead', props.history)
-					}
-					{
-						useLibraryReadingStatus('In progress', inProgress, [{ label: "In progress", path: "/shelf/inprogress" }, { label: "Book details", path: null }], '/shelf/inprogress', props.history)
-					}
-					{	
-						useLibraryReadingStatus('Finished', finished, [{ label: "Finished", path: "/shelf/finished" }, { label: "Book details", path: null }], '/shelf/finished', props.history)
-					}
+					{useLibraryReadingStatus('In progress', inProgress, [{ label: "In progress", path: "/shelf/inprogress" }, { label: "Book details", path: null }], '/shelf/inprogress', props.history)}
+					{useLibraryReadingStatus('To be read', toBeRead, [{ label: "To be read", path: "/shelf/toberead" }, { label: "Book details", path: null }], '/shelf/toberead', props.history)}
+					{useLibraryReadingStatus('Finished', finished, [{ label: "Finished", path: "/shelf/finished" }, { label: "Book details", path: null }], '/shelf/finished', props.history)}
 				</div>
-
-				<div className="my-shelves">
-					<h2 onClick={() => props.history.push('/')}>My Shelves</h2>
-					<p className="create-shelves">Create shelves and add books to your custom shelf.</p>
-					{/* <button className="create-new-shelf-button">Create new shelf</button> */}
-
-					<div className="shelves-container">
-						<div className="shelf" onClick={() => {
-								props.setBreadcrumbs([{ label: 'All books', path: '/shelf/allbooks' }, { label: 'Book details', path: null }]);
-								props.history.push('/shelf/allbooks');
-						}}>
-							<p className="shelf-name">All books</p>
-							<BookIcon height="40px" width="40px" fill="#d9d9d9" />
-							{props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
-						</div>
-
-						<div className="shelf" onClick={() => {
-								props.setBreadcrumbs([{ label: 'Favorites', path: '/shelf/favorites' }, { label: 'Book details', path: null }]);
-								props.history.push('/shelf/favorites');
-							}}>
-							<p className="shelf-name">Favorites</p>
-							<BookIcon height="40px" width="40px" fill="#D9D9D9" />
-							{favorites.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{favorites.length} books</p>}
-						</div>
-
-						{/* {props.userShelves.map(item => {
-							return (
-								<div className="shelf" onClick={() => props.history.push(`/shelf/${item.id}`)}>
-									<BookIcon height="64px" width="64px" fill="#E5E5E6" />
-									<p className="shelf-name">{item.shelfName}</p>
-									<p className="shelf-quantity">0 books</p>
-								</div>
-							);
-						})}
-						nothing is being done with private value yet, waiting on design */}
-					</div>
-				</div>
-
+				<MyShelf history={props.history} source={'library'} />
 			</div>
 		</LibraryContainer>
 	);

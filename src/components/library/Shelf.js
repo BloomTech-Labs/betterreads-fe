@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { setCurrentShelf } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
+import ShelfNote from '../common/ShelfNote';
 import ShelfList from '../library/ShelfList';
+import BookCardList from '../common/BookCardList';
+import MyShelf from '../common/MyShelf';
+import styled from 'styled-components';
+
+const ShelfContainer = styled.div`
+	@media(min-width: 1120px) {
+		width: 1120px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+	}
+`;
 
 const Shelf = props => {
 	const shelf = props.match.params.shelf;
+
+	useEffect(() => {
+		props.setCurrentShelf(shelf);
+	}, [shelf]);
 	
 	let label;
-	
 	if (shelf === 'allbooks') {
 		label = 'All books';
 	} else if (shelf === 'favorites') {
@@ -28,9 +46,22 @@ const Shelf = props => {
 			<Header history={props.history} />
 			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={[{ label, path: null }]} />
-			<ShelfList history={props.history} shelf={shelf} />
+			<ShelfNote type="allbooks" count={props.userBooks.length} />
+			{/* <ShelfList history={props.history} shelf={shelf} /> */}
+			<ShelfContainer>
+				<BookCardList history={props.history} books={props.currentShelf} source={'library'} />
+				<MyShelf history={props.history} />
+			</ShelfContainer>
+
 		</>
 	);
 };
 
-export default Shelf;
+const mapStateToProps = state => {
+	return {
+		userBooks: state.library.userBooks,
+		currentShelf: state.library.currentShelf
+	};
+};
+
+export default connect(mapStateToProps, { setCurrentShelf })(Shelf);

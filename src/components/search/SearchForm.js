@@ -53,6 +53,8 @@ const SearchForm = props => {
                     onChange={handleChange}
                     value={props.query}
                     enterButton
+                    autoComplete='off'
+                    spellCheck='false'
                 />
             </div>
         </Wrapper>
