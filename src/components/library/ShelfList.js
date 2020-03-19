@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { setCurrentShelf, setBreadcrumbs } from '../../actions'
 import ShelfNote from '../common/ShelfNote';
 import BookCard from '../common/BookCard';
-import ShelfListContainer from './ShelfListStyle';
+import ShelfListContainer from './styles/ShelfListStyle';
 import BookIcon from '../common/BookIcon';
 
 const ShelfList = props => {

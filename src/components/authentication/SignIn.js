@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { signIn, resetError } from '../../actions/authenticationActions';
-import SignInContainer from './SignInStyle';
+import SignInContainer from './styles/SignInStyle';
 import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';
-import { PageView, Event } from '../tracking/';
+import { PageView, Event } from '../tracking';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 

@@ -5,8 +5,7 @@ import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import BookCard from '../common/BookCard';
 import MyShelf from '../common/MyShelf';
-import LibraryContainer from './LibraryStyle';
-import BookIcon from '../common/BookIcon';
+import LibraryContainer from './styles/LibraryStyle';
 import { PageView, Event } from '../tracking';
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import useLibraryReadingStatus from '../hooks/useLibraryReadingStatus';
