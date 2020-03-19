@@ -33,14 +33,14 @@ const LibraryContainer = styled.div`
 
 		.reading-status {
 			max-width: 1120px;
-			width: 90%;
-			margin: 0 auto;
 			padding-top: 16px;
 			border-bottom: 1.5px solid rgba(217, 217, 217, 0.5);
 			display: flex;
 			flex-direction: column;
 
 			.header {
+				width: 90%;
+				margin: 0 auto;
 				margin-bottom: 16px;
 				display: flex;
 				justify-content: space-between;
@@ -73,6 +73,14 @@ const LibraryContainer = styled.div`
 	@media (min-width: 1120px) {
 		.reading-status-container {
 			background-color: #ffffff;
+			
+			.reading-status {
+				margin: 0 auto;
+
+				.header {
+					width: 100%;
+				}
+			}
 		}
 	}
 `;
