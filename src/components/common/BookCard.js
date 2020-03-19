@@ -15,10 +15,13 @@ import { updateBookItem, updateDates, sendUpTheFlares } from '../helpers';
 import moment from 'moment';
 import BookCardContainer from './BookCardStyle';
 import BookIcon from '../common/BookIcon';
+import Heart from '../search/Heart';
 import { Button, Rate, Menu, Dropdown, notification, DatePicker } from 'antd';
-import Heart from '../search/Heart'
 import DownOutlined from '@ant-design/icons/DownOutlined';
+import HeartFilled from '@ant-design/icons/HeartFilled';
+import HeartOutlined from '@ant-design/icons/HeartOutlined';
 import { Event } from '../tracking';
+
 
 const BookCard = props => {
     const { googleId } = props.book;
@@ -138,6 +141,8 @@ const BookCard = props => {
         </Menu>
     );
 
+    // const [isClick, setClick] = useState(false);
+
 	return (
 		<BookCardContainer thumbnail={props.book.thumbnail || props.book.smallThumbnail} source={props.source} data-library={inLibrary} data-book={props.book.googleId}>
 			<div className="thumbnail-container">
@@ -145,7 +150,7 @@ const BookCard = props => {
                     props.history.push(`/book/${googleId}`);
                     Event('Book', 'User clicked for book details', 'SEARCH_RESULTS');
                 }}>
-                    {!props.book.thumbnail && !props.book.smallThumbnail && <BookIcon  height="40px" width="40px" fill="#d9d9d9" />}
+                    {!props.book.thumbnail && !props.book.smallThumbnail && <BookIcon  height="40px" width="40px" fill="#547862" />}
                 </div>
 
 				<Dropdown overlay={props.source === 'search' ? searchMenu : libraryMenu} trigger={['click']}>
@@ -160,8 +165,8 @@ const BookCard = props => {
                         <p className='author' onClick={() => props.history.push(`/book/${googleId}`)}>{props.book.authors.split(',')[0]}</p>
                     </div>
 					<div className='favorite'>
-                        <Heart filled={favorite} time={500} color='#d24719' clickEvent={() => setFavorite(!favorite)} /> 
-                        {/* {favorite ? <HeartFilled onClick={() => setFavorite(!favorite)} /> : <HeartOutlined onClick={() => setFavorite(!favorite)} />} */}
+                        {/* <Heart filled={favorite} time={500} color='#d24719' clickEvent={() => setFavorite(!favorite)} /> */}
+                        {favorite ? <HeartFilled onClick={() => setFavorite(!favorite)} /> : <HeartOutlined onClick={() => setFavorite(!favorite)} />}
                     </div>
 				</div>
 
