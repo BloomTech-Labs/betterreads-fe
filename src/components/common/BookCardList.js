@@ -14,6 +14,7 @@ const BookCardListContainer = styled.div`
         margin: 0;
         display: flex;
         justify-content: space-between;
+        align-content: flex-start;
         flex-wrap: wrap;
     }
 `;
@@ -21,7 +22,7 @@ const BookCardListContainer = styled.div`
 const BookCardList = props => {
     return (
         <BookCardListContainer>
-            {props.bookList.map((item, index) => (
+            {props.books.map((item, index) => (
                 <BookCard key={index} history={props.history} book={item} source={props.source} />
             ))}
         </BookCardListContainer>

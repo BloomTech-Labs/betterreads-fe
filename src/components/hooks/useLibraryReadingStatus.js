@@ -14,7 +14,7 @@ function LibraryReadyStatus(title, books, crumbs, link, history) {
                     history.push(link);
                 }}>View all</p>
             </div>
-            <BookCardList history={history} bookList={books.slice(0, 4)} source={'library'} />
+            <BookCardList history={history} books={books} source={'library'} />
         </div>
     )
 }
