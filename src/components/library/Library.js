@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
-import BookCard from '../common/BookCard'; 
+import BookCard from '../common/BookCard';
+import MyShelf from '../common/MyShelf';
 import LibraryContainer from './LibraryStyle';
 import BookIcon from '../common/BookIcon';
 import { PageView, Event } from '../tracking';
@@ -13,15 +14,12 @@ import useLibraryReadingStatus from '../hooks/useLibraryReadingStatus';
 import ShelfSwipe from '../common/ShelfSwipe';
 
 const Library = props => {
-	useDocumentTitle('Library - Readrr');
+	useDocumentTitle(`Readrr - Library`);
+	
 	useEffect(() => {
 		props.fetchUsersBooks();
 		props.setBreadcrumbs([{ label: 'Book details', path: null }]);
-		
-		// release canvas 2
 		// props.fetchUsersShelves(localStorage.getItem('id'));
-
-		// google analytics
 		Event('Library', 'User library loaded', 'LIBRARY');
 		PageView();
 	}, []);
@@ -45,7 +43,6 @@ const Library = props => {
 			</div>
 
 			<div className='reading-status-and-my-shelves-container'>
-
 				<div className="reading-status-container">
 					{
 						useLibraryReadingStatus('To be read', toBeRead, [{ label: "To be read", path: "/shelf/toberead" }, { label: "Book details", path: null }], '/shelf/toberead', props.history)
@@ -97,7 +94,7 @@ const Library = props => {
 						nothing is being done with private value yet, waiting on design */}
 					</div>
 				</div>
-
+				<MyShelf history={props.history} source={'library'} />
 			</div>
 		</LibraryContainer>
 	);

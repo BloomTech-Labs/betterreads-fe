@@ -6,14 +6,13 @@ import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
 const SearchPaginationContainer = styled.div`
-    width: 90%;
-    margin: 0 auto;
+    margin-bottom: 32px;
 
     button {
         height: 46px;
         width: 100%;
         padding: 10px;
-        margin-top: 16px;
+        margin-top: 12px;
         background: #ffffff;
         border: 1px solid #D9D9D9;
         border-radius: 4px;
@@ -29,9 +28,6 @@ const SearchPaginationContainer = styled.div`
     }
 
     @media (min-width: 1120px) {
-        width: 100%;
-        margin: 0;
-
         button {
             margin-bottom: 64px;
         }

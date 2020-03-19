@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import BookCard from "../common/BookCard";
+import BookCardList from '../common/BookCardList';
 
 function LibraryReadyStatus(title, books, crumbs, link, history) {
     const dispatch = useDispatch();
@@ -13,13 +13,7 @@ function LibraryReadyStatus(title, books, crumbs, link, history) {
                     history.push(link);
                 }}>View all</p>
             </div>
-            <div className='section'>
-                {
-                    books.slice(0, 4).map((book, i) => {
-                        return <BookCard key={i} history={history} book={book} source='library' />
-                    })
-                }
-            </div>
+            <BookCardList history={history} books={books} source={'library'} />
         </div>
     )
 }
