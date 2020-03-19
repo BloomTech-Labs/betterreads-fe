@@ -10,6 +10,7 @@ const MyShelfContainer = styled.div`
     margin: 0 auto;
     padding-top: 24px;
     padding-bottom: 32px;
+    display: ${props => props.source === 'library' ? '' : 'none'};
 
     h2 {
         margin-bottom: 0;
@@ -92,6 +93,7 @@ const MyShelfContainer = styled.div`
     @media(min-width: 1120px) {
         width: ${props => props.source === 'library' ? '100%' : '216px'};
         margin: ${props => props.source === 'library' ? '' : '0'};
+        display: block;
 
         .create-new-shelf-button {
             width: ${props => props.source === 'library' ? '448px' : '162px'};
