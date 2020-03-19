@@ -105,6 +105,7 @@ const BookCardContainer = styled.div`
                 .ant-calendar-picker-input {
                     height: 16px;
                     padding: 0;
+                    background: none;
                     border: none;
                     font-family: 'Open Sans', sans-serif;
                     font-size: 0.875rem;
