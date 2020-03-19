@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchUsersBooks } from '../../actions';
-import BookCard from '../common/BookCard';
+import BookCard from './BookCard';
 import styled from 'styled-components';
 
 // things to be passed, history, book array, source, width
