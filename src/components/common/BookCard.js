@@ -81,7 +81,7 @@ const BookContainer = styled.div`
     }
 
     .book{
-        display: flex;
+        display: ${props => props.source === 'recommendation' ? 'none' : 'flex'};
         flex-direction: column;
         width: 100%;
         justify-content: space-between;
@@ -282,7 +282,7 @@ const BookItem = props => {
     )
 
 	return (
-		<BookContainer data-book={props.book.googleId} conWidth="100%" conHeight="143px" bgImage={props.book.thumbnail || props.book.smallThumbnail} source={props.source}  data-library={inLibrary}>
+		<BookContainer data-book={props.book.googleId} conWidth={props.source === 'recommendation' ? '88px' : '100%'} conHeight="143px" bgImage={props.book.thumbnail || props.book.smallThumbnail} source={props.source}  data-library={inLibrary}>
 			<div className="thumbContainer">
                 <Link to={`/book/${googleId}`} onClick={() => Event('Book', 'User clicked for book details', 'SEARCH_RESULTS')}>
 				    <div className="thumbnail"></div>

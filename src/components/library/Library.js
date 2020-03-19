@@ -10,6 +10,8 @@ import { PageView, Event } from '../tracking';
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import useLibraryReadingStatus from '../hooks/useLibraryReadingStatus';
 
+import ShelfSwipe from '../common/ShelfSwipe';
+
 const Library = props => {
 	useDocumentTitle('Library - Readrr');
 	useEffect(() => {
@@ -54,6 +56,9 @@ const Library = props => {
 					{	
 						useLibraryReadingStatus('Finished', finished, [{ label: "Finished", path: "/shelf/finished" }, { label: "Book details", path: null }], '/shelf/finished', props.history)
 					}
+					<div className="recommendation-container">
+						<ShelfSwipe bookList={props.userBooks} history={props.history} breadcrumbs={[{ label: "Recommendations", path: "/shelf/recommendations" }, { label: "Book details", path: null }]} />
+					</div>
 				</div>
 
 				<div className="my-shelves">
