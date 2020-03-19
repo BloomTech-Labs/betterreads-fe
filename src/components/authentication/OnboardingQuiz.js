@@ -1,163 +1,84 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import Axios from 'axios';
-
-import { Checkbox, Col, Row } from 'antd';
+import { sendUserGenres } from '../../actions'
 import styled from 'styled-components';
+import { Checkbox } from 'antd';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
+const OnboardingQuizContainer = styled.div`
+	width: 90%;
+	margin: 0 auto;
 
-const Wrapper = styled.div`
-	.ant-checkbox-wrapper{
-		font-weight: 300;
-		font-size: 13px;
-		line-height: 18px;
+	h1 {
+		padding-top: 32px;
+		margin-bottom: 4px;
+		font-family: 'Frank Ruhl Libre', sans-serif;
+		font-size: 2rem;
+		font-weight: bold;
+		color: #3b403d;
+		line-height: 41px;
+	}
+
+	.select {
+		margin-bottom: 24px;
+		font-family: 'Open Sans', sans-serif;
+		color: #4e4c4a;
+	}
+
+	form {
 		display: flex;
-		align-items: center;
-		color: #151522;
-		mix-blend-mode: normal;
-		opacity: 0.7;
-		margin: 3
-		.ant-checkbox-input{
-			background: #FFFFFF;
-			box-sizing: border-box;
-			box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
-			border-radius: 6px;
-			width: 24px;
-			highth: auto;
+		flex-direction: column;
+		align-items: flex-end;
+
+		.ant-checkbox-group {
+			margin-bottom: 24px;
+
+			.ant-checkbox-group-item {
+				width: 50%;
+				margin: 0 0 8px;
+
+				span {
+					font-family: 'Open Sans', sans-serif;
+					font-size: 0.875rem;
+					color: #4e4c4a;
+				}
+			}
 		}
-		.ant-checkbox-wrapper-inner{
-			background: #FFFFFF;
-			box-shadow: 0px 4px 8px rgba(50, 50, 71, 0.06), 0px 4px 4px rgba(50, 50, 71, 0.08);
-			border: 1px solid #E4E4E4;
-			color: #E4E4E4
+
+		button {
+			padding: 10px 32px;
+			background-color: #547862;
+			border: none;
+			border-radius: 4px;
+			font-family: 'Open Sans', sans-serif;
+			color: #ffffff;
+		}
 	}
-	
 `;
 
-const Heading = styled.h1`
-	font-weight: 600;
-	font-size: 34px;
-	line-height: 41px;
-	color: rgba(21, 21, 34, 0.7);
-`;
-const Sub = styled.p`
-	font-weight: 300;
-	font-size: 16px;
-	line-height: 22px;
-	letter-spacing: 0.5px;
-	color: #151522;
-`;
-const Submit = styled.button`
-font-weight: 300;
-font-size: 16px;
-line-height: 22px;
-display: flex;
-align-items: center;
-text-align: center;
-color: #FFFFFF;
-background: #9C9EA9;
-border-radius: 5px;
-width: 150px;
-highth: 50px;
-`
+const OnboardingQuiz = props => {
+	const [checkedGenres, setCheckedGenres] = useState([]);
 
+	const onChange = checkedValues => {
+		setCheckedGenres(checkedValues);
+	};
 
-export function OnboardingQuiz(props) {
-	let checkedArr = [];
-
-	function handleChange(checkedValues) {
-		console.log('checked = ', checkedValues);
-		let checkedArr = checkedValues
-		console.log(checkedArr, "checked Arr")
-	}
-
-	function handleSubmit(event) {
+	const onSubmit = event => {
 		event.preventDefault();
-		const userId = localStorage.getItem('user_id');
-		Axios.post(
-			`${API_URL}/api/genres`,
-			{ genres: checkedArr, userId },
-			{ withCredentials: true }
-		)
+		console.log(checkedGenres);
+	};
 
-			.then(response => {
-				console.log(response);
-				props.history.push('/library');
-			})
-			.catch(error => console.log(error));
-	}
-
-	const checkGenre = [
-		'Art',
-		'Biography',
-		'Business',
-		'Chick Lit',
-		'Christian',
-		'Classics',
-		'Comics',
-		'Contemporary',
-		'Cookbooks',
-		'Graphic Novels',
-		'Historical Fiction',
-		'History',
-		'Horror',
-		'Humor and Comedy',
-		'Manga',
-		'Memoir',
-		'Music',
-		'Mystery',
-		'Mystery',
-		'Paranormal',
-		'Philosophy',
-		'Poetry',
-		'Psychology',
-		'Religion',
-		'Romance',
-		'Science',
-		'Science Fiction',
-		'Self Help',
-		'Suspense',
-		'Spirituality',
-		'Sports',
-		'Thriller',
-		'Travel',
-		'Young Adult'
-	];
+	const genres = ['Art', 'Biography', 'Business', 'Chick Lit', 'Christian', 'Classics', 'Comics', 'Contemporary', 'Cookbooks', 'Graphic Novels', 'Historical Fiction', 'History', 'Horror', 'Humor & Comedy', 'Manga', 'Memoir', 'Music', 'Mystery', 'Nonfiction', 'Paranormal', 'Philosophy', 'Poetry', 'Psychology', 'Religion', 'Romance', 'Science', 'Science Fiction', 'Self Help', 'Suspense', 'Spirituality', 'Sports', 'Thriller', 'Travel', 'Young Adult'];
 
 	return (
-		<Wrapper>
-			<Heading>Select your favorite genres</Heading>
-			<Sub>Select at least one genre to continue</Sub>
-			<div>
-				<form onSubmit={handleSubmit}>
-					<Checkbox.Group onChange={handleChange}>
-						<Row
-							type="flex"
-							justify="center"
-							gutter={{ xs: 0, sm: 16, md: 24, lg: 32 }}
-						>
-							{checkGenre.map((CB, i) => (
-								<Col span="11">
-									<Checkbox value={CB} data-testid={`genre test id ${i}`}>{CB}</Checkbox>
-								</Col>
-							))}
-						</Row>
-					</Checkbox.Group>
-
-					<input type="submit" value="Continue" />
-				</form>
-			</div>
-		</Wrapper>
+		<OnboardingQuizContainer>
+			<h1>Select your favorite genres</h1>
+			<p className='select'>Select at least one genre to continue</p>
+			<form onSubmit={onSubmit}>
+				<Checkbox.Group options={genres} onChange={onChange} />
+				<button type='submit'>Continue</button>
+			</form>
+		</OnboardingQuizContainer>
 	);
-}
-
-const mapStateToProps = state => {
-	return {
-		searchResults: state.searchResults,
-		error: state.error,
-		Fetching: state.Fetching
-	};
 };
 
-export default connect(mapStateToProps)(OnboardingQuiz);
+export default connect(null, { sendUserGenres })(OnboardingQuiz);
