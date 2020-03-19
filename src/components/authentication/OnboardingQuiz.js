@@ -46,7 +46,7 @@ const OnboardingQuizContainer = styled.div`
 
 		button {
 			padding: 10px 32px;
-			background-color: #547862;
+			background-color: #d24719;
 			border: none;
 			border-radius: 4px;
 			font-family: 'Open Sans', sans-serif;
