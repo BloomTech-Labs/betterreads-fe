@@ -17,7 +17,7 @@ export const fetchCurrentBook = googleID => dispatch => {
 				isbn10: null,
 				isbn13: null,
 				pageCount: response.data.volumeInfo.pageCount || null,
-				categories: response.data.volumeInfo.categories.toString() || null,
+				categories: (response.data.volumeInfo.categories ? response.data.volumeInfo.categories.toString() : null),
 				averageRating: response.data.volumeInfo.averageRating || null,
 				thumbnail: (response.data.volumeInfo.imageLinks ? response.data.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://') : null),
 				smallThumbnail: (response.data.volumeInfo.imageLinks ? response.data.volumeInfo.imageLinks.smallThumbnail.replace('http://', 'https://') : null),
