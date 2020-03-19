@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import BookCard from './BookCard';
 import { Carousel } from 'antd';
 import styled from 'styled-components'
 
-const Swipper = styled.div`
+const Swiper = styled.div`
     .ant-carousel{
         width: 90% !important;
         margin: 0 auto;
@@ -57,7 +57,7 @@ const ShelfSwipe = (props) => {
                     )
                 }
             </div>
-            <Swipper>
+            <Swiper>
                 <Carousel {...carouselProps}>
                     {
                         props.bookList &&
@@ -66,7 +66,7 @@ const ShelfSwipe = (props) => {
                         ))
                     }
                 </Carousel>
-            </Swipper>
+            </Swiper>
         </div>
     )
 }
