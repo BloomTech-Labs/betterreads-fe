@@ -10,7 +10,7 @@ const OnboardingQuizContainer = styled.div`
 
 	h1 {
 		padding-top: 32px;
-		margin-bottom: 4px;
+		margin-bottom: 8px;
 		font-family: 'Frank Ruhl Libre', sans-serif;
 		font-size: 2rem;
 		font-weight: bold;
