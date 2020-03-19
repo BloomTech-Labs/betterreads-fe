@@ -3,11 +3,11 @@ import { useDispatch } from 'react-redux';
 import BookCard from './BookCard';
 import { Carousel } from 'antd';
 import styled from 'styled-components'
-import { useEffect } from 'react';
 
-const Wrapper = styled.div`
+const Swipper = styled.div`
     .ant-carousel{
-        width: 100% !important;
+        width: 90% !important;
+        margin: 0 auto;
         
         .slick-dots li button {
             background-color: #D24719 !important;
@@ -45,15 +45,19 @@ const ShelfSwipe = (props) => {
     }
 
     return (
-        <Wrapper>
-            <div className="reading-status">
-                <div className='header'>
-                    <p className='status'>Recommendations</p>
-                    <p className='view-all' onClick={() => {
-                        dispatch({ type: 'SET_BREADCRUMBS', payload: props.breadcrumbs});
-                        props.history.push('/shelf/recommendations')
-                    }}>View all</p>
-                </div>
+        <div className="reading-status">
+            <div className='header'>
+                <p className='status'>{props.title}</p>
+                {
+                    props.linkMe && (
+                        <p className='view-all' onClick={() => {
+                            dispatch({ type: 'SET_BREADCRUMBS', payload: props.breadcrumbs});
+                            props.history.push('/shelf/recommendations')
+                        }}>View all</p>
+                    )
+                }
+            </div>
+            <Swipper>
                 <Carousel {...carouselProps}>
                     {
                         props.bookList &&
@@ -62,9 +66,8 @@ const ShelfSwipe = (props) => {
                         ))
                     }
                 </Carousel>
-            </div>
-            
-        </Wrapper>
+            </Swipper>
+        </div>
     )
 }
 

@@ -53,47 +53,10 @@ const Library = props => {
 					{	
 						useLibraryReadingStatus('Finished', finished, [{ label: "Finished", path: "/shelf/finished" }, { label: "Book details", path: null }], '/shelf/finished', props.history)
 					}
-					<div className="recommendation-container">
-						<ShelfSwipe bookList={props.userBooks} history={props.history} breadcrumbs={[{ label: "Recommendations", path: "/shelf/recommendations" }, { label: "Book details", path: null }]} />
-					</div>
+
+					<ShelfSwipe title="Recommendations" bookList={props.userBooks} history={props.history} breadcrumbs={[{ label: "Recommendations", path: "/shelf/recommendations" }, { label: "Book details", path: null }]} />					
 				</div>
 
-				<div className="my-shelves">
-					<h2 onClick={() => props.history.push('/')}>My Shelves</h2>
-					<p className="create-shelves">Create shelves and add books to your custom shelf.</p>
-					{/* <button className="create-new-shelf-button">Create new shelf</button> */}
-
-					<div className="shelves-container">
-						<div className="shelf" onClick={() => {
-								props.setBreadcrumbs([{ label: 'All books', path: '/shelf/allbooks' }, { label: 'Book details', path: null }]);
-								props.history.push('/shelf/allbooks');
-						}}>
-							<p className="shelf-name">All books</p>
-							<BookIcon height="40px" width="40px" fill="#d9d9d9" />
-							{props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
-						</div>
-
-						<div className="shelf" onClick={() => {
-								props.setBreadcrumbs([{ label: 'Favorites', path: '/shelf/favorites' }, { label: 'Book details', path: null }]);
-								props.history.push('/shelf/favorites');
-							}}>
-							<p className="shelf-name">Favorites</p>
-							<BookIcon height="40px" width="40px" fill="#D9D9D9" />
-							{favorites.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{favorites.length} books</p>}
-						</div>
-
-						{/* {props.userShelves.map(item => {
-							return (
-								<div className="shelf" onClick={() => props.history.push(`/shelf/${item.id}`)}>
-									<BookIcon height="64px" width="64px" fill="#E5E5E6" />
-									<p className="shelf-name">{item.shelfName}</p>
-									<p className="shelf-quantity">0 books</p>
-								</div>
-							);
-						})}
-						nothing is being done with private value yet, waiting on design */}
-					</div>
-				</div>
 				<MyShelf history={props.history} source={'library'} />
 			</div>
 		</LibraryContainer>
