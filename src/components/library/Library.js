@@ -11,7 +11,8 @@ import useDocumentTitle from '../hooks/useDocumentTitle'
 import useLibraryReadingStatus from '../hooks/useLibraryReadingStatus';
 
 const Library = props => {
-	useDocumentTitle('Library - Readrr');
+	useDocumentTitle(`Readrr - Library`);
+	
 	useEffect(() => {
 		props.fetchUsersBooks();
 		props.setBreadcrumbs([{ label: 'Book details', path: null }]);
