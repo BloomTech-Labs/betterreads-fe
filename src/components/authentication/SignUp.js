@@ -47,6 +47,7 @@ const SignUp = props => {
 								props.resetError();
 								props.history.push('/signin');
 							}}
+							data-testid='sign-in-redirect'
 						>
 							Sign in here.
 						</b>
@@ -117,7 +118,7 @@ const SignUp = props => {
 					</a>
 
 					<p className="policy">
-						By signing up, I agree to Readrr' Terms of Service
+						By signing up, I agree to Readrr's Terms of Service
 						and Privacy Policy.
 					</p>
 				</form>
