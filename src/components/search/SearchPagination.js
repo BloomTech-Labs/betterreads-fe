@@ -43,14 +43,14 @@ const SearchPagination = props => {
 
     return (
         <SearchPaginationContainer>
-            <button onClick={onClick} disabled={props.fetching ? true : false}>{props.fetching ? <Spin indicator={antIcon} /> : 'Load More'}</button>
+            <button onClick={onClick} disabled={props.fetchMore ? true : false}>{props.fetchMore ? <Spin indicator={antIcon} /> : 'Load More'}</button>
         </SearchPaginationContainer>
     );
 };
 
 const mapStateToProps = state => {
     return {
-        fetching: state.search.fetching,
+        fetchMore: state.search.fetchMore,
         searchResults: state.search.searchResults,
         query: state.search.query
     };

@@ -55,6 +55,20 @@ const ShelfSwipe = (props) => {
             {
                 breakpoint: 1119,
                 settings: {
+                    slidesToShow: 5,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 800,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 640,
+                settings: {
                     slidesToShow: 3,
                     slidesToScroll: 1
                 }
