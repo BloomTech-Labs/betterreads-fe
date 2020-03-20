@@ -1,10 +1,14 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import BookCard from './BookCard';
 import { Carousel } from 'antd';
 import styled from 'styled-components'
+import { setBreadcrumbs} from '../../actions/bookActions';
+import BookCardList from './BookCardList';
 
 const Swiper = styled.div`
+    padding-bottom: 16px;
+    
     .ant-carousel{
         width: 90% !important;
         margin: 0 auto;
@@ -41,13 +45,11 @@ const Swiper = styled.div`
 `;
 
 const ShelfSwipe = (props) => {
-    const dispatch = useDispatch();
-
     const carouselProps = {
         dots: false,
         infinite: false,
         swipeToSlide: true,
-        slidesToShow: 5,
+        slidesToShow: 6,
         slidesToScroll: 1,
         responsive: [
             {
@@ -63,28 +65,40 @@ const ShelfSwipe = (props) => {
     return (
         <div className="reading-status">
             <div className='header'>
-                <p className='status'>{props.title}</p>
                 {
-                    props.linkMe && (
+                    props.title !== 'Recommendations' ? <p className='status'>{props.title}  ({props.bookList.length})</p> : <p className='status'>{props.title}</p>
+
+
+                }
+                
+                {
+                    props.link && (
                         <p className='view-all' onClick={() => {
-                            dispatch({ type: 'SET_BREADCRUMBS', payload: props.breadcrumbs});
-                            props.history.push('/shelf/recommendations')
+                            props.setBreadcrumbs(props.breadcrumbs);
+                            props.history.push(props.link)
                         }}>View all</p>
                     )
                 }
             </div>
-            <Swiper>
-                <Carousel {...carouselProps}>
-                    {
-                        props.bookList &&
-                        props.bookList.splice(0,12).map((book, index) => (
-                            <BookCard key={index} book={book} source="recommendation" />
-                        ))
-                    }
-                </Carousel>
-            </Swiper>
+            {
+                props.display === 'carousel' &&
+                <Swiper>
+                    <Carousel {...carouselProps}>
+                        {
+                            props.bookList &&
+                            props.bookList.splice(0,10).map((book, index) => (
+                                <BookCard key={index} book={book} source="recommendation" history={props.history} />
+                            ))
+                        }
+                    </Carousel>
+                </Swiper>
+            }
+            {
+                props.display === 'card' &&
+                <BookCardList history={props.history} books={props.bookList} source={'library'} />
+            }
         </div>
     )
 }
 
-export default ShelfSwipe;
+export default connect(null, { setBreadcrumbs })(ShelfSwipe);

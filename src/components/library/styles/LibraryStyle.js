@@ -35,7 +35,6 @@ const LibraryContainer = styled.div`
 			background-color: #f3f6f5;
 
 			.reading-status {
-				padding-top: 16px;
 				border-bottom: 1.5px solid rgba(217, 217, 217, 0.5);
 				display: flex;
 				flex-direction: column;
@@ -43,7 +42,7 @@ const LibraryContainer = styled.div`
 				.header {
 					width: 90%;
 					margin: 0 auto;
-					margin-bottom: 16px;
+					line-height: 3rem;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
