@@ -41,7 +41,7 @@ const SignIn = props => {
 
 			<div className="form-container">
 				<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
-					<h1>Sign in to Readrr</h1>
+					<h1 data-testid='sign-in-heading'>Sign in to Readrr</h1>
 					<p className="already">
 						Don't have an account?
 						<b
