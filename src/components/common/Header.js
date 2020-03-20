@@ -53,6 +53,9 @@ const Header = props => {
 	const dropdown = (
 		<Menu>
 			<Menu.Item>
+				<a href='https://github.com/Lambda-School-Labs/betterreads-fe/issues' target='_blank' rel="noopener noreferrer">Report a bug</a>
+			</Menu.Item>
+			<Menu.Item>
 				<a onClick={() => props.signOut(props.history)}>Sign out</a>
 			</Menu.Item>
 		</Menu>
