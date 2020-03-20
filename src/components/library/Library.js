@@ -11,7 +11,7 @@ import useDocumentTitle from '../hooks/useDocumentTitle'
 import useLibraryReadingStatus from '../hooks/useLibraryReadingStatus';
 
 const Library = props => {
-	useDocumentTitle(`Readrr - Library`);
+	useDocumentTitle('Readrr - Library');
 	
 	useEffect(() => {
 		props.fetchUsersBooks();
@@ -25,7 +25,6 @@ const Library = props => {
 	const toBeRead = props.userBooks.filter(item => item.readingStatus === 1);
 	const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
 	const finished = props.userBooks.filter(item => item.readingStatus === 3);
-	const favorites = props.userBooks.filter(item => item.favorite === true);
 
 	return (
 		<LibraryContainer>
