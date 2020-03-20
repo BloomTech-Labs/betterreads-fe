@@ -9,9 +9,7 @@ import LibraryContainer from './styles/LibraryStyle';
 import { PageView, Event } from '../../utils/tracking';
 import StatusShelfCarousel from '../common/StatusShelfCarousel';
 
-const Library = props => {
-	const { userBooks } = props;
-	
+const Library = props => {	
 	useDocumentTitle('Readrr - Library');
 	
 	useEffect(() => {
