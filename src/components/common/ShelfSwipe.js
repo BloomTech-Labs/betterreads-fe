@@ -6,8 +6,13 @@ import styled from 'styled-components'
 
 const Swiper = styled.div`
     .ant-carousel{
-        width: 100% !important;
+        width: 90% !important;
+        margin: 0 auto;
         
+        @media(min-width: 1120px) {
+            width: 100% !important;
+        }
+
         .slick-dots li button {
             background-color: #D24719 !important;
         }

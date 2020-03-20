@@ -38,6 +38,27 @@ const ShelfBookContainer = styled.div`
                 color: #868585;
                 cursor: pointer;
             }
+
+            .info-container{
+                display: flex;
+                flex-direction: column;
+                max-width: 335px;
+
+                .info-item {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    font-size: .8rem; 
+                    .info-title {
+                        width: 25%;
+                        font-weight: bold;
+                    }
+        
+                    .info-value {
+                        
+                    }
+                }
+            }
         }
 
         .genre-big-container {
@@ -70,6 +91,7 @@ const ShelfBookContainer = styled.div`
                 }
             }
         }
+
     }
 
     @media (min-width: 1120px) {
@@ -91,6 +113,7 @@ const ShelfBookContainer = styled.div`
                     display: none;
                 }
             }
+            
         }
     }
 `;
