@@ -6,7 +6,7 @@ import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
 import BookCard from '../common/BookCard';
 import MyShelf from '../common/MyShelf';
-import useDocumentTitle from '../hooks/useDocumentTitle';
+import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import ShelfBookContainer from './styles/ShelfBookStyle';
 
 const ShelfBook = props => {

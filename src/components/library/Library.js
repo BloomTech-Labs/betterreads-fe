@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
-import BookCard from '../common/BookCard';
 import MyShelf from '../common/MyShelf';
+import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
+import useLibraryReadingStatus from '../../utils/hooks/useLibraryReadingStatus';
 import LibraryContainer from './styles/LibraryStyle';
-import { PageView, Event } from '../tracking';
-import useDocumentTitle from '../hooks/useDocumentTitle'
-import useLibraryReadingStatus from '../hooks/useLibraryReadingStatus';
+import { PageView, Event } from '../../utils/tracking';
 
 const Library = props => {
 	useDocumentTitle('Readrr - Library');

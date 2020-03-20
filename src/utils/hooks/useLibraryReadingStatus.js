@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import BookCardList from '../common/BookCardList';
+import BookCardList from '../../components/common/BookCardList';
 
 function LibraryReadyStatus(title, books, crumbs, link, history) {
     const dispatch = useDispatch();

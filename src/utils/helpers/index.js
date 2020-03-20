@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { notification } from 'antd';
-import { Event } from '../tracking';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 

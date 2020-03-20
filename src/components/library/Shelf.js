@@ -7,7 +7,7 @@ import Breadcrumbs from '../common/Breadcrumbs';
 import ShelfNote from '../common/ShelfNote';
 import BookCardList from '../common/BookCardList';
 import MyShelf from '../common/MyShelf';
-import useDocumentTitle from '../hooks/useDocumentTitle';
+import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import styled from 'styled-components';
 
 const ShelfContainer = styled.div`
