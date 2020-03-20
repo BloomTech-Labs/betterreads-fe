@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { signOut } from '../../actions/authenticationActions';
 import styled from 'styled-components';
 import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
 
 const HeaderContainer = styled.div`
 	.header {
@@ -56,7 +55,7 @@ const Header = props => {
 				<a href='https://github.com/Lambda-School-Labs/betterreads-fe/issues' target='_blank' rel="noopener noreferrer">Report a bug</a>
 			</Menu.Item>
 			<Menu.Item>
-				<a onClick={() => props.signOut(props.history)}>Sign out</a>
+				<a href='#' onClick={() => props.signOut(props.history)}>Sign out</a>
 			</Menu.Item>
 		</Menu>
 	);

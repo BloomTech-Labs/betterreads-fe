@@ -4,8 +4,8 @@ const ShelfBookContainer = styled.div`
     .book-details {
         width: 90%;
         margin: 0 auto;
-        
-        .sc-AxiKw {
+
+        .sc-AxhUy {
             width: 100%;
         }
 

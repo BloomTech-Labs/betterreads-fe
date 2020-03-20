@@ -15,7 +15,7 @@ function LibraryReadyStatus(title, books, crumbs, link, history) {
             </div>
             <BookCardList history={history} books={books} source={'library'} />
         </div>
-    )
-}
+    );
+};
 
 export default LibraryReadyStatus;

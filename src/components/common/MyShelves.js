@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, setBreadcrumbs } from  '../../actions';
+import { fetchUsersBooks, setBreadcrumbs } from '../../actions';
 import styled from 'styled-components';
 import BookIcon from './BookIcon';
 import CreateNewShelfModal from './CreateNewShelfModal';
@@ -113,7 +113,7 @@ const MyShelvesContainer = styled.div`
     @media(min-width: 1120px) {
         width: 216px;
         margin: 0;
-        padding-top: 16px;
+        padding-top: ${props => props.source === 'shelf' ? '0' : '16px'};
         display: block;
 
         .shelves-container {
