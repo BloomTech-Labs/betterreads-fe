@@ -4,9 +4,9 @@ const BookCardContainer = styled.div`
     height: ${props => props.source === 'library' ? '148px' : ''};
     margin-top: ${props => props.source === 'library' ? '' : '4px'};
     margin-bottom: ${props => props.source === 'library' ? '16px' : ''};
-    padding: ${props => props.source === 'library' ? '' : '12px 0'};
+    padding: ${props => props.source === 'search' ? '12px 0' : ''};
     border: ${props => props.source === 'library' ? '1px solid #d9d9d9' : ''};
-    border-bottom: ${props => props.source === 'library' ? '' : '1px solid #d9d9d9'};
+    border-bottom: ${props => props.source === 'library' || props.source === 'recommendation' ? '' : '1px solid #d9d9d9'};
     border-radius: ${props => props.source === 'library' ? '4px' : ''};
     display: flex;
 
