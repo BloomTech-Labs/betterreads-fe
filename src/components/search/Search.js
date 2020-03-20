@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { PageView, Event } from '../tracking/';
 import Header from '../common/Header';
 import Breadcrumbs from '../common/Breadcrumbs';
 import SearchForm from './SearchForm';
@@ -10,6 +9,7 @@ import MyShelves from '../common/MyShelves';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import styled from 'styled-components';
 import { BackTop } from 'antd';
+import { PageView, Event } from '../../utils/tracking';
 
 const SearchContainer = styled.div`
 	.ant-back-top-content {
