@@ -1,60 +1,34 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import OnboardingQuiz from '../../components/authentication/OnboardingQuiz';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import logger from 'redux-logger';
 import thunk from 'redux-thunk';
-import combineReducer from '../../reducers';
+import reducer from '../../reducers';
+import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import OnboardingQuiz from '../../components/authentication/OnboardingQuiz';
 
-const testStore = createStore(combineReducer, applyMiddleware(thunk, logger));
+const renderWithRedux = (ui, { initialState, store = createStore(reducer, initialState, applyMiddleware(thunk)) } = {}) => {    
+	return {
+		...render(<Provider store={store}>{ui}</Provider>),
+		store
+	};
+};
 
-function renderWithRedux(
-    ui,
-    {initialState, store = testStore,} = {},
-   
-) {           
-    return {
-      ...render(<Provider store={store}>{ui}</Provider>),
-      // adding `store` to the returned utilities to allow us
-      // to reference it in our tests (just try to avoid using
-      // this to test implementation details).
-      store,
-    }
-  }
-
-test('OnboardingQuiz renders', () => {
+test('component renders', () => {
 	renderWithRedux(<OnboardingQuiz />);
 });
 
-test('onboarding adds a gere to the arry', () => {
-    const {getByTestId} = renderWithRedux(
-      <OnboardingQuiz />,
-     
-    );
-  
-   let checkedArr = [];
-    
-   fireEvent.click(getByTestId('genre test id 0'));
-  
-    expect(checkedArr.length === 1);
+test('check a genre', () => {
+    const { getByLabelText } = renderWithRedux(<OnboardingQuiz />);
+	const artCheckbox = getByLabelText('Art');
+	fireEvent.click(artCheckbox);
+	expect(artCheckbox).toBeChecked();
+});
 
-    fireEvent.click(getByTestId('genre test id 0'));
-  
-    expect(checkedArr.length === 0);
-  });
-
-  test('unchecking takes a gere from the arry', () => {
-    const {getByTestId} = renderWithRedux(
-      <OnboardingQuiz />,
-     
-    );
-   
-   let checkedArr = [];
-     
-   fireEvent.click(getByTestId('genre test id 0'));
-  
-   fireEvent.click(getByTestId('genre test id 0'));
-  
-    expect(checkedArr.length === 0);
-  });
+test('uncheck a genre', () => {
+	const { getByLabelText } = renderWithRedux(<OnboardingQuiz />);
+	const artCheckbox = getByLabelText('Art');
+	fireEvent.click(artCheckbox);
+	fireEvent.click(artCheckbox);
+	expect(artCheckbox).not.toBeChecked();
+});

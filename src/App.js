@@ -6,10 +6,11 @@ import SignIn from './components/authentication/SignIn';
 import SignUp from './components/authentication/SignUp';
 import Success from './components/authentication/Success';
 import Failure from './components/authentication/Failure';
-import Search from './components/search/Search';
-import Shelf from './components/library/Shelf';
-import ShelfBook from './components/library/ShelfBook';
 import PageNotFound from './components/authentication/PageNotFound';
+import Search from './components/search/Search';
+import ShelfBook from './components/library/ShelfBook';
+import Shelf from './components/library/Shelf';
+import Shelves from './components/library/Shelves';
 
 const App = () => {
 	return (
@@ -24,6 +25,7 @@ const App = () => {
 				<PrivateRoute path="/search" component={Search} />
 				<PrivateRoute path="/book/:id" component={ShelfBook} />
 				<PrivateRoute exact path="/shelf/:shelf" component={Shelf} />
+				<PrivateRoute exact path="/myshelves" component={Shelves} />
 				<Route component={PageNotFound} />
 			</Switch>
 		</Router>

@@ -1,7 +1,5 @@
-import React from 'react';
 import axios from 'axios';
 import { notification } from 'antd';
-import { Event } from '../tracking';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
@@ -9,34 +7,34 @@ export const updateBookItem = (userId, readrrId, inLibrary, book, action, favori
     let method = (inLibrary ? 'put' : 'post');
 
     let data;
-    if(inLibrary){
+    if (inLibrary) {
         data = {
             bookId: readrrId,
             readingStatus: parseInt(readingStatus),
             favorite: favorite
-        }
-    }else{
+        };
+    } else {
         data = {
             book,
             favorite: favorite, 
             readingStatus: parseInt(readingStatus)
-        }
-    }
+        };
+    };
 
-    if(parseInt(readingStatus) === 4){
+    if (parseInt(readingStatus) === 4) {
         method = action = 'delete';
         data = {
             bookId: readrrId
-        }   
-    }
+        };
+    };
 
-    // Save a book as a favorite or update its reading status
+    // save a book as a favorite or update its reading status
     return axios({
         method,
         url: `${API_URL}/api/${userId}/library`,
         data
     });
-}
+};
 
 export const sendUpTheFlares = (type, message, description) => {
     notification.open({
@@ -45,24 +43,23 @@ export const sendUpTheFlares = (type, message, description) => {
         description,
         duration: 1.5
     });   
-}
+};
 
 export const updateDates = (userId, readrrId, dateString, whichDate) => {
-
     let dateObj;
     // whichDate 0/true for start date 
     // 1/false for end date
-    if(!whichDate){
+    if (!whichDate) {
         dateObj = {
             bookId: readrrId,
             dateStarted: dateString
-        }
-    }else{
+        };
+    } else {
         dateObj = {
             bookId: readrrId,
             dateEnded: dateString
-        }
-    }
+        };
+    };
     
     return axios.put(`${API_URL}/api/${userId}/library`, dateObj);
-}
+};

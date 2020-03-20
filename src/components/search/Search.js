@@ -1,69 +1,49 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { PageView, Event } from '../tracking/';
 import Header from '../common/Header';
 import Breadcrumbs from '../common/Breadcrumbs';
 import SearchForm from './SearchForm';
-import BookList from '../common/BookList';
 import ShelfNote from '../common/ShelfNote';
-import SearchPagination from '../search/SearchPagination';
+import BookCardList from '../common/BookCardList';
+import MyShelves from '../common/MyShelves';
+import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import styled from 'styled-components';
-import ShelfContainer from '../common/ShelfContainer';
+import { BackTop } from 'antd';
+import { PageView, Event } from '../../utils/tracking';
 
-const Wrapper = styled.div`
-	@media (min-width: 1120px) {
-		.somethingClever{
-			width: 1120px;
-			margin: 0 auto;
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
+const SearchContainer = styled.div`
+	.ant-back-top-content {
+		background-color: rgba(84, 120, 98, 0.75);
+  	}
 
-			.bookList{
-				//width: 72%;
-				width: 687px;
-			}
-
-			.shelfList{
-				width: 26%;
-			}
-		}
-
-		.spinnerContainer {
-			width: 90%;
-			height: 100vh;
-			margin-top: 4rem;
-		}
+	@media(min-width: 1120px) {
+		width: 1120px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
 	}
 `;
 
 const Search = props => {
+	useDocumentTitle('Readrr - Search');
+
 	useEffect(() => {
 		Event('Search', 'loaded search', 'SEARCH_COMPONENT');
 		PageView();
 	}, []);
 	
 	return (
-		<Wrapper>
+		<>
 			<Header history={props.history} />	
 			<SearchForm history={props.history} />
-			<Breadcrumbs history={props.history} crumbs={[{label: "Search", path: null}]} />
-			{!props.searchResults.books && <ShelfNote note="Search for your favorite title or author." />}
-			{props.searchResults.books && <ShelfNote note={`${props.searchResults.books.totalItems} results for "${props.query}"`} />}
-			
-			<div className="somethingClever">
-				{!props.searchResults.books && <div className="bookList">&nbsp;</div>}	
-				{props.searchResults.books &&
-					<div className="bookList">
-						<BookList history={props.history} bookList={props.searchResults.books.items} count={props.searchResults.books.totalItems} query={props.query} />
-						<SearchPagination />
-					</div>
-				}
-				<div className="shelfList">
-					<ShelfContainer history={props.history} />
-				</div>
-			</div>
-		</Wrapper>
+			<Breadcrumbs history={props.history} crumbs={[{label: 'Search', path: null}]} />
+			{props.searchResults.books ? <ShelfNote note={`${props.searchResults.books.totalItems} results for "${props.query}"`} /> : <ShelfNote note='Search for your favorite title or author' />}
+			<SearchContainer>
+				<BackTop />
+				{props.searchResults.books ? <BookCardList history={props.history} books={props.searchResults.books.items} source={'search'} /> : <div></div>}
+				<MyShelves history={props.history} />
+			</SearchContainer>
+		</>
 	);
 };
 

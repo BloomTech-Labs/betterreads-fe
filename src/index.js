@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import reducer from './reducers/index';
 import App from './App';
 import './index.css';
-import { initGA } from './components/tracking';
+import { initGA } from './utils/tracking';
 
 (function initAnalytics() {
 	initGA('UA-159089625-1');
@@ -15,10 +15,7 @@ import { initGA } from './components/tracking';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(
-	reducer,
-	composeEnhancers(applyMiddleware(thunk, logger))
-);
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk, logger)));
 
 ReactDOM.render(
 	<Provider store={store}>

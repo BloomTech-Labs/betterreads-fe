@@ -5,20 +5,21 @@ import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
 import BookCard from '../common/BookCard';
-import ShelfBookContainer from './ShelfBookStyle';
-import BookIcon from '../common/BookIcon';
+import MyShelves from '../common/MyShelves';
+import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
+import ShelfBookContainer from './styles/ShelfBookStyle';
 
 const ShelfBook = props => {
+	useDocumentTitle('Readrr - Book details');
+
 	const [readMore, setReadMore] =  useState(false);
 
 	const googleID = props.match.params.id;
 
 	useEffect(() => {
-		props.fetchUsersBooks();	
+		// props.fetchUsersBooks();	
 		props.fetchCurrentBook(googleID);
 	}, []);
-
-	const favorites = props.userBooks.filter(item => item.favorite === true);
 	
 	return (
 		<>
@@ -27,52 +28,80 @@ const ShelfBook = props => {
 			<Breadcrumbs history={props.history} crumbs={props.breadcrumbs} />
 
 			<ShelfBookContainer readMore={readMore}>
-
 				<div className='book-details'>
 					<BookCard history={props.history} book={props.currentBook} source='search' />
 
-					<div className='description'>
-						<p className='heading'>Description</p>
-						<div className='content' data-testid='description' dangerouslySetInnerHTML={{__html: props.currentBook.description}}></div>
-						<p className='read-more' onClick={() => setReadMore(!readMore)}>{readMore ? 'Read less...' : 'Read more...'}</p>
-					</div>
-
-					<div className='genre-big-container'>
-						<div className='genre-small-container'>
-							<p className='heading'>Genres</p>
-							<div className='genres'>
-								{props.currentBook.categories && props.currentBook.categories.split(',').map((item, index) => <p className='genre' key={index}>{item}</p>)}
+					{
+						props.currentBook.description &&
+						(
+							<div className='description'>
+								<p className='heading'>Description</p>
+								<div className='content' data-testid='description' dangerouslySetInnerHTML={{__html: props.currentBook.description}}></div>
+								<p className='read-more' onClick={() => setReadMore(!readMore)}>{readMore ? 'Read less...' : 'Read more...'}</p>
 							</div>
+						)
+					}
+					
+					<div className='description' style={{paddingBottom: '1rem'}}>
+						<p className='heading' style={{fontSize: '1rem'}}>Information</p>
+						<div className="info-container">
+							{
+								props.currentBook.title &&
+								<div className="info-item">
+									<div className="info-title">Title:</div>
+									<div className="info-value">{props.currentBook.title && props.currentBook.title}</div>
+								</div>
+							}
+							{
+								props.currentBook.authors &&
+								<div className="info-item">
+									<div className="info-title">Author:</div>
+									<div className="info-value">{props.currentBook.authors && props.currentBook.authors}</div>
+								</div>
+							}
+							{
+								props.currentBook.publisher &&
+								<div className="info-item">
+									<div className="info-title">Publisher:</div>
+									<div className="info-value">{props.currentBook.publisher && props.currentBook.publisher}, {props.currentBook.publishedDate && props.currentBook.publishedDate.split('-')[0]}</div>
+								</div>
+							}
+							{
+								props.currentBook.isbn10 || props.currentBook.isbn13 &&
+								<div className="info-item">
+									<div className="info-title">ISBN:</div>
+									<div className="info-value">{props.currentBook.isbn10 && props.currentBook.isbn10}</div>
+								</div>
+							}
+							{
+								props.currentBook.pageCount &&
+								<div className="info-item">
+									<div className="info-title">Length:</div>
+									<div className="info-value">{props.currentBook.pageCount && props.currentBook.pageCount} pages</div>
+								</div>
+							}
 						</div>
 					</div>
+
+					{
+						props.currentBook.categories && (
+							<div className='genre-big-container'>
+								<div className='genre-small-container'>
+									<p className='heading'>Genres</p>
+									<div className='genres'>
+										{
+											props.currentBook.categories && 
+											props.currentBook.categories.split(',').map((item, index) => 
+												<p className='genre' key={index}>{item}</p>
+											)}
+									</div>
+								</div>
+							</div>
+						)
+					}
 				</div>
 
-				<div className="my-shelves">
-					<h2 onClick={() => props.history.push('/')}>My Shelves</h2>
-					<p className="create-shelves">Create shelves and add books to your custom shelf.</p>
-					{/* <button className="create-new-shelf-button">Create new shelf</button> */}
-
-					<div className="shelves-container">
-						<div className="shelf" onClick={() => {
-							props.setBreadcrumbs([{ label: 'All books', path: '/shelf/allbooks' }, { label: 'Book details', path: null }]);
-							props.history.push('/shelf/allbooks');
-						}}>
-							<p className="shelf-name">All books</p>
-							<BookIcon height="40px" width="40px" fill="#d9d9d9" />
-							{props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
-						</div>
-
-						<div className="shelf" onClick={() => {
-							props.setBreadcrumbs([{ label: 'Favorites', path: '/shelf/favorites' }, { label: 'Book details', path: null }]);
-							props.history.push('/shelf/favorites');
-						}}>
-							<p className="shelf-name">Favorites</p>
-							<BookIcon height="40px" width="40px" fill="#d9d9d9" />
-							{favorites.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{favorites.length} books</p>}
-						</div>
-					</div>
-				</div>
-
+				<MyShelves history={props.history} />
 			</ShelfBookContainer>
 		</>
 	);
