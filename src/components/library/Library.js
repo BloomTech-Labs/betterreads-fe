@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
-import MyShelf from '../common/MyShelf';
+import MyShelves from '../common/MyShelves';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import useLibraryReadingStatus from '../../utils/hooks/useLibraryReadingStatus';
 import LibraryContainer from './styles/LibraryStyle';
@@ -54,7 +54,7 @@ const Library = props => {
 					<ShelfSwipe title="Recommendations" bookList={props.userBooks} history={props.history} breadcrumbs={[{ label: "Recommendations", path: "/shelf/recommendations" }, { label: "Book details", path: null }]} />					
 				</div>
 
-				<MyShelf history={props.history} source={'library'} />
+				<MyShelves history={props.history} source={'library'} />
 			</div>
 		</LibraryContainer>
 	);

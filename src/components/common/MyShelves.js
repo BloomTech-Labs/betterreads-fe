@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { fetchUsersBooks, setBreadcrumbs } from  '../../actions';
 import styled from 'styled-components';
 import BookIcon from './BookIcon';
-import CreateNewShelf from '../common/CreateNewShelf';
+import CreateNewShelfModal from './CreateNewShelfModal';
 
-const MyShelfContainer = styled.div`
+const MyShelvesContainer = styled.div`
     max-width: 1120px;
     width: 90%;
     margin: 0 auto;
@@ -135,7 +135,7 @@ const MyShelfContainer = styled.div`
     }
 `;
 
-const MyShelf = props => {
+const MyShelves = props => {
     useEffect(() => {
         props.fetchUsersBooks();
     }, []);
@@ -144,11 +144,11 @@ const MyShelf = props => {
 	const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
 
     return (
-        <MyShelfContainer source={props.source}>
+        <MyShelvesContainer source={props.source}>
             <div className="my-shelves">
                 <h2 onClick={() => props.history.push('/')}>My Shelves</h2>
                 <p className="create-shelves">Create shelves and add books to your custom shelf.</p>
-                <CreateNewShelf history={props.history} />
+                <CreateNewShelfModal history={props.history} />
 
                 <div className="shelves-container">
                     <div className="shelf" onClick={() => {
@@ -191,7 +191,7 @@ const MyShelf = props => {
                     })}*/}
                 </div>
             </div>
-        </MyShelfContainer>
+        </MyShelvesContainer>
     );
 };
 
@@ -201,4 +201,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, { fetchUsersBooks, setBreadcrumbs })(MyShelf);
+export default connect(mapStateToProps, { fetchUsersBooks, setBreadcrumbs })(MyShelves);

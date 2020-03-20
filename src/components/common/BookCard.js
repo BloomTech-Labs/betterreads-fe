@@ -12,7 +12,7 @@ import {
 } from '../../actions/index';
 import { updateBookItem, updateDates, sendUpTheFlares } from '../../utils/helpers';
 import moment from 'moment';
-import BookCardContainer from './BookCardStyle';
+import BookCardContainer from './styles/BookCardStyle';
 import BookIcon from '../common/BookIcon';
 import { Button, Rate, Menu, Dropdown, DatePicker } from 'antd';
 import DownOutlined from '@ant-design/icons/DownOutlined';

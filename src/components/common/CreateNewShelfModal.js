@@ -4,7 +4,7 @@ import { createUserShelf } from '../../actions/libraryActions';
 import styled from 'styled-components';
 import { Modal, Input, Checkbox } from 'antd';
 
-const CreateNewShelfContainer = styled.div`
+const CreateNewShelfModalContainer = styled.div`
 	button {
         width: 100%;
         margin-bottom: 16px;
@@ -31,7 +31,7 @@ const CreateNewShelfContainer = styled.div`
 	}
 `;
 
-const CreateNewShelf = props => {
+const CreateNewShelfModal = props => {
     const [modal, setModal] = useState({
         visible: false,
         confirmLoading: false,
@@ -90,15 +90,15 @@ const CreateNewShelf = props => {
 	};
   
     return (
-        <CreateNewShelfContainer>
+        <CreateNewShelfModalContainer>
 			<button onClick={showModal}>Create new shelf</button>
 
 			<Modal title='Create new shelf' visible={modal.visible} onOk={handleOk} onCancel={handleCancel}>
 				<Input size='large' placeholder='Enter shelf name' value={modal.name} onChange={handleChange} />
 				<Checkbox checked={modal.isPrivate} onChange={handleCheck}>Private</Checkbox>
 			</Modal>
-		</CreateNewShelfContainer>
+		</CreateNewShelfModalContainer>
 	);
 };
 
-export default connect(null, { createUserShelf })(CreateNewShelf);
+export default connect(null, { createUserShelf })(CreateNewShelfModal);

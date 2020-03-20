@@ -6,7 +6,7 @@ import Breadcrumbs from '../common/Breadcrumbs';
 import SearchForm from './SearchForm';
 import ShelfNote from '../common/ShelfNote';
 import BookCardList from '../common/BookCardList';
-import MyShelf from '../common/MyShelf';
+import MyShelves from '../common/MyShelves';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import styled from 'styled-components';
 import { BackTop } from 'antd';
@@ -41,7 +41,7 @@ const Search = props => {
 			<SearchContainer>
 				<BackTop />
 				{props.searchResults.books ? <BookCardList history={props.history} books={props.searchResults.books.items} source={'search'} /> : <div></div>}
-				<MyShelf history={props.history} />
+				<MyShelves history={props.history} />
 			</SearchContainer>
 		</>
 	);
