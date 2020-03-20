@@ -4,8 +4,7 @@ import {
     CREATE_USER_SHELF_FAILURE,
     ADD_BOOK_TO_SHELF, 
     DELETE_BOOK_FROM_SHELF,
-    MOVE_BOOK_TO_DIFFERENT_SHELF
-} from '../actions/types'
+    } from '../actions/types'
 
 export const reducer = (state = initialState, action) => {
 	switch (action.type) {
