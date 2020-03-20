@@ -40,7 +40,7 @@ const Library = props => {
 
 			<div className='reading-status-and-my-shelves-container'>
 				<div className="reading-status-container">
-					{props.userBooks && props.userBooks.length > 0 && (
+					{props.userBooks && (
 						<>
 							<StatusShelfCarousel title="In progress" display="card" bookList={inProgress} link="/shelf/inprogress" breadcrumbs={[{ label: "In progress", path: "/shelf/inprogress" }, { label: "Book details", path: null }]} history={props.history} />
 							<StatusShelfCarousel title="To be read" display="card" bookList={toBeRead} breadcrumbs={[{ label: "To be read", path: "/shelf/toberead" }, { label: "Book details", path: null }]} link="/shelf/toberead" history={props.history} />
