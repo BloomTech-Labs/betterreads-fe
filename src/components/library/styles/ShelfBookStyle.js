@@ -5,7 +5,7 @@ const ShelfBookContainer = styled.div`
         width: 90%;
         margin: 0 auto;
 
-        .sc-AxhUy {
+        .sc-AxgMl {
             width: 100%;
         }
 
