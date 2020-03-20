@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { fetchUsersShelves } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
 import MyShelves from '../common/MyShelves';
+import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import styled from 'styled-components';
 
 const ShelvesContainer = styled.div`
@@ -25,6 +28,10 @@ const ShelvesContainer = styled.div`
 `;
 
 const Shelves = props => {
+    useDocumentTitle('Readrr - My Shelves');
+
+    // useEffect(() => props.fetchUsersShelves(), []);
+
     return (
         <>
             <Header history={props.history} />
@@ -40,4 +47,4 @@ const Shelves = props => {
     );
 };
 
-export default Shelves;
+export default connect(null, { fetchUsersShelves })(Shelves);
