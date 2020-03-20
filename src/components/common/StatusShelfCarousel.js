@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { setBreadcrumbs} from '../../actions/bookActions';
 import BookCard from './BookCard';
+import BookCardList from './BookCardList';
 import { Carousel } from 'antd';
 import styled from 'styled-components'
-import { setBreadcrumbs} from '../../actions/bookActions';
-import BookCardList from './BookCardList';
 
 const Swiper = styled.div`
     padding-bottom: 16px;
