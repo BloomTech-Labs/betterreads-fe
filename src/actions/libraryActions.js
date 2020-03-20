@@ -66,8 +66,8 @@ export const deleteUserBook = googleId => dispatch => {
 	dispatch({ type: DELETE_USER_BOOK, payload: googleId });
 };
 
-export const moveBookFromShelf = bookId => displatch => {
-	displatch({ type: MOVE_BOOK_FROM_SHELF, payload: bookId})
+export const moveBookFromShelf = bookId => dispatch => {
+	dispatch({ type: MOVE_BOOK_FROM_SHELF, payload: bookId})
 };
 
 // fetches shelf's books, release canvas 2, custom shelves
