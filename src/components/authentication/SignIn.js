@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { signIn, resetError } from '../../actions/authenticationActions';
-import SignInContainer from './SignInStyle';
+import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
+import SignInContainer from './styles/SignInStyle';
 import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';
-import { PageView, Event } from '../tracking/';
+import { PageView, Event } from '../../utils/tracking';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 const SignIn = props => {
+	useDocumentTitle('Readrr - A platform for readers');
+
 	const [input, setInput] = useState({
 		emailAddress: '',
 		password: ''
@@ -38,7 +41,7 @@ const SignIn = props => {
 
 			<div className="form-container">
 				<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
-					<h1>Sign in to Readrr</h1>
+					<h1 data-testid='sign-in-heading'>Sign in to Readrr</h1>
 					<p className="already">
 						Don't have an account?
 						<b

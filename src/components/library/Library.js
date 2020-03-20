@@ -3,21 +3,19 @@ import { connect } from 'react-redux';
 import { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
-import BookCard from '../common/BookCard';
-import MyShelf from '../common/MyShelf';
+import MyShelves from '../common/MyShelves';
+import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import LibraryContainer from './styles/LibraryStyle';
-import BookIcon from '../common/BookIcon';
-import { PageView, Event } from '../tracking';
-import useDocumentTitle from '../hooks/useDocumentTitle'
+import { PageView, Event } from '../../utils/tracking';
 import StatusShelfCarousel from '../common/StatusShelfCarousel';
 
 const Library = props => {
-	useDocumentTitle(`Readrr - Library`);
+	useDocumentTitle('Readrr - Library');
 	
 	useEffect(() => {
-		props.fetchUsersBooks();
+		// props.fetchUsersBooks();
 		props.setBreadcrumbs([{ label: 'Book details', path: null }]);
-		// props.fetchUsersShelves(localStorage.getItem('id'));
+		// props.fetchUsersShelves();
 		Event('Library', 'User library loaded', 'LIBRARY');
 		PageView();
 	}, []);
@@ -26,7 +24,6 @@ const Library = props => {
 	const toBeRead = props.userBooks.filter(item => item.readingStatus === 1);
 	const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
 	const finished = props.userBooks.filter(item => item.readingStatus === 3);
-	const favorites = props.userBooks.filter(item => item.favorite === true);
 
 	return (
 		<LibraryContainer>
@@ -57,7 +54,7 @@ const Library = props => {
 					
 				</div>
 
-				<MyShelf history={props.history} source={'library'} />
+				<MyShelves history={props.history} source={'library'} />
 			</div>
 		</LibraryContainer>
 	);

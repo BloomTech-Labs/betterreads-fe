@@ -39,49 +39,49 @@ export const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				userBooks: state.userBooks.map(book => {
-					if(book.bookId === action.payload){
+					if (book.bookId === action.payload) {
 						return {
 							...book, 
 							favorite: !book.favorite
-						}
-					}else{
-						return book
-					}
+						};
+					} else {
+						return book;
+					};
 				})
-			}
+			};
 
 		case UPDATE_BOOK_READING_STATUS:
 			return {
 				...state,
 				userBooks: state.userBooks.map(book => {
-					if(book.bookId === action.payload.bookId){
+					if (book.bookId === action.payload.bookId) {
 						return {
 							...book, 
 							readingStatus: parseInt(action.payload.status)
-						}
-					}else{
-						return book
-					}
+						};
+					} else {
+						return book;
+					};
 				})
-			}
+			};
 
 		case ADD_BOOK_TO_LIBRARY:
 			return {
 				...state,
 				userBooks: [...state.userBooks, action.payload]
-			}
+			};
 		
 		case DELETE_USER_BOOK:
 			return{
 				...state,
 				userBooks: [...state.userBooks.filter(b => b.bookId !== action.payload)]
-			}
+			};
 
 		case MOVE_BOOK_FROM_SHELF:
 			return {
 				...state,
 				currentShelf: [...state.currentShelf.filter(b => b.bookId !== action.payload)]
-			}
+			};
 		
 		default:
 			return state;

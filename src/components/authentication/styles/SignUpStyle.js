@@ -1,15 +1,15 @@
 import styled from 'styled-components';
-import mobilesigninbanner from '../../img/mobile-sign-in-banner.jpg';
-import desktopbanner from '../../img/desktop-banner.jpg';
+import mobilesignupbanner from '../../../img/mobile-sign-up-banner.jpg';
+import desktopbanner from '../../../img/desktop-banner.jpg';
 
-const SignInContainer = styled.div`
+const SignUpContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 
 	.banner {
-		height: 165px;
-		margin-bottom: 32px;
-		background: url(${mobilesigninbanner});
+		height: 75px;
+		margin-bottom: 4px;
+		background: url(${mobilesignupbanner});
 		background-size: cover;
 		background-position: center;
 	}
@@ -23,16 +23,17 @@ const SignInContainer = styled.div`
 			flex-direction: column;
 
 			h1 {
-				margin-bottom: 0;
+				margin-bottom: 4px;
 				font-family: 'Frank Ruhl Libre', sans-serif;
 				font-weight: bold;
 				font-size: 2rem;
 				color: #547862;
 				line-height: 40px;
+				white-space: nowrap;
 			}
 
 			.already {
-				margin-bottom: 32px;
+				margin-bottom: 28px;
 				font-family: 'Open Sans', sans-serif;
 				font-size: 0.875rem;
 				color: #868585;
@@ -74,9 +75,8 @@ const SignInContainer = styled.div`
 				line-height: 0;
 			}
 
-			.sign-in {
-				margin-top: 16px;
-				margin-bottom: 16px;
+			.sign-up {
+				margin: 16px 0;
 				padding: 8px 12px;
 				background-color: #d24719;
 				border: none;
@@ -124,7 +124,7 @@ const SignInContainer = styled.div`
 
 				.google-button {
 					width: 100%;
-					margin-bottom: 16px;
+					margin-bottom: 8px;
 					padding: 8px 12px;
 					background-color: #ffffff;
 					border: 1px solid #bfbfbf;
@@ -142,6 +142,27 @@ const SignInContainer = styled.div`
 					img {
 						margin-right: 8px;
 					}
+				}
+			}
+
+			.policy {
+				width: 70%;
+				margin: 0 auto;
+				margin-bottom: 16px;
+				font-family: 'Open Sans', sans-serif;
+				font-size: 0.625rem;
+				color: #868585;
+				line-height: 15px;
+				text-align: center;
+			}
+		}
+	}
+
+	@media (min-width: 375px) {
+		.form-container {
+			form {
+				.policy {
+					width: 60%;
 				}
 			}
 		}
@@ -167,19 +188,18 @@ const SignInContainer = styled.div`
 
 			form {
 				h1 {
-					margin-bottom: 16px;
+					margin-bottom: 8px;
 					font-size: 2.625rem;
-					line-height: 40px;
-					white-space: nowrap;
+					line-height: 46px;
 				}
 
 				.already {
-					margin-bottom: 48px;
+					margin-bottom: 16px;
 					font-size: 1.125rem;
 					line-height: 28px;
 				}
 
-				.sign-in {
+				.sign-up {
 					margin-bottom: 24px;
 				}
 
@@ -192,9 +212,17 @@ const SignInContainer = styled.div`
 						margin-bottom: 16px;
 					}
 				}
+
+				.policy {
+					width: 100%;
+					margin: 0;
+					font-size: 0.6875rem;
+					line-height: 16px;
+					text-align: left;
+				}
 			}
 		}
 	}
 `;
 
-export default SignInContainer;
+export default SignUpContainer;

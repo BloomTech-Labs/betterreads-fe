@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signOut } from '../../actions/authenticationActions';
 import styled from 'styled-components';
+import { Menu, Dropdown } from 'antd';
 
 const HeaderContainer = styled.div`
 	.header {
@@ -48,19 +49,34 @@ const HeaderContainer = styled.div`
 `;
 
 const Header = props => {
+	const dropdown = (
+		<Menu>
+			<Menu.Item>
+				<a href='https://github.com/Lambda-School-Labs/betterreads-fe/issues' target='_blank' rel="noopener noreferrer">Report a bug</a>
+			</Menu.Item>
+			<Menu.Item>
+				<a href='#' onClick={() => props.signOut(props.history)}>Sign out</a>
+			</Menu.Item>
+		</Menu>
+	);
+
 	return (
 		<HeaderContainer>
-			<div className="header">
+			<div className='header'>
 				<h1 onClick={() => props.history.push('/')}>Readrr</h1>
 
 				{(!localStorage.getItem('image') || localStorage.getItem('image') === 'null') && (
-					<div className="default-profile-icon" onClick={() => props.signOut(props.history)}>
-						<i className="fas fa-user"></i>
-					</div>
+					<Dropdown overlay={dropdown} trigger={['click']} >
+						<div className='default-profile-icon ant-dropdown-link'>
+							<i className='fas fa-user'></i>
+						</div>
+					</Dropdown>
 				)}
 
 				{localStorage.getItem('image') && localStorage.getItem('image') !== 'null' && (
-					<img src={localStorage.getItem('image')} alt="profile icon" onClick={() => props.signOut(props.history)} />
+					<Dropdown overlay={dropdown} trigger={['click']} >
+						<img className='ant-dropdown-link' src={localStorage.getItem('image')} alt="profile icon" />
+					</Dropdown>
 				)}
 			</div>
 		</HeaderContainer>

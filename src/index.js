@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import reducer from './reducers/index';
 import App from './App';
 import './index.css';
-import { initGA } from './components/tracking';
+import { initGA } from './utils/tracking';
 
 (function initAnalytics() {
 	initGA('UA-159089625-1');

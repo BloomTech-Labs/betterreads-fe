@@ -5,17 +5,19 @@ import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
 import BookCard from '../common/BookCard';
-import MyShelf from '../common/MyShelf';
-import ShelfBookContainer from './ShelfBookStyle';
-import { Descriptions } from 'antd';
+import MyShelves from '../common/MyShelves';
+import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
+import ShelfBookContainer from './styles/ShelfBookStyle';
 
 const ShelfBook = props => {
+	useDocumentTitle('Readrr - Book details');
+
 	const [readMore, setReadMore] =  useState(false);
 
 	const googleID = props.match.params.id;
 
 	useEffect(() => {
-		props.fetchUsersBooks();	
+		// props.fetchUsersBooks();	
 		props.fetchCurrentBook(googleID);
 	}, []);
 	
@@ -99,7 +101,7 @@ const ShelfBook = props => {
 					}
 				</div>
 
-				<MyShelf history={props.history} />
+				<MyShelves history={props.history} />
 			</ShelfBookContainer>
 		</>
 	);

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from 'react-redux';
 import {
-    fetchUsersBooks,
 	fetchUsersShelves,
     getGoogleResults,
     deleteUserBook,
@@ -10,15 +9,15 @@ import {
     updateBookReadingStatus,
     moveBookFromShelf
 } from '../../actions/index';
-import { updateBookItem, updateDates, sendUpTheFlares } from '../helpers';
+import { updateBookItem, updateDates, sendUpTheFlares } from '../../utils/helpers';
 import moment from 'moment';
-import BookCardContainer from './BookCardStyle';
+import BookCardContainer from './styles/BookCardStyle';
 import BookIcon from '../common/BookIcon';
-import { Button, Rate, Menu, Dropdown, notification, DatePicker } from 'antd';
+import { Button, Rate, Menu, Dropdown, DatePicker } from 'antd';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
-import { Event } from '../tracking';
+import { Event } from '../../utils/tracking';
 
 const BookCard = props => {
     const { googleId } = props.book;
@@ -193,7 +192,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-	fetchUsersBooks,
 	fetchUsersShelves,
     getGoogleResults,
     deleteUserBook,

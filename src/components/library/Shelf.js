@@ -5,9 +5,9 @@ import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
 import ShelfNote from '../common/ShelfNote';
-import ShelfList from '../library/ShelfList';
 import BookCardList from '../common/BookCardList';
-import MyShelf from '../common/MyShelf';
+import MyShelves from '../common/MyShelves';
+import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import styled from 'styled-components';
 
 const ShelfContainer = styled.div`
@@ -20,6 +20,8 @@ const ShelfContainer = styled.div`
 `;
 
 const Shelf = props => {
+	useDocumentTitle('Readrr - Shelf');
+
 	const shelf = props.match.params.shelf;
 
 	useEffect(() => {
@@ -46,13 +48,11 @@ const Shelf = props => {
 			<Header history={props.history} />
 			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={[{ label, path: null }]} />
-			<ShelfNote type="allbooks" count={props.userBooks.length} />
-			{/* <ShelfList history={props.history} shelf={shelf} /> */}
+			<ShelfNote type='allbooks' count={props.userBooks.length} />
 			<ShelfContainer>
 				<BookCardList history={props.history} books={props.currentShelf} source={'library'} />
-				<MyShelf history={props.history} />
+				<MyShelves history={props.history} source={'shelf'} />
 			</ShelfContainer>
-
 		</>
 	);
 };
