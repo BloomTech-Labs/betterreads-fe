@@ -139,7 +139,7 @@ const BookCard = props => {
     );
 
 	return (
-		<BookCardContainer thumbnail={props.book.thumbnail || props.book.smallThumbnail} source={props.source} data-library={inLibrary} data-book={props.book.googleId}>
+		<BookCardContainer thumbnail={props.book.thumbnail || props.book.smallThumbnail} source={props.source} conWidth={props.source === 'recommendation' ? '88px' : '335px'} data-library={inLibrary} data-book={props.book.googleId}>
 			<div className="thumbnail-container">
                 <div className='thumbnail' onClick={() => {
                     props.history.push(`/book/${googleId}`);

@@ -50,7 +50,7 @@ const BookCardContainer = styled.div`
         height: ${props => props.source === 'library' ? '148px' : '128px'};
         width: 100%;
         padding: 12px;
-        display: flex;
+        display: ${props => props.source === 'recommendation' ? 'none' : 'flex'};
         flex-direction: column;
         justify-content: space-between;
 
@@ -130,7 +130,7 @@ const BookCardContainer = styled.div`
     }
 
     @media(min-width: 1120px) {
-        width: 335px;
+        width: ${props => props.conWidth || '335px'};
     }
 `;
 

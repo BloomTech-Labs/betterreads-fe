@@ -31,20 +31,74 @@ const ShelfBook = props => {
 				<div className='book-details'>
 					<BookCard history={props.history} book={props.currentBook} source='search' />
 
-					<div className='description'>
-						<p className='heading'>Description</p>
-						<div className='content' data-testid='description' dangerouslySetInnerHTML={{__html: props.currentBook.description}}></div>
-						<p className='read-more' onClick={() => setReadMore(!readMore)}>{readMore ? 'Read less...' : 'Read more...'}</p>
-					</div>
-
-					<div className='genre-big-container'>
-						<div className='genre-small-container'>
-							<p className='heading'>Genres</p>
-							<div className='genres'>
-								{props.currentBook.categories && props.currentBook.categories.split(',').map((item, index) => <p className='genre' key={index}>{item}</p>)}
+					{
+						props.currentBook.description &&
+						(
+							<div className='description'>
+								<p className='heading'>Description</p>
+								<div className='content' data-testid='description' dangerouslySetInnerHTML={{__html: props.currentBook.description}}></div>
+								<p className='read-more' onClick={() => setReadMore(!readMore)}>{readMore ? 'Read less...' : 'Read more...'}</p>
 							</div>
+						)
+					}
+					
+					<div className='description' style={{paddingBottom: '1rem'}}>
+						<p className='heading' style={{fontSize: '1rem'}}>Information</p>
+						<div className="info-container">
+							{
+								props.currentBook.title &&
+								<div className="info-item">
+									<div className="info-title">Title:</div>
+									<div className="info-value">{props.currentBook.title && props.currentBook.title}</div>
+								</div>
+							}
+							{
+								props.currentBook.authors &&
+								<div className="info-item">
+									<div className="info-title">Author:</div>
+									<div className="info-value">{props.currentBook.authors && props.currentBook.authors}</div>
+								</div>
+							}
+							{
+								props.currentBook.publisher &&
+								<div className="info-item">
+									<div className="info-title">Publisher:</div>
+									<div className="info-value">{props.currentBook.publisher && props.currentBook.publisher}, {props.currentBook.publishedDate && props.currentBook.publishedDate.split('-')[0]}</div>
+								</div>
+							}
+							{
+								props.currentBook.isbn10 || props.currentBook.isbn13 &&
+								<div className="info-item">
+									<div className="info-title">ISBN:</div>
+									<div className="info-value">{props.currentBook.isbn10 && props.currentBook.isbn10}</div>
+								</div>
+							}
+							{
+								props.currentBook.pageCount &&
+								<div className="info-item">
+									<div className="info-title">Length:</div>
+									<div className="info-value">{props.currentBook.pageCount && props.currentBook.pageCount} pages</div>
+								</div>
+							}
 						</div>
 					</div>
+
+					{
+						props.currentBook.categories && (
+							<div className='genre-big-container'>
+								<div className='genre-small-container'>
+									<p className='heading'>Genres</p>
+									<div className='genres'>
+										{
+											props.currentBook.categories && 
+											props.currentBook.categories.split(',').map((item, index) => 
+												<p className='genre' key={index}>{item}</p>
+											)}
+									</div>
+								</div>
+							</div>
+						)
+					}
 				</div>
 
 				<MyShelf history={props.history} />

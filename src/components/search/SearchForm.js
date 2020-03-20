@@ -30,7 +30,6 @@ const Wrapper = styled.div`
 
 const SearchForm = props => {
 	const handleChange = e => {
-        console.log(e)
 		props.setQuery(e.target.value);
 	};
 
