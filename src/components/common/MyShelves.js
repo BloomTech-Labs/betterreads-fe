@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, setBreadcrumbs } from  '../../actions';
+import { fetchUsersBooks, setBreadcrumbs } from '../../actions';
 import styled from 'styled-components';
 import BookIcon from './BookIcon';
 import CreateNewShelfModal from './CreateNewShelfModal';

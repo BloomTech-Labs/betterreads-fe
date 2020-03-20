@@ -6,9 +6,7 @@ import {
 	UPDATE_BOOK_READING_STATUS,
 	ADD_BOOK_TO_LIBRARY,
 	DELETE_USER_BOOK,
-	MOVE_BOOK_FROM_SHELF,
-	CREATE_USER_SHELF,
-	CREATE_USER_SHELF_FAILURE
+	MOVE_BOOK_FROM_SHELF
 } from './types';
 import axios from 'axios';
 
@@ -44,8 +42,8 @@ export const setCurrentShelf = shelf => dispatch => {
 		.catch(error => console.log(error));
 };
 
-export const fetchUsersShelves = userID => dispatch => {
-	axios.get(`${API_URL}/api/shelves/user/${userID}`)
+export const fetchUsersShelves = () => dispatch => {
+	axios.get(`${API_URL}/api/shelves/user/${localStorage.getItem('id')}`)
 		.then(response => dispatch({ type: FETCH_USERS_SHELVES, payload: response.data }))
 		.catch(error => console.log(error));
 };

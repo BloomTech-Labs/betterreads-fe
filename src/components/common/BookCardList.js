@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import BookCard from './BookCard';
 import SearchPagination from '../search/SearchPagination';
 import styled from 'styled-components';

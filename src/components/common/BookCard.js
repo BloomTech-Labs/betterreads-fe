@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from 'react-redux';
 import {
-    fetchUsersBooks,
 	fetchUsersShelves,
     getGoogleResults,
     deleteUserBook,
@@ -193,7 +192,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-	fetchUsersBooks,
 	fetchUsersShelves,
     getGoogleResults,
     deleteUserBook,

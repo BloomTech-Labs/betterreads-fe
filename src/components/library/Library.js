@@ -15,9 +15,9 @@ const Library = props => {
 	useDocumentTitle('Readrr - Library');
 	
 	useEffect(() => {
-		props.fetchUsersBooks();
+		// props.fetchUsersBooks();
 		props.setBreadcrumbs([{ label: 'Book details', path: null }]);
-		// props.fetchUsersShelves(localStorage.getItem('id'));
+		// props.fetchUsersShelves();
 		Event('Library', 'User library loaded', 'LIBRARY');
 		PageView();
 	}, []);
