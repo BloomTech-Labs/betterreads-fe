@@ -40,7 +40,7 @@ const Search = props => {
 			{props.searchResults.books ? <ShelfNote note={`${props.searchResults.books.totalItems} results for "${props.query}"`} /> : <ShelfNote note='Search for your favorite title or author' />}
 			<SearchContainer>
 				<BackTop />
-				{props.searchResults.books ? <BookCardList history={props.history} books={props.searchResults.books.items} source={'search'} /> : <div></div>}
+				{props.searchResults.books && !props.fetching ? <BookCardList history={props.history} books={props.searchResults.books.items} source={'search'} /> : <div></div>}
 				<MyShelves history={props.history} />
 			</SearchContainer>
 		</>

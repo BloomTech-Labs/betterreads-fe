@@ -1,7 +1,8 @@
-import { FETCH_SEARCH_START, FETCH_SEARCH_SUCCESS, FETCH_SEARCH_FAILURE, CLEAR_SEARCH_RESULTS, SET_QUERY, LOAD_MORE } from '../actions/types';
+import { FETCH_SEARCH_START, FETCH_SEARCH_SUCCESS, FETCH_SEARCH_FAILURE, CLEAR_SEARCH_RESULTS, SET_QUERY, LOAD_MORE, FETCH_LOAD_MORE } from '../actions/types';
 
 export const initialState = {
 	fetching: false,
+	fetchMore: false,
 	error: '',
 	searchResults: {},
 	query: ''
@@ -42,10 +43,16 @@ export const reducer = (state = initialState, action) => {
 				query: action.payload
 			};
 
+		case FETCH_LOAD_MORE: 
+			return {
+				...state,
+				fetchMore: true
+			}
+
 		case LOAD_MORE:
 			return {
 				...state,
-				fetching: false,
+				fetchMore: false,
 				searchResults: {
 					books: {
 						...state.searchResults.books,

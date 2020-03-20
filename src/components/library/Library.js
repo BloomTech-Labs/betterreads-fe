@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs } from '../../actions';
+import { fetchUsersBooks, fetchUsersShelves, setBreadcrumbs } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import MyShelves from '../common/MyShelves';
@@ -70,4 +70,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchUsersBooks, fetchUsersShelves, getGoogleResults, setBreadcrumbs })(Library);
+export default connect(mapStateToProps, { fetchUsersBooks, fetchUsersShelves, setBreadcrumbs })(Library);
