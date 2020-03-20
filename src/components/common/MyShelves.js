@@ -146,7 +146,7 @@ const MyShelves = props => {
     return (
         <MyShelvesContainer source={props.source}>
             <div className="my-shelves">
-                <h2 onClick={() => props.history.push('/')}>My Shelves</h2>
+                <h2 onClick={() => props.history.push('/myshelves')}>My Shelves</h2>
                 <p className="create-shelves">Create shelves and add books to your custom shelf.</p>
                 <CreateNewShelfModal history={props.history} />
 
@@ -178,7 +178,7 @@ const MyShelves = props => {
                         {props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
                     </div>
 
-                    <button className='view-all-my-shelves-button' onClick={() => props.history.push('/shelves')}>View all shelves</button>
+                    <button className='view-all-my-shelves-button' onClick={() => props.history.push('/myshelves')}>View all shelves</button>
 
                     {/* {props.userShelves.map(item => {
                         return (
