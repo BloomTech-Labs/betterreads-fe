@@ -6,9 +6,12 @@ import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
 import BookCard from '../common/BookCard';
 import MyShelf from '../common/MyShelf';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 import ShelfBookContainer from './styles/ShelfBookStyle';
 
 const ShelfBook = props => {
+	useDocumentTitle('Readrr - Book details');
+
 	const [readMore, setReadMore] =  useState(false);
 
 	const googleID = props.match.params.id;
