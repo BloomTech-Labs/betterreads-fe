@@ -2,7 +2,8 @@ import {
     FETCH_SEARCH_START,
     FETCH_SEARCH_SUCCESS,
     FETCH_SEARCH_FAILURE,
-    LOAD_MORE,
+	LOAD_MORE,
+	FETCH_LOAD_MORE,
     CLEAR_SEARCH_RESULTS,
     SET_QUERY
 } from './types';
@@ -46,7 +47,7 @@ export const getGoogleResults = search => dispatch => {
 };
 
 export const loadMore = (query, offset) => dispatch => {
-	dispatch({ type: FETCH_SEARCH_START });
+	dispatch({ type: FETCH_LOAD_MORE });
 	axios.get(`${googleBooksURL}?q=${query}&startIndex=${offset}`)
 		.then(response => {
 			const newBookArray = response.data.items.map(book => {

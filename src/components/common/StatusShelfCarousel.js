@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { setBreadcrumbs} from '../../actions/bookActions';
 import BookCard from './BookCard';
+import BookCardList from './BookCardList';
 import { Carousel } from 'antd';
 import styled from 'styled-components'
-import { setBreadcrumbs} from '../../actions/bookActions';
-import BookCardList from './BookCardList';
 
 const ShelfSwipeContainer = styled.div`
     padding-top: 12px;
@@ -95,6 +95,20 @@ const ShelfSwipe = props => {
         responsive: [
             {
                 breakpoint: 1119,
+                settings: {
+                    slidesToShow: 5,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 800,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 640,
                 settings: {
                     slidesToShow: 3,
                     slidesToScroll: 1
