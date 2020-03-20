@@ -5,6 +5,7 @@ import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
 import MyShelves from '../common/MyShelves';
+import StatusShelfCarousel from '../common/StatusShelfCarousel';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import styled from 'styled-components';
 
@@ -30,7 +31,10 @@ const ShelvesContainer = styled.div`
 const Shelves = props => {
     useDocumentTitle('Readrr - My Shelves');
 
-    // useEffect(() => props.fetchUsersShelves(), []);
+    useEffect(() => props.fetchUsersShelves(), []);
+
+    // fetchUsersBooks
+    // fetchshelfsbooks
 
     return (
         <>
@@ -40,6 +44,9 @@ const Shelves = props => {
             <ShelvesContainer>
                 <div className='shelves'>
                     <h1>My Shelves</h1>
+                    <StatusShelfCarousel title='All books' display='carousel' bookList={props.userBooks} link='/shelf/allbooks' breadcrumbs={[{ label: 'All books', path: '/shelf/allbooks' }, { label: "Book details", path: null }]} history={props.history} />
+                    {/* {props.userShelves.map(item => {
+                    })} */}
                 </div>
                 <MyShelves history={props.history} source={'shelves'} />
             </ShelvesContainer>
@@ -47,4 +54,11 @@ const Shelves = props => {
     );
 };
 
-export default connect(null, { fetchUsersShelves })(Shelves);
+const mapStateToProps = state => {
+    return {
+        userBooks: state.library.userBooks,
+        userShelves: state.library.userShelves
+    };
+};
+
+export default connect(mapStateToProps, { fetchUsersShelves })(Shelves);
