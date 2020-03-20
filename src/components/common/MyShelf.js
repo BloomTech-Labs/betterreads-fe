@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchUsersBooks, setBreadcrumbs } from  '../../actions';
 import styled from 'styled-components';
 import BookIcon from './BookIcon';
+import CreateNewShelf from '../common/CreateNewShelf';
 
 const MyShelfContainer = styled.div`
     max-width: 1120px;
@@ -88,6 +89,25 @@ const MyShelfContainer = styled.div`
                 color: #4e4c4a;
             }
         }
+
+        .view-all-my-shelves-button {
+            width: 100%;
+            margin-bottom: 16px;
+            padding: 8px 0;
+            background-color: #ffffff;
+            border: 1px solid #d24719;
+            border-radius: 4px;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 600;
+            color: #d24719;
+            cursor: pointer;
+            transition: 0.25s;
+
+            :hover {
+                background-color: #d24719;
+                color: #ffffff;
+            }
+        }
     }
 
     @media(min-width: 1120px) {
@@ -95,10 +115,6 @@ const MyShelfContainer = styled.div`
         margin: 0;
         padding-top: 16px;
         display: block;
-
-        .create-new-shelf-button {
-            width: 162px;
-        }
 
         .shelves-container {
             margin-bottom: 0;
@@ -111,6 +127,10 @@ const MyShelfContainer = styled.div`
                 width: 162px;
                 margin-bottom: 16px;
             }
+
+            .view-all-my-shelves-button {
+                width: 162px;
+            }
         }
     }
 `;
@@ -120,18 +140,35 @@ const MyShelf = props => {
         props.fetchUsersBooks();
     }, []);
 
-    // in progress, to read, all books, all shelves button
-
-    const favorites = props.userBooks.filter(item => item.favorite === true);
+    const toBeRead = props.userBooks.filter(item => item.readingStatus === 1);
+	const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
 
     return (
         <MyShelfContainer source={props.source}>
             <div className="my-shelves">
                 <h2 onClick={() => props.history.push('/')}>My Shelves</h2>
                 <p className="create-shelves">Create shelves and add books to your custom shelf.</p>
-                <button className="create-new-shelf-button">Create new shelf</button>
+                <CreateNewShelf history={props.history} />
 
                 <div className="shelves-container">
+                    <div className="shelf" onClick={() => {
+                            props.setBreadcrumbs([{ label: 'In progress', path: '/shelf/inprogress' }, { label: 'Book details', path: null }]);
+                            props.history.push('/shelf/inprogress');
+                    }}>
+                        <p className="shelf-name">In progress</p>
+                        <BookIcon height="40px" width="40px" fill="#d9d9d9" />
+                        {inProgress.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{inProgress.length} books</p>}
+                    </div>
+
+                    <div className="shelf" onClick={() => {
+                            props.setBreadcrumbs([{ label: 'To be read', path: '/shelf/toberead' }, { label: 'Book details', path: null }]);
+                            props.history.push('/shelf/toberead');
+                        }}>
+                        <p className="shelf-name">To be read</p>
+                        <BookIcon height="40px" width="40px" fill="#d9d9d9" />
+                        {toBeRead.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{toBeRead.length} books</p>}
+                    </div>
+
                     <div className="shelf" onClick={() => {
                             props.setBreadcrumbs([{ label: 'All books', path: '/shelf/allbooks' }, { label: 'Book details', path: null }]);
                             props.history.push('/shelf/allbooks');
@@ -141,14 +178,7 @@ const MyShelf = props => {
                         {props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
                     </div>
 
-                    <div className="shelf" onClick={() => {
-                            props.setBreadcrumbs([{ label: 'Favorites', path: '/shelf/favorites' }, { label: 'Book details', path: null }]);
-                            props.history.push('/shelf/favorites');
-                        }}>
-                        <p className="shelf-name">Favorites</p>
-                        <BookIcon height="40px" width="40px" fill="#d9d9d9" />
-                        {favorites.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{favorites.length} books</p>}
-                    </div>
+                    <button className='view-all-my-shelves-button' onClick={() => props.history.push('/shelves')}>View all shelves</button>
 
                     {/* {props.userShelves.map(item => {
                         return (
