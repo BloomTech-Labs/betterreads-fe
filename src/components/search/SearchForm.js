@@ -43,7 +43,6 @@ const SearchForm = props => {
 		<Wrapper>
             <div className="innerWrapper">
                 <Input.Search name="q"
-                    allowClear
                     aria-label="search-box"
                     placeholder="Search for a book" 
                     size="large"

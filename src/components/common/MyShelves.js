@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchUsersBooks, setBreadcrumbs } from '../../actions';
+import { Link } from 'react-router-dom';
+import CreateNewShelfModal from './CreateNewShelfModal';
 import styled from 'styled-components';
 import BookIcon from './BookIcon';
-import CreateNewShelfModal from './CreateNewShelfModal';
 
 const MyShelvesContainer = styled.div`
     max-width: 1120px;
@@ -90,22 +91,15 @@ const MyShelvesContainer = styled.div`
             }
         }
 
-        .view-all-my-shelves-button {
-            width: 100%;
-            margin-bottom: 16px;
-            padding: 8px 0;
-            background-color: #ffffff;
-            border: 1px solid #d24719;
-            border-radius: 4px;
+        .view-all-my-shelves {
+            margin-bottom: 0;
             font-family: 'Open Sans', sans-serif;
-            font-weight: 600;
-            color: #d24719;
+            color: #5c5a57;
             cursor: pointer;
             transition: 0.25s;
 
             :hover {
-                background-color: #d24719;
-                color: #ffffff;
+                opacity: 0.5;
             }
         }
     }
@@ -126,10 +120,6 @@ const MyShelvesContainer = styled.div`
                 height: 162px;
                 width: 162px;
                 margin-bottom: 16px;
-            }
-
-            .view-all-my-shelves-button {
-                width: 162px;
             }
         }
     }
@@ -178,8 +168,8 @@ const MyShelves = props => {
                         {props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
                     </div>
 
-                    <button className='view-all-my-shelves-button' onClick={() => props.history.push('/myshelves')}>View all shelves</button>
-
+                    {/* <button className='view-all-my-shelves-button' onClick={() => props.history.push('/myshelves')}>View all shelves</button> */}
+                    <p className='view-all-my-shelves' onClick={() => props.history.push('/myshelves')}>View all shelves</p>
                     {/* {props.userShelves.map(item => {
                         return (
                             <div className="shelf" onClick={() => props.history.push(`/shelf/${item.id}`)}>
