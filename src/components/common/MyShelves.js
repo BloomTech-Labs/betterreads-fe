@@ -21,6 +21,20 @@ const MyShelvesContainer = styled.div`
         font-weight: bold;
         color: #547862;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        i {
+            margin-left: 8px;
+            font-size: 1rem;
+            transition: 0.25s;
+        }
+
+        :hover {
+            i {
+                margin-left: 16px;
+            }
+        }
     }
 
     .create-shelves {
@@ -130,52 +144,60 @@ const MyShelves = props => {
         props.fetchUsersBooks();
     }, []);
 
+    // const favorites = props.userBooks.filter(item => item.favorite === true);
     const toBeRead = props.userBooks.filter(item => item.readingStatus === 1);
 	const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
 
     return (
         <MyShelvesContainer source={props.source}>
-            <div className="my-shelves">
-                <h2 onClick={() => props.history.push('/myshelves')}>My Shelves</h2>
-                <p className="create-shelves">Create shelves and add books to your custom shelf.</p>
+            <div className='my-shelves'>
+                <h2 onClick={() => props.history.push('/myshelves')}>My Shelves <i className='fas fa-chevron-right'></i></h2>
+                <p className='create-shelves'>Create shelves and add books to your custom shelf.</p>
                 <CreateNewShelfModal history={props.history} />
 
-                <div className="shelves-container">
-                    <div className="shelf" onClick={() => {
+                <div className='shelves-container'>
+                    <div className='shelf' onClick={() => {
                             props.setBreadcrumbs([{ label: 'In progress', path: '/shelf/inprogress' }, { label: 'Book details', path: null }]);
                             props.history.push('/shelf/inprogress');
                     }}>
-                        <p className="shelf-name">In progress</p>
-                        <BookIcon height="40px" width="40px" fill="#d9d9d9" />
-                        {inProgress.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{inProgress.length} books</p>}
+                        <p className='shelf-name'>In progress</p>
+                        <BookIcon height='40px' width='40px' fill='#d9d9d9' />
+                        {inProgress.length === 1 ? <p className='shelf-quantity'>1 book</p> : <p className='shelf-quantity'>{inProgress.length} books</p>}
                     </div>
 
-                    <div className="shelf" onClick={() => {
+                    <div className='shelf' onClick={() => {
                             props.setBreadcrumbs([{ label: 'To be read', path: '/shelf/toberead' }, { label: 'Book details', path: null }]);
                             props.history.push('/shelf/toberead');
                         }}>
-                        <p className="shelf-name">To be read</p>
-                        <BookIcon height="40px" width="40px" fill="#d9d9d9" />
-                        {toBeRead.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{toBeRead.length} books</p>}
+                        <p className='shelf-name'>To be read</p>
+                        <BookIcon height='40px' width='40px' fill='#d9d9d9' />
+                        {toBeRead.length === 1 ? <p className='shelf-quantity'>1 book</p> : <p className='shelf-quantity'>{toBeRead.length} books</p>}
                     </div>
 
-                    <div className="shelf" onClick={() => {
+                    {/* <div className='shelf' onClick={() => {
+                            props.setBreadcrumbs([{ label: 'Favorites', path: '/shelf/favorites' }, { label: 'Book details', path: null }]);
+                            props.history.push('/shelf/favorites');
+                    }}>
+                        <p className='shelf-name'>Favorites</p>
+                        <BookIcon height='40px' width='40px' fill='#d9d9d9' />
+                        {favorites.length === 1 ? <p className='shelf-quantity'>1 book</p> : <p className='shelf-quantity'>{favorites.length} books</p>}
+                    </div> */}
+
+                    <div className='shelf' onClick={() => {
                             props.setBreadcrumbs([{ label: 'All books', path: '/shelf/allbooks' }, { label: 'Book details', path: null }]);
                             props.history.push('/shelf/allbooks');
                     }}>
-                        <p className="shelf-name">All books</p>
-                        <BookIcon height="40px" width="40px" fill="#d9d9d9" />
-                        {props.userBooks.length === 1 ? <p className="shelf-quantity">1 book</p> : <p className="shelf-quantity">{props.userBooks.length} books</p>}
+                        <p className='shelf-name'>All books</p>
+                        <BookIcon height='40px' width='40px' fill='#d9d9d9' />
+                        {props.userBooks.length === 1 ? <p className='shelf-quantity'>1 book</p> : <p className='shelf-quantity'>{props.userBooks.length} books</p>}
                     </div>
 
-                    {/* <button className='view-all-my-shelves-button' onClick={() => props.history.push('/myshelves')}>View all shelves</button> */}
-                    <p className='view-all-my-shelves' onClick={() => props.history.push('/myshelves')}>View all shelves</p>
                     {/* {props.userShelves.map(item => {
                         return (
-                            <div className="shelf" onClick={() => props.history.push(`/shelf/${item.id}`)}>
-                                <BookIcon height="64px" width="64px" fill="#E5E5E6" />
-                                <p className="shelf-name">{item.shelfName}</p>
-                                <p className="shelf-quantity">0 books</p>
+                            <div className='shelf' onClick={() => props.history.push(`/shelf/${item.id}`)}>
+                                <BookIcon height='64px' width='64px' fill='#E5E5E6' />
+                                <p className='shelf-name'>{item.shelfName}</p>
+                                <p className='shelf-quantity'>0 books</p>
                             </div>
                         );
                     })}*/}
