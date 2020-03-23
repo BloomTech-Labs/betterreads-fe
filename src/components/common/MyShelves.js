@@ -174,7 +174,7 @@ const MyShelves = props => {
                         <p className='shelf-name'>In progress</p>
                         {inProgress.length > 0 ? (
                             <div className='thumbnails'>
-                                {inProgress.slice(0, 3).map(item => (
+                                {inProgress.filter(item => item.thumbnail !== null).slice(0, 3).map(item => (
                                     <img src={item.thumbnail || item.smallThumbnail} alt={item.title} />
                                 ))}
                             </div>
@@ -189,7 +189,7 @@ const MyShelves = props => {
                         <p className='shelf-name'>To be read</p>
                         {toBeRead.length > 0 ? (
                             <div className='thumbnails'>
-                                {toBeRead.slice(0, 3).map(item => (
+                                {toBeRead.filter(item => item.thumbnail !== null).slice(0, 3).map(item => (
                                     <img src={item.thumbnail || item.smallThumbnail} alt={item.title} />
                                 ))}
                             </div>
@@ -204,8 +204,8 @@ const MyShelves = props => {
                         <p className='shelf-name'>My books</p>
                         {props.userBooks.length > 0 ? (
                             <div className='thumbnails'>
-                                {props.userBooks.slice(0, 3).map(item => (
-                                    <img src={item.thumbnail || item.smallThumbnail} alt={item.title} />
+                                {props.userBooks.filter(item => item.thumbnail !== null).slice(0, 3).map(item => (
+                                    <img src={item.thumbnail} alt={item.title} />
                                 ))}
                             </div>
                         ) : <BookIcon height='40px' width='40px' fill='#d9d9d9' />}
