@@ -98,6 +98,7 @@ const MyShelvesContainer = styled.div`
                     height: 64px;
                     width: 44px;
                     margin-right: 8px;
+                    border-radius: 2px;
                 }
 
                 img:last-child {
