@@ -84,11 +84,25 @@ const MyShelvesContainer = styled.div`
             .shelf-name {
                 margin-bottom: 0;
                 padding: 10px;
-                border-bottom: 1px solid #d9d9d9;
                 font-family: 'Open Sans', sans-serif;
                 font-size: 1rem;
                 font-weight: 600;
                 color: #4e4c4a;
+            }
+
+            .thumbnails {
+                margin: 0 auto;
+                display: flex;
+
+                img {
+                    height: 64px;
+                    width: 44px;
+                    margin-right: 8px;
+                }
+
+                img:last-child {
+                    margin-right: 0;
+                }
             }
 
             svg {
@@ -140,13 +154,10 @@ const MyShelvesContainer = styled.div`
 `;
 
 const MyShelves = props => {
-    useEffect(() => {
-        props.fetchUsersBooks();
-    }, []);
+    useEffect(() => props.fetchUsersBooks(), []);
 
-    // const favorites = props.userBooks.filter(item => item.favorite === true);
-    const toBeRead = props.userBooks.filter(item => item.readingStatus === 1);
 	const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
+    const toBeRead = props.userBooks.filter(item => item.readingStatus === 1);
 
     return (
         <MyShelvesContainer source={props.source}>
@@ -161,7 +172,13 @@ const MyShelves = props => {
                             props.history.push('/shelf/inprogress');
                     }}>
                         <p className='shelf-name'>In progress</p>
-                        <BookIcon height='40px' width='40px' fill='#d9d9d9' />
+                        {inProgress.length > 0 ? (
+                            <div className='thumbnails'>
+                                {inProgress.slice(0, 3).map(item => (
+                                    <img src={item.thumbnail || item.smallThumbnail} alt={item.title} />
+                                ))}
+                            </div>
+                        ) : <BookIcon height='40px' width='40px' fill='#d9d9d9' />}
                         {inProgress.length === 1 ? <p className='shelf-quantity'>1 book</p> : <p className='shelf-quantity'>{inProgress.length} books</p>}
                     </div>
 
@@ -170,37 +187,30 @@ const MyShelves = props => {
                             props.history.push('/shelf/toberead');
                         }}>
                         <p className='shelf-name'>To be read</p>
-                        <BookIcon height='40px' width='40px' fill='#d9d9d9' />
+                        {toBeRead.length > 0 ? (
+                            <div className='thumbnails'>
+                                {toBeRead.slice(0, 3).map(item => (
+                                    <img src={item.thumbnail || item.smallThumbnail} alt={item.title} />
+                                ))}
+                            </div>
+                        ) : <BookIcon height='40px' width='40px' fill='#d9d9d9' />}
                         {toBeRead.length === 1 ? <p className='shelf-quantity'>1 book</p> : <p className='shelf-quantity'>{toBeRead.length} books</p>}
                     </div>
-
-                    {/* <div className='shelf' onClick={() => {
-                            props.setBreadcrumbs([{ label: 'Favorites', path: '/shelf/favorites' }, { label: 'Book details', path: null }]);
-                            props.history.push('/shelf/favorites');
-                    }}>
-                        <p className='shelf-name'>Favorites</p>
-                        <BookIcon height='40px' width='40px' fill='#d9d9d9' />
-                        {favorites.length === 1 ? <p className='shelf-quantity'>1 book</p> : <p className='shelf-quantity'>{favorites.length} books</p>}
-                    </div> */}
 
                     <div className='shelf' onClick={() => {
                             props.setBreadcrumbs([{ label: 'All books', path: '/shelf/allbooks' }, { label: 'Book details', path: null }]);
                             props.history.push('/shelf/allbooks');
                     }}>
-                        <p className='shelf-name'>All books</p>
-                        <BookIcon height='40px' width='40px' fill='#d9d9d9' />
+                        <p className='shelf-name'>My books</p>
+                        {props.userBooks.length > 0 ? (
+                            <div className='thumbnails'>
+                                {props.userBooks.slice(0, 3).map(item => (
+                                    <img src={item.thumbnail || item.smallThumbnail} alt={item.title} />
+                                ))}
+                            </div>
+                        ) : <BookIcon height='40px' width='40px' fill='#d9d9d9' />}
                         {props.userBooks.length === 1 ? <p className='shelf-quantity'>1 book</p> : <p className='shelf-quantity'>{props.userBooks.length} books</p>}
                     </div>
-
-                    {/* {props.userShelves.map(item => {
-                        return (
-                            <div className='shelf' onClick={() => props.history.push(`/shelf/${item.id}`)}>
-                                <BookIcon height='64px' width='64px' fill='#E5E5E6' />
-                                <p className='shelf-name'>{item.shelfName}</p>
-                                <p className='shelf-quantity'>0 books</p>
-                            </div>
-                        );
-                    })}*/}
                 </div>
             </div>
         </MyShelvesContainer>
