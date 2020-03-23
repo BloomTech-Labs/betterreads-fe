@@ -148,7 +148,7 @@ const ShelfSwipe = props => {
 
     return (
         <ShelfSwipeContainer length={props.bookList.length}>
-            <Collapse defaultActiveKey={2} bordered={false}>
+            {/* <Collapse defaultActiveKey={2} bordered={false}>
                 <Collapse.Panel header={`${props.title} (${props.bookList.length})`} showArrow={false} key={2}>
                     {props.display === 'carousel' && (
                         <div className='swiper'>
@@ -162,9 +162,9 @@ const ShelfSwipe = props => {
 
                     {props.display === 'card' && <BookCardList history={props.history} books={props.bookList.slice(0,4)} source={'library'} />}
                 </Collapse.Panel>
-            </Collapse>
+            </Collapse> */}
 
-            {/* <div className='header'>
+            <div className='header'>
                 {props.title !== 'Recommendations' ? <p className='status'>{props.title}  ({props.bookList.length})</p> : <p className='status'>{props.title}</p>}
                 
                 {props.link && (
@@ -185,7 +185,7 @@ const ShelfSwipe = props => {
                 </div>
             )}
 
-            {props.display === 'card' && <BookCardList history={props.history} books={props.bookList.slice(0,4)} source={'library'} />} */}
+            {props.display === 'card' && <BookCardList history={props.history} books={props.bookList.slice(0,4)} source={'library'} />}
         </ShelfSwipeContainer>
     );
 };
