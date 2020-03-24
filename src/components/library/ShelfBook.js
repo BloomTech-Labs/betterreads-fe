@@ -22,6 +22,20 @@ const ShelfBook = props => {
 		props.getBooksOnShelves()
 	}, []);
 	
+	const categoryDisplay = () => {
+		let categorySet = new Set();
+
+		props.currentBook.categories.split(',').map(cat => 
+			cat.split('/').map(c => 
+				categorySet.add(c.trim()) 
+			)
+		)
+				
+		return Array.from(categorySet).sort().map((cat, index) =>
+			<p className='genre' key={index}>{cat}</p>
+		);
+	}
+
 	return (
 		<>
 			<Header history={props.history} />
@@ -57,7 +71,14 @@ const ShelfBook = props => {
 								props.currentBook.authors &&
 								<div className="info-item">
 									<div className="info-title">Author:</div>
-									<div className="info-value">{props.currentBook.authors && props.currentBook.authors}</div>
+									<div className="info-value">
+										{
+											props.currentBook.authors && 
+											props.currentBook.authors.split(',').map((author, index) => 
+												<div key={index}>{author}</div>
+											)
+										}
+									</div>
 								</div>
 							}
 							{
@@ -85,16 +106,16 @@ const ShelfBook = props => {
 					</div>
 
 					{
-						props.currentBook.categories && (
+						props.currentBook.categories && 
+						(
 							<div className='genre-big-container'>
 								<div className='genre-small-container'>
 									<p className='heading'>Genres</p>
 									<div className='genres'>
 										{
-											props.currentBook.categories && 
-											props.currentBook.categories.split(',').map((item, index) => 
-												<p className='genre' key={index}>{item}</p>
-											)}
+											props.currentBook.categories &&
+											categoryDisplay()
+										}	
 									</div>
 								</div>
 							</div>

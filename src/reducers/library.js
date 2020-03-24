@@ -4,6 +4,7 @@ import {
 	SET_CURRENT_SHELF, 
 	UPDATE_BOOK_FAVORITE, 
 	UPDATE_BOOK_READING_STATUS, 
+	UPDATE_BOOK_USER_RATING,
 	ADD_BOOK_TO_LIBRARY, 
 	DELETE_USER_BOOK, 
 	MOVE_BOOK_FROM_SHELF 
@@ -59,6 +60,21 @@ export const reducer = (state = initialState, action) => {
 							...book, 
 							readingStatus: parseInt(action.payload.status)
 						};
+					} else {
+						return book;
+					};
+				})
+			};
+
+		case UPDATE_BOOK_USER_RATING:
+			return {
+				...state,
+				userBooks: state.userBooks.map(book => {
+					if (book.bookId === action.payload.bookId){
+						return {
+							...book,
+							userRating: parseFloat(action.payload.rating)
+						}
 					} else {
 						return book;
 					};

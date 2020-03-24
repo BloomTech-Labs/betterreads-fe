@@ -64,6 +64,6 @@ export const updateDates = (userId, readrrId, dateString, whichDate) => {
     return axios.put(`${API_URL}/api/${userId}/library`, dateObj);
 };
 
-export const updateUserRating = (bookId, userId, userRating) => {
+export const updateUserRating = (userId, bookId, userRating) => {
     return axios.put(`${API_URL}/api/${userId}/library`, {bookId, userRating})
 }

@@ -12,7 +12,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes';
-const readrrDSURL = 'https://ds.readrr.app/search';
+const readrrDSURL = 'http://ds.readrr.app/search';
 
 export const getGoogleResults = search => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });

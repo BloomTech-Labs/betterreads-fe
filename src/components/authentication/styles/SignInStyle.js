@@ -41,6 +41,7 @@ const SignInContainer = styled.div`
 				b {
 					margin-left: 4px;
 					cursor: pointer;
+					color: #d24719;
 				}
 			}
 

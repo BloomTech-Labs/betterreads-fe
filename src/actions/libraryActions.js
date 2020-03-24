@@ -4,6 +4,7 @@ import {
 	FETCH_USERS_SHELVES,
 	UPDATE_BOOK_FAVORITE,
 	UPDATE_BOOK_READING_STATUS,
+	UPDATE_BOOK_USER_RATING,
 	ADD_BOOK_TO_LIBRARY,
 	DELETE_USER_BOOK,
 	MOVE_BOOK_FROM_SHELF
@@ -55,6 +56,10 @@ export const updateBookFavorite = bookId => dispatch => {
 export const updateBookReadingStatus = (bookId, status) => dispatch => {
 	dispatch({ type: UPDATE_BOOK_READING_STATUS, payload: {bookId, status}})
 };
+
+export const updateBookUserRating = (bookId, rating) => dispatch => {
+	dispatch({ type: UPDATE_BOOK_USER_RATING, payload: {bookId, rating}})
+}
 
 export const addBookToUserLibrary = book => dispatch => {
 	dispatch({ type: ADD_BOOK_TO_LIBRARY, payload: book });
