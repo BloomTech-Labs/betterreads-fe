@@ -6,9 +6,9 @@ import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
 import BookCard from '../common/BookCard';
 import MyShelves from '../common/MyShelves';
+import AddToExistingShelf from '../common/AddToExistingShelf';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import ShelfBookContainer from './styles/ShelfBookStyle';
-import AddToExistingShelf from '../common/AddToExistingShelf';
 
 const ShelfBook = props => {
 	useDocumentTitle('Readrr - Book details');
@@ -84,6 +84,8 @@ const ShelfBook = props => {
 						</div>
 					</div>
 
+					<AddToExistingShelf bookId={props.match.params.id} />
+
 					{
 						props.currentBook.categories && (
 							<div className='genre-big-container'>
@@ -103,8 +105,6 @@ const ShelfBook = props => {
 				</div>
 
 				<MyShelves history={props.history} />
-				{props.userBooks.find( book => book.googleId === googleID) && 
-				<AddToExistingShelf bookId={props.match.params.id}/> }
 			
 				</ShelfBookContainer>
 		</>

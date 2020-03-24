@@ -74,7 +74,7 @@ const CreateNewShelfModal = props => {
 					name: '',
 					isPrivate: false
 				});
-				props.history.push('/shelves');
+				props.history.push('/myshelves');
 				console.log(response);
 			})
 			.catch(error => console.log(error));
