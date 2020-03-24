@@ -4,8 +4,10 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes';
+const readrrDSURL = 'http://ds.readrr.app/search';
 
 export const fetchCurrentBook = googleID => dispatch => {
+	//axios.post(readrrDSURL, {type: 'googleId', query: googleId})
 	axios.get(`${googleBooksURL}/${googleID}`).then(response => {
 			dispatch({ type: SET_CURRENT_BOOK, payload: {
 				googleId: response.data.id,
