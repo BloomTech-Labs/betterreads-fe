@@ -10,20 +10,36 @@ const AddToExistingShelf = props => {
    const bookId = props.bookId
    const book = props.userBooks.find(b => b.googleId === bookId)
   const [isInShelf, setIsInShelf] = useState(false)
+  const [checkedBook, setCheckedBook] = useState([])
   console.log(props.userBooksOnShelves, "UBOS")
- 
+  
+  
+  const books = props.userBooksOnShelves.flatMap(i => i.books);
+  const detailbooksShelves = books.filter(i => i.googleId == bookId);
+  const shelfIds = detailbooksShelves.map(i => i.shelfId);
 
-   useEffect(() => { 
-     props.userBooksOnShelves.map( s => s.books.find(b => b.googleId === bookId))
+  useEffect(key => {
+    console.log(key, "CV")
+    shelfIds.map( id => {
+        if (id === key){
+          console.log("hello")
+      setIsInShelf(true)
+    } else {
+      setIsInShelf(false)
+      console.log("good bye")
+    }
     })
-
+  
+    
+  },[])
+  
   const onChange = checkedValues => {
     console.log(isInShelf, "IIS")
     if (!isInShelf){
-      props.addToCustomShelf(book, checkedValues.target.defaultValue)
+      props.addToCustomShelf(book, checkedValues.target.name)
       setIsInShelf(true)
     } else {
-      props.deleteFromCustomShelf(bookId, checkedValues.target.defaultValue)
+      props.deleteFromCustomShelf(bookId, checkedValues.target.name)
       setIsInShelf(false)
     };
 
@@ -36,7 +52,7 @@ const AddToExistingShelf = props => {
           <h2>Your Shelves</h2>
           
           {props.userBooksOnShelves && props.userBooksOnShelves.map( shelf =>
-              <Checkbox onChange={onChange} key={shelf.ShelfId} defaultValue={shelf.shelfId}>{shelf.shelfName}</Checkbox>)
+              <Checkbox onChange={onChange} key={shelf.ShelfId} name={shelf.shelfId} checked={isInShelf}>{shelf.shelfName}</Checkbox>)
           }
 
       </div>
