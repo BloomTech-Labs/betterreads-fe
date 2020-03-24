@@ -4,9 +4,11 @@ import {
 	SET_CURRENT_SHELF, 
 	UPDATE_BOOK_FAVORITE, 
 	UPDATE_BOOK_READING_STATUS, 
+	UPDATE_BOOK_USER_RATING,
 	ADD_BOOK_TO_LIBRARY, 
 	DELETE_USER_BOOK, 
-	MOVE_BOOK_FROM_SHELF 
+	MOVE_BOOK_FROM_SHELF,
+	UPDATE_SINGLE_BOOK_FIELD
 } from '../actions/types';
 
 export const initialState = {
@@ -65,6 +67,34 @@ export const reducer = (state = initialState, action) => {
 				})
 			};
 
+		case UPDATE_BOOK_USER_RATING:
+			return {
+				...state,
+				userBooks: state.userBooks.map(book => {
+					if (book.bookId === action.payload.bookId){
+						return {
+							...book,
+							userRating: parseFloat(action.payload.rating)
+						}
+					} else {
+						return book;
+					};
+				})
+			};
+
+		case UPDATE_SINGLE_BOOK_FIELD:
+			return {
+				...state,
+				userBooks: state.userBooks.map(book => {
+					if (book.bookId === action.payload.bookId){
+						return {
+							...book,
+							[action.payload.field]: action.payload.value
+						}
+					}
+				})
+			}
+		
 		case ADD_BOOK_TO_LIBRARY:
 			return {
 				...state,

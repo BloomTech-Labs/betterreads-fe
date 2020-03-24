@@ -35,7 +35,7 @@ const ShelfBookContainer = styled.div`
                 font-family: 'Open Sans', sans-serif;
                 font-size: 0.875rem;
                 font-weight: 600;
-                color: #868585;
+                color: #547862;
                 cursor: pointer;
             }
 
@@ -49,13 +49,14 @@ const ShelfBookContainer = styled.div`
                     flex-direction: row;
                     justify-content: flex-start;
                     font-size: .8rem; 
+
                     .info-title {
                         width: 25%;
                         font-weight: bold;
                     }
         
                     .info-value {
-                        
+                        width: 70%;
                     }
                 }
             }
@@ -80,7 +81,7 @@ const ShelfBookContainer = styled.div`
                     .genre {
                         margin-right: 12px;
                         margin-bottom: 12px;
-                        padding: 10px;
+                        padding: 6px;
                         background-color: #547862;
                         border-radius: 4px;
                         font-family: 'Open Sans', sans-serif;

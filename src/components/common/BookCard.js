@@ -5,6 +5,7 @@ import {
     addBookToUserLibrary,
     updateBookFavorite,
     updateBookReadingStatus,
+    updateBookUserRating,
     moveBookFromShelf
 } from '../../actions/index';
 import { updateBookItem, updateDates, sendUpTheFlares, updateUserRating } from '../../utils/helpers';
@@ -19,15 +20,13 @@ import { Event } from '../../utils/tracking';
 
 const BookCard = props => {
     const { googleId } = props.book;
+    
     const [libraryBook, setLibraryBook] = useState(props.userBooks.find(b => b.googleId === googleId) || null);
-    const [inLibrary, setInLibrary] = useState(libraryBook !== null ? true : false);
-    const [favorite, setFavorite] = useState(libraryBook !== null && libraryBook.favorite ? true : false);
+    const [inLibrary, setInLibrary] = useState(libraryBook !== null ? true : false);    
     const [readrrId, setReadrrId] = useState(libraryBook !== null ? libraryBook.bookId : null);
-    const [dateStarted, setDateStarted] = useState(libraryBook !== null && libraryBook.dateStarted !== undefined ? libraryBook.dateStarted : null);
-    const [dateEnded, setDateEnded] = useState(libraryBook !== null && libraryBook.dateEnded !== undefined ? libraryBook.dateEnded : null);
+    const [favorite, setFavorite] = useState(libraryBook !== null && libraryBook.favorite ? true : false);    
     const [readingStatus, setReadingStatus] = useState(inLibrary ? parseInt(libraryBook.readingStatus) : null);
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
-    const [rateStyle, setRateStyle] = useState({color: '#fadb14'}) // default yellow
 
     let actionType = null;
     const readingStatusRef = useRef(readingStatus);
@@ -110,22 +109,31 @@ const BookCard = props => {
     };
 
     const updateRating = (rate) => {
-        if(libraryBook){
-            updateUserRating(libraryBook.bookId, localStorage.getItem('id'), rate)
+        // if(libraryBook){
+            updateUserRating(localStorage.getItem('id'), libraryBook.bookId, rate)
             .then(result => {
-                setRateStyle({color: '#d24719'})
                 Event('RATING', 'User rated a book.', 'BOOK_CARD');
-                sendUpTheFlares('success', 'Success', 'You rated a book');
+
+                props.updateBookUserRating(libraryBook.bookId, rate); //update redux state...
+                
+                sendUpTheFlares('success', 'Success', 'Your book has been rated');
+                setLibraryBook({
+                    ...libraryBook,
+                    userRating: rate
+                })
             })
             .catch(err => console.log(err.response));
-        }
+        //}
     }
 
     const handleDates = (date, dateString, whichDate) => {
         updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate)
             .then(result => {
-                setDateStarted(result.data.dateStarted && result.data.dateStarted.split('T')[0])
-                setDateEnded(result.data.dateEnded && result.data.dateEnded.split('T')[0])
+                setLibraryBook({
+                    ...libraryBook,
+                    dateStarted: result.data.dateStarted && result.data.dateStarted.split('T')[0],
+                    dateEnded: result.data.dateEnded && result.data.dateEnded.split('T')[0]
+                });
             })
             .catch(err => console.log(err))
     };
@@ -179,17 +187,26 @@ const BookCard = props => {
                     <div className='calendars'>
                         <div className='calendar'>
                             <p>DATE STARTED</p>
-                            <DatePicker placeholder='Started' defaultValue={dateStarted !== null ? moment(dateStarted, 'YYYY-MM-DD') : null} onChange={(date, dateString) => handleDates(date, dateString, 0)} />
+                            <DatePicker placeholder='Started' defaultValue={libraryBook !== null && libraryBook.dateStarted !== null ? moment(libraryBook.dateStarted, 'YYYY-MM-DD') : null} onChange={(date, dateString) => handleDates(date, dateString, 0)} />
                         </div>
 
                         <div className='calendar'>
                             <p>DATE ENDED</p>
-                            <DatePicker placeholder='Ended' defaultValue={dateEnded !== null ? moment(dateEnded, 'YYYY-MM-DD') : null} onChange={(date, dateString) => handleDates(date, dateString, 1)} />
+                            <DatePicker placeholder='Ended' defaultValue={libraryBook !== null && libraryBook.dateEnded !== null ? moment(libraryBook.dateEnded, 'YYYY-MM-DD') : null} onChange={(date, dateString) => handleDates(date, dateString, 1)} />
                         </div>
                     </div>
                 }
-                
-				{props.source === 'search' && <Rate defaultValue={props.book.averageRating} allowHalf style={rateStyle} onChange={updateRating} />}
+
+                {
+                    props.source === 'search' &&
+                    <Rate 
+                        defaultValue={libraryBook !== null && parseFloat(libraryBook.userRating) ? parseFloat(libraryBook.userRating) : props.book.averageRating} 
+                        disabled={!(libraryBook !== null)}
+                        allowHalf
+                        style={libraryBook && parseFloat(libraryBook.userRating) ? {color: '#d24719'} : {color: '#fadb14'}} 
+                        onChange={updateRating} 
+                    />
+                }
 			</div>
 		</BookCardContainer>
 	)
@@ -207,5 +224,6 @@ export default connect(mapStateToProps, {
     addBookToUserLibrary,
     updateBookFavorite,
     updateBookReadingStatus,
+    updateBookUserRating,
     moveBookFromShelf
 })(BookCard);
