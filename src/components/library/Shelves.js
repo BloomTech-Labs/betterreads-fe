@@ -20,6 +20,7 @@ const ShelvesContainer = styled.div`
             font-family: 'Frank Ruhl Libre', sans-serif;
             font-size: 2rem;
             font-weight: bold;
+            color: #3b403d;
         }
     }
 
