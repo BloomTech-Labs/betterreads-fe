@@ -43,7 +43,7 @@ export const setCurrentShelf = shelf => dispatch => {
 };
 
 export const fetchUsersShelves = () => dispatch => {
-	axios.get(`${API_URL}/api/shelves/user/${localStorage.getItem('id')}`)
+	axios.get(`${API_URL}/api/booksonshelf/user/${localStorage.getItem('id')}`)
 		.then(response => dispatch({ type: FETCH_USERS_SHELVES, payload: response.data }))
 		.catch(error => console.log(error));
 };

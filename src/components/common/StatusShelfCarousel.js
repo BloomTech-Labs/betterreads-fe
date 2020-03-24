@@ -122,7 +122,7 @@ const ShelfSwipe = props => {
             <div className='header'>
                 {props.title !== 'Recommendations' ? <p className='status'>{props.title}  ({props.bookList.length})</p> : <p className='status'>{props.title}</p>}
                 
-                {props.link && (
+                {props.link && props.bookList.length > 0 && (
                     <p className='view-all' onClick={() => {
                         props.setBreadcrumbs(props.breadcrumbs);
                         props.history.push(props.link)
