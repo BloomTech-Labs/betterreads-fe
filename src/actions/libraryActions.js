@@ -7,7 +7,8 @@ import {
 	UPDATE_BOOK_USER_RATING,
 	ADD_BOOK_TO_LIBRARY,
 	DELETE_USER_BOOK,
-	MOVE_BOOK_FROM_SHELF
+	MOVE_BOOK_FROM_SHELF,
+	UPDATE_SINGLE_BOOK_FIELD
 } from './types';
 import axios from 'axios';
 
@@ -59,6 +60,10 @@ export const updateBookReadingStatus = (bookId, status) => dispatch => {
 
 export const updateBookUserRating = (bookId, rating) => dispatch => {
 	dispatch({ type: UPDATE_BOOK_USER_RATING, payload: {bookId, rating}})
+}
+
+export const updateBookValue = (bookId, field, value) => dispatch => {
+	dispatch({ type: UPDATE_SINGLE_BOOK_FIELD, payload: {bookId, field, value}})
 }
 
 export const addBookToUserLibrary = book => dispatch => {

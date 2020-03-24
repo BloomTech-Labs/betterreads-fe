@@ -13,9 +13,15 @@ axios.defaults.withCredentials = true;
 
 const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes';
 const readrrDSURL = 'http://ds.readrr.app/search';
+let fluffURL;
 
-export const getGoogleResults = search => dispatch => {
+export const getGoogleResults = (search, type) => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
+	// if(type === 'subject') {
+	// 	fluffURL = `${googleBooksURL}?q=+subject=${search}`	
+	// }else{
+	// 	fluffURL = `${googleBooksURL}?q=${search}`
+	// }
 	axios.get(`${googleBooksURL}?q=${search}`)
 	//axios.post(`${readrrDSURL}`, {type: 'search', query: search})
 		.then(response =>{
@@ -43,7 +49,7 @@ export const getGoogleResults = search => dispatch => {
 			dispatch({ type: FETCH_SEARCH_SUCCESS, payload: {books: {totalItems: response.data.totalItems,  items: newBookArray}}});
 		})
 		.catch(error => {
-			console.log(error);
+			//console.log(error);
 			dispatch({ type: FETCH_SEARCH_FAILURE, payload: error.response });
 		});
 };

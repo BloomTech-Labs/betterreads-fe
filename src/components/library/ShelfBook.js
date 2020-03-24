@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves } from '../../actions';
+import { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves, setQuery, getGoogleResults } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
@@ -30,9 +30,14 @@ const ShelfBook = props => {
 				categorySet.add(c.trim()) 
 			)
 		)
-				
+
 		return Array.from(categorySet).sort().map((cat, index) =>
-			<p className='genre' key={index}>{cat}</p>
+			<p className='genre' onClick={() => {
+					props.setQuery(cat);
+					props.getGoogleResults(cat, 'subject');
+					props.history.push('/search');
+				}
+			} key={index}>{cat}</p>
 		);
 	}
 
@@ -140,4 +145,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves })(ShelfBook);
+export default connect(mapStateToProps, { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves, setQuery, getGoogleResults })(ShelfBook);

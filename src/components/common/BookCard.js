@@ -22,15 +22,10 @@ const BookCard = props => {
     const { googleId } = props.book;
     
     const [libraryBook, setLibraryBook] = useState(props.userBooks.find(b => b.googleId === googleId) || null);
-
-    const [inLibrary, setInLibrary] = useState(libraryBook !== null ? true : false);
-    
-    const [favorite, setFavorite] = useState(libraryBook !== null && libraryBook.favorite ? true : false);
-    
+    const [inLibrary, setInLibrary] = useState(libraryBook !== null ? true : false);    
     const [readrrId, setReadrrId] = useState(libraryBook !== null ? libraryBook.bookId : null);
-        
+    const [favorite, setFavorite] = useState(libraryBook !== null && libraryBook.favorite ? true : false);    
     const [readingStatus, setReadingStatus] = useState(inLibrary ? parseInt(libraryBook.readingStatus) : null);
-    
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
 
     let actionType = null;
@@ -203,9 +198,9 @@ const BookCard = props => {
                 }
 
                 {
-                    props.source === 'search' && 
+                    props.source === 'search' &&
                     <Rate 
-                        defaultValue={libraryBook && parseFloat(libraryBook.userRating) ? parseFloat(libraryBook.userRating) : props.book.averageRating} 
+                        defaultValue={libraryBook !== null && parseFloat(libraryBook.userRating) ? parseFloat(libraryBook.userRating) : props.book.averageRating} 
                         disabled={!(libraryBook !== null)}
                         allowHalf
                         style={libraryBook && parseFloat(libraryBook.userRating) ? {color: '#d24719'} : {color: '#fadb14'}} 

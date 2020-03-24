@@ -114,8 +114,8 @@ const BookCardContainer = styled.div`
                     background: none;
                     border: none;
                     font-family: 'Open Sans', sans-serif;
-                    font-size: 0.875rem;
-                    color: #bfbfbf;
+                    font-size: 0.9rem;
+                    color: #666;
                 }
             }
         }
