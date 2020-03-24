@@ -18,6 +18,8 @@ const AddToExistingShelf = props => {
   const detailbooksShelves = books.filter(i => i.googleId == bookId);
   const shelfIds = detailbooksShelves.map(i => i.shelfId);
 
+
+  //dont know how to refrence the checkbox
   useEffect(key => {
     console.log(key, "CV")
     shelfIds.map( id => {
