@@ -7,7 +7,7 @@ import { Carousel, Collapse } from 'antd';
 import styled from 'styled-components'
 
 const ShelfSwipeContainer = styled.div`
-    // padding-top: 12px;
+    padding-top: 12px;
     border-bottom: 1.5px solid rgba(217, 217, 217, 0.5);
     display: flex;
     flex-direction: column;
