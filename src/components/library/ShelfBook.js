@@ -16,9 +16,8 @@ const ShelfBook = props => {
 	const [readMore, setReadMore] =  useState(false);
 
 	const googleID = props.match.params.id;
-
+  
 	useEffect(() => {
-		// props.fetchUsersBooks();	
 		props.fetchCurrentBook(googleID);
 		props.getBooksOnShelves()
 	}, []);

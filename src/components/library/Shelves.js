@@ -20,6 +20,7 @@ const ShelvesContainer = styled.div`
             font-family: 'Frank Ruhl Libre', sans-serif;
             font-size: 2rem;
             font-weight: bold;
+            color: #3b403d;
         }
     }
 
@@ -50,9 +51,6 @@ const Shelves = props => {
 	const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
 	const finished = props.userBooks.filter(item => item.readingStatus === 3);
 
-    // fetchUsersBooks
-    // fetchshelfsbooks
-
     return (
         <>
             <Header history={props.history} />
@@ -67,7 +65,7 @@ const Shelves = props => {
                     <StatusShelfCarousel title='In progress' display='carousel' bookList={inProgress} link='/shelf/inprogress' breadcrumbs={[{ label: 'In progress', path: '/shelf/inprogress' }, { label: "Book details", path: null }]} history={props.history} />
                     <StatusShelfCarousel title='Finished' display='carousel' bookList={finished} link='/shelf/finished' breadcrumbs={[{ label: 'Finished', path: '/shelf/finished' }, { label: "Book details", path: null }]} history={props.history} />
                     {props.userShelves.map(item => {
-                        return <StatusShelfCarousel title={item.shelfName} display='carousel' bookList={userBooks} link={`/shelf/${item.shelfId}`} breadcrumbs={[{ label: item.shelfName, path: `/shelf/${item.shelfId}` }, { label: "Book details", path: null }]} history={props.history} />
+                        return <StatusShelfCarousel key={item.shelfId} title={item.ShelfName} display='carousel' bookList={item.books} link={`/shelf/${item.shelfId}`} breadcrumbs={[{ label: item.shelfName, path: `/shelf/${item.shelfId}` }, { label: "Book details", path: null }]} history={props.history} />
                     })}
                 </div>
                 <MyShelves history={props.history} source={'shelves'} />

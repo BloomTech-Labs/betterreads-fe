@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setCurrentShelf } from '../../actions';
 import Header from '../common/Header';
@@ -23,10 +23,6 @@ const Shelf = props => {
 	useDocumentTitle('Readrr - Shelf');
 
 	const shelf = props.match.params.shelf;
-
-	useEffect(() => {
-		props.setCurrentShelf(shelf);
-	}, [shelf]);
 	
 	let label;
 	if (shelf === 'allbooks') {
@@ -43,6 +39,8 @@ const Shelf = props => {
 		// fetch custom shelf name by using find method on shelf array in redux state, user doesn't want to see number
 	};
 
+	useEffect(() => props.setCurrentShelf(shelf), []);
+
 	return (
 		<>
 			<Header history={props.history} />
@@ -50,7 +48,7 @@ const Shelf = props => {
 			<Breadcrumbs history={props.history} crumbs={[{ label, path: null }]} />
 			<ShelfNote type='allbooks' count={props.userBooks.length} />
 			<ShelfContainer>
-				<BookCardList history={props.history} books={props.currentShelf} source={'library'} />
+				<BookCardList history={props.history} books={props.currentShelf} source={'library'} label={label} />
 				<MyShelves history={props.history} source={'shelf'} />
 			</ShelfContainer>
 		</>

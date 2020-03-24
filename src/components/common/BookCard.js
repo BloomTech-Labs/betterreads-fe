@@ -7,7 +7,7 @@ import {
     updateBookReadingStatus,
     moveBookFromShelf
 } from '../../actions/index';
-import { updateBookItem, updateDates, sendUpTheFlares } from '../../utils/helpers';
+import { updateBookItem, updateDates, sendUpTheFlares, updateUserRating } from '../../utils/helpers';
 import moment from 'moment';
 import BookCardContainer from './styles/BookCardStyle';
 import BookIcon from '../common/BookIcon';
@@ -23,10 +23,11 @@ const BookCard = props => {
     const [inLibrary, setInLibrary] = useState(libraryBook !== null ? true : false);
     const [favorite, setFavorite] = useState(libraryBook !== null && libraryBook.favorite ? true : false);
     const [readrrId, setReadrrId] = useState(libraryBook !== null ? libraryBook.bookId : null);
-    const [dateStarted, setDateStarted] = useState(libraryBook !== null ? libraryBook.dateStarted : null);
-    const [dateEnded, setDateEnded] = useState(libraryBook !== null ? libraryBook.dateEnded : null);
+    const [dateStarted, setDateStarted] = useState(libraryBook !== null && libraryBook.dateStarted !== undefined ? libraryBook.dateStarted : null);
+    const [dateEnded, setDateEnded] = useState(libraryBook !== null && libraryBook.dateEnded !== undefined ? libraryBook.dateEnded : null);
     const [readingStatus, setReadingStatus] = useState(inLibrary ? parseInt(libraryBook.readingStatus) : null);
     const [trackBtnLabel, setTrackBtnLabel] = useState('Track this');
+    const [rateStyle, setRateStyle] = useState({color: '#fadb14'}) // default yellow
 
     let actionType = null;
     const readingStatusRef = useRef(readingStatus);
@@ -108,11 +109,23 @@ const BookCard = props => {
         setTrackBtnLabel(key.item.props.children);
     };
 
+    const updateRating = (rate) => {
+        if(libraryBook){
+            updateUserRating(libraryBook.bookId, localStorage.getItem('id'), rate)
+            .then(result => {
+                setRateStyle({color: '#d24719'})
+                Event('RATING', 'User rated a book.', 'BOOK_CARD');
+                sendUpTheFlares('success', 'Success', 'You rated a book');
+            })
+            .catch(err => console.log(err.response));
+        }
+    }
+
     const handleDates = (date, dateString, whichDate) => {
         updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate)
             .then(result => {
-                setDateStarted(result.data.dateStarted.split('T')[0])
-                setDateEnded(result.data.dateEnded.split('T')[0])
+                setDateStarted(result.data.dateStarted && result.data.dateStarted.split('T')[0])
+                setDateEnded(result.data.dateEnded && result.data.dateEnded.split('T')[0])
             })
             .catch(err => console.log(err))
     };
@@ -176,7 +189,7 @@ const BookCard = props => {
                     </div>
                 }
                 
-				{props.source === 'search' && <Rate defaultValue={props.book.averageRating} allowHalf disabled />}
+				{props.source === 'search' && <Rate defaultValue={props.book.averageRating} allowHalf style={rateStyle} onChange={updateRating} />}
 			</div>
 		</BookCardContainer>
 	)

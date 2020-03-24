@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { setBreadcrumbs} from '../../actions/bookActions';
 import BookCard from './BookCard';
 import BookCardList from './BookCardList';
-import { Carousel } from 'antd';
+import { Carousel, Collapse } from 'antd';
 import styled from 'styled-components'
 
 const ShelfSwipeContainer = styled.div`
@@ -11,6 +11,29 @@ const ShelfSwipeContainer = styled.div`
     border-bottom: 1.5px solid rgba(217, 217, 217, 0.5);
     display: flex;
     flex-direction: column;
+
+    .ant-collapse {
+        background-color: transparent;
+
+        .ant-collapse-item.ant-collapse-no-arrow{
+            .ant-collapse-header {
+                padding: 0;
+                width: 90%;
+                margin: 0 auto;
+                font-family: 'Frank Ruhl Libre', sans-serif;
+                font-size: 1.25rem;
+                font-weight: bold;
+                color: #4e4c4a;
+                line-height: 3rem;
+            }
+        }
+        
+        .ant-collapse-content {
+            .ant-collapse-content-box {
+                padding: 0 !important;
+            }
+        }
+    }
 
     .header {
         width: 90%;
@@ -82,6 +105,12 @@ const ShelfSwipeContainer = styled.div`
             margin-right: 0;
             margin-left: 0;
         }
+
+        .ant-collapse-item.ant-collapse-no-arrow{
+            .ant-collapse-header {
+                width: 100% !important;
+            }
+        }
     }
 `;
 
@@ -119,10 +148,26 @@ const ShelfSwipe = props => {
 
     return (
         <ShelfSwipeContainer length={props.bookList.length}>
+            {/* <Collapse defaultActiveKey={2} bordered={false}>
+                <Collapse.Panel header={`${props.title} (${props.bookList.length})`} showArrow={false} key={2}>
+                    {props.display === 'carousel' && (
+                        <div className='swiper'>
+                            <Carousel {...carouselProps}>
+                                {props.bookList && props.bookList.splice(0,10).map((book, index) => (
+                                    <BookCard key={index} book={book} source="recommendation" history={props.history} />
+                                ))}
+                            </Carousel>
+                        </div>
+                    )}
+
+                    {props.display === 'card' && <BookCardList history={props.history} books={props.bookList.slice(0,4)} source={'library'} />}
+                </Collapse.Panel>
+            </Collapse> */}
+
             <div className='header'>
                 {props.title !== 'Recommendations' ? <p className='status'>{props.title}  ({props.bookList.length})</p> : <p className='status'>{props.title}</p>}
                 
-                {props.link && (
+                {props.link && props.bookList.length > 0 && (
                     <p className='view-all' onClick={() => {
                         props.setBreadcrumbs(props.breadcrumbs);
                         props.history.push(props.link)
@@ -140,7 +185,7 @@ const ShelfSwipe = props => {
                 </div>
             )}
 
-            {props.display === 'card' && <BookCardList history={props.history} books={props.bookList} source={'library'} />}
+            {props.display === 'card' && <BookCardList history={props.history} books={props.bookList.slice(0,4)} source={'library'} />}
         </ShelfSwipeContainer>
     );
 };

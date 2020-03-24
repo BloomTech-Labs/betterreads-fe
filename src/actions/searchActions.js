@@ -12,10 +12,12 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes';
+const readrrDSURL = 'https://ds.readrr.app/search';
 
 export const getGoogleResults = search => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
 	axios.get(`${googleBooksURL}?q=${search}`)
+	//axios.post(`${readrrDSURL}`, {type: 'search', query: search})
 		.then(response =>{
 			const newBookArray = response.data.items.map(book => {
 				return {
@@ -49,6 +51,7 @@ export const getGoogleResults = search => dispatch => {
 export const loadMore = (query, offset) => dispatch => {
 	dispatch({ type: FETCH_LOAD_MORE });
 	axios.get(`${googleBooksURL}?q=${query}&startIndex=${offset}`)
+	//axios.post(`${readrrDSURL}`, {type: 'search', query: query})
 		.then(response => {
 			const newBookArray = response.data.items.map(book => {
 				return {
