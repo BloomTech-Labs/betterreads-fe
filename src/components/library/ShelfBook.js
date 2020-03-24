@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs } from '../../actions';
+import { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
@@ -8,6 +8,7 @@ import BookCard from '../common/BookCard';
 import MyShelves from '../common/MyShelves';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import ShelfBookContainer from './styles/ShelfBookStyle';
+import AddToExistingShelf from '../common/AddToExistingShelf';
 
 const ShelfBook = props => {
 	useDocumentTitle('Readrr - Book details');
@@ -15,8 +16,11 @@ const ShelfBook = props => {
 	const [readMore, setReadMore] =  useState(false);
 
 	const googleID = props.match.params.id;
-
-	useEffect(() => props.fetchCurrentBook(googleID), []);
+  
+	useEffect(() => {
+		props.fetchCurrentBook(googleID);
+		props.getBooksOnShelves()
+	}, []);
 	
 	return (
 		<>
@@ -99,7 +103,10 @@ const ShelfBook = props => {
 				</div>
 
 				<MyShelves history={props.history} />
-			</ShelfBookContainer>
+				{props.userBooks.find( book => book.googleId === googleID) && 
+				<AddToExistingShelf bookId={props.match.params.id}/> }
+			
+				</ShelfBookContainer>
 		</>
 	);
 };
@@ -112,4 +119,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs })(ShelfBook);
+export default connect(mapStateToProps, { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves })(ShelfBook);
