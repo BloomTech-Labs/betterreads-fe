@@ -205,7 +205,7 @@ const BookCard = props => {
                     props.source === 'search' &&
                     <Rate 
                         defaultValue={libraryBook !== null && parseFloat(libraryBook.userRating) ? parseFloat(libraryBook.userRating) : props.book.averageRating} 
-                        disabled={!(libraryBook !== null)}
+                        disabled={(libraryBook === null)}
                         allowHalf
                         style={libraryBook && parseFloat(libraryBook.userRating) ? {color: '#d24719'} : {color: '#fadb14'}} 
                         onChange={updateRating} 
