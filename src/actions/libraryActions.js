@@ -62,7 +62,7 @@ export const updateBookUserRating = (bookId, rating) => dispatch => {
 	dispatch({ type: UPDATE_BOOK_USER_RATING, payload: {bookId, rating}})
 }
 
-export const updateBookValue = (bookId, field, value) => dispatch => {
+export const updateSingleBookField = (bookId, field, value) => dispatch => {
 	dispatch({ type: UPDATE_SINGLE_BOOK_FIELD, payload: {bookId, field, value}})
 }
 

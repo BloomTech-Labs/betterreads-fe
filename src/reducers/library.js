@@ -91,6 +91,8 @@ export const reducer = (state = initialState, action) => {
 							...book,
 							[action.payload.field]: action.payload.value
 						}
+					} else {
+						return book;
 					}
 				})
 			}
