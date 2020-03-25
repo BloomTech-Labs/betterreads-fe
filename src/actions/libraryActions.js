@@ -27,7 +27,7 @@ export const setCurrentShelf = shelf => dispatch => {
 		.then(response => {
 			dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
 
-			if (shelf === 'allbooks') {
+			if (shelf === 'mybooks') {
 				dispatch({ type: SET_CURRENT_SHELF, payload: response.data });
 			} else if (shelf === 'favorites') {
 				dispatch({ type: SET_CURRENT_SHELF, payload: response.data.filter(item => item.favorite === true) });
@@ -38,7 +38,9 @@ export const setCurrentShelf = shelf => dispatch => {
 			} else if (shelf === 'finished') {
 				dispatch({ type: SET_CURRENT_SHELF, payload: response.data.filter(item => item.readingStatus === 3) });
 			} else {
-				// fetch custom shelf books here
+				axios.get(`${API_URL}/api/booksonshelf/shelves/allbooks/${shelf}`)
+					.then(console.log(response.data))
+					.catch(error => console.log(error));
 			};
 		})
 		.catch(error => console.log(error));
@@ -78,13 +80,12 @@ export const moveBookFromShelf = bookId => dispatch => {
 	dispatch({ type: MOVE_BOOK_FROM_SHELF, payload: bookId})
 };
 
-// fetches shelf's books, release canvas 2, custom shelves
-export const fetchShelfsBooks = shelfID => dispatch => {
-	axios.get(`${API_URL}/api/shelves/${shelfID}`)
-		.then(response => console.log(response.data))
-		.catch(error => console.log(error));
-};
-
 export const createUserShelf = (name, isPrivate) => dispatch => {
 	return axios.post(`${API_URL}/api/shelves/user/${localStorage.getItem('id')}`, { shelfName: name, isPrivate: isPrivate });
+};
+
+export const editShelfName = (shelfID, shelfName, isPrivate) => {
+	axios.put(`${API_URL}/api/shelves/${shelfID}`, { shelfName: shelfName, isPrivate: isPrivate })
+		.then(response => console.log(response))
+		.catch(error => console.log(error));
 };
