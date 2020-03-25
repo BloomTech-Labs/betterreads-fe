@@ -7,12 +7,15 @@ const ResultCount = styled.div`
 	.openSans {
 		font-family: 'Open Sans', sans-serif;
 	}
+
 	.fs-16 {
 		font-size: 16px;
 	}
+
 	.lh-40 {
 		line-height: 40px;
 	}
+	
 	.fw-bold {
 		font-weight: bold;
 	}
@@ -31,11 +34,11 @@ const ResultCount = styled.div`
 
 const ShelfNote = props => {
 	return (
-    <ResultCount>
-      <div className="innerWrapper fs-16 lh-40 openSans">
-          {props.note}
-      </div>
-    </ResultCount>
+		<ResultCount>
+			<div className="innerWrapper fs-16 lh-40 openSans">
+				{props.note}
+			</div>
+		</ResultCount>
 	);
 };
 

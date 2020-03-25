@@ -7,28 +7,44 @@ const BookCardListContainer = styled.div`
     width: 90%;
     margin: 0 auto;
 
-    h2 {
+    .shelf-name {
         margin-bottom: 16px;
-        font-family: 'Frank Ruhl Libre', sans-serif;
-        font-size: 2rem;
-        font-weight: bold;
-        color: #3b403d;
         display: flex;
+        justify-content: space-between;
         align-items: center;
 
-        i {
-            // display: none;
-            margin-left: 8px;
-            font-size: 1rem;
-            color: #547862;
+        h2 {
+            margin-bottom: 0;
+            font-family: 'Frank Ruhl Libre', sans-serif;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3b403d;
+            display: flex;
+            align-items: center;
             cursor: pointer;
+    
+            i {
+                margin-left: 8px;
+            }
         }
 
-        // :hover {
-        //     i {
-        //         display: initial;
-        //     }
-        // }
+        i {
+            font-size: 1rem;
+            color: #d9d9d9;
+            cursor: pointer;
+        }
+    
+        form {
+            input {
+                width: 687px;
+                font-family: 'Frank Ruhl Libre', sans-serif;
+                font-size: 2rem;
+                font-weight: bold;
+                color: #3b403d;
+                border: none;
+                outline: none;
+            }
+        }
     }
 
     @media(min-width: 1120px) {
@@ -48,15 +64,37 @@ const BookCardList = props => {
     const [shelfName, setShelfName] = useState('');
     const [editing, setEditing] = useState(false);
 
-    useEffect(() => setShelfName(props.label));
+    useEffect(() => setShelfName(props.label), []);
+
+    const onChange = event => {
+        setShelfName(event.target.value);
+    };
+
+    const onSubmit = event => {
+        event.preventDefault();
+        setEditing(false);
+    };
 
     return (
         <>
             <BookCardListContainer>
-                {props.label && <h2>{shelfName}<i className='fas fa-pen'></i><i className='far fa-trash-alt'></i></h2>}
+                {props.label && <div className='shelf-name'>
+                    {editing ? (
+                        <form onSubmit={onSubmit} onBlur={onSubmit} autoComplete='off' spellCheck='false'>
+                            <input type='text' value={shelfName} onChange={onChange} autoFocus/>
+                        </form>
+                    ) : (
+                        <>
+                            <h2 onClick={() => setEditing(true)} title='Edit'>{shelfName}<i className='fas fa-pen' onClick={() => setEditing(true)}></i></h2>
+                            <i className='fas fa-trash' title='Delete'></i>
+                        </>
+                    )}
+                </div>}
+
                 <div className='book-card-list'>
                     {props.books.map((item, index) => <BookCard key={index} history={props.history} book={item} source={props.source} />)}
                 </div>
+
                 {props.source === 'search' && <SearchPagination />}
             </BookCardListContainer>
         </>
