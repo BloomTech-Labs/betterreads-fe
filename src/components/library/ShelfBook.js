@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves } from '../../actions';
+import { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves, setQuery, getGoogleResults } from '../../actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../common/Breadcrumbs';
 import BookCard from '../common/BookCard';
 import MyShelves from '../common/MyShelves';
+import AddToExistingShelf from '../common/AddToExistingShelf';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import ShelfBookContainer from './styles/ShelfBookStyle';
-import AddToExistingShelf from '../common/AddToExistingShelf';
 
 const ShelfBook = props => {
 	useDocumentTitle('Readrr - Book details');
@@ -22,6 +22,25 @@ const ShelfBook = props => {
 		props.getBooksOnShelves()
 	}, []);
 	
+	const categoryDisplay = () => {
+		let categorySet = new Set();
+
+		props.currentBook.categories.split(',').map(cat => 
+			cat.split('/').map(c => 
+				categorySet.add(c.trim()) 
+			)
+		)
+
+		return Array.from(categorySet).sort().map((cat, index) =>
+			<p className='genre' onClick={() => {
+					props.setQuery(cat);
+					props.getGoogleResults(cat, 'subject');
+					props.history.push('/search');
+				}
+			} key={index}>{cat}</p>
+		);
+	}
+
 	return (
 		<>
 			<Header history={props.history} />
@@ -57,7 +76,14 @@ const ShelfBook = props => {
 								props.currentBook.authors &&
 								<div className="info-item">
 									<div className="info-title">Author:</div>
-									<div className="info-value">{props.currentBook.authors && props.currentBook.authors}</div>
+									<div className="info-value">
+										{
+											props.currentBook.authors && 
+											props.currentBook.authors.split(',').map((author, index) => 
+												<div key={index}>{author}</div>
+											)
+										}
+									</div>
 								</div>
 							}
 							{
@@ -84,17 +110,19 @@ const ShelfBook = props => {
 						</div>
 					</div>
 
+					<AddToExistingShelf bookId={props.match.params.id} />
+
 					{
-						props.currentBook.categories && (
+						props.currentBook.categories && 
+						(
 							<div className='genre-big-container'>
 								<div className='genre-small-container'>
 									<p className='heading'>Genres</p>
 									<div className='genres'>
 										{
-											props.currentBook.categories && 
-											props.currentBook.categories.split(',').map((item, index) => 
-												<p className='genre' key={index}>{item}</p>
-											)}
+											props.currentBook.categories &&
+											categoryDisplay()
+										}	
 									</div>
 								</div>
 							</div>
@@ -103,8 +131,6 @@ const ShelfBook = props => {
 				</div>
 
 				<MyShelves history={props.history} />
-				{props.userBooks.find( book => book.googleId === googleID) && 
-				<AddToExistingShelf bookId={props.match.params.id}/> }
 			
 				</ShelfBookContainer>
 		</>
@@ -119,4 +145,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves })(ShelfBook);
+export default connect(mapStateToProps, { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves, setQuery, getGoogleResults })(ShelfBook);

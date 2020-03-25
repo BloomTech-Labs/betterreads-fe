@@ -28,26 +28,25 @@ export const getUserShelves = () => dispatch => {
     };
 
 export const addToCustomShelf = (book, shelfId, favorite, readingStatus) => dispatch => {
-	axios.post(`${API_URL}/api/booksonshelf/shelves/${shelfId}`, { book, favorite, readingStatus  })
+	axios.post(`${API_URL}/api/booksonshelf/shelves/${shelfId}`, { book: book  })
 		.then(response => dispatch({ type: ADD_BOOK_TO_SHELF, payload: book }))
-		.catch(error => console.log( error ));
+		.catch(error => console.log(error));
 };
 
 export const deleteFromCustomShelf = (bookId, shelfId) => dispatch => {
-	axios.post(`${API_URL}/api/booksonshelf/shelves/${shelfId}`, {  bookId: bookId })
+	axios.delete(`${API_URL}/api/booksonshelf/shelves/${shelfId}`, { data: {bookId} })
 		.then(response => dispatch({ type: DELETE_BOOK_FROM_SHELF, payload: response }))
-		.catch(error => console.log( error ));
+		.catch(error => console.log(error));
 };
+
 export const getBooksOnShelves = () => dispatch => {
     dispatch({ type: FETCH_USER_BOOKS_ON_SHELVES })
     axios.get(`${API_URL}/api/booksonshelf/user/${localStorage.getItem('id')}`)  
         .then(response =>{
-            console.log(response)    
             dispatch({ type: FETCH_USER_BOOKS_ON_SHELVES_SUCCESS, payload: response.data });
             })
             .catch(error => {
                 console.log(error);
                 dispatch({ type: FETCH_USER_BOOKS_ON_SHELVES_FAILURE, payload: error.response });
             });
-    
-}
+};
