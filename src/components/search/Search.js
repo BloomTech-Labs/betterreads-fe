@@ -9,7 +9,7 @@ import MyShelves from '../common/MyShelves';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import Loader from '../common/Loader';
 import styled from 'styled-components';
-import { BackTop, Spin } from 'antd';
+import { BackTop } from 'antd';
 import { PageView, Event } from '../../utils/tracking';
 
 const SearchContainer = styled.div`
