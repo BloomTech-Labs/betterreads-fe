@@ -41,7 +41,7 @@ export const deleteFromCustomShelf = (bookId, shelfId) => dispatch => {
 
 export const getBooksOnShelves = () => dispatch => {
     dispatch({ type: FETCH_USER_BOOKS_ON_SHELVES })
-    axios.get(`${API_URL}/api/booksonshelf/user/${localStorage.getItem('id')}`)  
+    axios.get(`${API_URL}/api/booksonshelf/user/${localStorage.getItem('id')}/shelves/allbooks`)  
         .then(response =>{
             dispatch({ type: FETCH_USER_BOOKS_ON_SHELVES_SUCCESS, payload: response.data });
             })
