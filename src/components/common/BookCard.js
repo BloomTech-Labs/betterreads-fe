@@ -6,6 +6,7 @@ import {
     updateBookFavorite,
     updateBookReadingStatus,
     updateBookUserRating,
+    updateSingleBookField,
     moveBookFromShelf
 } from '../../actions/index';
 import { updateBookItem, updateDates, sendUpTheFlares, updateUserRating } from '../../utils/helpers';
@@ -129,6 +130,9 @@ const BookCard = props => {
     const handleDates = (date, dateString, whichDate) => {
         updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate)
             .then(result => {
+                console.log(result)
+                if(result.data.dateStarted) props.updateSingleBookField(readrrId, 'dateStarted', result.data.dateStarted.split('T')[0]);
+                if(result.data.dateEnded) props.updateSingleBookField(readrrId, 'dateEnded', result.data.dateEnded.split('T')[0]);
                 setLibraryBook({
                     ...libraryBook,
                     dateStarted: result.data.dateStarted && result.data.dateStarted.split('T')[0],
@@ -225,5 +229,6 @@ export default connect(mapStateToProps, {
     updateBookFavorite,
     updateBookReadingStatus,
     updateBookUserRating,
+    updateSingleBookField,
     moveBookFromShelf
 })(BookCard);
