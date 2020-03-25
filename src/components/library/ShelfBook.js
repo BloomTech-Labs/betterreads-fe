@@ -16,7 +16,7 @@ const ShelfBook = props => {
 	const [readMore, setReadMore] =  useState(false);
 
 	const googleID = props.match.params.id;
-  
+
 	useEffect(() => {
 		props.fetchCurrentBook(googleID);
 		props.getBooksOnShelves()
@@ -32,12 +32,8 @@ const ShelfBook = props => {
 		)
 
 		return Array.from(categorySet).sort().map((cat, index) =>
-			<p className='genre' onClick={() => {
-					props.setQuery(cat);
-					props.getGoogleResults(cat, 'subject');
-					props.history.push('/search');
-				}
-			} key={index}>{cat}</p>
+			// onClick={() => {props.setQuery(cat); props.getGoogleResults(cat, 'subject'); props.history.push('/search');}
+			<p className='genre' key={index}>{cat}</p>
 		);
 	}
 
@@ -49,7 +45,12 @@ const ShelfBook = props => {
 
 			<ShelfBookContainer readMore={readMore}>
 				<div className='book-details'>
-					<BookCard history={props.history} book={props.currentBook} source='search' />
+
+					{
+						props.currentBook &&
+						props.currentBook.googleId === googleID &&
+						<BookCard history={props.history} book={props.currentBook} source='search' />
+					}
 
 					{
 						props.currentBook.description &&

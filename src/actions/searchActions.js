@@ -13,6 +13,7 @@ axios.defaults.withCredentials = true;
 
 const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes';
 const readrrDSURL = 'http://ds.readrr.app/search';
+const HreadrrDSURL = 'https://readrr-heroku-test.herokuapp.com/search';
 let fluffURL;
 
 export const getGoogleResults = (search, type) => dispatch => {
@@ -23,7 +24,7 @@ export const getGoogleResults = (search, type) => dispatch => {
 	// 	fluffURL = `${googleBooksURL}?q=${search}`
 	// }
 	axios.get(`${googleBooksURL}?q=${search}`)
-	//axios.post(`${readrrDSURL}`, {type: 'search', query: search})
+	//axios.post(`${HreadrrDSURL}`, {type: 'search', query: search})
 		.then(response =>{
 			const newBookArray = response.data.items.map(book => {
 				return {
@@ -47,6 +48,7 @@ export const getGoogleResults = (search, type) => dispatch => {
 				};
 			});
 			dispatch({ type: FETCH_SEARCH_SUCCESS, payload: {books: {totalItems: response.data.totalItems,  items: newBookArray}}});
+			//dispatch({ type: FETCH_SEARCH_SUCCESS, payload: {books: {totalItems: null,  items: response.data}}});
 		})
 		.catch(error => {
 			//console.log(error);
