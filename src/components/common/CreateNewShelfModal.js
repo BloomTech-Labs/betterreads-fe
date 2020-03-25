@@ -61,7 +61,6 @@ const CreateNewShelfModal = props => {
 	};
 
 	const handleOk = () => {
-		console.log(modal);
 		setModal({
 			...modal,
 			confirmLoading: true
@@ -75,7 +74,6 @@ const CreateNewShelfModal = props => {
 					isPrivate: false
 				});
 				props.history.push('/myshelves');
-				console.log(response);
 			})
 			.catch(error => console.log(error));
 	};

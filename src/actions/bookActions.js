@@ -1,33 +1,36 @@
-import { SET_CURRENT_BOOK, SET_BREADCRUMBS } from './types';
+import { SET_CURRENT_BOOK, SET_BREADCRUMBS, FETCH_CURRENT_BOOK } from './types';
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes';
-const readrrDSURL = 'http://ds.readrr.app/search';
+const readrrDSURL = 'https://readrr-heroku-test.herokuapp.com/search';
 
 export const fetchCurrentBook = googleID => dispatch => {
-	//axios.post(readrrDSURL, {type: 'googleId', query: googleId})
-	axios.get(`${googleBooksURL}/${googleID}`).then(response => {
-			dispatch({ type: SET_CURRENT_BOOK, payload: {
-				googleId: response.data.id,
-				title: response.data.volumeInfo.title || null,
-				authors: response.data.volumeInfo.authors && response.data.volumeInfo.authors.toString(),
-				publisher: response.data.volumeInfo.publisher || null,
-				publishedDate: response.data.volumeInfo.publishedDate || null,
-				description: response.data.volumeInfo.description || null,
-				isbn10: null,
-				isbn13: null,
-				pageCount: response.data.volumeInfo.pageCount || null,
-				categories: (response.data.volumeInfo.categories ? response.data.volumeInfo.categories.toString() : null),
-				averageRating: response.data.volumeInfo.averageRating || null,
-				thumbnail: (response.data.volumeInfo.imageLinks ? response.data.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://') : null),
-				smallThumbnail: (response.data.volumeInfo.imageLinks ? response.data.volumeInfo.imageLinks.smallThumbnail.replace('http://', 'https://') : null),
-				language: response.data.volumeInfo.language || null,
-				webReaderLink: response.data.accessInfo.webReaderLink || null,
-				textSnippet: (response.data.searchInfo && response.data.searchInfo.textSnippet) || null,
-				isEbook: response.data.saleInfo.isEbook || null
-			}})
+	dispatch({ type: FETCH_CURRENT_BOOK })
+	axios.post(readrrDSURL, {type: 'googleId', query: googleID})
+		.then(book => {
+			const newBook = book.data.map(book => {
+				return {
+					authors: book.authors && book.authors.toString(),
+					averageRating: book.averageRating || null,
+					categories: book.categories && book.categories.toString() || null,
+					description: book.description || null,
+					googleId: book.googleId,
+					isEbook: book.isEbook || null,
+					isbn10: book.isbn10 || null,
+					isbn13: book.isbn13 || null,
+					language: book.language || null,
+					pageCount: book.pageCount || null,
+					publishedDate: book.publishedDate || null,
+					publisher: book.publisher || null,
+					smallThumbnail: book.smallThumbnail ? book.smallThumbnail.replace('http://', 'https://') : null,
+					textSnippet: book.textSnippet || null,
+					title: book.title || null,
+					thumbnail: book.thumbnail ? book.thumbnail.replace('http://', 'https://') : null,
+					webReaderLink: book.webReaderLink || null
+				}
+			})
+			dispatch({ type: SET_CURRENT_BOOK, payload: newBook[0]});
 		})
 		.catch(error => console.log(error));
 };
