@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { deleteFromCustomShelf, addToCustomShelf, getUserShelves, getBooksOnShelves, addBookToUserLibrary } from '../../actions';
 import { Checkbox } from 'antd';
-import CreateNewShelfModalOnPage from '../common/CreateNewShelfModalOnPage';
+import CreateNewShelfModal from '../common/CreateNewShelfModal';
 import styled from 'styled-components';
 
 const AddToContainer = styled.div`
@@ -34,7 +34,7 @@ const AddToExistingShelf = props => {
 			{props.userBooksOnShelves && props.userBooksOnShelves.map((item, index) => (
 				<Checkbox key={index} name={item.shelfId} onChange={onChange} defaultChecked={item.books.find(item => item.googleId === props.bookId) ? true : false}>{item.shelfName}</Checkbox>
 			))}
-			<CreateNewShelfModalOnPage history={props.history} />
+			<CreateNewShelfModal button={false} history={props.history} />
       	</AddToContainer>
     );
 };
