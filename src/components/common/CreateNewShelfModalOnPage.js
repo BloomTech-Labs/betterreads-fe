@@ -53,7 +53,6 @@ const CreateNewShelfModal = props => {
 	};
 
 	const handleOk = () => {
-		console.log(modal);
 		setModal({
 			...modal,
 			confirmLoading: true

@@ -5,6 +5,7 @@ export const RESET_ERROR = 'RESET_ERROR';
 // book
 export const SET_CURRENT_BOOK = 'SET_CURRENT_BOOK';
 export const SET_BREADCRUMBS = 'SET_BREADCRUMBS';
+export const FETCH_CURRENT_BOOK = 'FETCH_CURRENT_BOOK';
 
 // library
 export const FETCH_USERS_BOOKS = 'FETCH_USERS_BOOKS';
