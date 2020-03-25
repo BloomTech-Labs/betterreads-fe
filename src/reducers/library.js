@@ -100,7 +100,8 @@ export const reducer = (state = initialState, action) => {
 		case ADD_BOOK_TO_LIBRARY:
 			return {
 				...state,
-				userBooks: [...state.userBooks, action.payload]
+				userBooks: state.userBooks.find(book => book.googleId === action.payload.googleId) ? state.userBooks : [...state.userBooks, action.payload]
+			
 			};
 		
 		case DELETE_USER_BOOK:
