@@ -29,9 +29,8 @@ const BookCardListContainer = styled.div`
         }
 
         i {
-            display: none;
             font-size: 1rem;
-            color: #547862;
+            color: #d9d9d9;
             cursor: pointer;
         }
     
@@ -44,12 +43,6 @@ const BookCardListContainer = styled.div`
                 color: #3b403d;
                 border: none;
                 outline: none;
-            }
-        }
-
-        :hover {
-            i {
-                display: initial;
             }
         }
     }
@@ -68,8 +61,6 @@ const BookCardListContainer = styled.div`
 `;
 
 const BookCardList = props => {
-    console.log('propps', props);
-
     const [shelfName, setShelfName] = useState('');
     const [editing, setEditing] = useState(false);
 
@@ -87,7 +78,7 @@ const BookCardList = props => {
     return (
         <>
             <BookCardListContainer>
-                {props.label && props.label !== 'All books' && <div className='shelf-name'>
+                {props.label && <div className='shelf-name'>
                     {editing ? (
                         <form onSubmit={onSubmit} onBlur={onSubmit} autoComplete='off' spellCheck='false'>
                             <input type='text' value={shelfName} onChange={onChange} autoFocus/>
