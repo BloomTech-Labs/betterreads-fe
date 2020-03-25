@@ -72,8 +72,8 @@ const BookCard = props => {
                 } else if (actionType === 'readingStatus' && readingStatus < 4) {
                     // reading status update
                     props.updateBookReadingStatus(newBookId || readrrId, parseInt(readingStatus));
-                    // only move book if not in allbooks
-                    if (props.history.location.pathname !== '/shelf/allbooks' && props.history.location.pathname !== '/shelf/favorites') {
+                    // only move book if not in mybooks
+                    if (props.history.location.pathname !== '/shelf/mybooks' && props.history.location.pathname !== '/shelf/favorites') {
                         props.moveBookFromShelf(newBookId || readrrId, parseInt(readingStatus));
                     };
                     Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');

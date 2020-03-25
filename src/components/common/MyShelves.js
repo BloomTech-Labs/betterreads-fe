@@ -199,8 +199,8 @@ const MyShelves = props => {
                     </div>
 
                     <div className='shelf' onClick={() => {
-                            props.setBreadcrumbs([{ label: 'All books', path: '/shelf/allbooks' }, { label: 'Book details', path: null }]);
-                            props.history.push('/shelf/allbooks');
+                            props.setBreadcrumbs([{ label: 'My books', path: '/shelf/mybooks' }, { label: 'Book details', path: null }]);
+                            props.history.push('/shelf/mybooks');
                     }}>
                         <p className='shelf-name'>My books</p>
                         {props.userBooks.length > 0 ? (
