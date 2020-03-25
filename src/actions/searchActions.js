@@ -11,75 +11,65 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes';
-const readrrDSURL = 'http://ds.readrr.app/search';
-const HreadrrDSURL = 'https://readrr-heroku-test.herokuapp.com/search';
-let fluffURL;
+//const googleBooksURL = 'https://www.googleapis.com/books/v1/volumes';
+const readrrDSURL = 'https://readrr-heroku-test.herokuapp.com/search';
 
 export const getGoogleResults = (search, type) => dispatch => {
 	dispatch({ type: FETCH_SEARCH_START });
-	// if(type === 'subject') {
-	// 	fluffURL = `${googleBooksURL}?q=+subject=${search}`	
-	// }else{
-	// 	fluffURL = `${googleBooksURL}?q=${search}`
-	// }
-	axios.get(`${googleBooksURL}?q=${search}`)
-	//axios.post(`${HreadrrDSURL}`, {type: 'search', query: search})
+	axios.post(`${readrrDSURL}`, {type: 'search', query: search})
 		.then(response =>{
 			const newBookArray = response.data.items.map(book => {
 				return {
-					googleId: book.id,
-					title: book.volumeInfo.title || null,
-					authors: book.volumeInfo.authors && book.volumeInfo.authors.toString(),
-					publisher: book.volumeInfo.publisher || null,
-					publishedDate: book.volumeInfo.publishedDate || null,
-					description: book.volumeInfo.description || null,
-					isbn10: null,
-					isbn13: null,
-					pageCount: book.volumeInfo.pageCount || null,
-					categories: book.volumeInfo.categories || null,
-					averageRating: book.volumeInfo.averageRating || null,
-					thumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://') : null),
-					smallThumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail.replace('http://', 'https://') : null),
-					language: book.volumeInfo.language || null,
-					webReaderLink: book.accessInfo.webReaderLink || null,
-					textSnippet: (book.searchInfo && book.searchInfo.textSnippet) || null,
-					isEbook: book.saleInfo.isEbook || null
+					authors: book.authors && book.authors.toString(),
+					averageRating: book.averageRating || null,
+					categories: book.categories || null,
+					description: book.description || null,
+					googleId: book.googleId,
+					isEbook: book.isEbook || null,
+					isbn10: book.isbn10 || null,
+					isbn13: book.isbn13 || null,
+					language: book.language || null,
+					pageCount: book.pageCount || null,
+					publishedDate: book.publishedDate || null,
+					publisher: book.publisher || null,
+					smallThumbnail: book.smallThumbnail ? book.smallThumbnail.replace('http://', 'https://') : null,
+					textSnippet: book.textSnippet || null,
+					title: book.title || null,
+					thumbnail: book.thumbnail ? book.thumbnail.replace('http://', 'https://') : null,
+					webReaderLink: book.webReaderLink || null
 				};
 			});
 			dispatch({ type: FETCH_SEARCH_SUCCESS, payload: {books: {totalItems: response.data.totalItems,  items: newBookArray}}});
-			//dispatch({ type: FETCH_SEARCH_SUCCESS, payload: {books: {totalItems: null,  items: response.data}}});
 		})
 		.catch(error => {
-			//console.log(error);
+			console.log(error);
 			dispatch({ type: FETCH_SEARCH_FAILURE, payload: error.response });
 		});
 };
 
 export const loadMore = (query, offset) => dispatch => {
 	dispatch({ type: FETCH_LOAD_MORE });
-	axios.get(`${googleBooksURL}?q=${query}&startIndex=${offset}`)
-	//axios.post(`${readrrDSURL}`, {type: 'search', query: query})
+	axios.post(`${readrrDSURL}`, {type: 'search', query, startIndex: offset})
 		.then(response => {
 			const newBookArray = response.data.items.map(book => {
 				return {
-					googleId: book.id,
-					title: book.volumeInfo.title || null,
-					authors: book.volumeInfo.authors && book.volumeInfo.authors.toString(),
-					publisher: book.volumeInfo.publisher || null,
-					publishedDate: book.volumeInfo.publishedDate || null,
-					description: book.volumeInfo.description || null,
-					isbn10: null,
-					isbn13: null,
-					pageCount: book.volumeInfo.pageCount || null,
-					categories: book.volumeInfo.categories || null,
-					averageRating: book.volumeInfo.averageRating || null,
-					thumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail.replace('http://', 'https://') : null),
-					smallThumbnail: (book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail.replace('http://', 'https://') : null),
-					language: book.volumeInfo.language || null,
-					webReaderLink: book.accessInfo.webReaderLink || null,
-					textSnippet: (book.searchInfo && book.searchInfo.textSnippet) || null,
-					isEbook: book.saleInfo.isEbook || null
+					authors: book.authors && book.authors.toString(),
+					averageRating: book.averageRating || null,
+					categories: book.categories || null,
+					description: book.description || null,
+					googleId: book.googleId,
+					isEbook: book.isEbook || null,
+					isbn10: book.isbn10 || null,
+					isbn13: book.isbn13 || null,
+					language: book.language || null,
+					pageCount: book.pageCount || null,
+					publishedDate: book.publishedDate || null,
+					publisher: book.publisher || null,
+					smallThumbnail: book.smallThumbnail ? book.smallThumbnail.replace('http://', 'https://') : null,
+					textSnippet: book.textSnippet || null,
+					title: book.title || null,
+					thumbnail: book.thumbnail ? book.thumbnail.replace('http://', 'https://') : null,
+					webReaderLink: book.webReaderLink || null
 				};
 			});
 			dispatch({ type: LOAD_MORE, payload: newBookArray });
