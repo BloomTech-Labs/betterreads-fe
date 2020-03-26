@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setBreadcrumbs} from '../../actions/bookActions';
+import { setBreadcrumbs, deleteShelf, fetchUsersShelves } from '../../actions';
 import BookCard from './BookCard';
 import BookCardList from './BookCardList';
-import { Carousel, Collapse } from 'antd';
+import { Carousel } from 'antd';
 import styled from 'styled-components'
+import { Menu, Dropdown, Popconfirm, message } from 'antd';
 
 const ShelfSwipeContainer = styled.div`
     padding-top: 12px;
@@ -49,6 +50,13 @@ const ShelfSwipeContainer = styled.div`
             font-size: 1.25rem;
             font-weight: bold;
             color: #4e4c4a;
+
+            i {
+                margin-left: 8px;
+                font-size: 1rem;
+                color: #3b403d;
+                cursor: pointer;
+            }
         }
 
         .view-all {
@@ -146,6 +154,26 @@ const ShelfSwipe = props => {
         ]
     };
 
+    const confirm = event => {
+        props.deleteShelf(props.id, props.history)
+        message.success('Successfully deleted shelf');
+        props.fetchUsersShelves();
+    };
+
+    const cancel = event => {
+        message.error('Cancelled');
+    };
+
+    const dropdown = (
+        <Menu>
+            <Menu.Item>
+                <Popconfirm title='Are you sure you want to delete this shelf?' onConfirm={confirm} onCancel={cancel} okText='Yes' cancelText='No'>
+                    <a href='#'><i className='fas fa-trash' style={{ marginRight: '4px', color: '#3b403d' }}></i>Delete</a>
+                </Popconfirm>
+            </Menu.Item>
+        </Menu>
+    );
+
     return (
         <ShelfSwipeContainer length={props.bookList.length}>
             {/* <Collapse defaultActiveKey={2} bordered={false}>
@@ -165,8 +193,29 @@ const ShelfSwipe = props => {
             </Collapse> */}
 
             <div className='header'>
-                {props.title !== 'Recommendations' ? <p className='status'>{props.title}  ({props.bookList.length})</p> : <p className='status'>{props.title}</p>}
-                
+                {props.title === 'Recommendations' && <p className='status'>{props.title}</p>}
+                {
+                    props.title === 'My books' ||
+                    props.title === 'Favorites' ||
+                    props.title === 'To be read' ||
+                    props.title === 'In progress' ||
+                    props.title === 'Finished' ? <p className='status'>{props.title} ({props.bookList.length})</p> : null
+                }
+                {
+                    props.title !== 'My books' &&
+                    props.title !== 'Favorites' &&
+                    props.title !== 'To be read' &&
+                    props.title !== 'In progress' &&
+                    props.title !== 'Finished' &&
+                    props.title !== 'Recommendations' ? (
+                        <p className='status'>{props.title} ({props.bookList.length})
+                            <Dropdown overlay={dropdown} trigger={['click']}>
+                                <i className='fas fa-ellipsis-h' title='Options'></i>
+                            </Dropdown>
+                        </p>
+                    ) : null
+                }
+
                 {props.link && props.bookList.length > 0 && (
                     <p className='view-all' onClick={() => {
                         props.setBreadcrumbs(props.breadcrumbs);
@@ -190,4 +239,4 @@ const ShelfSwipe = props => {
     );
 };
 
-export default connect(null, { setBreadcrumbs })(ShelfSwipe);
+export default connect(null, { setBreadcrumbs, deleteShelf, fetchUsersShelves })(ShelfSwipe);
