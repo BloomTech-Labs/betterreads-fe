@@ -38,7 +38,7 @@ const SearchPaginationContainer = styled.div`
 const SearchPagination = props => {
     const onClick = () => {
         props.loadMore(props.query, props.searchResults.books.items.length);
-        Event('SEARCH', 'User wanted more results', 'SEARCH_PAGINATION');
+        Event('SEARCH', `User loaded page ${(props.searchResults.books.items.length/10)+1}, for more results.`, 'SEARCH_PAGINATION');
     };
 
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
