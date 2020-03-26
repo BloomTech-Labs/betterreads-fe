@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { createUserShelf, fetchUsersShelves } from '../../actions/libraryActions';
+import { createUserShelf, fetchUsersShelves, getBooksOnShelves } from '../../actions';
 import styled from 'styled-components';
-import { Modal, Input, Checkbox } from 'antd';
+import { Modal, Input } from 'antd';
 
 const CreateNewShelfModalContainer = styled.div`
 	button {
@@ -84,6 +84,7 @@ const CreateNewShelfModal = props => {
 					isPrivate: null
 				});
 				props.fetchUsersShelves();
+				props.getBooksOnShelves();
 				props.history.push('/myshelves');
 			})
 			.catch(error => console.log(error));
@@ -110,4 +111,4 @@ const CreateNewShelfModal = props => {
 	);
 };
 
-export default connect(null, { createUserShelf, fetchUsersShelves })(CreateNewShelfModal);
+export default connect(null, { createUserShelf, fetchUsersShelves, getBooksOnShelves })(CreateNewShelfModal);

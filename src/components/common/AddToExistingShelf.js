@@ -4,7 +4,7 @@ import { deleteFromCustomShelf, addToCustomShelf, getUserShelves, getBooksOnShel
 import { Checkbox, Collapse } from 'antd';
 import CreateNewShelfModal from './CreateNewShelfModal';
 import styled from 'styled-components';
-import { Events } from '../../utils/tracking'
+import { Event } from '../../utils/tracking'
 
 const ShelfContainer = styled.div`
 	.ant-collapse {
