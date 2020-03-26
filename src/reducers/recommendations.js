@@ -7,7 +7,7 @@ import {
 export const initialState = {
     fetchRecommendations: false,
     error: '',
-    recommendations: {}
+    recommendations: []
 }
 
 export const reducer = (state = initialState, action) => {

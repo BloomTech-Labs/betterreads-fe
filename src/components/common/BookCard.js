@@ -72,7 +72,7 @@ const BookCard = props => {
                     // reading status update
                     props.updateBookReadingStatus(newBookId || readrrId, parseInt(readingStatus));
                     // only move book if not in mybooks
-                    if (props.history.location.pathname !== '/' && props.source !== 'search') {
+                    if (props.history.location.pathname !== '/' && props.source !== 'search' && props.source !== 'recommendation') {
                         props.moveBookFromShelf(newBookId || readrrId, parseInt(readingStatus));
                     };
                     Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');

@@ -8,6 +8,7 @@ import MyShelves from '../common/MyShelves';
 import StatusShelfCarousel from '../common/StatusShelfCarousel';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import styled from 'styled-components';
+import Loader from '../common/Loader';
 import { PageView, Event } from '../../utils/tracking';
 
 const ShelvesContainer = styled.div`

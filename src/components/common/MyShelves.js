@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, setBreadcrumbs } from '../../actions';
+import { fetchUsersBooks, setBreadcrumbs, fetchRecommendations } from '../../actions';
 import { Link } from 'react-router-dom';
 import CreateNewShelfModal from './CreateNewShelfModal';
 import styled from 'styled-components';
@@ -155,7 +155,7 @@ const MyShelvesContainer = styled.div`
 `;
 
 const MyShelves = props => {
-    useEffect(() => props.fetchUsersBooks(), []);
+    useEffect(() => {props.fetchUsersBooks(); props.fetchRecommendations();}, []);
 
 	const inProgress = props.userBooks.filter(item => item.readingStatus === 2);
     const toBeRead = props.userBooks.filter(item => item.readingStatus === 1);
@@ -224,4 +224,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, { fetchUsersBooks, setBreadcrumbs })(MyShelves);
+export default connect(mapStateToProps, { fetchUsersBooks, setBreadcrumbs, fetchRecommendations })(MyShelves);
