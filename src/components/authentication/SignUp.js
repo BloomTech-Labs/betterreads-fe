@@ -33,6 +33,8 @@ const SignUp = props => {
 		event.preventDefault();
 		props.resetError();
 		props.signUp(input, props.history);
+		Event('SIGN UP', 'User created an account', 'SIGN_UP');
+
 	};
 
 	return (

@@ -95,10 +95,14 @@ const BookCard = props => {
     useEffect(() => {
         if (readingStatus === 1) {
             setTrackBtnLabel('To read');
+            Event('TRACKING', 'User tracked a book to To Read', 'BOOK_CARD');
         } else if (readingStatus === 2) {
             setTrackBtnLabel('In progress');
+            Event('TRACKING', 'User tracked a book to In Progress', 'BOOK_CARD');
         } else if (readingStatus === 3) {
             setTrackBtnLabel('Finished');
+            Event('TRACKING', 'User tracked a book to Finished', 'BOOK_CARD');
+
         } else {
             setTrackBtnLabel('Track this');
         };
@@ -107,6 +111,7 @@ const BookCard = props => {
     const readingStatusUpdate = key => {
         setReadingStatus(key.item.props.value);
         setTrackBtnLabel(key.item.props.children);
+
     };
 
     const updateRating = (rate) => {

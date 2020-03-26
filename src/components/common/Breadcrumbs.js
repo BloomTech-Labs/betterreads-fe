@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Breadcrumb } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
+import { Event } from '../../utils/tracking';
 
 const Wrapper = styled.div`
 	.fs-16 {
@@ -36,11 +37,11 @@ const Breadcrumbs = props => {
 	return (
 		<Wrapper>
 			<Breadcrumb className="fs-16 openSans lh-40">
-				<Breadcrumb.Item onClick={() => props.history.push('/')}>
+				<Breadcrumb.Item onClick={() => props.history.push('/')} >
 					<HomeOutlined /> Library
 				</Breadcrumb.Item>
 				{props.crumbs && props.crumbs.map((crumb, index) => (
-					<Breadcrumb.Item key={index} onClick={() => (crumb.path ? props.history.push(`${crumb.path}`) : null)}>
+					<Breadcrumb.Item key={index} onClick={() => (crumb.path ? (props.history.push(`${crumb.path}`), Event('BREADCRUMBS', 'User clicked on the breadcrumb link', 'BREADCRUMBS')) : null)}>
 						{crumb.label}
 					</Breadcrumb.Item>
 				))}
