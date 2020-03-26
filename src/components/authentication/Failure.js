@@ -44,7 +44,7 @@ const Failure = props => {
 	return (
 		<FailureContainer>
 			<h1>There was an error</h1>
-			<button onClick={() => props.history.push('/')}>Go Back</button>
+			<button onClick={() => (props.history.push('/'),Event('SIGN IN', 'User was redirected to signIn', 'FAILURE'))}>Go Back</button>
 		</FailureContainer>
 	);
 };

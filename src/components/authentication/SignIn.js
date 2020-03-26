@@ -33,6 +33,8 @@ const SignIn = props => {
 		event.preventDefault();
 		props.resetError();
 		props.signIn(input, props.history);
+		Event('SIGN IN', 'User signed in', 'SIGN_IN');
+
 	};
 
 	return (
