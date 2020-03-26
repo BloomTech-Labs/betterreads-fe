@@ -7,6 +7,7 @@ import ShelfNote from '../common/ShelfNote';
 import BookCardList from '../common/BookCardList';
 import MyShelves from '../common/MyShelves';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
+import Loader from '../common/Loader';
 import styled from 'styled-components';
 import { BackTop } from 'antd';
 import { PageView, Event } from '../../utils/tracking';
@@ -31,7 +32,7 @@ const Search = props => {
 		Event('Search', 'loaded search', 'SEARCH_COMPONENT');
 		PageView();
 	}, []);
-	
+
 	return (
 		<>
 			<Header history={props.history} />	
@@ -40,6 +41,7 @@ const Search = props => {
 			{props.searchResults.books ? <ShelfNote note={`${props.searchResults.books.totalItems} results for "${props.query}"`} /> : <ShelfNote note='Search for your favorite title or author' />}
 			<SearchContainer>
 				<BackTop />
+				{props.fetching && <Loader size="72px" />}
 				{props.searchResults.books && !props.fetching ? <BookCardList history={props.history} books={props.searchResults.books.items} source={'search'} /> : <div></div>}
 				<MyShelves history={props.history} />
 			</SearchContainer>

@@ -114,9 +114,7 @@ const BookCard = props => {
             updateUserRating(localStorage.getItem('id'), libraryBook.bookId, rate)
             .then(result => {
                 Event('RATING', 'User rated a book.', 'BOOK_CARD');
-
                 props.updateBookUserRating(libraryBook.bookId, rate); //update redux state...
-                
                 sendUpTheFlares('success', 'Success', 'Your book has been rated');
                 setLibraryBook({
                     ...libraryBook,
@@ -130,7 +128,6 @@ const BookCard = props => {
     const handleDates = (date, dateString, whichDate) => {
         updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate)
             .then(result => {
-                console.log(result)
                 if(result.data.dateStarted) props.updateSingleBookField(readrrId, 'dateStarted', result.data.dateStarted.split('T')[0]);
                 if(result.data.dateEnded) props.updateSingleBookField(readrrId, 'dateEnded', result.data.dateEnded.split('T')[0]);
                 setLibraryBook({
