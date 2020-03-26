@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { deleteFromCustomShelf, addToCustomShelf, getUserShelves, getBooksOnShelves, addBookToUserLibrary } from '../../actions';
 import { Checkbox, Collapse } from 'antd';
-import CreateNewShelfModalOnPage from '../common/CreateNewShelfModalOnPage';
+import CreateNewShelfModal from '../common/CreateNewShelfModal';
+
 import styled from 'styled-components';
 import { Events } from '../../utils/tracking'
 

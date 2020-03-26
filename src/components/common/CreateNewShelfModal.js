@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { createUserShelf } from '../../actions/libraryActions';
+import { createUserShelf, fetchUsersShelves } from '../../actions/libraryActions';
 import styled from 'styled-components';
 import { Modal, Input, Checkbox } from 'antd';
 
@@ -23,6 +23,16 @@ const CreateNewShelfModalContainer = styled.div`
             color: #ffffff;
         }
 	}
+
+	.link {
+		padding-left: 4px;
+		margin-bottom: 16px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 600;
+        color: #d24719;
+        cursor: pointer;
+        transition: 0.25s;
+	}
 	
 	@media(min-width: 1120px) {
 		button {
@@ -36,7 +46,7 @@ const CreateNewShelfModal = props => {
         visible: false,
         confirmLoading: false,
         name: '',
-        isPrivate: false
+        isPrivate: null
     });
 
 	const showModal = () => {
@@ -53,12 +63,12 @@ const CreateNewShelfModal = props => {
 		});
 	};
 
-	const handleCheck = event => {
-		setModal({
-			...modal,
-			isPrivate: event.target.checked
-		});
-	};
+	// const handleCheck = event => {
+	// 	setModal({
+	// 		...modal,
+	// 		isPrivate: event.target.checked
+	// 	});
+	// };
 
 	const handleOk = () => {
 		setModal({
@@ -71,8 +81,9 @@ const CreateNewShelfModal = props => {
 					visible: false,
 					confirmLoading: false,
 					name: '',
-					isPrivate: false
+					isPrivate: null
 				});
+				props.fetchUsersShelves();
 				props.history.push('/myshelves');
 			})
 			.catch(error => console.log(error));
@@ -83,20 +94,20 @@ const CreateNewShelfModal = props => {
 			visible: false,
 			confirmLoading: false,
 			name: '',
-			isPrivate: false
+			isPrivate: null
 		});
 	};
   
     return (
         <CreateNewShelfModalContainer>
-			<button onClick={showModal}>Create new shelf</button>
+			{props.button ? <button onClick={showModal}>Create new shelf</button> : <p className='link' onClick={showModal}>+ Create new shelf</p>}
 
 			<Modal title='Create new shelf' visible={modal.visible} onOk={handleOk} onCancel={handleCancel}>
 				<Input size='large' placeholder='Enter shelf name' value={modal.name} onChange={handleChange} />
-				<Checkbox checked={modal.isPrivate} onChange={handleCheck}>Private</Checkbox>
+				{/* <Checkbox checked={modal.isPrivate} onChange={handleCheck}>Private</Checkbox> */}
 			</Modal>
 		</CreateNewShelfModalContainer>
 	);
 };
 
-export default connect(null, { createUserShelf })(CreateNewShelfModal);
+export default connect(null, { createUserShelf, fetchUsersShelves })(CreateNewShelfModal);

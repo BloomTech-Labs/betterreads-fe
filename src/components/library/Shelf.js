@@ -23,31 +23,16 @@ const Shelf = props => {
 	useDocumentTitle('Readrr - Shelf');
 
 	const shelf = props.match.params.shelf;
-	
-	let label;
-	if (shelf === 'mybooks') {
-		label = 'My books';
-	} else if (shelf === 'favorites') {
-		label = 'Favorites';
-	} else if (shelf === 'toberead') {
-		label = 'To be read';
-	} else if (shelf === 'inprogress') {
-		label = 'In progress';
-	} else if (shelf === 'finished') {
-		label = 'Finished';
-	} else {
-		label = shelf;
-	};
 
-	useEffect(() => props.setCurrentShelf(shelf), []);
+	useEffect(() => props.setCurrentShelf(shelf), [shelf]);
 
 	return (
 		<>
 			<Header history={props.history} />
 			<SearchForm history={props.history} />
-			<Breadcrumbs history={props.history} crumbs={[{ label, path: null }]} />
+			<Breadcrumbs history={props.history} crumbs={[{ label: props.currentShelf.name, path: null }]} />
 			<ShelfContainer>
-				<BookCardList history={props.history} books={props.currentShelf} source={'library'} label={label} />
+				{props.currentShelf.name && props.currentShelf.books && <BookCardList history={props.history} books={props.currentShelf.books} source={'library'} label={props.currentShelf.name} />}
 				<MyShelves history={props.history} source={'shelf'} />
 			</ShelfContainer>
 		</>
@@ -56,7 +41,6 @@ const Shelf = props => {
 
 const mapStateToProps = state => {
 	return {
-		userBooks: state.library.userBooks,
 		currentShelf: state.library.currentShelf
 	};
 };
