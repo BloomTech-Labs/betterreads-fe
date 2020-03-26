@@ -165,7 +165,7 @@ const MyShelves = props => {
             <div className='my-shelves'>
                 <h2 onClick={() => props.history.push('/myshelves')}>My Shelves <i className='fas fa-chevron-right'></i></h2>
                 <p className='create-shelves'>Create shelves and add books to your custom shelf.</p>
-                <CreateNewShelfModal history={props.history} />
+                <CreateNewShelfModal button={true} history={props.history} />
 
                 <div className='shelves-container'>
                     <div className='shelf' onClick={() => {
@@ -175,8 +175,8 @@ const MyShelves = props => {
                         <p className='shelf-name'>In progress</p>
                         {inProgress.length > 0 ? (
                             <div className='thumbnails'>
-                                {inProgress.filter(item => item.thumbnail !== null).slice(0, 3).map(item => (
-                                    <img src={item.thumbnail || item.smallThumbnail} alt={item.title} />
+                                {inProgress.filter(item => item.thumbnail !== null).slice(0, 3).map((item, index) => (
+                                    <img key={index} src={item.thumbnail || item.smallThumbnail} alt={item.title} />
                                 ))}
                             </div>
                         ) : <BookIcon height='40px' width='40px' fill='#d9d9d9' />}
@@ -190,8 +190,8 @@ const MyShelves = props => {
                         <p className='shelf-name'>To be read</p>
                         {toBeRead.length > 0 ? (
                             <div className='thumbnails'>
-                                {toBeRead.filter(item => item.thumbnail !== null).slice(0, 3).map(item => (
-                                    <img src={item.thumbnail || item.smallThumbnail} alt={item.title} />
+                                {toBeRead.filter(item => item.thumbnail !== null).slice(0, 3).map((item, index) => (
+                                    <img key={index} src={item.thumbnail || item.smallThumbnail} alt={item.title} />
                                 ))}
                             </div>
                         ) : <BookIcon height='40px' width='40px' fill='#d9d9d9' />}
@@ -199,14 +199,14 @@ const MyShelves = props => {
                     </div>
 
                     <div className='shelf' onClick={() => {
-                            props.setBreadcrumbs([{ label: 'My books', path: '/shelf/mybooks' }, { label: 'Book details', path: null }]);
-                            props.history.push('/shelf/mybooks');
+                        props.setBreadcrumbs([{ label: 'My books', path: '/shelf/mybooks' }, { label: 'Book details', path: null }]);
+                        props.history.push('/shelf/mybooks');
                     }}>
                         <p className='shelf-name'>My books</p>
                         {props.userBooks.length > 0 ? (
                             <div className='thumbnails'>
-                                {props.userBooks.filter(item => item.thumbnail !== null).slice(0, 3).map(item => (
-                                    <img src={item.thumbnail} alt={item.title} />
+                                {props.userBooks.filter(item => item.thumbnail !== null).slice(0, 3).map((item, index) => (
+                                    <img key={index} src={item.thumbnail} alt={item.title} />
                                 ))}
                             </div>
                         ) : <BookIcon height='40px' width='40px' fill='#d9d9d9' />}

@@ -1,22 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { deleteFromCustomShelf, addToCustomShelf, getUserShelves, getBooksOnShelves, addBookToUserLibrary } from '../../actions';
-import { Checkbox } from 'antd';
-import CreateNewShelfModalOnPage from '../common/CreateNewShelfModalOnPage';
+import { Checkbox, Collapse } from 'antd';
+import CreateNewShelfModal from './CreateNewShelfModal';
 import styled from 'styled-components';
 import { Event } from '../../utils/tracking';
 
-const AddToContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: left;
-	
+const ShelfContainer = styled.div`
+	.ant-collapse {
+		background-color: transparent;
 
-	.ant-checkbox-wrapper{
-		margin-left: 0;
-		padding-bottom: 0 0 10px 0;
+		.ant-collapse-item{border-bottom: none;}
+		.ant-collapse-header {
+			font-size: 1rem;
+			font-family: 'Frank Ruhl Libre', sans-serif;
+			font-weight: 700;
+			padding: 12px 0 !important;
+			color: #4E4C4A;
+		}
+
+		.ant-collapse-content-box {
+			padding: 0;
+
+			.ant-checkbox-wrapper{
+				display: block;
+				margin: 8px 0 !important;
+			}
+		}
 	}
-`
+`;
 
 const AddToExistingShelf = props => {
 	const onChange = event => {
@@ -25,20 +37,23 @@ const AddToExistingShelf = props => {
 			Event('CUSTOM_SHELF', 'A book was added tp a custom shelf', 'ADD_TO_EXISTING_SHELF');
 			props.addBookToUserLibrary(props.currentBook);
 			props.addToCustomShelf(props.currentBook, event.target.name);
+			Event('SHELF', 'User added a book to a shelf', 'ADD_TO_SHELF');
 		} else {
 			Event('CUSTOM_SHELF', 'A book was removed from a custom shelf was deleted', 'ADD_TO_EXISTING_SHELF');
 			props.deleteFromCustomShelf(book.bookId, event.target.name);
+			Event('SHELF', 'User removed a book from a shelf', 'ADD_TO_SHELF');
 		};
 	};
 
     return (
-      	<AddToContainer>
-			<h2>Shelves ({props.userBooksOnShelves.length})</h2>	
-			{props.userBooksOnShelves && props.userBooksOnShelves.map((item, index) => (
-				<Checkbox key={index} name={item.shelfId} onChange={onChange} defaultChecked={item.books.find(item => item.googleId === props.bookId) ? true : false}>{item.shelfName}</Checkbox>
-			))}
-			<CreateNewShelfModalOnPage history={props.history} />
-      	</AddToContainer>
+		<ShelfContainer>
+			<Collapse defaultActiveKey={1} bordered={false} expandIconPosition="right">
+				<Collapse.Panel header={`Shelves (${props.userBooksOnShelves.length})`} showArrow={true} key={0}>
+					{props.userBooksOnShelves && props.userBooksOnShelves.map((item, index) => (<Checkbox key={index} name={item.shelfId} onChange={onChange} defaultChecked={item.books.find(item => item.googleId === props.bookId) ? true : false}>{item.shelfName}</Checkbox>))}
+					<CreateNewShelfModal history={props.history} />
+				</Collapse.Panel>
+			</Collapse>
+		</ShelfContainer>
     );
 };
 

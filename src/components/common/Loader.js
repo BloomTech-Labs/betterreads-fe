@@ -26,7 +26,7 @@ const LoaderContainer = styled.div`
 
 
 const Loader = (props) => {
-    const antIcon = <LoadingOutlined style={{ fontSize: props.size || '24px', color: props.color || '#547862' }} spin />;
+    const antIcon = <LoadingOutlined style={{ fontSize: props.size || '72px', color: props.color || '#547862' }} spin />;
 
     return (
         <LoaderContainer size={props.size}>
