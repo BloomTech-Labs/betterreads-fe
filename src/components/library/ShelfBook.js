@@ -102,12 +102,12 @@ const ShelfBook = props => {
 									</div>
 								}
 								{
-									props.currentBook.isbn10 || 
-									props.currentBook.isbn13 &&
-									<div className="info-item">
-										<div className="info-title">ISBN:</div>
-										<div className="info-value">{props.currentBook.isbn10 && props.currentBook.isbn10}</div>
-									</div>
+									props.currentBook.isbn10 !== null && 
+									props.currentBook.isbn13 !== null &&
+										<div className="info-item">
+											<div className="info-title">ISBN:</div>
+											<div className="info-value">{props.currentBook.isbn13 !== null ? props.currentBook.isbn13 : props.currentBook.isbn10}</div>
+										</div>
 								}
 								{
 									props.currentBook.pageCount &&
