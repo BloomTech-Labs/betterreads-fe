@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { signUp, resetError } from '../../actions/authenticationActions';
 import SignUpContainer from './styles/SignUpStyle';
 import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';
+import { PageView, Event } from '../../utils/tracking';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 const SignUp = props => {
+
+	useEffect(() => {
+		Event('Sign Up', 'Sign up loaded', 'SIGN_UP');
+		PageView();
+	}, []);
+
 	const [input, setInput] = useState({
 		fullName: '',
 		emailAddress: '',

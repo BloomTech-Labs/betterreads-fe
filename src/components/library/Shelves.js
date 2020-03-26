@@ -8,6 +8,7 @@ import MyShelves from '../common/MyShelves';
 import StatusShelfCarousel from '../common/StatusShelfCarousel';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import styled from 'styled-components';
+import { PageView, Event } from '../../utils/tracking';
 
 const ShelvesContainer = styled.div`
     margin: 0 auto;
@@ -43,7 +44,11 @@ const ShelvesContainer = styled.div`
 const Shelves = props => {
     useDocumentTitle('Readrr - My Shelves');
 
-    useEffect(() => props.fetchUsersShelves(), []);
+    useEffect(() => {
+        props.fetchUsersShelves()
+        Event('SHELVES', 'A user loaded viewed all of their shelves', 'SHELVES');
+        PageView();
+    }, []);
 
     const userBooks = props.userBooks.filter(item => item);
     const favorites = props.userBooks.filter(item => item.favorite === true);

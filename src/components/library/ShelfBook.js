@@ -9,6 +9,7 @@ import MyShelves from '../common/MyShelves';
 import AddToExistingShelf from '../common/AddToExistingShelf';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import ShelfBookContainer from './styles/ShelfBookStyle';
+import { PageView, Event } from '../../utils/tracking';
 
 const ShelfBook = props => {
 	useDocumentTitle('Readrr - Book details');
@@ -20,6 +21,8 @@ const ShelfBook = props => {
 	useEffect(() => {
 		props.fetchCurrentBook(googleID);
 		props.getBooksOnShelves()
+		Event('BOOK', 'A user viewed a book', 'SHELF_BOOK');
+		PageView();
 	}, []);
 	
 	const categoryDisplay = () => {
