@@ -34,7 +34,6 @@ const BookCardListContainer = styled.div`
         i {
             font-size: 1rem;
             color: #3b403d;
-            // color: #d9d9d9;
             cursor: pointer;
         }
     
@@ -118,11 +117,13 @@ const BookCardList = props => {
                         )}
                     </div>
                 }
-                {props.label && props.label === 'My books' || props.label === 'Favorites' || props.label === 'To be read' || props.label === 'In progress' || props.label === 'Finished' && (
-                    <div className='shelf-name'>
-                        <h2>{shelfName}</h2>
-                    </div>
-                )}
+                {
+                    props.label && props.label === 'My books' || props.label === 'Favorites' || props.label === 'To be read' || props.label === 'In progress' || props.label === 'Finished' ? (
+                        <div className='shelf-name'>
+                            <h2>{shelfName}</h2>
+                        </div>
+                    ) : null
+                }
 
                 <div className='book-card-list'>
                     {props.books && props.books.map((item, index) => <BookCard key={index} history={props.history} book={item} source={props.source} />)}
