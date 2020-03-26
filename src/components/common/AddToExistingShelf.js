@@ -37,12 +37,12 @@ const AddToExistingShelf = props => {
 		if (event.target.checked === true) {
 			props.addBookToUserLibrary(props.currentBook);
 			props.addToCustomShelf(props.currentBook, event.target.name);
-			sendUpTheFlares('success', 'Success', 'Book has been added to shelf.');
+			sendUpTheFlares('success', 'Success', 'Book has been added to your shelf.');
 			Event('SHELF', 'User added a book to a shelf', 'ADD_TO_SHELF');
 		} else {
 			props.deleteFromCustomShelf(book.bookId, event.target.name);
+			sendUpTheFlares('warning', 'Success', 'Book has been deleted from your shelf.');
 			Event('SHELF', 'User removed a book from a shelf', 'ADD_TO_SHELF');
-			sendUpTheFlares('success', 'Success', 'Book has been deleted from shelf.');
 
 		};
 	};
