@@ -9,6 +9,7 @@ import BookCardList from '../common/BookCardList';
 import MyShelves from '../common/MyShelves';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import styled from 'styled-components';
+import { PageView, Event } from '../../utils/tracking';
 
 const ShelfContainer = styled.div`
 	@media(min-width: 1120px) {
@@ -24,7 +25,11 @@ const Shelf = props => {
 
 	const shelf = props.match.params.shelf;
 
-	useEffect(() => props.setCurrentShelf(shelf), [shelf]);
+	useEffect(() => {
+		props.setCurrentShelf(shelf);
+		Event('Shelf', 'A user looked at a shelf of books', 'SHELF');
+		PageView();
+	}, []);
 
 	return (
 		<>

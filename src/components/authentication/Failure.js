@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { PageView, Event } from '../../utils/tracking';
 
 const FailureContainer = styled.div`
 	height: 90vh;
@@ -35,6 +36,11 @@ const FailureContainer = styled.div`
 `;
 
 const Failure = props => {
+	useEffect(() => {
+		Event('SIGN IN', 'Failure to sign in', 'SIGN_IN');
+		PageView();
+	}, []);
+
 	return (
 		<FailureContainer>
 			<h1>There was an error</h1>

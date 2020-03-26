@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { createUserShelf, fetchUsersShelves, getBooksOnShelves } from '../../actions';
 import styled from 'styled-components';
 import { Modal, Input } from 'antd';
+import { Event } from '../../utils/tracking';
 
 const CreateNewShelfModalContainer = styled.div`
 	button {
@@ -83,6 +84,7 @@ const CreateNewShelfModal = props => {
 					name: '',
 					isPrivate: null
 				});
+				Event('CUSTOM_SHELF', 'A custom shelf was created', 'CREATE_NEW_SHELF_MODAL');
 				props.fetchUsersShelves();
 				props.getBooksOnShelves();
 				props.history.push('/myshelves');

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getGoogleResults, clearSearchResults, setQuery, setBreadcrumbs } from '../../actions';
 import styled from 'styled-components';
 import { Input } from 'antd';
+import { Event } from '../../utils/tracking';
 
 const Wrapper = styled.div`
     background-color: #f3f6f5;
@@ -34,6 +35,7 @@ const SearchForm = props => {
 	};
 
 	const handleSearch = e => {
+        Event('SEARCH', 'A search was made', 'SEARCH_FORM');
         props.getGoogleResults(props.query);
         props.setBreadcrumbs([{ label: 'Search results', path: '/search' }, { label: 'Book details', path: null }]);
         if(props.history.location.pathname !== '/search') props.history.push('/search');

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { PageView, Event } from '../../utils/tracking';
 
 const PageNotFoundContainer = styled.div`
 	height: 90vh;
@@ -35,6 +36,11 @@ const PageNotFoundContainer = styled.div`
 `;
 
 const PageNotFound = props => {
+	useEffect(() => {
+		Event('NOT_FOUND', 'Page not found. A user got lost on their journey.', 'NOT_FOUND');
+		PageView();
+	}, []);
+
 	return (
 		<PageNotFoundContainer>
 			<h1>Page not found</h1>

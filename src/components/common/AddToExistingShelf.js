@@ -4,7 +4,7 @@ import { deleteFromCustomShelf, addToCustomShelf, getUserShelves, getBooksOnShel
 import { Checkbox, Collapse } from 'antd';
 import CreateNewShelfModal from './CreateNewShelfModal';
 import styled from 'styled-components';
-import { Event } from '../../utils/tracking'
+import { Event } from '../../utils/tracking';
 
 const ShelfContainer = styled.div`
 	.ant-collapse {
@@ -34,10 +34,12 @@ const AddToExistingShelf = props => {
 	const onChange = event => {
 		const book = props.userBooksOnShelves.find(item => item.shelfId === event.target.name).books.find(item => item.googleId === props.bookId);
 		if (event.target.checked === true) {
+			Event('CUSTOM_SHELF', 'A book was added tp a custom shelf', 'ADD_TO_EXISTING_SHELF');
 			props.addBookToUserLibrary(props.currentBook);
 			props.addToCustomShelf(props.currentBook, event.target.name);
 			Event('SHELF', 'User added a book to a shelf', 'ADD_TO_SHELF');
 		} else {
+			Event('CUSTOM_SHELF', 'A book was removed from a custom shelf was deleted', 'ADD_TO_EXISTING_SHELF');
 			props.deleteFromCustomShelf(book.bookId, event.target.name);
 			Event('SHELF', 'User removed a book from a shelf', 'ADD_TO_SHELF');
 		};
