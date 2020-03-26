@@ -4,7 +4,6 @@ import { notification } from 'antd';
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 export const updateBookItem = (userId, readrrId, inLibrary, book, action, favorite, readingStatus) => {
-    console.log(book)
     let method = (inLibrary ? 'put' : 'post');
 
     let data;
