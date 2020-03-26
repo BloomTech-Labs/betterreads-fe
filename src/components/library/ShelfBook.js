@@ -22,8 +22,6 @@ const ShelfBook = props => {
 		props.fetchCurrentBook(googleID);
 		props.getBooksOnShelves()
 	}, []);
-	
-	console.log(props)
 
 	const categoryDisplay = () => {
 		let categorySet = new Set();
@@ -45,14 +43,14 @@ const ShelfBook = props => {
 			<Header history={props.history} />
 			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={props.breadcrumbs} />
-			{
-				props.fetchingCurrentBook &&
-				<Loader />
-			}
 
-			{
-				!props.fetchingCurrentBook &&
-				<ShelfBookContainer readMore={readMore}>
+			<ShelfBookContainer readMore={readMore}>
+				{
+					props.fetchingCurrentBook &&
+					<Loader />
+				}
+				{
+					!props.fetchingCurrentBook &&
 					<div className='book-details'>
 
 						{
@@ -143,11 +141,9 @@ const ShelfBook = props => {
 							)
 						}
 					</div>
-
-					<MyShelves history={props.history} />
-			
-				</ShelfBookContainer>
-			}
+				}
+				<MyShelves history={props.history} />
+			</ShelfBookContainer>
 		</>
 	);
 };
