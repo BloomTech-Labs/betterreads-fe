@@ -5,16 +5,17 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 const LoaderContainer = styled.div`
     width: 90%;
-    margin: auto;
+    margin: 0 auto;
     height: 25vh;
 
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 
     & > div {
-        font-size: 1.5rem;
+        margin-top: 16px;
+        font-size: 1rem;
         font-family: 'Frank Ruhl Libre', sans-serif;
     }
 
@@ -26,7 +27,7 @@ const LoaderContainer = styled.div`
 
 
 const Loader = (props) => {
-    const antIcon = <LoadingOutlined style={{ fontSize: props.size || '72px', color: props.color || '#547862' }} spin />;
+    const antIcon = <LoadingOutlined style={{ fontSize: props.size || '32px', color: props.color || '#547862' }} spin />;
 
     return (
         <LoaderContainer size={props.size}>
