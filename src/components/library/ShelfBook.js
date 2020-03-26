@@ -43,14 +43,14 @@ const ShelfBook = props => {
 			<Header history={props.history} />
 			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={props.breadcrumbs} />
-			{
-				props.fetchingCurrentBook &&
-				<Loader />
-			}
 
-			{
-				!props.fetchingCurrentBook &&
-				<ShelfBookContainer readMore={readMore}>
+			<ShelfBookContainer readMore={readMore}>
+				{
+					props.fetchingCurrentBook &&
+					<Loader />
+				}
+				{
+					!props.fetchingCurrentBook &&
 					<div className='book-details'>
 
 						{
@@ -102,12 +102,12 @@ const ShelfBook = props => {
 									</div>
 								}
 								{
-									props.currentBook.isbn10 || 
-									props.currentBook.isbn13 &&
-									<div className="info-item">
-										<div className="info-title">ISBN:</div>
-										<div className="info-value">{props.currentBook.isbn10 && props.currentBook.isbn10}</div>
-									</div>
+									props.currentBook.isbn10 !== null && 
+									props.currentBook.isbn13 !== null &&
+										<div className="info-item">
+											<div className="info-title">ISBN:</div>
+											<div className="info-value">{props.currentBook.isbn13 !== null ? props.currentBook.isbn13 : props.currentBook.isbn10}</div>
+										</div>
 								}
 								{
 									props.currentBook.pageCount &&
@@ -141,11 +141,9 @@ const ShelfBook = props => {
 							)
 						}
 					</div>
-
-					<MyShelves history={props.history} />
-			
-				</ShelfBookContainer>
-			}
+				}
+				<MyShelves history={props.history} />
+			</ShelfBookContainer>
 		</>
 	);
 };

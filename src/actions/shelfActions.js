@@ -17,14 +17,8 @@ const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 export const getUserShelves = () => dispatch => {
   dispatch({ type: FETCH_USER_SHELF })
     axios.get(`${API_URL}/api/shelves/user/${localStorage.getItem('id')}`)  
-        .then(response =>{
-            console.log(response)    
-            dispatch({ type: FETCH_USER_SHELF_SUCCESS, payload: response.data });
-            })
-            .catch(error => {
-                console.log(error);
-                dispatch({ type: FETCH_USER_SHELF_FAILURE, payload: error.response });
-            });
+        .then(response =>{dispatch({ type: FETCH_USER_SHELF_SUCCESS, payload: response.data });})
+            .catch(error => {dispatch({ type: FETCH_USER_SHELF_FAILURE, payload: error.response });});
     };
 
 export const addToCustomShelf = (book, shelfId, favorite, readingStatus) => dispatch => {
@@ -42,11 +36,6 @@ export const deleteFromCustomShelf = (bookId, shelfId) => dispatch => {
 export const getBooksOnShelves = () => dispatch => {
     dispatch({ type: FETCH_USER_BOOKS_ON_SHELVES })
     axios.get(`${API_URL}/api/booksonshelf/user/${localStorage.getItem('id')}/shelves/allbooks`)  
-        .then(response =>{
-            dispatch({ type: FETCH_USER_BOOKS_ON_SHELVES_SUCCESS, payload: response.data });
-            })
-            .catch(error => {
-                console.log(error);
-                dispatch({ type: FETCH_USER_BOOKS_ON_SHELVES_FAILURE, payload: error.response });
-            });
+        .then(response =>{dispatch({ type: FETCH_USER_BOOKS_ON_SHELVES_SUCCESS, payload: response.data });})
+            .catch(error => {dispatch({ type: FETCH_USER_BOOKS_ON_SHELVES_FAILURE, payload: error.response });});
 };
