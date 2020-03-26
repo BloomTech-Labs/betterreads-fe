@@ -118,7 +118,7 @@ const BookCardList = props => {
                         )}
                     </div>
                 }
-                {props.label && (
+                {props.label && props.label === 'My books' || props.label === 'Favorites' || props.label === 'To be read' || props.label === 'In progress' || props.label === 'Finished' && (
                     <div className='shelf-name'>
                         <h2>{shelfName}</h2>
                     </div>
