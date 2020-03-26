@@ -22,8 +22,6 @@ const ShelfBook = props => {
 		props.fetchCurrentBook(googleID);
 		props.getBooksOnShelves()
 	}, []);
-	
-	console.log(props)
 
 	const categoryDisplay = () => {
 		let categorySet = new Set();
