@@ -113,7 +113,10 @@ export const reducer = (state = initialState, action) => {
 		case MOVE_BOOK_FROM_SHELF:
 			return {
 				...state,
-				currentShelf: [...state.currentShelf.filter(b => b.bookId !== action.payload)]
+				currentShelf: {
+					...state.currentShelf,
+					books: [...state.currentShelf.books.filter(b => b.bookId !== action.payload)]
+				}
 			};
 		
 		default:
