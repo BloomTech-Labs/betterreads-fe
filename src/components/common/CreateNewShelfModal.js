@@ -106,7 +106,7 @@ const CreateNewShelfModal = props => {
 			{props.button ? <button onClick={showModal}>Create new shelf</button> : <p className='link' onClick={showModal}>+ Create new shelf</p>}
 
 			<Modal title='Create new shelf' visible={modal.visible} onOk={handleOk} onCancel={handleCancel}>
-				<Input size='large' placeholder='Enter shelf name' value={modal.name} onChange={handleChange} />
+				<Input size='large' placeholder='Enter shelf name' value={modal.name} onChange={handleChange} onPressEnter={handleOk}/>
 				{/* <Checkbox checked={modal.isPrivate} onChange={handleCheck}>Private</Checkbox> */}
 			</Modal>
 		</CreateNewShelfModalContainer>
