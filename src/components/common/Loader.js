@@ -16,7 +16,8 @@ const LoaderContainer = styled.div`
     & > div {
         margin-top: 16px;
         font-size: 1rem;
-        font-family: 'Frank Ruhl Libre', sans-serif;
+        font-family: 'Open Sans', sans-serif;
+        color: #4e4c4a;
     }
 
     @media(min-width: 1120px) {
