@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signOut } from '../../actions/authenticationActions';
 import styled from 'styled-components';
+import BookIcon from '../../components/common/BookIcon';
 import { Menu, Dropdown } from 'antd';
 
 const HeaderContainer = styled.div`
@@ -20,7 +21,13 @@ const HeaderContainer = styled.div`
 			font-size: 1.375rem;
 			font-weight: bold;
 			color: #5c7c69;
+			display: flex;
+			align-items: center;
 			cursor: pointer;
+
+			svg {
+				margin-right: 8px;
+			}
 		}
 
 		img {
@@ -63,7 +70,7 @@ const Header = props => {
 	return (
 		<HeaderContainer>
 			<div className='header'>
-				<h1 onClick={() => props.history.push('/')}>Readrr</h1>
+				<h1 onClick={() => props.history.push('/')}><BookIcon height='24px' width='24px' fill='#547862' />Readrr</h1>
 
 				{(!localStorage.getItem('image') || localStorage.getItem('image') === 'null') && (
 					<Dropdown overlay={dropdown} trigger={['click']} >
