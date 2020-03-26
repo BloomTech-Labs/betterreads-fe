@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { signOut } from '../../actions/authenticationActions';
 import styled from 'styled-components';
 import { Menu, Dropdown } from 'antd';
+import { Event } from '../../utils/tracking';
 
 const HeaderContainer = styled.div`
 	.header {
@@ -52,10 +53,11 @@ const Header = props => {
 	const dropdown = (
 		<Menu>
 			<Menu.Item>
-				<a href='https://github.com/Lambda-School-Labs/betterreads-fe/issues' target='_blank' rel="noopener noreferrer">Report a bug</a>
+				<a href='https://github.com/Lambda-School-Labs/betterreads-fe/issues' target='_blank' rel="noopener noreferrer" onClick={Event('REPORT_A_BUG', 'User went to git hub to report a Bug', 'HEADER')}>Report a bug</a>
 			</Menu.Item>
 			<Menu.Item>
-				<a href='#' onClick={() => props.signOut(props.history)}>Sign out</a>
+				<a href='#' onClick={() => (props.signOut(props.history), Event('SIGN_OUT', 'User signed out', 'HEADER'))
+}>Sign out</a>
 			</Menu.Item>
 		</Menu>
 	);
