@@ -24,7 +24,7 @@ const Shelf = props => {
 	useDocumentTitle('Readrr - Shelf');
 
 	const shelf = props.match.params.shelf;
-
+	console.log(props.currentShelf)
 	useEffect(() => {
 		props.setCurrentShelf(shelf);
 		Event('Shelf', 'A user looked at a shelf of books', 'SHELF');
@@ -37,7 +37,7 @@ const Shelf = props => {
 			<SearchForm history={props.history} />
 			<Breadcrumbs history={props.history} crumbs={[{ label: props.currentShelf.name, path: null }]} />
 			<ShelfContainer>
-				{props.currentShelf.name && props.currentShelf.books && <BookCardList history={props.history} books={props.currentShelf.books} source={'library'} label={props.currentShelf.name} />}
+				{props.currentShelf && props.currentShelf.name && props.currentShelf.books && <BookCardList history={props.history} books={props.currentShelf.books} source={'library'} label={props.currentShelf.name} />}
 				<MyShelves history={props.history} source={'shelf'} />
 			</ShelfContainer>
 		</>

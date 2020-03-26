@@ -21,7 +21,6 @@ import { Event } from '../../utils/tracking';
 
 const BookCard = props => {
     const { googleId } = props.book;
-    
     const [libraryBook, setLibraryBook] = useState(props.userBooks.find(b => b.googleId === googleId) || null);
     const [inLibrary, setInLibrary] = useState(libraryBook !== null ? true : false);    
     const [readrrId, setReadrrId] = useState(libraryBook !== null ? libraryBook.bookId : null);
@@ -73,7 +72,7 @@ const BookCard = props => {
                     // reading status update
                     props.updateBookReadingStatus(newBookId || readrrId, parseInt(readingStatus));
                     // only move book if not in mybooks
-                    if (props.history.location.pathname !== '/shelf/mybooks' && props.history.location.pathname !== '/shelf/favorites') {
+                    if (props.history.location.pathname !== '/' && props.source !== 'search') {
                         props.moveBookFromShelf(newBookId || readrrId, parseInt(readingStatus));
                     };
                     Event('TRACKING', 'User added a book to start tracking from search list.', 'BOOK_CARD');
