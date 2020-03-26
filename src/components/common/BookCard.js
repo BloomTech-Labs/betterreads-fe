@@ -179,7 +179,6 @@ const BookCard = props => {
                         {props.book.authors && <p className='author' onClick={() => props.history.push(`/book/${googleId}`)}>{props.book.authors.split(',')[0]}</p>}
                     </div>
 					<div className='favorite'>
-                        {/* <Heart filled={favorite} time={500} color='#d24719' clickEvent={() => setFavorite(!favorite)} /> */}
                         {favorite ? <HeartFilled onClick={() => setFavorite(!favorite)} /> : <HeartOutlined onClick={() => setFavorite(!favorite)} />}
                     </div>
 				</div>

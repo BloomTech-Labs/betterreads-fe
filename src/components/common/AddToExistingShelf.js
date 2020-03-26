@@ -2,22 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { deleteFromCustomShelf, addToCustomShelf, getUserShelves, getBooksOnShelves, addBookToUserLibrary } from '../../actions';
 import { Checkbox, Collapse } from 'antd';
-import CreateNewShelfModal from '../common/CreateNewShelfModal';
-
+import CreateNewShelfModal from './CreateNewShelfModal';
 import styled from 'styled-components';
 import { Events } from '../../utils/tracking'
-
-const AddToContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: left;
-	
-
-	.ant-checkbox-wrapper{
-		margin-left: 0;
-		padding-bottom: 0 0 10px 0;
-	}
-`
 
 const ShelfContainer = styled.div`
 	.ant-collapse {
@@ -61,7 +48,7 @@ const AddToExistingShelf = props => {
 			<Collapse defaultActiveKey={1} bordered={false} expandIconPosition="right">
 				<Collapse.Panel header={`Shelves (${props.userBooksOnShelves.length})`} showArrow={true} key={0}>
 					{props.userBooksOnShelves && props.userBooksOnShelves.map((item, index) => (<Checkbox key={index} name={item.shelfId} onChange={onChange} defaultChecked={item.books.find(item => item.googleId === props.bookId) ? true : false}>{item.shelfName}</Checkbox>))}
-					<CreateNewShelfModalOnPage history={props.history} />
+					<CreateNewShelfModal history={props.history} />
 				</Collapse.Panel>
 			</Collapse>
 		</ShelfContainer>
