@@ -8,7 +8,7 @@ import {
     updateBookUserRating,
     updateSingleBookField,
     moveBookFromShelf
-} from '../../actions/index';
+} from '../../store/actions/index';
 import { updateBookItem, updateDates, sendUpTheFlares, updateUserRating } from '../../utils/helpers';
 import moment from 'moment';
 import BookCardContainer from './styles/BookCardStyle';

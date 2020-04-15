@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, setBreadcrumbs, fetchRecommendations } from '../../actions';
+import { fetchUsersBooks, setBreadcrumbs, fetchRecommendations } from '../../store/actions';
 import { Link } from 'react-router-dom';
 import CreateNewShelfModal from './CreateNewShelfModal';
 import styled from 'styled-components';
