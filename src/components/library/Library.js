@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, fetchUsersShelves, setBreadcrumbs, fetchRecommendations } from '../../actions';
+import { fetchUsersBooks, fetchUsersShelves, setBreadcrumbs, fetchRecommendations } from '../../store/actions';
 import Header from '../common/Header';
 import SearchForm from '../search/SearchForm';
 import MyShelves from '../common/MyShelves';

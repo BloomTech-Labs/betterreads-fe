@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signOut } from '../../actions/authenticationActions';
+import { signOut } from '../../store/actions/authenticationActions';
 import styled from 'styled-components';
 import BookIcon from '../../components/common/BookIcon';
 import { Menu, Dropdown } from 'antd';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { signIn, resetError } from '../../actions/authenticationActions';
+import { signIn, resetError } from '../../store/actions/authenticationActions';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import SignInContainer from './styles/SignInStyle';
 import facebooklogo from '../../img/facebook-logo.svg';
