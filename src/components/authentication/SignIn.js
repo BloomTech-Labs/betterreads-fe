@@ -1,116 +1,128 @@
+//Import React
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+//Import Actions
 import { signIn, resetError } from '../../store/actions/authenticationActions';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
+//Styling
 import SignInContainer from './styles/SignInStyle';
 import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';
+//Utils
 import { PageView, Event } from '../../utils/tracking';
+import history from '../../utils/history';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
-const SignIn = props => {
-	useDocumentTitle('Readrr - A platform for readers');
+const SignIn = (props) => {
+  useDocumentTitle('Readrr - A platform for readers');
 
-	const [input, setInput] = useState({
-		emailAddress: '',
-		password: ''
-	});
+  const [input, setInput] = useState({
+    emailAddress: '',
+    password: '',
+  });
 
-	useEffect(() => {
-		Event('Sign In', 'Sign in loaded', 'SIGN_IN');
-		PageView();
-	}, []);
+  useEffect(() => {
+    Event('Sign In', 'Sign in loaded', 'SIGN_IN');
+    PageView();
+  }, []);
 
-	const onChange = event => {
-		setInput({
-			...input,
-			[event.target.name]: event.target.value
-		});
-	};
+  const onChange = (event) => {
+    setInput({
+      ...input,
+      [event.target.name]: event.target.value,
+    });
+  };
 
-	const onSubmit = event => {
-		event.preventDefault();
-		props.resetError();
-		props.signIn(input, props.history);
-		Event('SIGN IN', 'User signed in', 'SIGN_IN');
+  const onSubmit = (event) => {
+    event.preventDefault();
+    props.resetError();
+    props.signIn(input, history);
+    Event('SIGN IN', 'User signed in', 'SIGN_IN');
+  };
 
-	};
+  return (
+    <SignInContainer>
+      <div className='banner'></div>
 
-	return (
-		<SignInContainer>
-			<div className="banner"></div>
+      <div className='form-container'>
+        <form autoComplete='off' spellCheck='false' onSubmit={onSubmit}>
+          <h1 data-testid='sign-in-heading'>Sign in to Readrr</h1>
+          <p className='already'>
+            Don't have an account?
+            <b
+              onClick={() => {
+                props.resetError();
+                history.push('/signup');
+              }}
+              data-testid='sign-up-redirect'
+            >
+              Sign up here.
+            </b>
+          </p>
 
-			<div className="form-container">
-				<form autoComplete="off" spellCheck="false" onSubmit={onSubmit}>
-					<h1 data-testid='sign-in-heading'>Sign in to Readrr</h1>
-					<p className="already">
-						Don't have an account?
-						<b
-							onClick={() => {
-								props.resetError();
-								props.history.push('/signup');
-							}}
-							data-testid='sign-up-redirect'
-						>
-							Sign up here.
-						</b>
-					</p>
+          <label htmlFor='emailAddress'>Email Address</label>
+          <input
+            type='email'
+            placeholder='Enter your email'
+            name='emailAddress'
+            value={input.emailAddress}
+            onChange={onChange}
+            required
+            data-testid='email-address-input'
+          />
 
-					<label htmlFor="emailAddress">Email Address</label>
-					<input
-						type="email"
-						placeholder="Enter your email"
-						name="emailAddress"
-						value={input.emailAddress}
-						onChange={onChange}
-						required
-						data-testid='email-address-input'
-					/>
+          <label htmlFor='password'>Password</label>
+          <input
+            type='password'
+            placeholder='Enter your password'
+            name='password'
+            value={input.password}
+            onChange={onChange}
+            required
+            minLength='5'
+            data-testid='password-input'
+          />
 
-					<label htmlFor="password">Password</label>
-					<input
-						type="password"
-						placeholder="Enter your password"
-						name="password"
-						value={input.password}
-						onChange={onChange}
-						required
-						minLength="5"
-						data-testid='password-input'
-					/>
+          {props.error && (
+            <p className='error' data-testid='error'>
+              {props.error}
+            </p>
+          )}
 
-					{props.error && <p className="error" data-testid='error'>{props.error}</p>}
+          <button
+            type='submit'
+            className='sign-in'
+            data-testid='sign-in-button'
+          >
+            Sign in
+          </button>
 
-					<button type="submit" className="sign-in" data-testid='sign-in-button'>
-						Sign in
-					</button>
+          <p className='or'>OR</p>
 
-					<p className="or">OR</p>
+          <a href={`${API_URL}/api/auth/facebook`}>
+            <button type='button' className='facebook-button'>
+              <img src={facebooklogo} alt='facebook logo' />
+              Sign in with Facebook
+            </button>
+          </a>
 
-					<a href={`${API_URL}/api/auth/facebook`}>
-						<button type="button" className="facebook-button">
-							<img src={facebooklogo} alt="facebook logo" />
-							Sign in with Facebook
-						</button>
-					</a>
-
-					<a href={`${API_URL}/api/auth/google`}>
-						<button type="button" className="google-button">
-							<img src={googlelogo} alt="google logo" />
-							Sign in with Google
-						</button>
-					</a>
-				</form>
-			</div>
-		</SignInContainer>
-	);
+          <a href={`${API_URL}/api/auth/google`}>
+            <button type='button' className='google-button'>
+              <img src={googlelogo} alt='google logo' />
+              Sign in with Google
+            </button>
+          </a>
+        </form>
+      </div>
+    </SignInContainer>
+  );
 };
 
-const mapStateToProps = state => {
-	return {
-		error: state.authentication.error
-	};
+const mapStateToProps = (state) => {
+  return {
+    error: state.authentication.error,
+  };
 };
 
 export default connect(mapStateToProps, { signIn, resetError })(SignIn);

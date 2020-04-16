@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+// Utils
 import { PageView, Event } from '../../utils/tracking';
 import history from '../../utils/history';
 

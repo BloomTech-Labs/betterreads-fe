@@ -1,6 +1,16 @@
+//Import React
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves, setQuery, getGoogleResults } from '../../store/actions';
+//Import Actions
+import {
+  fetchUsersBooks,
+  fetchCurrentBook,
+  setBreadcrumbs,
+  getBooksOnShelves,
+  setQuery,
+  getGoogleResults,
+} from '../../store/actions';
+//Import Components
 import Header from '../Navigation/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../Navigation/Breadcrumbs';
@@ -9,155 +19,169 @@ import MyShelves from '../Shelf/MyShelves';
 import AddToExistingShelf from '../Shelf/AddToExistingShelf';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import ShelfBookContainer from './styles/ShelfBookStyle';
-import { PageView, Event } from '../../utils/tracking';
 import Loader from '../Navigation/Loader';
+//Utils
+import { PageView, Event } from '../../utils/tracking';
+// import history from '../../utils/history';
 
-const ShelfBook = props => {
-	useDocumentTitle('Readrr - Book details');
+const ShelfBook = (props) => {
+  useDocumentTitle('Readrr - Book details');
 
-	const [readMore, setReadMore] =  useState(false);
+  const [readMore, setReadMore] = useState(false);
 
-	const googleID = props.match.params.id;
+  const googleID = props.match.params.id;
 
-	useEffect(() => {
-		props.fetchCurrentBook(googleID);
-		props.getBooksOnShelves()
-		Event('BOOK', 'A user viewed a book', 'SHELF_BOOK');
-		PageView();
-	}, []);
+  useEffect(() => {
+    props.fetchCurrentBook(googleID);
+    props.getBooksOnShelves();
+    Event('BOOK', 'A user viewed a book', 'SHELF_BOOK');
+    PageView();
+  }, []);
 
-	const categoryDisplay = () => {
-		let categorySet = new Set();
+  const categoryDisplay = () => {
+    let categorySet = new Set();
 
-		props.currentBook.categories.split(',').map(cat => 
-			cat.split('/').map(c => 
-				categorySet.add(c.trim()) 
-			)
-		)
+    props.currentBook.categories
+      .split(',')
+      .map((cat) => cat.split('/').map((c) => categorySet.add(c.trim())));
 
-		return Array.from(categorySet).sort().map((cat, index) =>
-			// onClick={() => {props.setQuery(cat); props.getGoogleResults(cat, 'subject'); props.history.push('/search');}
-			<p className='genre' key={index}>{cat}</p>
-		);
-	}
+    return Array.from(categorySet)
+      .sort()
+      .map((cat, index) => (
+        // onClick={() => {props.setQuery(cat); props.getGoogleResults(cat, 'subject'); history.push('/search');}
+        <p className='genre' key={index}>
+          {cat}
+        </p>
+      ));
+  };
 
-	return (
-		<>
-			<Header history={props.history} />
-			<SearchForm history={props.history} />
-			<Breadcrumbs history={props.history} crumbs={props.breadcrumbs} />
+  return (
+    <>
+      <Header />
+      <SearchForm />
+      <Breadcrumbs crumbs={props.breadcrumbs} />
 
-			<ShelfBookContainer readMore={readMore}>
-				{
-					props.fetchingCurrentBook &&
-					<Loader />
-				}
-				{
-					!props.fetchingCurrentBook &&
-					<div className='book-details'>
+      <ShelfBookContainer readMore={readMore}>
+        {props.fetchingCurrentBook && <Loader />}
+        {!props.fetchingCurrentBook && (
+          <div className='book-details'>
+            {props.currentBook && props.currentBook.googleId === googleID && (
+              <BookCard book={props.currentBook} source='search' />
+            )}
 
-						{
-							props.currentBook &&
-							props.currentBook.googleId === googleID &&
-							<BookCard history={props.history} book={props.currentBook} source='search' />
-						}
+            {props.currentBook.description && (
+              <div className='description'>
+                <p className='heading'>Description</p>
+                <div
+                  className='content'
+                  data-testid='description'
+                  dangerouslySetInnerHTML={{
+                    __html: props.currentBook.description,
+                  }}
+                ></div>
+                <p className='read-more' onClick={() => setReadMore(!readMore)}>
+                  {readMore ? 'Read less...' : 'Read more...'}
+                </p>
+              </div>
+            )}
 
-						{
-							props.currentBook.description &&
-							(
-								<div className='description'>
-									<p className='heading'>Description</p>
-									<div className='content' data-testid='description' dangerouslySetInnerHTML={{__html: props.currentBook.description}}></div>
-									<p className='read-more' onClick={() => setReadMore(!readMore)}>{readMore ? 'Read less...' : 'Read more...'}</p>
-								</div>
-							)
-						}
-						
-						<div className='description' style={{paddingBottom: '1rem'}}>
-							<p className='heading' style={{fontSize: '1rem'}}>Information</p>
-							<div className="info-container">
-								{
-									props.currentBook.title &&
-									<div className="info-item">
-										<div className="info-title">Title:</div>
-										<div className="info-value">{props.currentBook.title && props.currentBook.title}</div>
-									</div>
-								}
-								{
-									props.currentBook.authors &&
-									<div className="info-item">
-										<div className="info-title">Author:</div>
-										<div className="info-value">
-											{
-												props.currentBook.authors && 
-												props.currentBook.authors.split(',').map((author, index) => 
-													<div key={index}>{author}</div>
-												)
-											}
-										</div>
-									</div>
-								}
-								{
-									props.currentBook.publisher &&
-									<div className="info-item">
-										<div className="info-title">Publisher:</div>
-										<div className="info-value">{props.currentBook.publisher && props.currentBook.publisher}, {props.currentBook.publishedDate && props.currentBook.publishedDate.split('-')[0]}</div>
-									</div>
-								}
-								{
-									props.currentBook.isbn10 !== null && 
-									props.currentBook.isbn13 !== null &&
-										<div className="info-item">
-											<div className="info-title">ISBN:</div>
-											<div className="info-value">{props.currentBook.isbn13 !== null ? props.currentBook.isbn13 : props.currentBook.isbn10}</div>
-										</div>
-								}
-								{
-									props.currentBook.pageCount &&
-									<div className="info-item">
-										<div className="info-title">Length:</div>
-										<div className="info-value">{props.currentBook.pageCount && props.currentBook.pageCount} pages</div>
-									</div>
-								}
-							</div>
-						</div>
-						{
-							props.userBooks.find(b => b.googleId === props.match.params.id) &&
-							<AddToExistingShelf bookId={props.match.params.id} />
-						}
-						
+            <div className='description' style={{ paddingBottom: '1rem' }}>
+              <p className='heading' style={{ fontSize: '1rem' }}>
+                Information
+              </p>
+              <div className='info-container'>
+                {props.currentBook.title && (
+                  <div className='info-item'>
+                    <div className='info-title'>Title:</div>
+                    <div className='info-value'>
+                      {props.currentBook.title && props.currentBook.title}
+                    </div>
+                  </div>
+                )}
+                {props.currentBook.authors && (
+                  <div className='info-item'>
+                    <div className='info-title'>Author:</div>
+                    <div className='info-value'>
+                      {props.currentBook.authors &&
+                        props.currentBook.authors
+                          .split(',')
+                          .map((author, index) => (
+                            <div key={index}>{author}</div>
+                          ))}
+                    </div>
+                  </div>
+                )}
+                {props.currentBook.publisher && (
+                  <div className='info-item'>
+                    <div className='info-title'>Publisher:</div>
+                    <div className='info-value'>
+                      {props.currentBook.publisher &&
+                        props.currentBook.publisher}
+                      ,{' '}
+                      {props.currentBook.publishedDate &&
+                        props.currentBook.publishedDate.split('-')[0]}
+                    </div>
+                  </div>
+                )}
+                {props.currentBook.isbn10 !== null &&
+                  props.currentBook.isbn13 !== null && (
+                    <div className='info-item'>
+                      <div className='info-title'>ISBN:</div>
+                      <div className='info-value'>
+                        {props.currentBook.isbn13 !== null
+                          ? props.currentBook.isbn13
+                          : props.currentBook.isbn10}
+                      </div>
+                    </div>
+                  )}
+                {props.currentBook.pageCount && (
+                  <div className='info-item'>
+                    <div className='info-title'>Length:</div>
+                    <div className='info-value'>
+                      {props.currentBook.pageCount &&
+                        props.currentBook.pageCount}{' '}
+                      pages
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            {props.userBooks.find(
+              (b) => b.googleId === props.match.params.id
+            ) && <AddToExistingShelf bookId={props.match.params.id} />}
 
-						{
-							props.currentBook.categories && 
-							(
-								<div className='genre-big-container'>
-									<div className='genre-small-container'>
-										<p className='heading'>Genres</p>
-										<div className='genres'>
-											{
-												props.currentBook.categories &&
-												categoryDisplay()
-											}	
-										</div>
-									</div>
-								</div>
-							)
-						}
-					</div>
-				}
-				<MyShelves history={props.history} />
-			</ShelfBookContainer>
-		</>
-	);
+            {props.currentBook.categories && (
+              <div className='genre-big-container'>
+                <div className='genre-small-container'>
+                  <p className='heading'>Genres</p>
+                  <div className='genres'>
+                    {props.currentBook.categories && categoryDisplay()}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        <MyShelves />
+      </ShelfBookContainer>
+    </>
+  );
 };
 
-const mapStateToProps = state => {
-	return {
-		userBooks: state.library.userBooks,
-		fetchingCurrentBook: state.book.fetchingCurrentBook,
-		currentBook: state.book.currentBook,
-		breadcrumbs: state.book.breadcrumbs
-	};
+const mapStateToProps = (state) => {
+  return {
+    userBooks: state.library.userBooks,
+    fetchingCurrentBook: state.book.fetchingCurrentBook,
+    currentBook: state.book.currentBook,
+    breadcrumbs: state.book.breadcrumbs,
+  };
 };
 
-export default connect(mapStateToProps, { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves, setQuery, getGoogleResults })(ShelfBook);
+export default connect(mapStateToProps, {
+  fetchUsersBooks,
+  fetchCurrentBook,
+  setBreadcrumbs,
+  getBooksOnShelves,
+  setQuery,
+  getGoogleResults,
+})(ShelfBook);

@@ -1,16 +1,20 @@
+//Import React
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+//Import Actions
 import { successRedirect } from '../../store/actions/authenticationActions';
-import styled from 'styled-components';
+//Ant Design
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+// Utils
+import history from '../../utils/history';
 import { PageView, Event } from '../../utils/tracking';
-
+// Styled Components
 import SuccessContainer from './styles/SuccessStyle';
 
 const Success = (props) => {
   useEffect(() => {
-    props.successRedirect(props.history);
+    props.successRedirect(history);
     Event('SIGN IN', 'Successful sign in', 'SIGN_IN');
     PageView();
   }, []);

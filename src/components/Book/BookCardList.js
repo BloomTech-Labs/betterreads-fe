@@ -8,6 +8,8 @@ import BookCard from './BookCard';
 import SearchPagination from '../search/SearchPagination';
 //Design
 import { Menu, Dropdown, Popconfirm, message } from 'antd';
+// Utils
+import history from '../../utils/history';
 
 import BookCardListContainer from './styles/BookCardListStyle';
 
@@ -28,7 +30,7 @@ const BookCardList = (props) => {
   };
 
   const confirm = (event) => {
-    props.deleteShelf(props.currentShelf.id, props.history);
+    props.deleteShelf(props.currentShelf.id, history);
     message.success('Successfully deleted shelf');
   };
 
@@ -111,12 +113,7 @@ const BookCardList = (props) => {
         <div className='book-card-list'>
           {props.books &&
             props.books.map((item, index) => (
-              <BookCard
-                key={index}
-                history={props.history}
-                book={item}
-                source={props.source}
-              />
+              <BookCard key={index} book={item} source={props.source} />
             ))}
         </div>
 

@@ -18,6 +18,7 @@ import {
   sendUpTheFlares,
   updateUserRating,
 } from '../../utils/helpers';
+import history from '../../utils/history';
 import { Event } from '../../utils/tracking';
 //Import Moment
 import moment from 'moment';
@@ -117,7 +118,7 @@ const BookCard = (props) => {
           );
           // only move book if not in mybooks
           if (
-            props.history.location.pathname !== '/' &&
+            history.location.pathname !== '/' &&
             props.source !== 'search' &&
             props.source !== 'recommendation'
           ) {
@@ -271,7 +272,7 @@ const BookCard = (props) => {
         <div
           className='thumbnail'
           onClick={() => {
-            props.history.push(`/book/${googleId}`);
+            history.push(`/book/${googleId}`);
             Event('Book', 'User clicked for book details', 'SEARCH_RESULTS');
           }}
         >
@@ -298,14 +299,14 @@ const BookCard = (props) => {
           <div className='title-and-author'>
             <p
               className='title'
-              onClick={() => props.history.push(`/book/${googleId}`)}
+              onClick={() => history.push(`/book/${googleId}`)}
             >
               {props.book.title}
             </p>
             {props.book.authors && (
               <p
                 className='author'
-                onClick={() => props.history.push(`/book/${googleId}`)}
+                onClick={() => history.push(`/book/${googleId}`)}
               >
                 {props.book.authors.split(',')[0]}
               </p>

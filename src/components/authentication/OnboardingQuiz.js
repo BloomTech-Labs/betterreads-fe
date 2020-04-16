@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { sendUserGenres } from '../../store/actions';
-import styled from 'styled-components';
 import { Checkbox } from 'antd';
 
 import OnboardingQuizContainer from './styles/OnboardingQuizStyle';

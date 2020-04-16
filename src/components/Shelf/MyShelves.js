@@ -1,14 +1,15 @@
+//Import React
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+//Import Actions
 import {
   fetchUsersBooks,
   setBreadcrumbs,
   fetchRecommendations,
 } from '../../store/actions';
-import { Link } from 'react-router-dom';
+//Import Components
 import CreateNewShelfModal from './CreateNewShelfModal';
-import MyShelvesContainer from './styles/MyShelvesContainer'
-import styled from 'styled-components';
+import MyShelvesContainer from './styles/MyShelvesContainer';
 import BookIcon from '../Book/BookIcon';
 // History Util
 import history from '../../utils/history';
@@ -31,7 +32,7 @@ const MyShelves = (props) => {
         <p className='create-shelves'>
           Create shelves and add books to your custom shelf.
         </p>
-        <CreateNewShelfModal button={true} history={props.history} />
+        <CreateNewShelfModal button={true} />
 
         <div className='shelves-container'>
           <div
@@ -143,8 +144,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  fetchUsersBooks,
-  setBreadcrumbs,
-  fetchRecommendations,
-})(MyShelves);
+export default 
+  connect(mapStateToProps, {
+    fetchUsersBooks,
+    setBreadcrumbs,
+    fetchRecommendations,
+  })(MyShelves);

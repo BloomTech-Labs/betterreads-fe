@@ -7,12 +7,14 @@ import { HomeOutlined } from '@ant-design/icons';
 // Utils
 import { Event } from '../../utils/tracking';
 import history from '../../utils/history';
+// React Router
+import { withRouter } from 'react-router-dom';
 
 const Breadcrumbs = (props) => {
   return (
     <Wrapper>
       <Breadcrumb className='fs-16 openSans lh-40'>
-        <Breadcrumb.Item onClick={() => props.history.push('/')}>
+        <Breadcrumb.Item onClick={() => history.push('/')}>
           <HomeOutlined /> Library
         </Breadcrumb.Item>
         {props.crumbs &&
@@ -38,4 +40,4 @@ const Breadcrumbs = (props) => {
   );
 };
 
-export default Breadcrumbs;
+export default withRouter(Breadcrumbs);
