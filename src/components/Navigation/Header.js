@@ -1,62 +1,15 @@
 import React from 'react';
+// Redux Imports
 import { connect } from 'react-redux';
 import { signOut } from '../../store/actions/authenticationActions';
-import styled from 'styled-components';
-import BookIcon from '../Book/BookIcon';
+// Ant Design
 import { Menu, Dropdown } from 'antd';
+// Utils Import
 import { Event } from '../../utils/tracking';
-import history from '../../utils/history'
-import axios from 'axios';
-
-const HeaderContainer = styled.div`
-  .header {
-    max-width: 1120px;
-    height: 72px;
-    width: 90%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    h1 {
-      margin-bottom: 0;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 1.375rem;
-      font-weight: bold;
-      color: #5c7c69;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-
-      svg {
-        margin-right: 8px;
-      }
-    }
-
-    img {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    .default-profile-icon {
-      height: 40px;
-      width: 40px;
-      background-color: #7e8d88;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-
-      i {
-        font-size: 1.25rem;
-        color: white;
-      }
-    }
-  }
-`;
+import history from '../../utils/history';
+// Styled Components
+import HeaderContainer from './styles/HeaderContainer';
+import BookIcon from '../Book/BookIcon';
 
 const Header = (props) => {
   const dropdown = (
@@ -77,11 +30,11 @@ const Header = (props) => {
       </Menu.Item>
       <Menu.Item>
         <a
-          href='/'
-          onClick={() => (
-            props.signOut(history),
-            Event('SIGN_OUT', 'User signed out', 'HEADER')
-          )}
+          href='/signin'
+          onClick={() => {
+            props.signOut(history);
+            Event('SIGN_OUT', 'User signed out', 'HEADER');
+          }}
         >
           Sign out
         </a>
