@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchUsersShelves } from '../../store/actions';
-import Header from '../common/Header';
+import Header from '../Navigation/Header';
 import SearchForm from '../search/SearchForm';
-import Breadcrumbs from '../common/Breadcrumbs';
-import MyShelves from '../common/MyShelves';
-import StatusShelfCarousel from '../common/StatusShelfCarousel';
+import Breadcrumbs from '../Navigation/Breadcrumbs';
+import MyShelves from '../Shelf/MyShelves';
+import StatusShelfCarousel from '../Shelf/StatusShelfCarousel';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import styled from 'styled-components';
-import Loader from '../common/Loader';
+import Loader from '../Navigation/Loader';
 import { PageView, Event } from '../../utils/tracking';
 
 const ShelvesContainer = styled.div`

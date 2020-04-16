@@ -4,7 +4,7 @@ import { fetchUsersBooks, setBreadcrumbs, fetchRecommendations } from '../../sto
 import { Link } from 'react-router-dom';
 import CreateNewShelfModal from './CreateNewShelfModal';
 import styled from 'styled-components';
-import BookIcon from './BookIcon';
+import BookIcon from '../Book/BookIcon';
 
 const MyShelvesContainer = styled.div`
     max-width: 1120px;
