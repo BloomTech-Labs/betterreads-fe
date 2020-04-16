@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signOut } from '../../store/actions/authenticationActions';
 import styled from 'styled-components';
-import BookIcon from '../../components/common/BookIcon';
+import BookIcon from '../Book/BookIcon';
 import { Menu, Dropdown } from 'antd';
 import { Event } from '../../utils/tracking';
 import axios from 'axios';

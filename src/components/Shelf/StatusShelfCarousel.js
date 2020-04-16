@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setBreadcrumbs, deleteShelf, fetchUsersShelves } from '../../store/actions';
-import BookCard from './BookCard';
-import BookCardList from './BookCardList';
+import BookCard from '../Book/BookCard';
+import BookCardList from '../Book/BookCardList';
 import { Carousel } from 'antd';
 import styled from 'styled-components'
 import { Menu, Dropdown, Popconfirm, message } from 'antd';

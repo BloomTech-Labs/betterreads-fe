@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchUsersBooks, fetchUsersShelves, setBreadcrumbs, fetchRecommendations } from '../../store/actions';
-import Header from '../common/Header';
+import Header from '../Navigation/Header';
 import SearchForm from '../search/SearchForm';
-import MyShelves from '../common/MyShelves';
+import MyShelves from '../Shelf/MyShelves';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import LibraryContainer from './styles/LibraryStyle';
 import { PageView, Event } from '../../utils/tracking';
-import StatusShelfCarousel from '../common/StatusShelfCarousel';
+import StatusShelfCarousel from '../Shelf/StatusShelfCarousel';
 
 const Library = props => {	
 	useDocumentTitle('Readrr - Library');

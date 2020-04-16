@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { fetchUsersBooks, fetchCurrentBook, setBreadcrumbs, getBooksOnShelves, setQuery, getGoogleResults } from '../../store/actions';
-import Header from '../common/Header';
+import Header from '../Navigation/Header';
 import SearchForm from '../search/SearchForm';
-import Breadcrumbs from '../common/Breadcrumbs';
-import BookCard from '../common/BookCard';
-import MyShelves from '../common/MyShelves';
-import AddToExistingShelf from '../common/AddToExistingShelf';
+import Breadcrumbs from '../Navigation/Breadcrumbs';
+import BookCard from '../Book/BookCard';
+import MyShelves from '../Shelf/MyShelves';
+import AddToExistingShelf from '../Shelf/AddToExistingShelf';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import ShelfBookContainer from './styles/ShelfBookStyle';
 import { PageView, Event } from '../../utils/tracking';
-import Loader from '../common/Loader';
+import Loader from '../Navigation/Loader';
 
 const ShelfBook = props => {
 	useDocumentTitle('Readrr - Book details');
