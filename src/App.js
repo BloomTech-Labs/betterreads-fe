@@ -11,10 +11,12 @@ import Search from './components/search/Search';
 import ShelfBook from './components/library/ShelfBook';
 import Shelf from './components/library/Shelf';
 import Shelves from './components/library/Shelves';
+// History Util
+import history from './utils/history'
 
 const App = () => {
 	return (
-		<Router>
+		<Router history={history}>
 			<Switch>
 				<PrivateRoute exact path="/" component={Library} />
 				<Route path="/signin" component={SignIn} />

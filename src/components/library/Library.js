@@ -24,7 +24,7 @@ const Library = props => {
 
 	return (
 		<LibraryContainer>
-			<Header history={props.history} />
+			<Header/>
 
 			<div className="what-are-you-reading-container">
 				<div className="what-are-you-reading">
@@ -51,7 +51,7 @@ const Library = props => {
 					)}	
 				</div>
 
-				<MyShelves history={props.history} source={'library'} />
+				<MyShelves source={'library'} />
 			</div>
 		</LibraryContainer>
 	);

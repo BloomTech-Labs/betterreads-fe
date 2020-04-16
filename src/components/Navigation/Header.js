@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import BookIcon from '../Book/BookIcon';
 import { Menu, Dropdown } from 'antd';
 import { Event } from '../../utils/tracking';
+import history from '../../utils/history'
 import axios from 'axios';
 
 const HeaderContainer = styled.div`
@@ -76,9 +77,9 @@ const Header = (props) => {
       </Menu.Item>
       <Menu.Item>
         <a
-          href='#'
+          href='/'
           onClick={() => (
-            props.signOut(props.history),
+            props.signOut(history),
             Event('SIGN_OUT', 'User signed out', 'HEADER')
           )}
         >
@@ -91,7 +92,7 @@ const Header = (props) => {
   return (
     <HeaderContainer>
       <div className='header'>
-        <h1 onClick={() => props.history.push('/')}>
+        <h1 onClick={() => history.push('/')}>
           <BookIcon height='24px' width='24px' fill='#547862' />
           Readrr
         </h1>
