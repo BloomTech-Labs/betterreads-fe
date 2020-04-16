@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { loadMore } from '../../actions';
+import { loadMore } from '../../store/actions';
 import styled from "styled-components";
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';

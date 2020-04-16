@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { signUp, resetError } from '../../actions/authenticationActions';
+import { signUp, resetError } from '../../store/actions/authenticationActions';
 import SignUpContainer from './styles/SignUpStyle';
 import facebooklogo from '../../img/facebook-logo.svg';
 import googlelogo from '../../img/google-logo.svg';

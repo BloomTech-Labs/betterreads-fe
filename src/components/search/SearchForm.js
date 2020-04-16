@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getGoogleResults, clearSearchResults, setQuery, setBreadcrumbs } from '../../actions';
+import { getGoogleResults, clearSearchResults, setQuery, setBreadcrumbs } from '../../store/actions';
 import styled from 'styled-components';
 import { Input } from 'antd';
 import { Event } from '../../utils/tracking';

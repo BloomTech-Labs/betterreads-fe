@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { createUserShelf, fetchUsersShelves, getBooksOnShelves } from '../../actions';
+import { createUserShelf, fetchUsersShelves, getBooksOnShelves } from '../../store/actions';
 import styled from 'styled-components';
 import { Modal, Input } from 'antd';
 import { Event } from '../../utils/tracking';

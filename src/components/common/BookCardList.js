@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { editShelfName, deleteShelf } from '../../actions';
+import { editShelfName, deleteShelf } from '../../store/actions';
 import BookCard from './BookCard';
 import SearchPagination from '../search/SearchPagination';
 import styled from 'styled-components';

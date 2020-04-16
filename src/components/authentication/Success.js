@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { successRedirect } from '../../actions/authenticationActions';
+import { successRedirect } from '../../store/actions/authenticationActions';
 import styled from 'styled-components';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';

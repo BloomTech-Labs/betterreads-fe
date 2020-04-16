@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setBreadcrumbs, deleteShelf, fetchUsersShelves } from '../../actions';
+import { setBreadcrumbs, deleteShelf, fetchUsersShelves } from '../../store/actions';
 import BookCard from './BookCard';
 import BookCardList from './BookCardList';
 import { Carousel } from 'antd';
