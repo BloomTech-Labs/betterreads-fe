@@ -1,33 +1,54 @@
 import React from 'react';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import reducer from '../../store/reducers';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import App from '../../App';
 import SignIn from '../../components/authentication/SignIn';
+// Test Utils
+import { renderWithRedux } from '../utils/renderWithRedux';
 
-const renderWithRedux = (
-  component,
-  {
-    initialState,
-    store = createStore(reducer, initialState, applyMiddleware(thunk)),
-  } = {}
-) => {
-  return {
-    ...render(<Provider store={store}>{component}</Provider>),
-    store,
-  };
-};
-
-test('component renders', () => {
+test('SignIn Renders', () => {
   renderWithRedux(<SignIn />);
 });
 
-test('redirects to the sign up component', () => {
+test('Signin Form Functions Correctly', () => {
+  const { getByTestId } = renderWithRedux(<SignIn />);
+
+  //  Input Validation
+  const emailInput = getByTestId('email-input');
+  expect(emailInput.value).toBe('');
+  fireEvent.change(emailInput, { target: { value: 'Testing' } });
+  expect(emailInput.value).toBe('Testing');
+  const passwordInput = getByTestId('password-input');
+  expect(passwordInput.value).toBe('');
+  fireEvent.change(passwordInput, { target: { value: 'Testing' } });
+  expect(passwordInput.value).toBe('Testing');
+  //   Button event firing
+  const signUpButton = getByTestId('sign-in-button');
+  expect(signUpButton).toBeInTheDocument();
+  fireEvent.click(signUpButton);
+});
+
+test('Signin Shows Error Properly', () => {
+  const history = createMemoryHistory({});
+  const { getByTestId } = renderWithRedux(
+    <Router history={history}>
+      <SignIn />
+    </Router>,
+    {
+      initialState: {
+        authentication: {
+          error: 'Error',
+        },
+      },
+    }
+  );
+  const errorMesage = getByTestId('error');
+  expect(errorMesage).toBeInTheDocument();
+});
+
+test('Redirects to Signup Component', () => {
   const history = createMemoryHistory();
   const { getByTestId } = renderWithRedux(
     <Router history={history}>

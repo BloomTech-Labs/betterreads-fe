@@ -8,7 +8,7 @@ import { HomeOutlined } from '@ant-design/icons';
 import { Event } from '../../utils/tracking';
 import history from '../../utils/history';
 // React Router
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 
 const Breadcrumbs = (props) => {
   return (
@@ -40,4 +40,4 @@ const Breadcrumbs = (props) => {
   );
 };
 
-export default withRouter(Breadcrumbs);
+export default Breadcrumbs;

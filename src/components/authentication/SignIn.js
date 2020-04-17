@@ -69,7 +69,7 @@ const SignIn = (props) => {
             value={input.emailAddress}
             onChange={onChange}
             required
-            data-testid='email-address-input'
+            data-testid='email-input'
           />
 
           <label htmlFor='password'>Password</label>

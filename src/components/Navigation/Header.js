@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signOut } from '../../store/actions/authenticationActions';
 // Router
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 // Ant Design
 import { Menu, Dropdown } from 'antd';
 // Utils Import
@@ -75,4 +75,4 @@ const Header = (props) => {
   );
 };
 
-export default withRouter(connect(null, { signOut })(Header));
+export default connect(null, { signOut })(Header);
