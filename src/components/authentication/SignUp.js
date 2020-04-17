@@ -73,6 +73,7 @@ const SignUp = (props) => {
             value={input.fullName}
             onChange={onChange}
             required
+            data-testid='name-input'
           />
 
           <label htmlFor='emailAddress'>Email Address</label>
@@ -83,6 +84,7 @@ const SignUp = (props) => {
             value={input.emailAddress}
             onChange={onChange}
             required
+            data-testid='email-input'
           />
 
           <label htmlFor='password'>Password</label>
@@ -94,6 +96,7 @@ const SignUp = (props) => {
             onChange={onChange}
             required
             minLength='5'
+            data-testid='password-input'
           />
 
           <label htmlFor='confirmPassword'>Confirm Password</label>
@@ -105,11 +108,12 @@ const SignUp = (props) => {
             onChange={onChange}
             required
             minLength='5'
+            data-testid='confirm-input'
           />
 
-          {props.error && <p className='error'>{props.error}</p>}
+          {props.error && <p className='error' data-testid='error-message'>{props.error}</p>}
 
-          <button type='submit' className='sign-up'>
+          <button type='submit' className='sign-up' data-testid='signup-button'>
             Sign up
           </button>
 
