@@ -19,9 +19,9 @@ const renderWithRedux = (ui, { initialState, store = createStore(reducer, initia
 	};
 };
 
-test('can render with redux with defaults', () => {
+test('can render with redux with defaults', async () => {
     const history = createMemoryHistory({})
-	const { getByTestId } = renderWithRedux(
+	const { getByTestId, findByText } = renderWithRedux(
         <Router history={history}>
             <ShelfBook match={{ params: { id: 'Gz1jn_5OafMC' }}} />
             </Router>, { initialState: {
@@ -41,5 +41,7 @@ test('can render with redux with defaults', () => {
                 library: libraryIState,
                 search: searchIState
             }})
-	expect(getByTestId('description')).toHaveTextContent(/Millions/i);
+    const test = await findByText(/Millions/i);
+    expect(test).toBeInTheDocument();
+	// expect(getByTestId('description')).toHaveTextContent(/Millions/i);
 });

@@ -10,28 +10,34 @@ import '@testing-library/jest-dom/extend-expect';
 import App from '../../App';
 import SignIn from '../../components/authentication/SignIn';
 
-const renderWithRedux = (component, { initialState, store = createStore(reducer, initialState, applyMiddleware(thunk)) } = {}) => {
-	return {
-		...render(<Provider store={store}>{component}</Provider>),
-		store
-	};
+const renderWithRedux = (
+  component,
+  {
+    initialState,
+    store = createStore(reducer, initialState, applyMiddleware(thunk)),
+  } = {}
+) => {
+  return {
+    ...render(<Provider store={store}>{component}</Provider>),
+    store,
+  };
 };
 
 test('component renders', () => {
-    renderWithRedux(<SignIn />);
+  renderWithRedux(<SignIn />);
 });
 
 test('redirects to the sign up component', () => {
-    const history = createMemoryHistory();
-    const { getByTestId } = renderWithRedux(
-        <Router history={history}>
-            <App />
-        </Router>
-    );
+  const history = createMemoryHistory();
+  const { getByTestId } = renderWithRedux(
+    <Router history={history}>
+      <App />
+    </Router>
+  );
 
-    const signUpRedirect = getByTestId('sign-up-redirect');    
-    fireEvent.click(signUpRedirect);
+  const signUpRedirect = getByTestId('sign-up-redirect');
+  fireEvent.click(signUpRedirect);
 
-    const signUpHeading = getByTestId('sign-up-heading');
-    expect(signUpHeading).toBeInTheDocument();
+  const signUpHeading = getByTestId('sign-up-heading');
+  expect(signUpHeading).toBeInTheDocument();
 });
