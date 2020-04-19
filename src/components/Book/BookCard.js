@@ -270,6 +270,7 @@ const BookCard = (props) => {
     >
       <div className='thumbnail-container'>
         <div
+          data-testid="thumb-button"
           className='thumbnail'
           onClick={() => {
             history.push(`/book/${googleId}`);
@@ -298,6 +299,7 @@ const BookCard = (props) => {
         <div className='title-author-and-favorite'>
           <div className='title-and-author'>
             <p
+              data-testid='title-link'
               className='title'
               onClick={() => history.push(`/book/${googleId}`)}
             >
@@ -305,6 +307,7 @@ const BookCard = (props) => {
             </p>
             {props.book.authors && (
               <p
+              data-testid='author-link'
                 className='author'
                 onClick={() => history.push(`/book/${googleId}`)}
               >
