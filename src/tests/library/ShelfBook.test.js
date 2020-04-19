@@ -21,7 +21,7 @@ const renderWithRedux = (ui, { initialState, store = createStore(reducer, initia
 
 test('can render with redux with defaults', async () => {
     const history = createMemoryHistory({})
-	const { getByTestId, findByText } = renderWithRedux(
+	const { findByText } = renderWithRedux(
         <Router history={history}>
             <ShelfBook match={{ params: { id: 'Gz1jn_5OafMC' }}} />
             </Router>, { initialState: {

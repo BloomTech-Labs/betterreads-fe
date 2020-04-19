@@ -5,7 +5,7 @@ import { PageView, Event } from '../../utils/tracking';
 
 import PageNotFoundContainer from './styles/PageNotFoundStyle';
 
-const PageNotFound = (props) => {
+const PageNotFound = () => {
   useEffect(() => {
     Event(
       'NOT_FOUND',
@@ -17,8 +17,10 @@ const PageNotFound = (props) => {
 
   return (
     <PageNotFoundContainer>
-      <h1>Page not found</h1>
-      <button onClick={() => history.push('/')}>Go back</button>
+      <h1 data-testid='page-not-found'>Page not found</h1>
+      <button onClick={() => history.push('/')} data-testid='go-back'>
+        Go back
+      </button>
     </PageNotFoundContainer>
   );
 };
