@@ -13,8 +13,9 @@ const Failure = () => {
 
   return (
     <FailureContainer>
-      <h1>There was an error</h1>
+      <h1 data-testid="failure-title">There was an error</h1>
       <button
+        data-testid="button"
         onClick={() => {
           history.push('/');
           Event('SIGN IN', 'User was redirected to signIn', 'FAILURE');

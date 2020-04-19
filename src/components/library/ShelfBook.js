@@ -79,7 +79,11 @@ const ShelfBook = (props) => {
                     __html: props.currentBook.description,
                   }}
                 ></div>
-                <p className='read-more' onClick={() => setReadMore(!readMore)}>
+                <p
+                  className='read-more'
+                  data-testid='read-more'
+                  onClick={() => setReadMore(!readMore)}
+                >
                   {readMore ? 'Read less...' : 'Read more...'}
                 </p>
               </div>
@@ -112,9 +116,11 @@ const ShelfBook = (props) => {
                   </div>
                 )}
                 {props.currentBook.publisher && (
-                  <div className='info-item'>
-                    <div className='info-title'>Publisher:</div>
-                    <div className='info-value'>
+                  <div className='info-item' data-testid='info-item'>
+                    <div className='info-title' data-testid='info-title'>
+                      Publisher:
+                    </div>
+                    <div className='info-value' data-testid='info-value'>
                       {props.currentBook.publisher &&
                         props.currentBook.publisher}
                       ,{' '}

@@ -56,11 +56,11 @@ const OnboardingQuiz = (props) => {
 
   return (
     <OnboardingQuizContainer>
-      <h1>Select your favorite genres</h1>
-      <p className='select'>Select at least one genre to continue</p>
-      <form onSubmit={onSubmit}>
-        <Checkbox.Group options={genres} onChange={onChange} />
-        <button type='submit'>Continue</button>
+      <h1 data-testid='quiz-container'>Select your favorite genres</h1>
+      <p className='select' data-testid='select-p'>Select at least one genre to continue</p>
+      <form onSubmit={onSubmit} data-testid='quiz-form'>
+        <Checkbox.Group options={genres} onChange={onChange} data-testid='quiz-check'/>
+        <button type='submit' data-testid='quiz-button'>Continue</button>
       </form>
     </OnboardingQuizContainer>
   );
