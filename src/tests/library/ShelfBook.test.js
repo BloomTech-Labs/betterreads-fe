@@ -41,6 +41,6 @@ test('can render with redux with defaults', async () => {
   const description = await findByText(/Millions/i);
   expect(description).toBeTruthy();
   const readMore = getByTestId('read-more');
-    expect(readMore).toBeInTheDocument();
-    expect(readMore).toHaveTextContent(/Read more.../i)
+  expect(readMore).toBeInTheDocument();
+  expect(readMore).toHaveTextContent(/Read more.../i);
 });
