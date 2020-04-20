@@ -12,9 +12,9 @@ import history from '../../utils/history';
 
 const Breadcrumbs = (props) => {
   return (
-    <Wrapper>
+    <Wrapper data-testid='bread'>
       <Breadcrumb className='fs-16 openSans lh-40'>
-        <Breadcrumb.Item onClick={() => history.push('/')}>
+        <Breadcrumb.Item onClick={() => history.push('/')} data-testid='item1'>
           <HomeOutlined /> Library
         </Breadcrumb.Item>
         {props.crumbs &&

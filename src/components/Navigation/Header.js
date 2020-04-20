@@ -47,7 +47,7 @@ const Header = (props) => {
   return (
     <HeaderContainer>
       <div className='header'>
-        <h1 onClick={() => history.push('/')}>
+        <h1 onClick={() => history.push('/')} data-testid='h1-route'>
           <BookIcon height='24px' width='24px' fill='#547862' />
           Readrr
         </h1>
@@ -55,7 +55,10 @@ const Header = (props) => {
         {(!localStorage.getItem('image') ||
           localStorage.getItem('image') === 'null') && (
           <Dropdown overlay={dropdown} trigger={['click']}>
-            <div className='default-profile-icon ant-dropdown-link'>
+            <div
+              className='default-profile-icon ant-dropdown-link'
+              data-testid='drop-down-toggle'
+            >
               <i className='fas fa-user'></i>
             </div>
           </Dropdown>

@@ -272,7 +272,7 @@ const BookCard = (props) => {
     >
       <div className='thumbnail-container'>
         <div
-          data-testid="thumb-button"
+          data-testid='thumb-button'
           className='thumbnail'
           onClick={() => {
             history.push(`/book/${googleId}`);
@@ -309,7 +309,7 @@ const BookCard = (props) => {
             </p>
             {props.book.authors && (
               <p
-              data-testid='author-link'
+                data-testid='author-link'
                 className='author'
                 onClick={() => history.push(`/book/${googleId}`)}
               >

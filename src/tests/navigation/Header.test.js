@@ -22,7 +22,4 @@ test('A Tag Renders Github', async () => {
   window.localStorage.setItem('image', 'image');
   const dropDown = getByTestId('drop-down-toggle');
   expect(dropDown).toBeInTheDocument();
-  fireEvent.click(dropDown);
-  const dropDownATag = getByTestId('drop-down-a');
-  expect(dropDownATag).toBeInTheDocument();
 });
