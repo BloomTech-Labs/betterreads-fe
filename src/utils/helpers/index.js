@@ -1,6 +1,7 @@
 import axios from 'axios';
 import jwt from 'jwt-decode';
 import { notification } from 'antd';
+import { axiosWithAuth } from '../axiosWithAuth';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
@@ -38,10 +39,14 @@ export const updateBookItem = (
   }
 
   // save a book as a favorite or update its reading status
+  const token = localStorage.getItem('token');
   return axios({
     method,
     url: `${API_URL}/api/${userId}/library`,
     data,
+    headers: {
+      Authorization: `${token}`,
+    },
   });
 };
 
@@ -70,7 +75,7 @@ export const updateDates = (userId, readrrId, dateString, whichDate) => {
     };
   }
 
-  return axios.put(`${API_URL}/api/${userId}/library`, dateObj);
+  return axiosWithAuth().put(`${API_URL}/api/${userId}/library`, dateObj);
 };
 
 export const updateUserRating = (userId, bookId, userRating) => {
