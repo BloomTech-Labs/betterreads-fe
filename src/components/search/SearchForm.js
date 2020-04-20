@@ -1,5 +1,5 @@
 //Import React
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 //Import Actions
 import {
