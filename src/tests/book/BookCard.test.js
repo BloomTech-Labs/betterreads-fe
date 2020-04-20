@@ -4,9 +4,20 @@ import '@testing-library/jest-dom/extend-expect';
 import BookCard from '../../components/Book/BookCard';
 // Testing Util
 import { renderWithRedux } from '../utils/renderWithRedux';
+import { testBook } from '../utils/testingConstants';
 
 test('BookIcon Renders', () => {
   renderWithRedux(<BookCard book={{ googleId: 'e' }} />);
+});
+
+test('Something Renders', () => {
+  renderWithRedux(
+    <BookCard
+      book={{ googleId: 'e', userRating: '2.3' }}
+      useBooks={[{ googleId: 'e' }]}
+      source='search'
+    />
+  );
 });
 
 test('Thumbnail Button Functions Correctly', () => {

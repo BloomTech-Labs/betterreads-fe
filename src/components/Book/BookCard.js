@@ -55,6 +55,8 @@ const BookCard = (props) => {
   const favoriteRef = useRef(favorite);
   const firstRun = useRef(true);
 
+  // Need to fix this...
+  // There are two useEffects
   useEffect(() => {
     if (firstRun.current) {
       firstRun.current = false;

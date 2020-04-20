@@ -28,4 +28,6 @@ export const testBook = {
   title: 'You Are a Badass®',
   webReaderLink:
     'http://play.google.com/books/reader?id=wxOBzNfJn4cC&hl=&printsec=frontcover&source=gbs_api',
+  googleId: 'e',
+  userRating: '1.2',
 };
