@@ -1,9 +1,10 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, findByText } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import BookCardList from '../../components/Book/BookCardList';
 // Testing Util
 import { renderWithRedux } from '../utils/renderWithRedux';
+import { testBook } from '../utils/testingConstants';
 
 test('BookCardList Renders', () => {
   renderWithRedux(<BookCardList />);
@@ -19,6 +20,26 @@ test('BookCardListContainer ShelfName Div Renders', () => {
   const { getByTestId } = renderWithRedux(<BookCardList label='My books' />);
   const shelfNameDiv = getByTestId('my-book-shelf-name');
   expect(shelfNameDiv).toBeInTheDocument();
+});
+
+test('BookCardList Div Renders', () => {
+  const { getByTestId } = renderWithRedux(<BookCardList label='My books' />);
+  const shelfNameDiv = getByTestId('book-card-list');
+  expect(shelfNameDiv).toBeInTheDocument();
+});
+
+test('BookCardList Renders Book', () => {
+  const { getByTestId } = renderWithRedux(
+    <BookCardList books={[testBook, testBook]} />
+  );
+  const shelfNameDiv = getByTestId('book-card-list');
+  expect(shelfNameDiv).toBeInTheDocument();
+});
+
+test('BookCardList Renders SearchPagination', () => {
+  const { getByTestId } = renderWithRedux(<BookCardList source='search' />);
+  const search = getByTestId('search-pagination');
+  expect(search).toBeInTheDocument();
 });
 
 test('BookCardListContainer Edit Form Does Not Render', () => {
@@ -43,4 +64,13 @@ test('BookCardListContainer Edit Form Renders When Clicking FontAwesome Icon', (
   fireEvent.click(editIcon);
   const editForm = getByTestId('edit-form');
   expect(editForm).toBeInTheDocument();
+});
+
+test('Dropdown Menu Appears on Click', () => {
+  const { getByTestId } = renderWithRedux(<BookCardList label='Test' />);
+  const dropDownIcon = getByTestId('drop-down-link');
+  expect(dropDownIcon).toBeInTheDocument();
+  fireEvent.click(dropDownIcon);
+  const dropDownMenu = getByTestId('drop-down-menu');
+  expect(dropDownMenu).toBeInTheDocument();
 });

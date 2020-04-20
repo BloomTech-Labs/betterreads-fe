@@ -39,7 +39,7 @@ const BookCardList = (props) => {
   };
 
   const dropdown = (
-    <Menu>
+    <Menu data-testid='drop-down-menu'>
       <Menu.Item>
         <Popconfirm
           title='Are you sure you want to delete this shelf?'
@@ -102,7 +102,7 @@ const BookCardList = (props) => {
                     ></i>
                   </h2>
                   <Dropdown overlay={dropdown} trigger={['click']}>
-                    <i className='fas fa-ellipsis-h' title='Options'></i>
+                    <i className='fas fa-ellipsis-h' title='Options' data-testid='drop-down-link'></i>
                   </Dropdown>
                 </>
               )}
@@ -118,7 +118,7 @@ const BookCardList = (props) => {
           </div>
         ) : null}
 
-        <div className='book-card-list'>
+        <div className='book-card-list' data-testid='book-card-list'>
           {props.books &&
             props.books.map((item, index) => (
               <BookCard
@@ -130,7 +130,9 @@ const BookCardList = (props) => {
             ))}
         </div>
 
-        {props.source === 'search' && <SearchPagination data-testid='search-pagination'/>}
+        {props.source === 'search' && (
+          <SearchPagination />
+        )}
       </BookCardListContainer>
     </>
   );
