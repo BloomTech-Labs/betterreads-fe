@@ -28,7 +28,9 @@ const Library = (props) => {
     PageView();
   }, []);
 
-  const fullName = localStorage.getItem('full_name').split(' ')[0];
+  const localName = localStorage.getItem('full_name');
+
+  const fullName = localName ? localName.split(' ')[0] : 'Readrr';
   const toBeRead = props.userBooks.filter((item) => item.readingStatus === 1);
   const inProgress = props.userBooks.filter((item) => item.readingStatus === 2);
 
@@ -39,7 +41,7 @@ const Library = (props) => {
       <div className='what-are-you-reading-container'>
         <div className='what-are-you-reading'>
           {props.userBooks.length > 10 ? (
-            <h2>Welcome back, {fullName}!</h2>
+            <h2 data-testid='welcome-message'>Welcome back, {fullName}!</h2>
           ) : (
             <h2>What are you reading?</h2>
           )}

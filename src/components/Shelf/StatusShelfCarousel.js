@@ -82,7 +82,7 @@ const ShelfSwipe = (props) => {
   );
 
   return (
-    <ShelfSwipeContainer length={props.bookList.length}>
+    <ShelfSwipeContainer length={props.bookList.length} data-testid='shelf-swipe-container'>
       {/* <Collapse defaultActiveKey={2} bordered={false}>
                 <Collapse.Panel header={`${props.title} (${props.bookList.length})`} showArrow={false} key={2}>
                     {props.display === 'carousel' && (
