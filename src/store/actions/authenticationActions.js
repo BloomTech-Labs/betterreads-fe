@@ -17,10 +17,11 @@ export const signUp = (input, history) => (dispatch) => {
         password: input.password,
       })
       .then((response) => {
-        console.log(response);
+        console.log('Response', response);
         localStorage.setItem('token', response.data.token);
         const user = jwt(response.data.token);
-        const image = user && user.image ? user.image : ''
+        console.log('signUp', user);
+        const image = user && user.image ? user.image : '';
         // localStorage.setItem('id', user.subject);
         // localStorage.setItem('full_name', user.fullName);
         localStorage.setItem('image', image);
@@ -30,7 +31,7 @@ export const signUp = (input, history) => (dispatch) => {
         history.push('/');
       })
       .catch((error) => {
-        console.log(error);
+        console.log('Error', error);
         dispatch({ type: SET_ERROR, payload: 'Email address already in use' });
       });
   }
@@ -41,8 +42,10 @@ export const signIn = (input, history) => (dispatch) => {
   axios
     .post(`${API_URL}/api/auth/signin`, input)
     .then((response) => {
+      console.log('Response', response);
       const user = jwt(response.data.token);
-      const image = user && user.image ? user.image : ''
+      console.log('signIn', user);
+      const image = user && user.image ? user.image : '';
       localStorage.setItem('token', response.data.token);
       // const user = jwt(response.data.token);
       // localStorage.setItem('id', user.subject);
@@ -66,7 +69,8 @@ export const successRedirect = (history) => (dispatch) => {
     .get(`${API_URL}/api/auth/success`)
     .then((response) => {
       localStorage.setItem('token', response.data.token);
-      // const user = jwt(response.data.token);
+      const user = jwt(response.data.token);
+      console.log('redirect', user);
       // localStorage.setItem('id', user.subject);
       // localStorage.setItem('full_name', user.fullName);
       // localStorage.setItem('image', user.image);
@@ -80,6 +84,7 @@ export const successRedirect = (history) => (dispatch) => {
 
 export const signOut = (history) => (dispatch) => {
   localStorage.removeItem('token');
+  localStorage.removeItem('image');
   axios
     .get(`${API_URL}/api/auth/signout`)
     .then((response) => {
