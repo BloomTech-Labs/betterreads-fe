@@ -20,9 +20,10 @@ export const signUp = (input, history) => (dispatch) => {
         console.log(response);
         localStorage.setItem('token', response.data.token);
         const user = jwt(response.data.token);
+        const image = user && user.image ? user.image : ''
         // localStorage.setItem('id', user.subject);
         // localStorage.setItem('full_name', user.fullName);
-        localStorage.setItem('image'), user.image ? user.image : '';
+        localStorage.setItem('image', image);
         // localStorage.setItem('id', response.data.user.id);
         // localStorage.setItem('full_name', response.data.user.fullName);
         // localStorage.setItem('image', response.data.user.image);
@@ -40,11 +41,13 @@ export const signIn = (input, history) => (dispatch) => {
   axios
     .post(`${API_URL}/api/auth/signin`, input)
     .then((response) => {
+      const user = jwt(response.data.token);
+      const image = user && user.image ? user.image : ''
       localStorage.setItem('token', response.data.token);
       // const user = jwt(response.data.token);
       // localStorage.setItem('id', user.subject);
       // localStorage.setItem('full_name', user.fullName);
-      localStorage.setItem('image'), user.image ? user.image : '';
+      localStorage.setItem('image', image);
       // localStorage.setItem('id', response.data.user.id);
       // localStorage.setItem('full_name', response.data.user.fullName);
       // localStorage.setItem('image', response.data.user.image);
