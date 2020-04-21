@@ -9,6 +9,7 @@ import { Menu, Dropdown } from 'antd';
 // Utils Import
 import { Event } from '../../utils/tracking';
 import history from '../../utils/history';
+import { user } from '../../utils/helpers';
 // Styled Components
 import HeaderContainer from './styles/HeaderContainer';
 import BookIcon from '../Book/BookIcon';

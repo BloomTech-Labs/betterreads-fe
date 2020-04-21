@@ -14,6 +14,7 @@ export const updateBookItem = (
   favorite,
   readingStatus
 ) => {
+  console.log('FOUND IT?');
   let method = inLibrary ? 'put' : 'post';
 
   let data;
@@ -39,7 +40,12 @@ export const updateBookItem = (
   }
 
   // save a book as a favorite or update its reading status
-  const token = localStorage.getItem('token');
+  return new Promise((resolve, reject) => {
+    axiosWithAuth()
+      .post(`${API_URL}/api/${userId}/library`, data)
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
+  });
   return axios({
     method,
     url: `${API_URL}/api/${userId}/library`,
@@ -88,4 +94,6 @@ export const decodeToken = (token) => {
 };
 
 const token = localStorage.getItem('token');
-export const user = token ? jwt(token) : { subject: 2 };
+export const user = token
+  ? jwt(token)
+  : { subject: 0, fullName: 'Readrr', image: '' };

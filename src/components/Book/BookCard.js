@@ -17,6 +17,7 @@ import {
   updateDates,
   sendUpTheFlares,
   updateUserRating,
+  user,
 } from '../../utils/helpers';
 import history from '../../utils/history';
 import { Event } from '../../utils/tracking';
@@ -76,7 +77,7 @@ const BookCard = (props) => {
     }
 
     updateBookItem(
-      localStorage.getItem('id'),
+      user.subject,
       readrrId,
       inLibrary,
       props.book,
@@ -85,6 +86,7 @@ const BookCard = (props) => {
       parseInt(readingStatus)
     )
       .then((results) => {
+        console.log('Results', results);
         let newBookId;
         if (results.config.method === 'post') {
           // add book to library
@@ -155,6 +157,7 @@ const BookCard = (props) => {
         }
       })
       .catch((err) => {
+        console.log('Error', err);
         Event(
           'Search',
           'Error tracking/favoriting/deleting a book.',
@@ -190,7 +193,7 @@ const BookCard = (props) => {
 
   const updateRating = (rate) => {
     // if(libraryBook){
-    updateUserRating(localStorage.getItem('id'), libraryBook.bookId, rate)
+    updateUserRating(user.subject, libraryBook.bookId, rate)
       .then((result) => {
         Event('RATING', 'User rated a book.', 'BOOK_CARD');
         props.updateBookUserRating(libraryBook.bookId, rate); //update redux state...
@@ -205,7 +208,7 @@ const BookCard = (props) => {
   };
 
   const handleDates = (date, dateString, whichDate) => {
-    updateDates(localStorage.getItem('id'), readrrId, dateString, whichDate)
+    updateDates(user.subject, readrrId, dateString, whichDate)
       .then((result) => {
         if (result.data.dateStarted)
           props.updateSingleBookField(

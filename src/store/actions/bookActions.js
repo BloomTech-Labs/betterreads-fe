@@ -35,7 +35,7 @@ export const fetchCurrentBook = (googleID) => (dispatch) => {
       });
       dispatch({ type: SET_CURRENT_BOOK, payload: newBook[0] });
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.log(error, 'Here'));
 };
 
 export const setBreadcrumbs = (breadcrumbs) => (dispatch) => {

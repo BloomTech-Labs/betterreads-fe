@@ -1,5 +1,6 @@
 import { SET_ERROR, RESET_ERROR } from './types';
 import axios from 'axios';
+import jwt from 'jwt-decode';
 
 axios.defaults.withCredentials = true;
 
@@ -18,9 +19,14 @@ export const signUp = (input, history) => (dispatch) => {
       .then((response) => {
         console.log(response);
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('id', response.data.user.id);
-        localStorage.setItem('full_name', response.data.user.fullName);
-        localStorage.setItem('image', response.data.user.image);
+        const user = jwt(response.data.token);
+        const image = user && user.image ? user.image : ''
+        // localStorage.setItem('id', user.subject);
+        // localStorage.setItem('full_name', user.fullName);
+        localStorage.setItem('image', image);
+        // localStorage.setItem('id', response.data.user.id);
+        // localStorage.setItem('full_name', response.data.user.fullName);
+        // localStorage.setItem('image', response.data.user.image);
         history.push('/');
       })
       .catch((error) => {
@@ -31,13 +37,20 @@ export const signUp = (input, history) => (dispatch) => {
 };
 
 export const signIn = (input, history) => (dispatch) => {
+  console.log('Here');
   axios
     .post(`${API_URL}/api/auth/signin`, input)
     .then((response) => {
+      const user = jwt(response.data.token);
+      const image = user && user.image ? user.image : ''
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('id', response.data.user.id);
-      localStorage.setItem('full_name', response.data.user.fullName);
-      localStorage.setItem('image', response.data.user.image);
+      // const user = jwt(response.data.token);
+      // localStorage.setItem('id', user.subject);
+      // localStorage.setItem('full_name', user.fullName);
+      localStorage.setItem('image', image);
+      // localStorage.setItem('id', response.data.user.id);
+      // localStorage.setItem('full_name', response.data.user.fullName);
+      // localStorage.setItem('image', response.data.user.image);
       history.push('/');
     })
     .catch((error) => {
@@ -53,18 +66,24 @@ export const successRedirect = (history) => (dispatch) => {
     .get(`${API_URL}/api/auth/success`)
     .then((response) => {
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('id', response.data.user.id);
-      localStorage.setItem('full_name', response.data.user.fullName);
-      localStorage.setItem('image', response.data.user.image);
+      // const user = jwt(response.data.token);
+      // localStorage.setItem('id', user.subject);
+      // localStorage.setItem('full_name', user.fullName);
+      // localStorage.setItem('image', user.image);
+      // localStorage.setItem('id', response.data.user.id);
+      // localStorage.setItem('full_name', response.data.user.fullName);
+      // localStorage.setItem('image', response.data.user.image);
       history.push('/');
     })
     .catch((error) => console.log(error));
 };
 
 export const signOut = (history) => (dispatch) => {
+  localStorage.removeItem('token');
   axios
     .get(`${API_URL}/api/auth/signout`)
     .then((response) => {
+      localStorage.setItem('token', '');
       localStorage.removeItem('token');
       localStorage.removeItem('id');
       localStorage.removeItem('full_name');
