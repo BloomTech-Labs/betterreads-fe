@@ -26,7 +26,11 @@ const SearchPagination = (props) => {
 
   return (
     <SearchPaginationContainer data-testid='search-pagination'>
-      <button onClick={onClick} disabled={props.fetchMore ? true : false}>
+      <button
+        data-testId='boot'
+        onClick={onClick}
+        disabled={props.fetchMore ? true : false}
+      >
         {props.fetchMore ? <Spin indicator={antIcon} /> : 'Load More'}
       </button>
     </SearchPaginationContainer>

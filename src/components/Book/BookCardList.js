@@ -102,7 +102,11 @@ const BookCardList = (props) => {
                     ></i>
                   </h2>
                   <Dropdown overlay={dropdown} trigger={['click']}>
-                    <i className='fas fa-ellipsis-h' title='Options' data-testid='drop-down-link'></i>
+                    <i
+                      className='fas fa-ellipsis-h'
+                      title='Options'
+                      data-testid='drop-down-link'
+                    ></i>
                   </Dropdown>
                 </>
               )}
@@ -130,9 +134,7 @@ const BookCardList = (props) => {
             ))}
         </div>
 
-        {props.source === 'search' && (
-          <SearchPagination />
-        )}
+        {props.source === 'search' && <SearchPagination />}
       </BookCardListContainer>
     </>
   );

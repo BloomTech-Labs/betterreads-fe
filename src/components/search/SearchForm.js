@@ -34,6 +34,7 @@ const SearchForm = (props) => {
     <Wrapper>
       <div className='innerWrapper'>
         <Input.Search
+          data-testId='input1'
           name='q'
           aria-label='search-box'
           placeholder='Search for a book'
