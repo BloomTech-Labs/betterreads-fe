@@ -44,7 +44,7 @@ const Shelves = props => {
                     <StatusShelfCarousel title='In progress' display='carousel' bookList={inProgress} link='/shelf/inprogress' breadcrumbs={[{ label: 'My shelves', path: '/myshelves' }, { label: 'In progress', path: '/shelf/inprogress' }, { label: "Book details", path: null }]} />
                     <StatusShelfCarousel title='Finished' display='carousel' bookList={finished} link='/shelf/finished' breadcrumbs={[{ label: 'My shelves', path: '/myshelves' }, { label: 'Finished', path: '/shelf/finished' }, { label: "Book details", path: null }]} />
                     {props.userShelves.map((item, index) => (
-                        <StatusShelfCarousel key={index} id={item.shelfId} title={item.shelfName} display='carousel' bookList={item.books} link={`/shelf/${item.shelfId}`} breadcrumbs={[{ label: 'My shelves', path: '/myshelves' }, { label: item.shelfName, path: `/shelf/${item.shelfId}` }, { label: "Book details", path: null }]} />
+                            <StatusShelfCarousel key={index} id={item.shelfId} title={item.shelfName} display='carousel' bookList={item.books} link={`/shelf/${item.shelfId}`} breadcrumbs={[{ label: 'My shelves', path: '/myshelves' }, { label: item.shelfName, path: `/shelf/${item.shelfId}` }, { label: "Book details", path: null }]} />
                     ))}
                 </div>
                 <MyShelves source={'shelves'} />

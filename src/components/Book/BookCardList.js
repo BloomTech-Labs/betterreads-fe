@@ -39,7 +39,7 @@ const BookCardList = (props) => {
   };
 
   const dropdown = (
-    <Menu>
+    <Menu data-testid='drop-down-menu'>
       <Menu.Item>
         <Popconfirm
           title='Are you sure you want to delete this shelf?'
@@ -62,6 +62,7 @@ const BookCardList = (props) => {
 
   return (
     <>
+      {/* This checking needs to be addressed */}
       <BookCardListContainer>
         {props.label &&
           props.label !== 'My books' &&
@@ -69,32 +70,43 @@ const BookCardList = (props) => {
           props.label !== 'To be read' &&
           props.label !== 'In progress' &&
           props.label !== 'Finished' && (
-            <div className='shelf-name'>
+            <div className='shelf-name' data-testid='shelf-name-div'>
               {editing ? (
                 <form
                   onSubmit={onSubmit}
                   onBlur={onSubmit}
                   autoComplete='off'
                   spellCheck='false'
+                  data-testid='edit-form'
                 >
                   <input
                     type='text'
                     value={shelfName}
                     onChange={onChange}
                     autoFocus
+                    data-testid='edit-input'
                   />
                 </form>
               ) : (
                 <>
-                  <h2 onClick={() => setEditing(true)} title='Edit'>
+                  <h2
+                    onClick={() => setEditing(true)}
+                    title='Edit'
+                    data-testid='edit-h2'
+                  >
                     {shelfName}
                     <i
                       className='fas fa-pen'
                       onClick={() => setEditing(true)}
+                      data-testid='edit-icon'
                     ></i>
                   </h2>
                   <Dropdown overlay={dropdown} trigger={['click']}>
-                    <i className='fas fa-ellipsis-h' title='Options'></i>
+                    <i
+                      className='fas fa-ellipsis-h'
+                      title='Options'
+                      data-testid='drop-down-link'
+                    ></i>
                   </Dropdown>
                 </>
               )}
@@ -105,15 +117,20 @@ const BookCardList = (props) => {
         props.label === 'To be read' ||
         props.label === 'In progress' ||
         props.label === 'Finished' ? (
-          <div className='shelf-name'>
+          <div className='shelf-name' data-testid='my-book-shelf-name'>
             <h2>{shelfName}</h2>
           </div>
         ) : null}
 
-        <div className='book-card-list'>
+        <div className='book-card-list' data-testid='book-card-list'>
           {props.books &&
             props.books.map((item, index) => (
-              <BookCard key={index} book={item} source={props.source} />
+              <BookCard
+                key={index}
+                book={item}
+                source={props.source}
+                data-testid='book-card'
+              />
             ))}
         </div>
 

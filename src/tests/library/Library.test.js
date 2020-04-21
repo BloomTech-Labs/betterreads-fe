@@ -1,12 +1,12 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import ShelfBook from '../../components/library/ShelfBook';
+import Library from '../../components/library/Library';
 import { initialState as libraryIState } from '../../store/reducers/library';
 import { initialState as searchIState } from '../../store/reducers/search';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { initialState as recIState } from '../../store/reducers/recommendations';
 // Testing Utils
 import { renderWithRedux } from '../utils/renderWithRedux';
+import { testBook } from '../utils/testingConstants';
 
 const testingState = {
   book: {
@@ -28,19 +28,13 @@ const testingState = {
   },
   library: libraryIState,
   search: searchIState,
+  reccomendations: recIState,
 };
 
-test('can render with redux with defaults', async () => {
-  const history = createMemoryHistory({});
-  const { findByText, getByTestId } = renderWithRedux(
-    <Router history={history}>
-      <ShelfBook match={{ params: { id: 'Gz1jn_5OafMC' } }} />
-    </Router>,
-    { initialState: testingState }
-  );
-  const description = await findByText(/Millions/i);
-  expect(description).toBeTruthy();
-  const readMore = getByTestId('read-more');
-  expect(readMore).toBeInTheDocument();
-  expect(readMore).toHaveTextContent(/Read more.../i);
+test('Shelves Renders', () => {
+  renderWithRedux(<Library />);
 });
+
+test('Shelves Renders', () => {
+    renderWithRedux(<Library />, { initialState: { testingState } });
+  });

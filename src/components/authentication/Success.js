@@ -22,8 +22,8 @@ const Success = (props) => {
   const antIcon = <LoadingOutlined style={{ fontSize: 48 }} spin />;
 
   return (
-    <SuccessContainer>
-      <Spin indicator={antIcon} />
+    <SuccessContainer data-testid='success-container'>
+      <Spin indicator={antIcon} data-testid='success-spinner'/>
     </SuccessContainer>
   );
 };

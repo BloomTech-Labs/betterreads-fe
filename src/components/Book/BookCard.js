@@ -55,6 +55,8 @@ const BookCard = (props) => {
   const favoriteRef = useRef(favorite);
   const firstRun = useRef(true);
 
+  // Need to fix this...
+  // There are two useEffects
   useEffect(() => {
     if (firstRun.current) {
       firstRun.current = false;
@@ -270,6 +272,7 @@ const BookCard = (props) => {
     >
       <div className='thumbnail-container'>
         <div
+          data-testid='thumb-button'
           className='thumbnail'
           onClick={() => {
             history.push(`/book/${googleId}`);
@@ -298,6 +301,7 @@ const BookCard = (props) => {
         <div className='title-author-and-favorite'>
           <div className='title-and-author'>
             <p
+              data-testid='title-link'
               className='title'
               onClick={() => history.push(`/book/${googleId}`)}
             >
@@ -305,6 +309,7 @@ const BookCard = (props) => {
             </p>
             {props.book.authors && (
               <p
+                data-testid='author-link'
                 className='author'
                 onClick={() => history.push(`/book/${googleId}`)}
               >
