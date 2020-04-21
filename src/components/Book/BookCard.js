@@ -17,7 +17,7 @@ import {
   updateDates,
   sendUpTheFlares,
   updateUserRating,
-  user
+  user,
 } from '../../utils/helpers';
 import history from '../../utils/history';
 import { Event } from '../../utils/tracking';
@@ -86,6 +86,7 @@ const BookCard = (props) => {
       parseInt(readingStatus)
     )
       .then((results) => {
+        console.log('Results', results);
         let newBookId;
         if (results.config.method === 'post') {
           // add book to library
@@ -156,6 +157,7 @@ const BookCard = (props) => {
         }
       })
       .catch((err) => {
+        console.log('Error', err);
         Event(
           'Search',
           'Error tracking/favoriting/deleting a book.',
