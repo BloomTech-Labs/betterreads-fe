@@ -70,7 +70,7 @@ const ShelfBook = (props) => {
             )}
 
             {props.currentBook.description && (
-              <div className='description'>
+              <div className='description' data-testid='description'>
                 <p className='heading'>Description</p>
                 <div
                   className='content'
