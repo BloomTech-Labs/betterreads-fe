@@ -29,7 +29,7 @@ const Library = (props) => {
     PageView();
   }, []);
 
-  const localName = user.fullName;
+  const localName = user ? user.fullName : 'Readrr';
 
   const fullName = localName ? localName.split(' ')[0] : 'Readrr';
   const toBeRead = props.userBooks.filter((item) => item.readingStatus === 1);
