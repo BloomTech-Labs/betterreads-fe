@@ -9,6 +9,7 @@ import { Menu, Dropdown } from 'antd';
 // Utils Import
 import { Event } from '../../utils/tracking';
 import history from '../../utils/history';
+import { user } from '../../utils/helpers'
 // Styled Components
 import HeaderContainer from './styles/HeaderContainer';
 import BookIcon from '../Book/BookIcon';
@@ -52,8 +53,8 @@ const Header = (props) => {
           Readrr
         </h1>
 
-        {(!localStorage.getItem('image') ||
-          localStorage.getItem('image') === 'null') && (
+        {(!user.image ||
+          user.image === 'null') && (
           <Dropdown overlay={dropdown} trigger={['click']}>
             <div
               className='default-profile-icon ant-dropdown-link'
@@ -63,12 +64,12 @@ const Header = (props) => {
             </div>
           </Dropdown>
         )}
-        {localStorage.getItem('image') &&
-          localStorage.getItem('image') !== 'null' && (
+        {user.image &&
+          user.image !== 'null' && (
             <Dropdown overlay={dropdown} trigger={['click']}>
               <img
                 className='ant-dropdown-link'
-                src={localStorage.getItem('image')}
+                src={user.image}
                 alt='profile icon'
               />
             </Dropdown>

@@ -18,6 +18,7 @@ import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 import LibraryContainer from './styles/LibraryStyle';
 // Utils
 import { PageView, Event } from '../../utils/tracking';
+import { user } from '../../utils/helpers';
 
 const Library = (props) => {
   useDocumentTitle('Readrr - Library');
@@ -28,7 +29,7 @@ const Library = (props) => {
     PageView();
   }, []);
 
-  const localName = localStorage.getItem('full_name');
+  const localName = user.fullName;
 
   const fullName = localName ? localName.split(' ')[0] : 'Readrr';
   const toBeRead = props.userBooks.filter((item) => item.readingStatus === 1);

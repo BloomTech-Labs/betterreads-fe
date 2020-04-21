@@ -88,4 +88,4 @@ export const decodeToken = (token) => {
 };
 
 const token = localStorage.getItem('token');
-export const user = token ? jwt(token) : { subject: 2 };
+export const user = token ? jwt(token) : null;
