@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { notification } from 'antd';
 import { axiosWithAuth } from '../axiosWithAuth';
+import store from '../../utils/store';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
+const state = store.getState();
 
 export const updateBookItem = (
   userId,
@@ -13,7 +15,6 @@ export const updateBookItem = (
   favorite,
   readingStatus
 ) => {
-  console.log('FOUND IT?');
   let method = inLibrary ? 'put' : 'post';
 
   let data;
@@ -40,17 +41,31 @@ export const updateBookItem = (
 
   // save a book as a favorite or update its reading status
   return new Promise((resolve, reject) => {
-    axiosWithAuth()
-      .post(`${API_URL}/api/${userId}/library`, data)
-      .then((res) => resolve(res))
-      .catch((err) => reject(err));
+    if (method === 'post') {
+      axiosWithAuth()
+        .post(`${API_URL}/api/${userId}/library`, data)
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    }
+    if (method === 'put') {
+      axiosWithAuth()
+        .put(`${API_URL}/api/${userId}/library`, data)
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    }
+    if (method === 'delete') {
+      axiosWithAuth()
+        .delete(`${API_URL}/api/${userId}/library`, data)
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    }
   });
   // return axios({
   //   method,
   //   url: `${API_URL}/api/${userId}/library`,
   //   data,
   //   headers: {
-  //     Authorization: `${token}`,
+  //     Authorization: `${state.authentication.token}`,
   //   },
   // });
 };
