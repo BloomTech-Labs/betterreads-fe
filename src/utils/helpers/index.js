@@ -1,5 +1,4 @@
 import axios from 'axios';
-import jwt from 'jwt-decode';
 import { notification } from 'antd';
 import { axiosWithAuth } from '../axiosWithAuth';
 
@@ -46,14 +45,14 @@ export const updateBookItem = (
       .then((res) => resolve(res))
       .catch((err) => reject(err));
   });
-  return axios({
-    method,
-    url: `${API_URL}/api/${userId}/library`,
-    data,
-    headers: {
-      Authorization: `${token}`,
-    },
-  });
+  // return axios({
+  //   method,
+  //   url: `${API_URL}/api/${userId}/library`,
+  //   data,
+  //   headers: {
+  //     Authorization: `${token}`,
+  //   },
+  // });
 };
 
 export const sendUpTheFlares = (type, message, description) => {
@@ -85,15 +84,13 @@ export const updateDates = (userId, readrrId, dateString, whichDate) => {
 };
 
 export const updateUserRating = (userId, bookId, userRating) => {
-  return axios.put(`${API_URL}/api/${userId}/library`, { bookId, userRating });
+  // return axios.put(`${API_URL}/api/${userId}/library`, { bookId, userRating });
+  return axios({
+    method: 'PUT',
+    url: `${API_URL}/api/${userId}/library`,
+    data: { bookId, userRating },
+    headers: {
+      Authorization: `${localStorage.getItem('token')}`,
+    },
+  });
 };
-
-export const decodeToken = (token) => {
-  const decode = jwt(token);
-  return decode;
-};
-
-const token = localStorage.getItem('token');
-export const user = token
-  ? jwt(token)
-  : { subject: 0, fullName: 'Readrr', image: '' };

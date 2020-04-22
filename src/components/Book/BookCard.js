@@ -17,7 +17,6 @@ import {
   updateDates,
   sendUpTheFlares,
   updateUserRating,
-  user,
 } from '../../utils/helpers';
 import history from '../../utils/history';
 import { Event } from '../../utils/tracking';
@@ -56,6 +55,8 @@ const BookCard = (props) => {
   const favoriteRef = useRef(favorite);
   const firstRun = useRef(true);
 
+  const user = localStorage.getItem('id');
+
   // Need to fix this...
   // There are two useEffects
   useEffect(() => {
@@ -77,7 +78,7 @@ const BookCard = (props) => {
     }
 
     updateBookItem(
-      user.subject,
+      props.user,
       readrrId,
       inLibrary,
       props.book,
@@ -193,7 +194,7 @@ const BookCard = (props) => {
 
   const updateRating = (rate) => {
     // if(libraryBook){
-    updateUserRating(user.subject, libraryBook.bookId, rate)
+    updateUserRating(props.user, libraryBook.bookId, rate)
       .then((result) => {
         Event('RATING', 'User rated a book.', 'BOOK_CARD');
         props.updateBookUserRating(libraryBook.bookId, rate); //update redux state...
@@ -208,7 +209,7 @@ const BookCard = (props) => {
   };
 
   const handleDates = (date, dateString, whichDate) => {
-    updateDates(user.subject, readrrId, dateString, whichDate)
+    updateDates(props.user, readrrId, dateString, whichDate)
       .then((result) => {
         if (result.data.dateStarted)
           props.updateSingleBookField(
@@ -389,6 +390,7 @@ const mapStateToProps = (state) => {
   return {
     userBooks: state.library.userBooks,
     userShelves: state.library.userShelves,
+    user: state.authentication.user.subject
   };
 };
 

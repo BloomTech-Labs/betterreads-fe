@@ -1,4 +1,4 @@
-import { SET_ERROR, RESET_ERROR } from './types';
+import { SET_ERROR, RESET_ERROR, SET_TOKEN, SET_USER } from './types';
 import axios from 'axios';
 import jwt from 'jwt-decode';
 
@@ -17,17 +17,16 @@ export const signUp = (input, history) => (dispatch) => {
         password: input.password,
       })
       .then((response) => {
-        console.log('Response', response);
+        const user = response.data.user;
+        const test = jwt(response.data.token);
+        dispatch({ type: SET_TOKEN, payload: response.data.token });
+        dispatch({ type: SET_USER, payload: test });
         localStorage.setItem('token', response.data.token);
-        const user = jwt(response.data.token);
-        console.log('signUp', user);
-        const image = user && user.image ? user.image : '';
-        // localStorage.setItem('id', user.subject);
-        // localStorage.setItem('full_name', user.fullName);
-        localStorage.setItem('image', image);
-        // localStorage.setItem('id', response.data.user.id);
-        // localStorage.setItem('full_name', response.data.user.fullName);
-        // localStorage.setItem('image', response.data.user.image);
+        localStorage.setItem('id', user.subject);
+        localStorage.setItem('full_name', user.fullName);
+        localStorage.setItem('id', response.data.user.id);
+        localStorage.setItem('full_name', response.data.user.fullName);
+        localStorage.setItem('image', response.data.user.image);
         history.push('/');
       })
       .catch((error) => {
@@ -42,18 +41,16 @@ export const signIn = (input, history) => (dispatch) => {
   axios
     .post(`${API_URL}/api/auth/signin`, input)
     .then((response) => {
-      console.log('Response', response);
-      const user = jwt(response.data.token);
-      console.log('signIn', user);
-      const image = user && user.image ? user.image : '';
+      const user = response.data.user;
+      const test = jwt(response.data.token);
+      dispatch({ type: SET_TOKEN, payload: response.data.token });
+      dispatch({ type: SET_USER, payload: test });
       localStorage.setItem('token', response.data.token);
-      // const user = jwt(response.data.token);
-      // localStorage.setItem('id', user.subject);
-      // localStorage.setItem('full_name', user.fullName);
-      localStorage.setItem('image', image);
-      // localStorage.setItem('id', response.data.user.id);
-      // localStorage.setItem('full_name', response.data.user.fullName);
-      // localStorage.setItem('image', response.data.user.image);
+      localStorage.setItem('id', user.subject);
+      localStorage.setItem('full_name', user.fullName);
+      localStorage.setItem('id', response.data.user.id);
+      localStorage.setItem('full_name', response.data.user.fullName);
+      localStorage.setItem('image', response.data.user.image);
       history.push('/');
     })
     .catch((error) => {
@@ -68,15 +65,17 @@ export const successRedirect = (history) => (dispatch) => {
   axios
     .get(`${API_URL}/api/auth/success`)
     .then((response) => {
+      const user = response.data.user;
+      const test = jwt(response.data.token);
+      dispatch({ type: SET_TOKEN, payload: response.data.token });
+      dispatch({ type: SET_USER, payload: test });
       localStorage.setItem('token', response.data.token);
-      const user = jwt(response.data.token);
-      console.log('redirect', user);
-      // localStorage.setItem('id', user.subject);
-      // localStorage.setItem('full_name', user.fullName);
-      // localStorage.setItem('image', user.image);
-      // localStorage.setItem('id', response.data.user.id);
-      // localStorage.setItem('full_name', response.data.user.fullName);
-      // localStorage.setItem('image', response.data.user.image);
+      localStorage.setItem('id', user.subject);
+      localStorage.setItem('full_name', user.fullName);
+      localStorage.setItem('image', user.image);
+      localStorage.setItem('id', response.data.user.id);
+      localStorage.setItem('full_name', response.data.user.fullName);
+      localStorage.setItem('image', response.data.user.image);
       history.push('/');
     })
     .catch((error) => console.log(error));

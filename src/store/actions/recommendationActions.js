@@ -5,14 +5,17 @@ import {
 } from './types';
 
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
-import { user } from '../../utils/helpers';
+
+const user = localStorage.getItem('id');
 
 const readrrDSURL = 'https://readrr-heroku-test.herokuapp.com/recommendations';
 
-export const fetchRecommendations = () => (dispatch) => {
+export const fetchRecommendations = () => (dispatch, getState) => {
   dispatch({ type: FETCH_RECOMMEDATIONS_START });
+  const state = getState();
+  const userID = state.authentication.user.subject;
   axiosWithAuth()
-    .post(readrrDSURL, { userid: user.subject })
+    .post(readrrDSURL, { userid: userID })
     .then((response) => {
       const newBookArray = response.data.recommendations.map((book) => {
         return {

@@ -7,10 +7,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) => {
-        if (
-          (localStorage.getItem('token') !== undefined) ||
-          null
-        ) {
+        if (localStorage.getItem('token') !== null) {
           return <Component {...props} />;
         } else {
           return <Redirect to='/signin' />;
