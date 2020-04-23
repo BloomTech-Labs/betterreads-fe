@@ -21,6 +21,7 @@ export const getUserShelves = () => (dispatch, getState) => {
   axiosWithAuth()
     .get(`${API_URL}/api/shelves/user/${userID}`)
     .then((response) => {
+      console.log('getUserShelves');
       dispatch({ type: FETCH_USER_SHELF_SUCCESS, payload: response.data });
     })
     .catch((error) => {

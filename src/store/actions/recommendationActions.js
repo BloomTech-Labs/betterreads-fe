@@ -6,42 +6,45 @@ import {
 
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
 
-const user = localStorage.getItem('id');
-
 const readrrDSURL = 'https://readrr-heroku-test.herokuapp.com/recommendations';
+const test =
+  'http://br-web-backend-dev.eba-padharke.us-west-2.elasticbeanstalk.com/api/';
 
 export const fetchRecommendations = () => (dispatch, getState) => {
   dispatch({ type: FETCH_RECOMMEDATIONS_START });
   const state = getState();
   const userID = state.authentication.user.subject;
   axiosWithAuth()
-    .post(readrrDSURL, { userid: userID })
+    .get(test + `${userID}/recommendations`)
     .then((response) => {
-      const newBookArray = response.data.recommendations.map((book) => {
-        return {
-          authors: book.authors && book.authors.toString(),
-          averageRating: book.averageRating || null,
-          categories: book.categories || null,
-          description: book.description || null,
-          googleId: book.googleId,
-          isEbook: book.isEbook || null,
-          isbn10: book.isbn10 || null,
-          isbn13: book.isbn13 || null,
-          language: book.language || null,
-          pageCount: book.pageCount || null,
-          publishedDate: book.publishedDate || null,
-          publisher: book.publisher || null,
-          smallThumbnail: book.smallThumbnail
-            ? book.smallThumbnail.replace('http://', 'https://')
-            : null,
-          textSnippet: book.textSnippet || null,
-          title: book.title || null,
-          thumbnail: book.thumbnail
-            ? book.thumbnail.replace('http://', 'https://')
-            : null,
-          webReaderLink: book.webReaderLink || null,
-        };
-      });
+      console.log(response.data);
+      const newBookArray = response.data.recommendations.recommendations.map(
+        (book) => {
+          return {
+            authors: book.authors && book.authors.toString(),
+            averageRating: book.averageRating || null,
+            categories: book.categories || null,
+            description: book.description || null,
+            googleId: book.googleId,
+            isEbook: book.isEbook || null,
+            isbn10: book.isbn10 || null,
+            isbn13: book.isbn13 || null,
+            language: book.language || null,
+            pageCount: book.pageCount || null,
+            publishedDate: book.publishedDate || null,
+            publisher: book.publisher || null,
+            smallThumbnail: book.smallThumbnail
+              ? book.smallThumbnail.replace('http://', 'https://')
+              : null,
+            textSnippet: book.textSnippet || null,
+            title: book.title || null,
+            thumbnail: book.thumbnail
+              ? book.thumbnail.replace('http://', 'https://')
+              : null,
+            webReaderLink: book.webReaderLink || null,
+          };
+        }
+      );
       dispatch({
         type: FETCH_RECOMMEDATIONS_SUCCESS,
         payload: { interest: response.data.interest, books: newBookArray },

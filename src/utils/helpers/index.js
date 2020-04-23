@@ -1,10 +1,8 @@
 import axios from 'axios';
 import { notification } from 'antd';
 import { axiosWithAuth } from '../axiosWithAuth';
-import store from '../../utils/store';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
-const state = store.getState();
 
 export const updateBookItem = (
   userId,
@@ -60,14 +58,6 @@ export const updateBookItem = (
         .catch((err) => reject(err));
     }
   });
-  // return axios({
-  //   method,
-  //   url: `${API_URL}/api/${userId}/library`,
-  //   data,
-  //   headers: {
-  //     Authorization: `${state.authentication.token}`,
-  //   },
-  // });
 };
 
 export const sendUpTheFlares = (type, message, description) => {
@@ -81,8 +71,6 @@ export const sendUpTheFlares = (type, message, description) => {
 
 export const updateDates = (userId, readrrId, dateString, whichDate) => {
   let dateObj;
-  // whichDate 0/true for start date
-  // 1/false for end date
   if (!whichDate) {
     dateObj = {
       bookId: readrrId,
