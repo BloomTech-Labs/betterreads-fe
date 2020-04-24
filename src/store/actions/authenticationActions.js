@@ -4,7 +4,7 @@ import jwt from 'jwt-decode';
 
 axios.defaults.withCredentials = true;
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
+const API_URL = process.env.REACT_APP_API_URL || 'https://staging.readrr.app/';
 
 export const signUp = (input, history) => (dispatch) => {
   if (input.password !== input.confirmPassword) {
