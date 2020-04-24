@@ -7,7 +7,7 @@ import {
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
 
 const readrrDSURL = 'https://readrr-heroku-test.herokuapp.com/recommendations';
-const test = process.env.DS_RECS || 'https://api.readrr.app/api/';
+const test = process.env.REACT_APP_DS_RECS || 'https://api.readrr.app/api/';
 
 export const fetchRecommendations = () => (dispatch, getState) => {
   dispatch({ type: FETCH_RECOMMEDATIONS_START });
