@@ -44,9 +44,13 @@ export const fetchRecommendations = () => (dispatch, getState) => {
           };
         }
       );
+      console.log('New Book Array: ', newBookArray);
       dispatch({
         type: FETCH_RECOMMEDATIONS_SUCCESS,
-        payload: { interest: response.data.interest, books: newBookArray },
+        payload: {
+          basedOn: response.data.recommendations.based_on,
+          books: newBookArray,
+        },
       });
     })
     .catch((error) => {
