@@ -2,8 +2,9 @@ import jwt from 'jwt-decode';
 import store from '../store';
 import { preserveState } from '../../store/actions/authenticationActions';
 
-// To mitigate losing current user from state when page is reloaded
-export const preserveUser = () => {
+// Check to validate token and make sure it is not expired
+// This also mitigates the issue of losing state on reload
+export const validateToken = () => {
   const token = localStorage.getItem('token');
   if (token) {
     const decoded = jwt(token);
