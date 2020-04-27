@@ -2,6 +2,8 @@ import {
   FETCH_RECOMMEDATIONS_START,
   FETCH_RECOMMEDATIONS_SUCCESS,
   FETCH_RECOMMEDATIONS_FAILURE,
+  ADD_RECOMMENDATIONS,
+  ADD_BASED_ON,
 } from '../actions/types';
 
 export const initialState = {
