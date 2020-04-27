@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { notification } from 'antd';
 import { axiosWithAuth } from '../axiosWithAuth';
+import store from '../store';
+import { fetchRecommendations } from '../../store/actions/recommendationActions';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
@@ -57,6 +59,7 @@ export const updateBookItem = (
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     }
+    store.dispatch(fetchRecommendations());
   });
 };
 
