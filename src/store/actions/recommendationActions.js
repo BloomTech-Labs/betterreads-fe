@@ -2,6 +2,8 @@ import {
   FETCH_RECOMMEDATIONS_START,
   FETCH_RECOMMEDATIONS_SUCCESS,
   FETCH_RECOMMEDATIONS_FAILURE,
+  ADD_BASED_ON,
+  ADD_RECOMMENDATIONS,
 } from './types';
 
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
@@ -16,34 +18,7 @@ export const fetchRecommendations = () => (dispatch, getState) => {
   axiosWithAuth()
     .get(test + `${userID}/recommendations`)
     .then((response) => {
-      console.log(response.data);
-      const recsArray = [];
-      response.data.recommendations.recommendations.forEach((book) => {
-        const newBook = {
-          authors: book.authors && book.authors.toString(),
-          averageRating: book.averageRating || null,
-          categories: book.categories || null,
-          description: book.description || null,
-          googleId: book.googleId,
-          isEbook: book.isEbook || null,
-          isbn10: book.isbn10 || null,
-          isbn13: book.isbn13 || null,
-          language: book.language || null,
-          pageCount: book.pageCount || null,
-          publishedDate: book.publishedDate || null,
-          publisher: book.publisher || null,
-          smallThumbnail: book.smallThumbnail
-            ? book.smallThumbnail.replace('http://', 'https://')
-            : null,
-          textSnippet: book.textSnippet || null,
-          title: book.title || null,
-          thumbnail: book.thumbnail
-            ? book.thumbnail.replace('http://', 'https://')
-            : null,
-          webReaderLink: book.webReaderLink || null,
-        };
-        recsArray.push(newBook);
-      });
+      console.log('Response: ', response.data);
       const newBookArray = response.data.recommendations.recommendations.map(
         (book) => {
           return {
@@ -72,14 +47,12 @@ export const fetchRecommendations = () => (dispatch, getState) => {
         }
       );
       console.log('New Book Array: ', newBookArray);
-      console.log('Recs Array: ', recsArray);
+      dispatch({ type: FETCH_RECOMMEDATIONS_SUCCESS });
       dispatch({
-        type: FETCH_RECOMMEDATIONS_SUCCESS,
-        payload: {
-          basedOn: response.data.recommendations.based_on,
-          books: recsArray,
-        },
+        type: ADD_BASED_ON,
+        payload: response.data.recommendations.based_on,
       });
+      dispatch({ type: ADD_RECOMMENDATIONS, payload: newBookArray });
     })
     .catch((error) => {
       console.log(error);

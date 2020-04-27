@@ -18,12 +18,20 @@ export const reducer = (state = initialState, action) => {
         ...state,
         fetchRecommendations: true,
       };
+    case ADD_RECOMMENDATIONS:
+      return {
+        ...state,
+        recommendations: action.payload,
+      };
+    case ADD_BASED_ON:
+      return {
+        ...state,
+        basedOn: action.payload,
+      };
     case FETCH_RECOMMEDATIONS_SUCCESS:
       return {
         ...state,
         fetchRecommendations: false,
-        basedOn: action.payload.basedOn,
-        recommendations: action.payload.books,
       };
     case FETCH_RECOMMEDATIONS_FAILURE:
       return {
