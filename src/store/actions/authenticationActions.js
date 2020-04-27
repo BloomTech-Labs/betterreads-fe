@@ -4,7 +4,7 @@ import jwt from 'jwt-decode';
 
 axios.defaults.withCredentials = true;
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://staging.readrr.app/';
+const API_URL = process.env.REACT_APP_API_URL || 'https://staging.readrr.app';
 
 export const signUp = (input, history) => (dispatch) => {
   if (input.password !== input.confirmPassword) {
@@ -57,6 +57,15 @@ export const signIn = (input, history) => (dispatch) => {
       console.log(error);
       dispatch({ type: SET_ERROR, payload: 'Invalid credentials' });
     });
+};
+
+// This is used within the tokenChecker only.
+// This taked the token(if valid) and rebuilds the 
+// User within state
+export const preserveState = (token) => (dispatch) => {
+  const user = jwt(token);
+  dispatch({ type: SET_TOKEN, payload: token });
+  dispatch({ type: SET_USER, payload: user });
 };
 
 export const resetError = () => (dispatch) => dispatch({ type: RESET_ERROR });
