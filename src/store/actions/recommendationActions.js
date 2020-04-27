@@ -18,8 +18,8 @@ export const fetchRecommendations = () => (dispatch, getState) => {
     .then((response) => {
       console.log(response.data);
       const recsArray = [];
-      response.data.recommendations.recommendations.forEach((resBook) => {
-        const book = {
+      response.data.recommendations.recommendations.forEach((book) => {
+        const newBook = {
           authors: book.authors && book.authors.toString(),
           averageRating: book.averageRating || null,
           categories: book.categories || null,
@@ -42,7 +42,7 @@ export const fetchRecommendations = () => (dispatch, getState) => {
             : null,
           webReaderLink: book.webReaderLink || null,
         };
-        recsArray.push(book);
+        recsArray.push(newBook);
       });
       const newBookArray = response.data.recommendations.recommendations.map(
         (book) => {
