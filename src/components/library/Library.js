@@ -75,11 +75,11 @@ const Library = (props) => {
                 ]}
                 link='/shelf/toberead'
               />
-              {props.recommendations && props.recommendations.books && (
+              {props.recommendations && props.recommendations.length > 0 && (
                 <StatusShelfCarousel
                   title='Recommendations'
                   display='carousel'
-                  bookList={props.recommendations.books}
+                  bookList={props.recommendations}
                   breadcrumbs={[
                     {
                       label: 'Recommendations',
