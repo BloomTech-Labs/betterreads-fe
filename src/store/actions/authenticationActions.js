@@ -94,24 +94,24 @@ export const preserveState = (token) => (dispatch) => {
 
 export const resetError = () => (dispatch) => dispatch({ type: RESET_ERROR });
 
-export const successRedirect = (history) => (dispatch) => {
-  axios
-    .get(`${API_URL}/api/auth/success`)
-    .then((response) => {
-      const user = response.data.user;
-      const test = jwt(response.data.token);
-      dispatch({ type: SET_TOKEN, payload: response.data.token });
-      dispatch({ type: SET_USER, payload: test });
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('id', user.subject);
-      localStorage.setItem('full_name', user.fullName);
-      localStorage.setItem('image', user.image);
-      localStorage.setItem('id', response.data.user.id);
-      localStorage.setItem('full_name', response.data.user.fullName);
-      localStorage.setItem('image', response.data.user.image);
-      history.push('/');
-    })
-    .catch((error) => console.log(error));
+export const successRedirect = (history, token) => (dispatch) => {
+  // axios
+  //   .get(`${API_URL}/api/auth/success`)
+  //   .then((response) => {
+  //     const user = response.data.user;
+  //     const test = jwt(response.data.token);
+  //     dispatch({ type: SET_TOKEN, payload: response.data.token });
+  //     dispatch({ type: SET_USER, payload: test });
+  localStorage.setItem('token', token);
+  //     localStorage.setItem('id', user.subject);
+  //     localStorage.setItem('full_name', user.fullName);
+  //     localStorage.setItem('image', user.image);
+  //     localStorage.setItem('id', response.data.user.id);
+  //     localStorage.setItem('full_name', response.data.user.fullName);
+  //     localStorage.setItem('image', response.data.user.image);
+  history.push('/');
+  //   })
+  //   .catch((error) => console.log(error));
 };
 
 export const signOut = (history) => (dispatch) => {

@@ -13,8 +13,9 @@ import { PageView, Event } from '../../utils/tracking';
 import SuccessContainer from './styles/SuccessStyle';
 
 const Success = (props) => {
+  const token = window.location.search.split('?token=')[1];
   useEffect(() => {
-    props.successRedirect(history);
+    props.successRedirect(history, token);
     Event('SIGN IN', 'Successful sign in', 'SIGN_IN');
     PageView();
   }, []);
@@ -23,7 +24,7 @@ const Success = (props) => {
 
   return (
     <SuccessContainer data-testid='success-container'>
-      <Spin indicator={antIcon} data-testid='success-spinner'/>
+      <Spin indicator={antIcon} data-testid='success-spinner' />
     </SuccessContainer>
   );
 };
