@@ -11,6 +11,7 @@ export const initialState = {
   error: '',
   recommendations: [],
   basedOn: '',
+  temp: []
 };
 
 export const reducer = (state = initialState, action) => {
@@ -34,6 +35,7 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         fetchRecommendations: false,
+        temp: action.payload
       };
     case FETCH_RECOMMEDATIONS_FAILURE:
       return {

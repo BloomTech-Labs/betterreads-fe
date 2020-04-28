@@ -8,15 +8,22 @@ import {
 
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
 
-const readrrDSURL = 'https://readrr-heroku-test.herokuapp.com/recommendations';
-const test = process.env.REACT_APP_DS_RECS || 'https://api.readrr.app/api/';
+const DS_API = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
+
+const fetchSpecificRecommendations = (books) => (dispatch, getState) => {
+  dispatch({ type: FETCH_RECOMMEDATIONS_START });
+  axiosWithAuth()
+    .post(`${DS_API}/api/recommendations`, books)
+    .then((response) => console.log(response.data))
+    .catch((error) => console.log(error));
+};
 
 export const fetchRecommendations = () => (dispatch, getState) => {
   dispatch({ type: FETCH_RECOMMEDATIONS_START });
   const state = getState();
   const userID = state.authentication.user.subject;
   axiosWithAuth()
-    .get(test + `${userID}/recommendations`)
+    .get(`${DS_API}/api/${userID}/recommendations`)
     .then((response) => {
       console.log('Response: ', response.data);
       const newBookArray = response.data.recommendations.recommendations.map(
@@ -47,7 +54,10 @@ export const fetchRecommendations = () => (dispatch, getState) => {
         }
       );
       console.log('New Book Array: ', newBookArray);
-      dispatch({ type: FETCH_RECOMMEDATIONS_SUCCESS });
+      dispatch({
+        type: FETCH_RECOMMEDATIONS_SUCCESS,
+        payload: response.data.recommendations.recommendations,
+      });
       dispatch({
         type: ADD_BASED_ON,
         payload: response.data.recommendations.based_on,

@@ -9,6 +9,8 @@ import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../Navigation/Breadcrumbs';
 import BookCardList from '../Book/BookCardList';
 import MyShelves from '../Shelf/MyShelves';
+import StatusShelfCarousel from '../Shelf/StatusShelfCarousel';
+
 // Utils
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 //Tracking
@@ -29,11 +31,9 @@ const Shelf = (props) => {
 
   return (
     <>
-      <Header/>
-      <SearchForm/>
-      <Breadcrumbs
-        crumbs={[{ label: props.currentShelf.name, path: null }]}
-      />
+      <Header />
+      <SearchForm />
+      <Breadcrumbs crumbs={[{ label: props.currentShelf.name, path: null }]} />
       <ShelfContainer>
         {props.currentShelf &&
           props.currentShelf.name &&

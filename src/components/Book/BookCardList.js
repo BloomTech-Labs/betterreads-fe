@@ -7,7 +7,7 @@ import { editShelfName, deleteShelf } from '../../store/actions';
 import BookCard from './BookCard';
 import SearchPagination from '../search/SearchPagination';
 //Design
-import { Menu, Dropdown, Popconfirm, message } from 'antd';
+import { Menu, Dropdown, Popconfirm, message, Carousel } from 'antd';
 // Utils
 import history from '../../utils/history';
 
@@ -36,6 +36,37 @@ const BookCardList = (props) => {
 
   const cancel = (event) => {
     message.error('Cancelled');
+  };
+
+  const carouselProps = {
+    dots: false,
+    infinite: false,
+    swipeToSlide: true,
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1119,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   const dropdown = (

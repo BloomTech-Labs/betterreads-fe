@@ -37,7 +37,6 @@ export const signUp = (input, history) => (dispatch) => {
 };
 
 export const signIn = (input, history) => (dispatch) => {
-  console.log('Here');
   axios
     .post(`${API_URL}/api/auth/signin`, input)
     .then((response) => {
@@ -59,8 +58,33 @@ export const signIn = (input, history) => (dispatch) => {
     });
 };
 
+export const forgotPassword = (email) => (dispatch) => {
+  console.log(email);
+  axios
+    .post(`${API_URL}/api/auth/reset/requestreset`, email)
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const changePassword = (password) => (dispatch) => {
+  // Need to grab token and verify that it is valid
+  const token = '';
+  axios
+    .post(`${API_URL}/api/auth/reset/`, { token: token, password: password })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 // This is used within the tokenChecker only.
-// This taked the token(if valid) and rebuilds the 
+// This taked the token(if valid) and rebuilds the
 // User within state
 export const preserveState = (token) => (dispatch) => {
   const user = jwt(token);
