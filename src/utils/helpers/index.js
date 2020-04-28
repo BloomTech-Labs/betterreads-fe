@@ -1,7 +1,8 @@
 import axios from 'axios';
-import jwt from 'jwt-decode';
 import { notification } from 'antd';
 import { axiosWithAuth } from '../axiosWithAuth';
+import store from '../store';
+import { fetchRecommendations } from '../../store/actions/recommendationActions';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
@@ -14,7 +15,6 @@ export const updateBookItem = (
   favorite,
   readingStatus
 ) => {
-  console.log('FOUND IT?');
   let method = inLibrary ? 'put' : 'post';
 
   let data;
@@ -41,18 +41,25 @@ export const updateBookItem = (
 
   // save a book as a favorite or update its reading status
   return new Promise((resolve, reject) => {
-    axiosWithAuth()
-      .post(`${API_URL}/api/${userId}/library`, data)
-      .then((res) => resolve(res))
-      .catch((err) => reject(err));
-  });
-  return axios({
-    method,
-    url: `${API_URL}/api/${userId}/library`,
-    data,
-    headers: {
-      Authorization: `${token}`,
-    },
+    if (method === 'post') {
+      axiosWithAuth()
+        .post(`${API_URL}/api/${userId}/library`, data)
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    }
+    if (method === 'put') {
+      axiosWithAuth()
+        .put(`${API_URL}/api/${userId}/library`, data)
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    }
+    if (method === 'delete') {
+      axiosWithAuth()
+        .delete(`${API_URL}/api/${userId}/library`, data)
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    }
+    store.dispatch(fetchRecommendations());
   });
 };
 
@@ -67,8 +74,6 @@ export const sendUpTheFlares = (type, message, description) => {
 
 export const updateDates = (userId, readrrId, dateString, whichDate) => {
   let dateObj;
-  // whichDate 0/true for start date
-  // 1/false for end date
   if (!whichDate) {
     dateObj = {
       bookId: readrrId,
@@ -85,15 +90,13 @@ export const updateDates = (userId, readrrId, dateString, whichDate) => {
 };
 
 export const updateUserRating = (userId, bookId, userRating) => {
-  return axios.put(`${API_URL}/api/${userId}/library`, { bookId, userRating });
+  // return axios.put(`${API_URL}/api/${userId}/library`, { bookId, userRating });
+  return axios({
+    method: 'PUT',
+    url: `${API_URL}/api/${userId}/library`,
+    data: { bookId, userRating },
+    headers: {
+      Authorization: `${localStorage.getItem('token')}`,
+    },
+  });
 };
-
-export const decodeToken = (token) => {
-  const decode = jwt(token);
-  return decode;
-};
-
-const token = localStorage.getItem('token');
-export const user = token
-  ? jwt(token)
-  : { subject: 0, fullName: 'Readrr', image: '' };

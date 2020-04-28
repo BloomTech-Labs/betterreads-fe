@@ -6,6 +6,7 @@ import {
   fetchUsersBooks,
   setBreadcrumbs,
   fetchRecommendations,
+  getUserShelves,
 } from '../../store/actions';
 //Import Components
 import CreateNewShelfModal from './CreateNewShelfModal';
@@ -18,6 +19,7 @@ const MyShelves = (props) => {
   useEffect(() => {
     props.fetchUsersBooks();
     props.fetchRecommendations();
+    props.getUserShelves();
   }, []);
 
   const inProgress = props.userBooks.filter((item) => item.readingStatus === 2);
@@ -144,9 +146,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default 
-  connect(mapStateToProps, {
-    fetchUsersBooks,
-    setBreadcrumbs,
-    fetchRecommendations,
-  })(MyShelves);
+export default connect(mapStateToProps, {
+  fetchUsersBooks,
+  setBreadcrumbs,
+  fetchRecommendations,
+  getUserShelves,
+})(MyShelves);

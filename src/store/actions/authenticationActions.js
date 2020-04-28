@@ -1,10 +1,10 @@
-import { SET_ERROR, RESET_ERROR } from './types';
+import { SET_ERROR, RESET_ERROR, SET_TOKEN, SET_USER } from './types';
 import axios from 'axios';
 import jwt from 'jwt-decode';
 
 axios.defaults.withCredentials = true;
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
+const API_URL = process.env.REACT_APP_API_URL || 'https://staging.readrr.app';
 
 export const signUp = (input, history) => (dispatch) => {
   if (input.password !== input.confirmPassword) {
@@ -17,40 +17,39 @@ export const signUp = (input, history) => (dispatch) => {
         password: input.password,
       })
       .then((response) => {
-        console.log(response);
+        const user = response.data.user;
+        const test = jwt(response.data.token);
+        dispatch({ type: SET_TOKEN, payload: response.data.token });
+        dispatch({ type: SET_USER, payload: test });
         localStorage.setItem('token', response.data.token);
-        const user = jwt(response.data.token);
-        const image = user && user.image ? user.image : ''
-        // localStorage.setItem('id', user.subject);
-        // localStorage.setItem('full_name', user.fullName);
-        localStorage.setItem('image', image);
-        // localStorage.setItem('id', response.data.user.id);
-        // localStorage.setItem('full_name', response.data.user.fullName);
-        // localStorage.setItem('image', response.data.user.image);
+        localStorage.setItem('id', user.subject);
+        localStorage.setItem('full_name', user.fullName);
+        localStorage.setItem('id', response.data.user.id);
+        localStorage.setItem('full_name', response.data.user.fullName);
+        localStorage.setItem('image', response.data.user.image);
         history.push('/');
       })
       .catch((error) => {
-        console.log(error);
+        console.log('Error', error);
         dispatch({ type: SET_ERROR, payload: 'Email address already in use' });
       });
   }
 };
 
 export const signIn = (input, history) => (dispatch) => {
-  console.log('Here');
   axios
     .post(`${API_URL}/api/auth/signin`, input)
     .then((response) => {
-      const user = jwt(response.data.token);
-      const image = user && user.image ? user.image : ''
+      const user = response.data.user;
+      const test = jwt(response.data.token);
+      dispatch({ type: SET_TOKEN, payload: response.data.token });
+      dispatch({ type: SET_USER, payload: test });
       localStorage.setItem('token', response.data.token);
-      // const user = jwt(response.data.token);
-      // localStorage.setItem('id', user.subject);
-      // localStorage.setItem('full_name', user.fullName);
-      localStorage.setItem('image', image);
-      // localStorage.setItem('id', response.data.user.id);
-      // localStorage.setItem('full_name', response.data.user.fullName);
-      // localStorage.setItem('image', response.data.user.image);
+      localStorage.setItem('id', user.subject);
+      localStorage.setItem('full_name', user.fullName);
+      localStorage.setItem('id', response.data.user.id);
+      localStorage.setItem('full_name', response.data.user.fullName);
+      localStorage.setItem('image', response.data.user.image);
       history.push('/');
     })
     .catch((error) => {
@@ -59,20 +58,57 @@ export const signIn = (input, history) => (dispatch) => {
     });
 };
 
+export const forgotPassword = (email) => (dispatch) => {
+  console.log(email);
+  axios
+    .post(`${API_URL}/api/auth/reset/requestreset`, email)
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const changePassword = (password) => (dispatch) => {
+  // Need to grab token and verify that it is valid
+  const token = '';
+  axios
+    .post(`${API_URL}/api/auth/reset/`, { token: token, password: password })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+// This is used within the tokenChecker only.
+// This taked the token(if valid) and rebuilds the
+// User within state
+export const preserveState = (token) => (dispatch) => {
+  const user = jwt(token);
+  dispatch({ type: SET_TOKEN, payload: token });
+  dispatch({ type: SET_USER, payload: user });
+};
+
 export const resetError = () => (dispatch) => dispatch({ type: RESET_ERROR });
 
 export const successRedirect = (history) => (dispatch) => {
   axios
     .get(`${API_URL}/api/auth/success`)
     .then((response) => {
+      const user = response.data.user;
+      const test = jwt(response.data.token);
+      dispatch({ type: SET_TOKEN, payload: response.data.token });
+      dispatch({ type: SET_USER, payload: test });
       localStorage.setItem('token', response.data.token);
-      // const user = jwt(response.data.token);
-      // localStorage.setItem('id', user.subject);
-      // localStorage.setItem('full_name', user.fullName);
-      // localStorage.setItem('image', user.image);
-      // localStorage.setItem('id', response.data.user.id);
-      // localStorage.setItem('full_name', response.data.user.fullName);
-      // localStorage.setItem('image', response.data.user.image);
+      localStorage.setItem('id', user.subject);
+      localStorage.setItem('full_name', user.fullName);
+      localStorage.setItem('image', user.image);
+      localStorage.setItem('id', response.data.user.id);
+      localStorage.setItem('full_name', response.data.user.fullName);
+      localStorage.setItem('image', response.data.user.image);
       history.push('/');
     })
     .catch((error) => console.log(error));
@@ -80,6 +116,7 @@ export const successRedirect = (history) => (dispatch) => {
 
 export const signOut = (history) => (dispatch) => {
   localStorage.removeItem('token');
+  localStorage.removeItem('image');
   axios
     .get(`${API_URL}/api/auth/signout`)
     .then((response) => {

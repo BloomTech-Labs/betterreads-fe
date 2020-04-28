@@ -11,22 +11,27 @@ import {
   UPDATE_SINGLE_BOOK_FIELD,
 } from './types';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
-import { user } from '../../utils/helpers';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
-export const fetchUsersBooks = () => (dispatch) => {
+const user = localStorage.getItem('id');
+
+export const fetchUsersBooks = () => (dispatch, getState) => {
+  const state = getState();
+  const userID = state.authentication.user.subject;
   axiosWithAuth()
-    .get(`${API_URL}/api/${user.subject}/library`)
+    .get(`${API_URL}/api/${userID}/library`)
     .then((response) =>
       dispatch({ type: FETCH_USERS_BOOKS, payload: response.data })
     )
     .catch((error) => console.log(error));
 };
 
-export const setCurrentShelf = (shelf) => (dispatch) => {
+export const setCurrentShelf = (shelf) => (dispatch, getState) => {
+  const state = getState();
+  const userID = state.authentication.user.subject;
   axiosWithAuth()
-    .get(`${API_URL}/api/${user.subject}/library`)
+    .get(`${API_URL}/api/${userID}/library`)
     .then((response) => {
       dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
 
@@ -70,7 +75,7 @@ export const setCurrentShelf = (shelf) => (dispatch) => {
       } else {
         axiosWithAuth()
           .get(
-            `${API_URL}/api/booksonshelf/user/${user.subject}/shelves/${shelf}/allbooks`
+            `${API_URL}/api/booksonshelf/user/${userID}/shelves/${shelf}/allbooks`
           )
           .then((res) =>
             dispatch({
@@ -88,9 +93,11 @@ export const setCurrentShelf = (shelf) => (dispatch) => {
     .catch((error) => console.log(error));
 };
 
-export const fetchUsersShelves = () => (dispatch) => {
+export const fetchUsersShelves = () => (dispatch, getState) => {
+  const state = getState();
+  const userID = state.authentication.user.subject;
   axiosWithAuth()
-    .get(`${API_URL}/api/booksonshelf/user/${user.subject}/shelves/allbooks`)
+    .get(`${API_URL}/api/booksonshelf/user/${userID}/shelves/allbooks`)
     .then((response) =>
       dispatch({ type: FETCH_USERS_SHELVES, payload: response.data })
     )
@@ -128,8 +135,10 @@ export const moveBookFromShelf = (bookId) => (dispatch) => {
   dispatch({ type: MOVE_BOOK_FROM_SHELF, payload: bookId });
 };
 
-export const createUserShelf = (name, isPrivate) => (dispatch) => {
-  return axiosWithAuth().post(`${API_URL}/api/shelves/user/${user.subject}`, {
+export const createUserShelf = (name, isPrivate) => (dispatch, getState) => {
+  const state = getState();
+  const userID = state.authentication.user.subject;
+  return axiosWithAuth().post(`${API_URL}/api/shelves/user/${userID}`, {
     shelfName: name,
     isPrivate: isPrivate,
   });

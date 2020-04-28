@@ -1,8 +1,15 @@
 //Import React
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+// Ant Design
+import { Modal, Button, Input } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 //Import Actions
-import { signIn, resetError } from '../../store/actions/authenticationActions';
+import {
+  signIn,
+  resetError,
+  forgotPassword,
+} from '../../store/actions/authenticationActions';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 //Styling
 import SignInContainer from './styles/SignInStyle';
@@ -39,6 +46,35 @@ const SignIn = (props) => {
     props.resetError();
     props.signIn(input, history);
     Event('SIGN IN', 'User signed in', 'SIGN_IN');
+  };
+
+  const { confirm } = Modal;
+  let email = '';
+
+  const info = () => {
+    let title = 'Enter your email address';
+    confirm({
+      title: title,
+      content: (
+        <div>
+          <Input
+            placeholder='example@readrr.com'
+            prefix={<UserOutlined />}
+            onChange={(e) => {
+              email = e.target.value;
+            }}
+          />
+        </div>
+      ),
+      onOk() {
+        return new Promise((resolve, _reject) => {
+          title = 'Sending email';
+          props.forgotPassword(email);
+          setTimeout(resolve, 500);
+        });
+      },
+      onCancel() {},
+    });
   };
 
   return (
@@ -90,6 +126,10 @@ const SignIn = (props) => {
             </p>
           )}
 
+          <a href='#' className='forgot' onClick={(e) => info()}>
+            Forgot Password?
+          </a>
+
           <button
             type='submit'
             className='sign-in'
@@ -125,4 +165,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { signIn, resetError })(SignIn);
+export default connect(mapStateToProps, { signIn, resetError, forgotPassword })(
+  SignIn
+);

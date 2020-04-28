@@ -29,7 +29,7 @@ const Library = (props) => {
     PageView();
   }, []);
 
-  const localName = user ? user.fullName : 'Readrr';
+  const localName = 'Readrr';
 
   const fullName = localName ? localName.split(' ')[0] : 'Readrr';
   const toBeRead = props.userBooks.filter((item) => item.readingStatus === 1);
@@ -75,11 +75,11 @@ const Library = (props) => {
                 ]}
                 link='/shelf/toberead'
               />
-              {props.recommendations && props.recommendations.books && (
+              {props.recommendations && props.recommendations.length > 0 && (
                 <StatusShelfCarousel
                   title='Recommendations'
                   display='carousel'
-                  bookList={props.recommendations.books}
+                  bookList={props.recommendations}
                   breadcrumbs={[
                     {
                       label: 'Recommendations',
