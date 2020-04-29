@@ -98,10 +98,11 @@ export const fetchUsersShelves = () => (dispatch, getState) => {
   const userID = state.authentication.user.subject;
   axiosWithAuth()
     .get(`${API_URL}/api/booksonshelf/user/${userID}/shelves/allbooks`)
-    .then((response) =>
-      dispatch({ type: FETCH_USERS_SHELVES, payload: response.data })
-    )
-    .catch((error) => console.log(error));
+    .then((response) => {
+      console.log('Fetch Shelves: ', response.data);
+      dispatch({ type: FETCH_USERS_SHELVES, payload: response.data });
+    })
+    .catch((error) => console.log('Fetch Shelves Error: ', error));
 };
 
 export const updateBookFavorite = (bookId) => (dispatch) => {

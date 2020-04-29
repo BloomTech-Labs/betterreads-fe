@@ -22,6 +22,7 @@ export const getUserShelves = () => (dispatch, getState) => {
     .get(`${API_URL}/api/shelves/user/${userID}`)
     .then((response) => {
       console.log('getUserShelves');
+      console.log(response.data);
       dispatch({ type: FETCH_USER_SHELF_SUCCESS, payload: response.data });
     })
     .catch((error) => {

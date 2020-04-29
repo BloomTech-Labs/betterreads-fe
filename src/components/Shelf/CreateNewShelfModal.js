@@ -51,6 +51,7 @@ const CreateNewShelfModal = (props) => {
     props
       .createUserShelf(modal.name, modal.isPrivate)
       .then((response) => {
+        console.log(response);
         setModal({
           visible: false,
           confirmLoading: false,
