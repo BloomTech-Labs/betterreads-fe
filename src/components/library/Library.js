@@ -13,12 +13,12 @@ import Header from '../Navigation/Header';
 import SearchForm from '../search/SearchForm';
 import MyShelves from '../Shelf/MyShelves';
 import StatusShelfCarousel from '../Shelf/StatusShelfCarousel';
+import StatusShelfLoading from '../Shelf/StatusShelfLoading';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
 //Styling
 import LibraryContainer from './styles/LibraryStyle';
 // Utils
 import { PageView, Event } from '../../utils/tracking';
-import { user } from '../../utils/helpers';
 
 const Library = (props) => {
   useDocumentTitle('Readrr - Library');
@@ -75,7 +75,7 @@ const Library = (props) => {
                 ]}
                 link='/shelf/toberead'
               />
-              {props.recommendations && props.recommendations.length > 0 && (
+              {props.recommendations && props.recommendations.length > 0 ? (
                 <StatusShelfCarousel
                   title='Recommendations'
                   display='carousel'
@@ -88,6 +88,8 @@ const Library = (props) => {
                     { label: 'Book details', path: null },
                   ]}
                 />
+              ) : (
+                <StatusShelfLoading />
               )}
             </>
           )}

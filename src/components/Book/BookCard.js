@@ -317,7 +317,9 @@ const BookCard = (props) => {
                 className='author'
                 onClick={() => history.push(`/book/${googleId}`)}
               >
-                {props.book.authors.split(',')[0]}
+                {props.book.authors.includes(',')
+                  ? props.book.authors.split(',')[0]
+                  : props.book.authors}
               </p>
             )}
           </div>
