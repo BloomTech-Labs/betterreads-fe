@@ -280,6 +280,7 @@ const BookCard = (props) => {
           className='thumbnail'
           onClick={() => {
             history.push(`/book/${googleId}`);
+            window.location.reload();
             Event('Book', 'User clicked for book details', 'SEARCH_RESULTS');
           }}
         >
@@ -392,7 +393,7 @@ const mapStateToProps = (state) => {
   return {
     userBooks: state.library.userBooks,
     userShelves: state.library.userShelves,
-    user: state.authentication.user.subject
+    user: state.authentication.user.subject,
   };
 };
 
