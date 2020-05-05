@@ -56,7 +56,7 @@ const ShelfSwipe = (props) => {
       data-testid='shelf-swipe-container'
     >
       <div className='header'>
-        <p className='status'>{'Recommendations'}</p>
+        <p className='status'>{props.title ? props.title : 'Recommendations'}</p>
       </div>
       <div className='swiper'>
         <Carousel {...carouselProps}>

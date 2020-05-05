@@ -106,6 +106,9 @@ const ShelfSwipe = (props) => {
         {props.title === 'Recommendations' && (
           <p className='status'>{props.title}</p>
         )}
+        {props.title === 'Recs' && (
+          <p className='status'>{'Recommendations based on ' + props.shelf}</p>
+        )}
         {props.title === 'My books' ||
         props.title === 'Favorites' ||
         props.title === 'To be read' ||
@@ -120,7 +123,8 @@ const ShelfSwipe = (props) => {
         props.title !== 'To be read' &&
         props.title !== 'In progress' &&
         props.title !== 'Finished' &&
-        props.title !== 'Recommendations' ? (
+        props.title !== 'Recommendations' &&
+        props.title !== 'Recs'  ? (
           <p className='status'>
             {props.title} ({props.bookList.length})
             <Dropdown overlay={dropdown} trigger={['click']}>
