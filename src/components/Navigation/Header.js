@@ -54,7 +54,7 @@ const Header = (props) => {
         </h1>
 
         {(!localStorage.getItem('image') ||
-          localStorage.getItem('image') === 'null') && (
+          localStorage.getItem('image') === 'null' || localStorage.getItem('image') === 'undefined') && (
           <Dropdown overlay={dropdown} trigger={['click']}>
             <div
               className='default-profile-icon ant-dropdown-link'
@@ -65,7 +65,8 @@ const Header = (props) => {
           </Dropdown>
         )}
         {localStorage.getItem('image') &&
-          localStorage.getItem('image') !== 'null' && (
+          localStorage.getItem('image') !== 'null' &&
+          localStorage.getItem('image') !== 'undefined' && (
             <Dropdown overlay={dropdown} trigger={['click']}>
               <img
                 className='ant-dropdown-link'

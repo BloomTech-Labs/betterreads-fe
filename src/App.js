@@ -15,6 +15,7 @@ import Search from './components/search/Search';
 import ShelfBook from './components/library/ShelfBook';
 import Shelf from './components/library/Shelf';
 import Shelves from './components/library/Shelves';
+import OnboardingQuiz from './components/authentication/OnboardingQuiz'
 // History Util
 import history from './utils/history';
 
@@ -25,6 +26,7 @@ const App = () => {
         <PrivateRoute exact path='/' component={Library} />
         <Route path='/signin' component={SignIn} />
         <Route path='/signup' component={SignUp} />
+        <Route path='/quiz' component={OnboardingQuiz} />
         <Route path='/success' component={Success} />
         <Route path='/failure' component={Failure} />
         <Route path='/pagenotfound' component={PageNotFound} />

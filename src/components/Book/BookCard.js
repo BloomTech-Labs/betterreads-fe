@@ -87,10 +87,11 @@ const BookCard = (props) => {
       parseInt(readingStatus)
     )
       .then((results) => {
-        console.log('Results', results);
         let newBookId;
+        console.log('Updating Book');
         if (results.config.method === 'post') {
           // add book to library
+          console.log(results.data);
           newBookId = results.data.bookId;
           props.addBookToUserLibrary(results.data);
           setLibraryBook(results.data);
@@ -158,7 +159,10 @@ const BookCard = (props) => {
         }
       })
       .catch((err) => {
-        console.log('Error', err);
+        console.log('Error: ', err);
+        console.log('Error Message: ', err.message);
+        console.log('Error Name: ', err.name);
+        console.log('Error Stack: ', err.stack);
         Event(
           'Search',
           'Error tracking/favoriting/deleting a book.',
@@ -188,6 +192,7 @@ const BookCard = (props) => {
   }, []);
 
   const readingStatusUpdate = (key) => {
+    console.log('Status Update');
     setReadingStatus(key.item.props.value);
     setTrackBtnLabel(key.item.props.children);
   };
@@ -266,6 +271,8 @@ const BookCard = (props) => {
     </Menu>
   );
 
+  console.log('book: ', props.book);
+
   return (
     <BookCardContainer
       thumbnail={props.book.thumbnail || props.book.smallThumbnail}
@@ -280,6 +287,7 @@ const BookCard = (props) => {
           className='thumbnail'
           onClick={() => {
             history.push(`/book/${googleId}`);
+            window.location.reload();
             Event('Book', 'User clicked for book details', 'SEARCH_RESULTS');
           }}
         >
@@ -317,7 +325,9 @@ const BookCard = (props) => {
                 className='author'
                 onClick={() => history.push(`/book/${googleId}`)}
               >
-                {props.book.authors.split(',')[0]}
+                {props.book.authors.includes(',')
+                  ? props.book.authors.split(',')[0]
+                  : props.book.authors}
               </p>
             )}
           </div>
@@ -390,7 +400,7 @@ const mapStateToProps = (state) => {
   return {
     userBooks: state.library.userBooks,
     userShelves: state.library.userShelves,
-    user: state.authentication.user.subject
+    user: state.authentication.user.subject,
   };
 };
 

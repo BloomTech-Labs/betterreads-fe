@@ -153,17 +153,21 @@ const BookCardList = (props) => {
           </div>
         ) : null}
 
-        <div className='book-card-list' data-testid='book-card-list'>
-          {props.books &&
-            props.books.map((item, index) => (
-              <BookCard
-                key={index}
-                book={item}
-                source={props.source}
-                data-testid='book-card'
-              />
-            ))}
-        </div>
+        {props.books.length > 0 ? (
+          <div className='book-card-list' data-testid='book-card-list'>
+            {props.books &&
+              props.books.map((item, index) => (
+                <BookCard
+                  key={index}
+                  book={item}
+                  source={props.source}
+                  data-testid='book-card'
+                />
+              ))}
+          </div>
+        ) : (
+          <p>Please Add Books To This Shelf</p>
+        )}
 
         {props.source === 'search' && <SearchPagination />}
       </BookCardListContainer>

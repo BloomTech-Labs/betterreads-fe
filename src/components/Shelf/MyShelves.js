@@ -45,6 +45,7 @@ const MyShelves = (props) => {
                 { label: 'Book details', path: null },
               ]);
               history.push('/shelf/inprogress');
+              window.location.reload();
             }}
           >
             <p className='shelf-name'>In progress</p>
@@ -79,6 +80,7 @@ const MyShelves = (props) => {
                 { label: 'Book details', path: null },
               ]);
               history.push('/shelf/toberead');
+              window.location.reload();
             }}
           >
             <p className='shelf-name'>To be read</p>
@@ -113,6 +115,7 @@ const MyShelves = (props) => {
                 { label: 'Book details', path: null },
               ]);
               history.push('/shelf/mybooks');
+              window.location.reload();
             }}
           >
             <p className='shelf-name'>My books</p>
