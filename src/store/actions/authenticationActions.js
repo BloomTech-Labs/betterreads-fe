@@ -27,7 +27,7 @@ export const signUp = (input, history) => (dispatch) => {
         localStorage.setItem('id', response.data.user.id);
         localStorage.setItem('full_name', response.data.user.fullName);
         localStorage.setItem('image', response.data.user.image);
-        history.push('/');
+        history.push('/quiz');
       })
       .catch((error) => {
         console.log('Error', error);

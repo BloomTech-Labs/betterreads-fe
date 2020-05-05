@@ -55,7 +55,9 @@ export const updateBookItem = (
     }
     if (method === 'delete') {
       axiosWithAuth()
-        .delete(`${API_URL}/api/${userId}/library`, data)
+        .delete(`${API_URL}/api/${userId}/library`, {
+          data: { bookId: readrrId },
+        })
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     }

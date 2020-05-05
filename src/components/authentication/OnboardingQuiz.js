@@ -4,6 +4,7 @@ import { sendUserGenres } from '../../store/actions';
 import { Checkbox } from 'antd';
 
 import OnboardingQuizContainer from './styles/OnboardingQuizStyle';
+import history from '../../utils/history';
 
 const OnboardingQuiz = (props) => {
   const [checkedGenres, setCheckedGenres] = useState([]);
@@ -14,6 +15,7 @@ const OnboardingQuiz = (props) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    history.push('/');
     console.log(checkedGenres);
   };
 
@@ -57,10 +59,18 @@ const OnboardingQuiz = (props) => {
   return (
     <OnboardingQuizContainer>
       <h1 data-testid='quiz-container'>Select your favorite genres</h1>
-      <p className='select' data-testid='select-p'>Select at least one genre to continue</p>
+      <p className='select' data-testid='select-p'>
+        Select at least one genre to continue
+      </p>
       <form onSubmit={onSubmit} data-testid='quiz-form'>
-        <Checkbox.Group options={genres} onChange={onChange} data-testid='quiz-check'/>
-        <button type='submit' data-testid='quiz-button'>Continue</button>
+        <Checkbox.Group
+          options={genres}
+          onChange={onChange}
+          data-testid='quiz-check'
+        />
+        <button type='submit' data-testid='quiz-button'>
+          Continue
+        </button>
       </form>
     </OnboardingQuizContainer>
   );

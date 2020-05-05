@@ -87,10 +87,11 @@ const BookCard = (props) => {
       parseInt(readingStatus)
     )
       .then((results) => {
-        console.log('Results', results);
         let newBookId;
+        console.log('Updating Book');
         if (results.config.method === 'post') {
           // add book to library
+          console.log(results.data);
           newBookId = results.data.bookId;
           props.addBookToUserLibrary(results.data);
           setLibraryBook(results.data);
@@ -158,7 +159,10 @@ const BookCard = (props) => {
         }
       })
       .catch((err) => {
-        console.log('Error', err);
+        console.log('Error: ', err);
+        console.log('Error Message: ', err.message);
+        console.log('Error Name: ', err.name);
+        console.log('Error Stack: ', err.stack);
         Event(
           'Search',
           'Error tracking/favoriting/deleting a book.',
@@ -188,6 +192,7 @@ const BookCard = (props) => {
   }, []);
 
   const readingStatusUpdate = (key) => {
+    console.log('Status Update');
     setReadingStatus(key.item.props.value);
     setTrackBtnLabel(key.item.props.children);
   };
@@ -265,6 +270,8 @@ const BookCard = (props) => {
       </Menu.Item>
     </Menu>
   );
+
+  console.log('book: ', props.book);
 
   return (
     <BookCardContainer
