@@ -17,9 +17,23 @@ test('H1 Routes User To Home', () => {
   expect(window.location.pathname === '/').toBeTruthy();
 });
 
-test('A Tag Renders Github', async () => {
+test('Profile Icon Renders', async () => {
   const { getByTestId } = renderWithRedux(<Header />);
   window.localStorage.setItem('image', 'image');
   const dropDown = getByTestId('drop-down-toggle');
   expect(dropDown).toBeInTheDocument();
+});
+
+test('Profile Icon Renders DropDown', async () => {
+  const { getByTestId } = renderWithRedux(<Header />);
+  window.localStorage.setItem('image', 'image');
+  const dropDown = getByTestId('drop-down-toggle');
+  expect(dropDown).toBeInTheDocument();
+  fireEvent.click(dropDown);
+  const github = getByTestId('github-opt');
+  const signOut = getByTestId('signout-opt');
+  expect(github).toBeInTheDocument();
+  expect(signOut).toBeInTheDocument();
+  fireEvent.click(signOut);
+  expect(window.location.pathname === '/').toBeTruthy();
 });

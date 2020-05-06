@@ -48,6 +48,10 @@ const CreateNewShelfModal = (props) => {
       ...modal,
       confirmLoading: true,
     });
+    createShelf();
+  };
+
+  const createShelf = () => {
     props
       .createUserShelf(modal.name, modal.isPrivate)
       .then((response) => {
@@ -84,7 +88,7 @@ const CreateNewShelfModal = (props) => {
       {props.button ? (
         <button onClick={showModal}>Create new shelf</button>
       ) : (
-        <p className='link' onClick={showModal}>
+        <p className='link' onClick={showModal} data-testid='show'>
           + Create new shelf
         </p>
       )}
@@ -94,11 +98,13 @@ const CreateNewShelfModal = (props) => {
         visible={modal.visible}
         onOk={handleOk}
         onCancel={handleCancel}
+        data-testid='modal'
       >
         <Input
           size='large'
           placeholder='Enter shelf name'
           value={modal.name}
+          data-testid='input'
           onChange={handleChange}
           onPressEnter={handleOk}
         />

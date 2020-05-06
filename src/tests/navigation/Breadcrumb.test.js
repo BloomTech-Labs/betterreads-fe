@@ -10,9 +10,26 @@ test('breadcrumb wrap renders and functions', () => {
   expect(Crumbs).toBeInTheDocument();
 });
 
-test('item 1 is functioning', () => {
+test('BreadCrumb functions with Crumb Props', () => {
   const { getByTestId } = renderWithRedux(<Breadcrumbs />);
   const Item = getByTestId('item1');
   fireEvent.click(Item);
   expect(window.location.pathname === '/').toBeTruthy();
+});
+
+test('BreadCrumb functions with no Props', () => {
+  const { getByTestId } = renderWithRedux(
+    <Breadcrumbs crumbs={[{ path: '/', label: 'Testing' }]} />
+  );
+  const Item = getByTestId('prop-item');
+  fireEvent.click(Item);
+  expect(window.location.pathname === '/').toBeTruthy();
+});
+
+test('BreadCrumb functions with Partial Crumb Props', () => {
+  const { getByTestId } = renderWithRedux(
+    <Breadcrumbs crumbs={[{ label: 'Testing' }]} />
+  );
+  const Item = getByTestId('prop-item');
+  fireEvent.click(Item);
 });
