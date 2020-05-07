@@ -28,7 +28,7 @@ const MyShelves = (props) => {
   return (
     <MyShelvesContainer source={props.source}>
       <div className='my-shelves'>
-        <h2 onClick={() => history.push('/myshelves')}>
+        <h2 onClick={() => history.push('/myshelves')} data-testid='h2-link'>
           My Shelves <i className='fas fa-chevron-right'></i>
         </h2>
         <p className='create-shelves'>
@@ -38,6 +38,7 @@ const MyShelves = (props) => {
 
         <div className='shelves-container'>
           <div
+            data-testid='progress-div'
             className='shelf'
             onClick={() => {
               props.setBreadcrumbs([
@@ -73,6 +74,7 @@ const MyShelves = (props) => {
           </div>
 
           <div
+            data-testid='to-be-div'
             className='shelf'
             onClick={() => {
               props.setBreadcrumbs([
@@ -108,6 +110,7 @@ const MyShelves = (props) => {
           </div>
 
           <div
+            data-testid='my-books'
             className='shelf'
             onClick={() => {
               props.setBreadcrumbs([
@@ -129,7 +132,12 @@ const MyShelves = (props) => {
                   ))}
               </div>
             ) : (
-              <BookIcon height='40px' width='40px' fill='#d9d9d9' />
+              <BookIcon
+                data-testid='book-icon'
+                height='40px'
+                width='40px'
+                fill='#d9d9d9'
+              />
             )}
             {props.userBooks.length === 1 ? (
               <p className='shelf-quantity'>1 book</p>

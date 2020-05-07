@@ -67,6 +67,11 @@ test('BookCardListContainer Edit Form Renders When Clicking H2', () => {
   fireEvent.click(editH2);
   const editForm = getByTestId('edit-form');
   expect(editForm).toBeInTheDocument();
+  const input = getByTestId('edit-input');
+  expect(input).toBeInTheDocument();
+  fireEvent.change(input, { target: { value: 'ShelfName' } });
+  expect(input.value).toBe('ShelfName');
+  fireEvent.submit(editForm);
 });
 
 test('BookCardListContainer Edit Form Renders When Clicking FontAwesome Icon', () => {

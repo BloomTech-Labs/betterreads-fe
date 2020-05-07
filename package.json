@@ -27,7 +27,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "CI=true npm test -- --coverage --watchAll=false || true"
+    "coverage": "CI=true npm test -- --coverage --watchAll=false || true",
+    "local-coverage": "npm test -- --coverage --watchAll=false || true"
   },
   "jest": {
     "collectCoverageFrom": [
