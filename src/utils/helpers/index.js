@@ -42,10 +42,47 @@ export const updateBookItem = (
   // save a book as a favorite or update its reading status
   return new Promise((resolve, reject) => {
     if (method === 'post') {
-      axiosWithAuth()
-        .post(`${API_URL}/api/${userId}/library`, data)
-        .then((res) => resolve(res))
-        .catch((err) => reject(err));
+      if (data.book.industryIdentifiers) {
+        data.book = {
+          authors: data.book.authors && data.book.authors.toString(),
+          averageRating: data.book.averageRating || null,
+          categories:
+            (data.book.categories && data.book.categories.toString()) || null,
+          description: data.book.description || null,
+          googleId: data.book.googleId,
+          isEbook: data.book.isEbook || null,
+          isbn10: null,
+          isbn13: null,
+          language: data.book.language || null,
+          pageCount: data.book.pageCount || null,
+          publishedDate: data.book.publishedDate || null,
+          publisher: data.book.publisher || null,
+          smallThumbnail: data.book.smallThumbnail
+            ? data.book.smallThumbnail.replace('http://', 'https://')
+            : null,
+          textSnippet: data.book.textSnippet || null,
+          title: data.book.title || null,
+          thumbnail: data.book.thumbnail
+            ? data.book.thumbnail.replace('http://', 'https://')
+            : null,
+          webReaderLink: data.book.webReaderLink || null,
+        };
+        axiosWithAuth()
+          .post(`${API_URL}/api/${userId}/library`, data)
+          .then((res) => resolve(res))
+          .catch((err) => {
+            reject(err);
+            console.log('Util: ', err);
+          });
+      } else {
+        axiosWithAuth()
+          .post(`${API_URL}/api/${userId}/library`, data)
+          .then((res) => resolve(res))
+          .catch((err) => {
+            reject(err);
+            console.log('Util: ', err);
+          });
+      }
     }
     if (method === 'put') {
       axiosWithAuth()

@@ -21,6 +21,7 @@ const Breadcrumbs = (props) => {
           props.crumbs.map((crumb, index) => (
             <Breadcrumb.Item
               key={index}
+              data-testid='prop-item'
               onClick={() =>
                 crumb.path
                   ? (history.push(`${crumb.path}`),

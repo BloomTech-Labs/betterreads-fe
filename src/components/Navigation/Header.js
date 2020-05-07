@@ -16,12 +16,13 @@ import BookIcon from '../Book/BookIcon';
 
 const Header = (props) => {
   const dropdown = (
-    <Menu>
+    <Menu data-testid='drop-menu'>
       <Menu.Item>
         <a
           href='https://github.com/Lambda-School-Labs/betterreads-fe/issues'
           target='_blank'
           rel='noopener noreferrer'
+          data-testid='github-opt'
           onClick={Event(
             'REPORT_A_BUG',
             'User went to git hub to report a Bug',
@@ -34,6 +35,7 @@ const Header = (props) => {
       <Menu.Item>
         <a
           href='/signin'
+          data-testid='signout-opt'
           onClick={() => {
             props.signOut(history);
             Event('SIGN_OUT', 'User signed out', 'HEADER');
@@ -54,7 +56,8 @@ const Header = (props) => {
         </h1>
 
         {(!localStorage.getItem('image') ||
-          localStorage.getItem('image') === 'null' || localStorage.getItem('image') === 'undefined') && (
+          localStorage.getItem('image') === 'null' ||
+          localStorage.getItem('image') === 'undefined') && (
           <Dropdown overlay={dropdown} trigger={['click']}>
             <div
               className='default-profile-icon ant-dropdown-link'
@@ -72,6 +75,7 @@ const Header = (props) => {
                 className='ant-dropdown-link'
                 src={localStorage.getItem('image')}
                 alt='profile icon'
+                data-testid='drop-down-toggle'
               />
             </Dropdown>
           )}

@@ -4,7 +4,7 @@ import Success from '../../components/authentication/Success';
 // Test Utils
 import { renderWithRedux } from '../utils/renderWithRedux';
 
-test('Renders PageNotFound', () => {
+test('Renders PSuccess', () => {
   renderWithRedux(<Success />);
 });
 

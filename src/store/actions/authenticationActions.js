@@ -96,7 +96,9 @@ export const resetError = () => (dispatch) => dispatch({ type: RESET_ERROR });
 
 export const successRedirect = (history, token) => (dispatch) => {
   localStorage.setItem('token', token);
-  dispatch(preserveState(token));
+  if (token) {
+    dispatch(preserveState(token));
+  }
   history.push('/');
 };
 

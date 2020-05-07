@@ -8,6 +8,7 @@ export const fetchCurrentBook = (googleID) => (dispatch) => {
   axiosWithAuth()
     .post(readrrDSURL, { type: 'googleId', query: googleID })
     .then((book) => {
+      console.log('Book: ', book);
       const newBook = book.data.map((book) => {
         return {
           authors: book.authors && book.authors.toString(),
