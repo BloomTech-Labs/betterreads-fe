@@ -2,16 +2,22 @@ import {
   FETCH_RECOMMEDATIONS_START,
   FETCH_RECOMMEDATIONS_SUCCESS,
   FETCH_RECOMMEDATIONS_FAILURE,
+  FETCH_BOOK_RECOMMENDATIONS,
+  FETCH_SHELF_RECOMMENDATIONS,
   ADD_RECOMMENDATIONS,
   ADD_BASED_ON,
 } from '../actions/types';
 
 export const initialState = {
   fetchRecommendations: false,
+  shelfSuccess: false,
+  bookSuccess: false,
   error: '',
   recommendations: [],
+  shelfRecs: [],
+  bookRecs: [],
   basedOn: '',
-  temp: []
+  temp: [],
 };
 
 export const reducer = (state = initialState, action) => {
@@ -35,7 +41,17 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         fetchRecommendations: false,
-        temp: action.payload
+      };
+    case FETCH_SHELF_RECOMMENDATIONS:
+      return {
+        ...state,
+        shelfRecs: action.payload,
+        shelfSuccess: true,
+      };
+    case FETCH_BOOK_RECOMMENDATIONS:
+      return {
+        ...state,
+        bookRecs: action.payload,
       };
     case FETCH_RECOMMEDATIONS_FAILURE:
       return {

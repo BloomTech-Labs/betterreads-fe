@@ -2,7 +2,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 //Import Actions
-import { setCurrentShelf } from '../../store/actions';
+import {
+  setCurrentShelf,
+  fetchShelfRecommendations,
+} from '../../store/actions';
 //Import Components
 import Header from '../Navigation/Header';
 import SearchForm from '../search/SearchForm';
@@ -14,7 +17,6 @@ import StatusShelfLoading from '../Shelf/StatusShelfLoading';
 
 // Utils
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
-import { axiosWithAuth } from '../../utils/axiosWithAuth';
 //Tracking
 import { PageView, Event } from '../../utils/tracking';
 //Styling
@@ -25,29 +27,17 @@ const Shelf = (props) => {
   useDocumentTitle('Readrr - Shelf');
 
   const shelf = props.match.params.shelf;
-  const [recs, setRecs] = React.useState([]);
-
-  const googleID = 'DGSsCwAAQBAJ';
-  const DS_API = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
-  const readrrDSURL = 'https://readrr-heroku-test.herokuapp.com/search';
-
-  const fetchSpecificRecommendations = (books) => {
-    axiosWithAuth()
-      .post(`${DS_API}/api/${props.subject}/recommendations`, { books: books })
-      .then((response) =>
-        setRecs(response.data.recommendations.recommendations)
-      )
-      .catch((error) => console.log(error));
-  };
+  const books = props.currentShelf.books;
 
   useEffect(() => {
     props.setCurrentShelf(shelf);
     Event('Shelf', 'A user looked at a shelf of books', 'SHELF');
     PageView();
   }, []);
-
-  const books = props.currentShelf.books;
-  fetchSpecificRecommendations(books);
+  // fetchSpecificRecommendations(books);
+  if (!props.shelfSuccess) {
+    props.fetchShelfRecommendations(books);
+  }
 
   return (
     <>
@@ -55,12 +45,12 @@ const Shelf = (props) => {
       <SearchForm />
       <Breadcrumbs crumbs={[{ label: props.currentShelf.name, path: null }]} />
       <RecsStyle>
-        {recs.length > 0 ? (
+        {props.recs.length > 0 ? (
           <StatusShelfCarousel
             title={`Recs`}
             shelf={props.currentShelf.name ? props.currentShelf.name : ''}
             display='carousel'
-            bookList={recs}
+            bookList={props.recs}
             style={{ width: '100%' }}
             breadcrumbs={[
               {
@@ -72,7 +62,9 @@ const Shelf = (props) => {
           />
         ) : (
           <StatusShelfLoading
-            title={`Recommendations based on ${props.currentShelf.name ? props.currentShelf.name : ''}`}
+            title={`Recommendations based on ${
+              props.currentShelf.name ? props.currentShelf.name : ''
+            }`}
           />
         )}
       </RecsStyle>
@@ -96,7 +88,12 @@ const mapStateToProps = (state) => {
   return {
     currentShelf: state.library.currentShelf,
     subject: state.authentication.user.subject,
+    recs: state.recommendations.shelfRecs,
+    shelfSuccess: state.recommendations.shelfSuccess,
   };
 };
 
-export default connect(mapStateToProps, { setCurrentShelf })(Shelf);
+export default connect(mapStateToProps, {
+  setCurrentShelf,
+  fetchShelfRecommendations,
+})(Shelf);

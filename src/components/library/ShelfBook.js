@@ -11,6 +11,8 @@ import {
   getBooksOnShelves,
   setQuery,
   getGoogleResults,
+  fetchBookRecommendations,
+  addBookRecommendations,
 } from '../../store/actions';
 //Import Components
 import Header from '../Navigation/Header';
@@ -93,6 +95,8 @@ const ShelfBook = (props) => {
     Event('BOOK', 'A user viewed a book', 'SHELF_BOOK');
     PageView();
   }, []);
+
+  props.addBookRecommendations(recs);
 
   const categoryDisplay = () => {
     let categorySet = new Set();
@@ -212,11 +216,11 @@ const ShelfBook = (props) => {
               (b) => b.googleId === props.match.params.id
             ) && <AddToExistingShelf bookId={props.match.params.id} />}
 
-            {recs.length > 0 ? (
+            {props.recs.length > 0 ? (
               <StatusShelfCarousel
                 title='Recommendations'
                 display='carousel'
-                bookList={recs}
+                bookList={props.recs}
                 breadcrumbs={[
                   {
                     label: 'Recommendations',
@@ -254,6 +258,8 @@ const mapStateToProps = (state) => {
     currentBook: state.book.currentBook,
     breadcrumbs: state.book.breadcrumbs,
     subject: state.authentication.user.subject,
+    recs: state.recommendations.bookRecs,
+    bookSuccess: state.recommendations.bookSuccess,
   };
 };
 
@@ -264,4 +270,6 @@ export default connect(mapStateToProps, {
   getBooksOnShelves,
   setQuery,
   getGoogleResults,
+  fetchBookRecommendations,
+  addBookRecommendations,
 })(ShelfBook);

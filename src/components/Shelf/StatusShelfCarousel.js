@@ -124,7 +124,7 @@ const ShelfSwipe = (props) => {
         props.title !== 'In progress' &&
         props.title !== 'Finished' &&
         props.title !== 'Recommendations' &&
-        props.title !== 'Recs'  ? (
+        props.title !== 'Recs' ? (
           <p className='status'>
             {props.title} ({props.bookList.length})
             <Dropdown overlay={dropdown} trigger={['click']}>

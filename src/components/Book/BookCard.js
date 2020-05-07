@@ -271,8 +271,6 @@ const BookCard = (props) => {
     </Menu>
   );
 
-  console.log('book: ', props.book);
-
   return (
     <BookCardContainer
       thumbnail={props.book.thumbnail || props.book.smallThumbnail}
