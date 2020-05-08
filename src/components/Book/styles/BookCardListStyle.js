@@ -53,7 +53,6 @@ const BookCardListContainer = styled.div`
       justify-content: space-between;
       align-content: flex-start;
       flex-wrap: wrap;
-      min-height: 320px;
     }
   }
 `;
