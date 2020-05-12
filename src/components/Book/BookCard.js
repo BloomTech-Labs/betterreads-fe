@@ -30,6 +30,7 @@ import { Button, Rate, Menu, Dropdown, DatePicker } from 'antd';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
+import { WindowsFilled } from '@ant-design/icons';
 
 const BookCard = (props) => {
   const { googleId } = props.book;
@@ -97,6 +98,7 @@ const BookCard = (props) => {
           setLibraryBook(results.data);
           setReadrrId(results.data.bookId);
           setInLibrary(true);
+          window.location.reload();
         }
         // analytics event action
         if (actionType === 'favorite') {
@@ -116,6 +118,7 @@ const BookCard = (props) => {
               ? 'Book added to favorites.'
               : 'Book removed from favorites.'
           );
+          window.location.reload();
         } else if (actionType === 'readingStatus' && readingStatus < 4) {
           // reading status update
           props.updateBookReadingStatus(
@@ -143,6 +146,7 @@ const BookCard = (props) => {
             'Success',
             'Reading status has been updated.'
           );
+          window.location.reload();
         } else {
           // delete
           props.deleteUserBook(readrrId);
@@ -156,6 +160,7 @@ const BookCard = (props) => {
             'Success',
             'Book deleted from your library.'
           );
+          window.location.reload();
         }
       })
       .catch((err) => {
