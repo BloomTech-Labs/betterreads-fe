@@ -12,10 +12,21 @@ import BookCard from '../Book/BookCard';
 import BookCardContainer from '../Book/styles/BookCardStyle';
 //Styling
 import { Carousel, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import ShelfSwipeContainer from './styles/StatusShelfStyle';
 // Utils
 
 const ShelfSwipe = (props) => {
+  const antIcon = (
+    <LoadingOutlined
+      style={{
+        fontSize: props.size || '32px',
+        color: props.color || '#547862',
+      }}
+      spin
+    />
+  );
+
   const carouselProps = {
     dots: false,
     infinite: false,
@@ -56,7 +67,9 @@ const ShelfSwipe = (props) => {
       data-testid='shelf-swipe-container'
     >
       <div className='header'>
-        <p className='status'>{props.title ? props.title : 'Recommendations'}</p>
+        <p className='status'>
+          {props.title ? props.title : 'Recommendations'}
+        </p>
       </div>
       <div className='swiper'>
         <Carousel {...carouselProps}>
@@ -70,7 +83,7 @@ const ShelfSwipe = (props) => {
             >
               <div className='thumbnail-container'>
                 <div data-testid='thumb-button' className='thumbnail'>
-                  <Spin size='large' key={index} />
+                  <Spin indicator={antIcon} />
                 </div>
               </div>
             </BookCardContainer>
