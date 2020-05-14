@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 // Ant Design
-import { Modal, Button, Input } from 'antd';
+import { Modal, Button, Input, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 //Import Actions
 import {
@@ -48,6 +48,14 @@ const SignIn = (props) => {
     Event('SIGN IN', 'User signed in', 'SIGN_IN');
   };
 
+  const success = () => {
+    message.success('Sucessfully sent reset email!');
+  };
+
+  const error = () => {
+    message.error('Error sending reset email');
+  };
+
   const { confirm } = Modal;
   let email = '';
 
@@ -69,8 +77,13 @@ const SignIn = (props) => {
       onOk() {
         return new Promise((resolve, _reject) => {
           title = 'Sending email';
-          props.forgotPassword(email);
-          setTimeout(resolve, 500);
+          props.forgotPassword({ email: email });
+          setTimeout(resolve, 700);
+          if (props.resetPasswordError === false) {
+            error();
+          } else {
+            success();
+          }
         });
       },
       onCancel() {},
@@ -126,7 +139,7 @@ const SignIn = (props) => {
             </p>
           )}
 
-          <a href='#' className='forgot' onClick={(e) => info()}>
+          <a href='#' className='forgot' onClick={() => info()}>
             Forgot Password?
           </a>
 
@@ -162,6 +175,8 @@ const SignIn = (props) => {
 const mapStateToProps = (state) => {
   return {
     error: state.authentication.error,
+    resetPasswordError: state.authentication.resetError,
+    resetMessage: state.authentication.resetMessage,
   };
 };
 

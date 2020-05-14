@@ -1,9 +1,18 @@
-import { SET_TOKEN, SET_USER, SET_ERROR, RESET_ERROR } from '../actions/types';
+import {
+  SET_TOKEN,
+  SET_USER,
+  SET_ERROR,
+  RESET_ERROR,
+  RESET_PASSWORD_ERROR,
+  RESET_PASSWORD_MESSAGE,
+} from '../actions/types';
 
 export const initialState = {
   error: '',
   token: '',
   user: {},
+  resetError: false,
+  resetMessage: '',
 };
 
 export const reducer = (state = initialState, action) => {
@@ -29,7 +38,16 @@ export const reducer = (state = initialState, action) => {
         ...state,
         error: '',
       };
-
+    case RESET_PASSWORD_ERROR:
+      return {
+        ...state,
+        resetError: action.payload,
+      };
+    case RESET_PASSWORD_MESSAGE:
+      return {
+        ...state,
+        resetMessage: action.payload,
+      };
     default:
       return state;
   }

@@ -7,6 +7,7 @@ import {
   fetchUsersShelves,
   setBreadcrumbs,
   fetchRecommendations,
+  forgotPassword,
 } from '../../store/actions';
 //Import Components
 import Header from '../Navigation/Header';
@@ -38,7 +39,6 @@ const Library = (props) => {
   return (
     <LibraryContainer>
       <Header />
-
       <div className='what-are-you-reading-container'>
         <div className='what-are-you-reading'>
           {props.userBooks.length > 10 ? (
@@ -114,4 +114,5 @@ export default connect(mapStateToProps, {
   fetchUsersShelves,
   setBreadcrumbs,
   fetchRecommendations,
+  forgotPassword,
 })(Library);

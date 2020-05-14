@@ -97,6 +97,7 @@ const BookCard = (props) => {
           setLibraryBook(results.data);
           setReadrrId(results.data.bookId);
           setInLibrary(true);
+          window.location.reload();
         }
         // analytics event action
         if (actionType === 'favorite') {
@@ -116,6 +117,7 @@ const BookCard = (props) => {
               ? 'Book added to favorites.'
               : 'Book removed from favorites.'
           );
+          window.location.reload();
         } else if (actionType === 'readingStatus' && readingStatus < 4) {
           // reading status update
           props.updateBookReadingStatus(
@@ -143,6 +145,7 @@ const BookCard = (props) => {
             'Success',
             'Reading status has been updated.'
           );
+          window.location.reload();
         } else {
           // delete
           props.deleteUserBook(readrrId);
@@ -156,6 +159,7 @@ const BookCard = (props) => {
             'Success',
             'Book deleted from your library.'
           );
+          window.location.reload();
         }
       })
       .catch((err) => {
