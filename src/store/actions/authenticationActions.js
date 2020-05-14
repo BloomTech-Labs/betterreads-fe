@@ -1,4 +1,11 @@
-import { SET_ERROR, RESET_ERROR, SET_TOKEN, SET_USER } from './types';
+import {
+  SET_ERROR,
+  RESET_ERROR,
+  SET_TOKEN,
+  SET_USER,
+  RESET_PASSWORD_MESSAGE,
+  RESET_PASSWORD_ERROR,
+} from './types';
 import axios from 'axios';
 import jwt from 'jwt-decode';
 
@@ -59,27 +66,28 @@ export const signIn = (input, history) => (dispatch) => {
 };
 
 export const forgotPassword = (email) => (dispatch) => {
-  console.log(email);
   axios
     .post(`${API_URL}/api/auth/reset/requestreset`, email)
     .then((response) => {
-      console.log(response.data);
+      dispatch({ type: RESET_PASSWORD_MESSAGE, payload: response.data });
+      console.log('Response: ', response.data);
     })
     .catch((error) => {
-      console.log(error);
+      console.log('Error: ', error);
+      dispatch({ type: RESET_PASSWORD_ERROR, payload: true });
     });
 };
 
-export const changePassword = (password) => (dispatch) => {
-  // Need to grab token and verify that it is valid
-  const token = '';
+export const changePassword = (token, password) => (dispatch) => {
   axios
     .post(`${API_URL}/api/auth/reset/`, { token: token, password: password })
     .then((response) => {
+      dispatch({ type: RESET_PASSWORD_MESSAGE, payload: response.data });
       console.log(response.data);
     })
     .catch((error) => {
       console.log(error);
+      dispatch({ type: RESET_PASSWORD_ERROR, payload: true });
     });
 };
 

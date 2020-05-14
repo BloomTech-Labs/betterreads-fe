@@ -3,6 +3,8 @@ export const SET_ERROR = 'SET_ERROR';
 export const RESET_ERROR = 'RESET_ERROR';
 export const SET_TOKEN = 'SET_TOKEN';
 export const SET_USER = 'SET_USER';
+export const RESET_PASSWORD_ERROR = 'RESET_PASSWORD_ERROR';
+export const RESET_PASSWORD_MESSAGE = 'RESET_PASSWORD_MESSAGE';
 
 // book
 export const SET_CURRENT_BOOK = 'SET_CURRENT_BOOK';

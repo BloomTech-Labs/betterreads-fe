@@ -30,7 +30,6 @@ import { Button, Rate, Menu, Dropdown, DatePicker } from 'antd';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 import HeartFilled from '@ant-design/icons/HeartFilled';
 import HeartOutlined from '@ant-design/icons/HeartOutlined';
-import { WindowsFilled } from '@ant-design/icons';
 
 const BookCard = (props) => {
   const { googleId } = props.book;
