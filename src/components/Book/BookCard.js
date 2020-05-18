@@ -33,18 +33,23 @@ import HeartOutlined from '@ant-design/icons/HeartOutlined';
 
 const BookCard = (props) => {
   const { googleId } = props.book;
+  // Done
   const [libraryBook, setLibraryBook] = useState(
     props.userBooks.find((b) => b.googleId === googleId) || null
   );
+  // Done
   const [inLibrary, setInLibrary] = useState(
     libraryBook !== null ? true : false
   );
+  // Done
   const [readrrId, setReadrrId] = useState(
     libraryBook !== null ? libraryBook.bookId : null
   );
+  // Done
   const [favorite, setFavorite] = useState(
     libraryBook !== null && libraryBook.favorite ? true : false
   );
+  // Done
   const [readingStatus, setReadingStatus] = useState(
     inLibrary ? parseInt(libraryBook.readingStatus) : null
   );
@@ -55,28 +60,28 @@ const BookCard = (props) => {
   const favoriteRef = useRef(favorite);
   const firstRun = useRef(true);
 
-  const user = localStorage.getItem('id');
+  // const user = localStorage.getItem('id');
 
   // Need to fix this...
   // There are two useEffects
+  // Dunno what to do here
   useEffect(() => {
+    // Can be broken into a switch
     if (firstRun.current) {
       firstRun.current = false;
       return;
     }
-
     // run if reading status changes
     if (readingStatusRef.current !== readingStatus) {
       actionType = 'readingStatus';
       readingStatusRef.current = readingStatus;
     }
-
     // run if favorite status changes
     if (favoriteRef.current !== favorite) {
       actionType = 'favorite';
       favoriteRef.current = favorite;
     }
-
+    // Can be broken into a switch
     updateBookItem(
       props.user,
       readrrId,
@@ -163,10 +168,6 @@ const BookCard = (props) => {
         }
       })
       .catch((err) => {
-        console.log('Error: ', err);
-        console.log('Error Message: ', err.message);
-        console.log('Error Name: ', err.name);
-        console.log('Error Stack: ', err.stack);
         Event(
           'Search',
           'Error tracking/favoriting/deleting a book.',
@@ -180,6 +181,9 @@ const BookCard = (props) => {
       });
   }, [favorite, readingStatus]);
 
+  // Dunno what to do here
+  // Making this a switch
+  // Try to update it on the fly rather than forcing a page reload
   useEffect(() => {
     if (readingStatus === 1) {
       setTrackBtnLabel('To read');
@@ -195,14 +199,15 @@ const BookCard = (props) => {
     }
   }, []);
 
+  // In Progress
   const readingStatusUpdate = (key) => {
     console.log('Status Update');
     setReadingStatus(key.item.props.value);
     setTrackBtnLabel(key.item.props.children);
   };
 
+  // In Progress
   const updateRating = (rate) => {
-    // if(libraryBook){
     updateUserRating(props.user, libraryBook.bookId, rate)
       .then((result) => {
         Event('RATING', 'User rated a book.', 'BOOK_CARD');
@@ -214,9 +219,9 @@ const BookCard = (props) => {
         });
       })
       .catch((err) => console.log(err.response));
-    //}
   };
 
+  // In Progress
   const handleDates = (date, dateString, whichDate) => {
     updateDates(props.user, readrrId, dateString, whichDate)
       .then((result) => {
@@ -243,6 +248,7 @@ const BookCard = (props) => {
       .catch((err) => console.log(err));
   };
 
+  // Exported
   const searchMenu = (
     <Menu onClick={(key) => readingStatusUpdate(key)}>
       <Menu.Item key='1' value='1'>
@@ -257,6 +263,7 @@ const BookCard = (props) => {
     </Menu>
   );
 
+  // Exported
   const libraryMenu = (
     <Menu onClick={(key) => readingStatusUpdate(key)}>
       <Menu.Item key='1' value='1'>

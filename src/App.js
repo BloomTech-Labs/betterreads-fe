@@ -13,6 +13,7 @@ import ShelfBook from './components/library/ShelfBook';
 import Shelf from './components/library/Shelf';
 import Shelves from './components/library/Shelves';
 import OnboardingQuiz from './components/authentication/OnboardingQuiz';
+import BookCardRefactor from './components/Book/BookCardRefactor';
 // History Util
 import history from './utils/history';
 
@@ -28,6 +29,7 @@ const App = () => {
         <Route path='/success' component={Success} />
         <Route path='/failure' component={Failure} />
         <Route path='/pagenotfound' component={PageNotFound} />
+        <Route path='/card' component={BookCardRefactor} />
         <PrivateRoute path='/search' component={Search} />
         <PrivateRoute path='/book/:id' component={ShelfBook} />
         <PrivateRoute exact path='/shelf/:shelf' component={Shelf} />
