@@ -316,7 +316,7 @@ const BookCard = (props) => {
           </Button>
         </Dropdown>
       </div>
-
+            {/* Done */}
       <div className='information'>
         <div className='title-author-and-favorite'>
           <div className='title-and-author'>
@@ -347,7 +347,7 @@ const BookCard = (props) => {
             )}
           </div>
         </div>
-
+        {/* Done */}
         {props.source === 'library' && (
           <div className='calendars'>
             <div className='calendar'>

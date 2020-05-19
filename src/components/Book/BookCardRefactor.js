@@ -2,9 +2,14 @@ import React from 'react';
 // React Redux
 import { connect } from 'react-redux';
 // BookCard Util
-import { BookThumbnail, BookInformation, BookCalendars } from './BookUtils';
+import {
+  BookThumbnail,
+  BookInformation,
+  BookCalendars,
+} from './BookCardComponents';
 // Components
 import BookCardContainer from './styles/BookCardStyle';
+import { Book } from './BookClass';
 
 const BookCardRefactor = (props) => {
   // Book Information
@@ -17,6 +22,9 @@ const BookCardRefactor = (props) => {
   const [libraryBook, setLibraryBook] = React.useState(
     props.userBooks.find((b) => b.googleId === googleId) || null
   );
+
+  const test = new Book(book);
+  console.log(test);
 
   return (
     <BookCardContainer
@@ -31,7 +39,13 @@ const BookCardRefactor = (props) => {
       <BookThumbnail book={book} source={source} library={libraryBook} />
       <div className='information'>
         <BookInformation book={book} />
-        {source === 'library' && <BookCalendars library={libraryBook} />}
+        {source === 'library' && (
+          <BookCalendars
+            library={libraryBook}
+            setLibraryBook={setLibraryBook}
+            userID={props.user}
+          />
+        )}
       </div>
     </BookCardContainer>
   );
@@ -40,6 +54,7 @@ const BookCardRefactor = (props) => {
 const mapStateToProps = (state) => {
   return {
     userBooks: state.library.userBooks,
+    user: state.authentication.user.subject,
   };
 };
 

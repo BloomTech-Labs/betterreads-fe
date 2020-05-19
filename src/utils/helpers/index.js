@@ -70,18 +70,12 @@ export const updateBookItem = (
         axiosWithAuth()
           .post(`${API_URL}/api/${userId}/library`, data)
           .then((res) => resolve(res))
-          .catch((err) => {
-            reject(err);
-            console.log('Util: ', err);
-          });
+          .catch((err) => reject(err));
       } else {
         axiosWithAuth()
           .post(`${API_URL}/api/${userId}/library`, data)
           .then((res) => resolve(res))
-          .catch((err) => {
-            reject(err);
-            console.log('Util: ', err);
-          });
+          .catch((err) => reject(err));
       }
     }
     if (method === 'put') {
@@ -112,6 +106,8 @@ export const sendUpTheFlares = (type, message, description) => {
 };
 
 export const updateDates = (userId, readrrId, dateString, whichDate) => {
+  console.log('Fired');
+  console.log(userId);
   let dateObj;
   if (!whichDate) {
     dateObj = {

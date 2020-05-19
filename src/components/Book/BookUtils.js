@@ -1,13 +1,15 @@
 import React from 'react';
 // Utils
 import history from '../../utils/history';
-// Moment
-import moment from 'moment';
-// Components
-import BookIcon from './BookIcon';
+import store from '../../utils/store';
+import { updateDates } from '../../utils/helpers';
+import { axiosWithAuth } from '../../utils/axiosWithAuth';
+// Redux
+import { updateSingleBookField } from '../../store/actions';
 // Ant Design
-import { Menu, Dropdown, Button, DatePicker } from 'antd';
-import DownOutlined from '@ant-design/icons/DownOutlined';
+import { Menu } from 'antd';
+
+const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
 // Dropdown shown under books
 export const dropDown = (setState, source) => {
@@ -48,109 +50,89 @@ export const dropDownSwitch = (readingStatus) => {
   }
 };
 // This handles routing when the book is clicked on
-const buttonClick = (googleId) => {
+export const pageRoute = (googleId) => {
   history.push(`/book/${googleId}`);
 };
-// Thumbnail && Status Component
-export const BookThumbnail = ({ book, source, library }) => {
-  // If in library set to reading status
-  // Else set to 4..Track This
-  const [status, setStatus] = React.useState(
-    library ? library.readingStatus : '4'
-  );
-  // Parses the correct label based on the reading status
-  const [label, setLabel] = React.useState(
-    library ? dropDownSwitch(parseInt(status)) : 'Track This'
-  );
-  // This watches the status for updates and updates the label
-  React.useEffect(() => {
-    setLabel(library ? dropDownSwitch(parseInt(status)) : 'Track This');
-  }, [library, status]);
-  return (
-    <div className='thumbnail-container'>
-      <div
-        data-testid='thumb-button'
-        className='thumbnail'
-        onClick={() => {
-          buttonClick(book.googleId);
-        }}
-      >
-        {!book.thumbnail && !book.smallThumbnail && (
-          <BookIcon height='40px' width='40px' fill='#547862' />
-        )}
-      </div>
 
-      <Dropdown overlay={dropDown(setStatus, source)} trigger={['click']}>
-        <Button className={label === 'Track this' ? 'orange' : 'green'}>
-          {label}
-          <DownOutlined />
-        </Button>
-      </Dropdown>
-    </div>
-  );
+export const handleDates = (
+  userID,
+  libraryBook,
+  dateString,
+  index,
+  setLibraryBook
+) => {
+  if (libraryBook) {
+    console.log('Here');
+    updateDates(userID, libraryBook.bookId, dateString, index)
+      .then((res) => {
+        console.log('Res: ', res);
+        const started =
+          res.data.dateStarted && res.data.dateStarted.split('T')[0];
+        const ended = res.data.dateEnded && res.data.dateEnded.split('T')[0];
+        started &&
+          store.dispatch(
+            updateSingleBookField(
+              libraryBook.bookId,
+              'dateStarted',
+              res.data.dateStarted.split('T')[0]
+            )
+          );
+        ended &&
+          store.dispatch(
+            updateSingleBookField(
+              libraryBook.bookId,
+              'dateEnded',
+              res.data.dateStarted.split('T')[0]
+            )
+          );
+        setLibraryBook({
+          ...libraryBook,
+          dateStarted: started && started,
+          dateEnded: ended && ended,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  } else {
+    console.log('Edge Case Hit');
+  }
 };
 
-export const BookInformation = ({ book }) => {
-  return (
-    <div className='title-author-and-favorite'>
-      <div className='title-and-author'>
-        <p
-          data-testid='title-link'
-          className='title'
-          onClick={() => buttonClick(book.googleId)}
-        >
-          {book.title}
-        </p>
-        {book.authors && (
-          <p
-            data-testid='author-link'
-            className='author'
-            onClick={() => buttonClick(book.googleId)}
-          >
-            {book.authors.includes(',')
-              ? book.authors.split(',')[0]
-              : book.authors}
-          </p>
-        )}
-      </div>
-    </div>
-  );
+// Reading Status Initial Set
+// Reading Status Update
+// Delete Book
+// Update Rating
+// Update Favorite
+
+export const setStatus = (userID, book, status, favorite) => {
+  console.log('Setting Status');
+  return new Promise((resolve, reject) => {});
 };
 
-export const BookCalendars = ({ library }) => {
-  // const googleId = book.googleId;
-  // const library = isLibrary(googleId);
-  return (
-    <div className='calendars'>
-      <div className='calendar'>
-        <p>DATE STARTED</p>
-        <DatePicker
-          placeholder='Started'
-          defaultValue={
-            library && library.dateStarted
-              ? moment(library.dateStarted, 'YYYY-MM-DD')
-              : null
-          }
-          onChange={(date, dateString) => {
-            console.log(date, dateString, 0);
-          }}
-        />
-      </div>
+export const updateStatus = (userID, bookID, favorite) => {
+  console.log('Updating Status');
+  return new Promise((resolve, reject) => {});
+};
 
-      <div className='calendar'>
-        <p>DATE ENDED</p>
-        <DatePicker
-          placeholder='Ended'
-          defaultValue={
-            library && library.dateEnded
-              ? moment(library.dateEnded, 'YYYY-MM-DD')
-              : null
-          }
-          onChange={(date, dateString) => {
-            console.log(date, dateString, 1);
-          }}
-        />
-      </div>
-    </div>
-  );
+export const deleteBook = (userID, bookID) => {
+  console.log('Deleting Book');
+  return new Promise((resolve, reject) => {
+    axiosWithAuth()
+      .delete(`${API_URL}/api/${userID}/library`, {
+        data: { bookId: bookID },
+      })
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
+  });
+};
+
+export const updateRating = (userID, bookID, rating) => {
+  console.log('Updating Rating');
+  return new Promise((resolve, reject) => {});
+};
+
+export const updateFavorite = (userID, bookID, favorite) => {
+  console.log('Updating Favorite');
+  return new Promise((resolve, reject) => {});
 };

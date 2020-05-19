@@ -21,9 +21,9 @@ export const fetchUsersBooks = () => (dispatch, getState) => {
   const userID = state.authentication.user.subject;
   axiosWithAuth()
     .get(`${API_URL}/api/${userID}/library`)
-    .then((response) =>
-      dispatch({ type: FETCH_USERS_BOOKS, payload: response.data })
-    )
+    .then((response) => {
+      dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
+    })
     .catch((error) => console.log(error));
 };
 
