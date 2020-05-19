@@ -19,6 +19,7 @@ import Header from '../Navigation/Header';
 import SearchForm from '../search/SearchForm';
 import Breadcrumbs from '../Navigation/Breadcrumbs';
 import BookCard from '../Book/BookCard';
+import BookCardRefactor from '../Book/BookCardRefactor';
 import MyShelves from '../Shelf/MyShelves';
 import AddToExistingShelf from '../Shelf/AddToExistingShelf';
 import useDocumentTitle from '../../utils/hooks/useDocumentTitle';
@@ -126,7 +127,8 @@ const ShelfBook = (props) => {
         {!props.fetchingCurrentBook && (
           <div className='book-details'>
             {props.currentBook && props.currentBook.googleId === googleID && (
-              <BookCard book={props.currentBook} source='search' />
+              <BookCardRefactor book={props.currentBook} source='search' />
+              // <BookCard book={props.currentBook} source='search' />
             )}
 
             {props.currentBook.description && (

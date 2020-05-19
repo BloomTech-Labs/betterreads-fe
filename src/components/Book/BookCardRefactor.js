@@ -1,4 +1,6 @@
 import React from 'react';
+// React Redux
+import { connect } from 'react-redux';
 // BookCard Util
 import { BookThumbnail, BookInformation, BookCalendars } from './BookUtils';
 // Components
@@ -11,6 +13,10 @@ const BookCardRefactor = (props) => {
   const smallThumbnail = book.smallThumbnail;
   const googleId = book.googleId;
   const source = props.source;
+  // Checking if the book is in the users library
+  const [libraryBook, setLibraryBook] = React.useState(
+    props.userBooks.find((b) => b.googleId === googleId) || null
+  );
 
   return (
     <BookCardContainer
@@ -22,13 +28,19 @@ const BookCardRefactor = (props) => {
       // data-library={true}
       data-book={googleId}
     >
-      <BookThumbnail book={book} source={source} />
+      <BookThumbnail book={book} source={source} library={libraryBook} />
       <div className='information'>
         <BookInformation book={book} />
-        {source === 'library' && <BookCalendars />}
+        {source === 'library' && <BookCalendars library={libraryBook} />}
       </div>
     </BookCardContainer>
   );
 };
 
-export default BookCardRefactor;
+const mapStateToProps = (state) => {
+  return {
+    userBooks: state.library.userBooks,
+  };
+};
+
+export default connect(mapStateToProps, {})(BookCardRefactor);

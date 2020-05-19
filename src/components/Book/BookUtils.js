@@ -1,8 +1,6 @@
 import React from 'react';
 // Utils
 import history from '../../utils/history';
-// Redux Store
-import store from '../../utils/store';
 // Moment
 import moment from 'moment';
 // Components
@@ -10,38 +8,11 @@ import BookIcon from './BookIcon';
 // Ant Design
 import { Menu, Dropdown, Button, DatePicker } from 'antd';
 import DownOutlined from '@ant-design/icons/DownOutlined';
-import HeartOutlined from '@ant-design/icons';
-import HeartFilled from '@ant-design/icons';
 
-const state = store.getState();
-
-const isLibrary = (googleId) => {
-  const libraryBook = state.library.userBooks.find(
-    (book) => book.googleId === googleId
-  );
-  if (libraryBook) return libraryBook;
-  return false;
-};
-
-export const searchDropDown = (readingStatusUpdate) => {
+// Dropdown shown under books
+export const dropDown = (setState, source) => {
   return (
-    <Menu onClick={(key) => readingStatusUpdate(key)}>
-      <Menu.Item key='1' value='1'>
-        To read
-      </Menu.Item>
-      <Menu.Item key='2' value='2'>
-        In progress
-      </Menu.Item>
-      <Menu.Item key='3' value='3'>
-        Finished
-      </Menu.Item>
-    </Menu>
-  );
-};
-
-export const libraryDropDown = (readingStatusUpdate) => {
-  return (
-    <Menu onClick={(key) => readingStatusUpdate(key)}>
+    <Menu onClick={(key) => setState(key.item.props.value)}>
       <Menu.Item key='1' value='1'>
         To read
       </Menu.Item>
@@ -52,15 +23,19 @@ export const libraryDropDown = (readingStatusUpdate) => {
         Finished
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key='4' value='4'>
-        Delete
-      </Menu.Item>
+      {source === 'library' ? (
+        <Menu.Item key='4' value='4'>
+          Delete
+        </Menu.Item>
+      ) : (
+        <></>
+      )}
     </Menu>
   );
 };
-
+// This swithches between the different labels
+// Based on the int parsed from reading status
 export const dropDownSwitch = (readingStatus) => {
-  console.log(readingStatus);
   switch (readingStatus) {
     case 1:
       return 'To Read';
@@ -72,16 +47,25 @@ export const dropDownSwitch = (readingStatus) => {
       return 'Track This';
   }
 };
-
+// This handles routing when the book is clicked on
 const buttonClick = (googleId) => {
   history.push(`/book/${googleId}`);
 };
-
-export const BookThumbnail = ({ book, source }) => {
-  const library = isLibrary(book.googleId);
-  const label = library
-    ? dropDownSwitch(parseInt(library.readingStatus))
-    : 'Track this';
+// Thumbnail && Status Component
+export const BookThumbnail = ({ book, source, library }) => {
+  // If in library set to reading status
+  // Else set to 4..Track This
+  const [status, setStatus] = React.useState(
+    library ? library.readingStatus : '4'
+  );
+  // Parses the correct label based on the reading status
+  const [label, setLabel] = React.useState(
+    library ? dropDownSwitch(parseInt(status)) : 'Track This'
+  );
+  // This watches the status for updates and updates the label
+  React.useEffect(() => {
+    setLabel(library ? dropDownSwitch(parseInt(status)) : 'Track This');
+  }, [library, status]);
   return (
     <div className='thumbnail-container'>
       <div
@@ -96,10 +80,7 @@ export const BookThumbnail = ({ book, source }) => {
         )}
       </div>
 
-      <Dropdown
-        overlay={source === 'search' ? searchDropDown : libraryDropDown}
-        trigger={['click']}
-      >
+      <Dropdown overlay={dropDown(setStatus, source)} trigger={['click']}>
         <Button className={label === 'Track this' ? 'orange' : 'green'}>
           {label}
           <DownOutlined />
@@ -136,7 +117,9 @@ export const BookInformation = ({ book }) => {
   );
 };
 
-export const BookCalendars = () => {
+export const BookCalendars = ({ library }) => {
+  // const googleId = book.googleId;
+  // const library = isLibrary(googleId);
   return (
     <div className='calendars'>
       <div className='calendar'>
@@ -144,11 +127,13 @@ export const BookCalendars = () => {
         <DatePicker
           placeholder='Started'
           defaultValue={
-            isLibrary() && isLibrary().dateStarted
-              ? moment(isLibrary().dateStarted, 'YYYY-MM-DD')
+            library && library.dateStarted
+              ? moment(library.dateStarted, 'YYYY-MM-DD')
               : null
           }
-          onChange={(date, dateString) => console.log(date, dateString, 0)}
+          onChange={(date, dateString) => {
+            console.log(date, dateString, 0);
+          }}
         />
       </div>
 
@@ -157,11 +142,13 @@ export const BookCalendars = () => {
         <DatePicker
           placeholder='Ended'
           defaultValue={
-            isLibrary() && isLibrary().dateEnded
-              ? moment(isLibrary().dateEnded, 'YYYY-MM-DD')
+            library && library.dateEnded
+              ? moment(library.dateEnded, 'YYYY-MM-DD')
               : null
           }
-          onChange={(date, dateString) => console.log(date, dateString, 1)}
+          onChange={(date, dateString) => {
+            console.log(date, dateString, 1);
+          }}
         />
       </div>
     </div>

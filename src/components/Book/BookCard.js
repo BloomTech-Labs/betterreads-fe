@@ -201,7 +201,6 @@ const BookCard = (props) => {
 
   // In Progress
   const readingStatusUpdate = (key) => {
-    console.log('Status Update');
     setReadingStatus(key.item.props.value);
     setTrackBtnLabel(key.item.props.children);
   };
