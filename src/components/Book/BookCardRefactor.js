@@ -36,7 +36,12 @@ const BookCardRefactor = (props) => {
       // data-library={true}
       data-book={googleId}
     >
-      <BookThumbnail book={book} source={source} library={libraryBook} />
+      <BookThumbnail
+        book={book}
+        source={source}
+        library={libraryBook}
+        userID={props.user}
+      />
       <div className='information'>
         <BookInformation book={book} />
         {source === 'library' && (

@@ -105,22 +105,32 @@ export const handleDates = (
 // Update Rating
 // Update Favorite
 
-export const setStatus = (userID, book, status, favorite) => {
+export const handleStatus = (inLibrary, userID, book, status) => {
+  console.log('Handling Status');
+  console.log('Status', status);
+  if(status === '4') deleteBook(userID, book)
+  if (inLibrary) updateStatus(userID, book, status);
+  if (!inLibrary) setStatus(userID, book, status);
+};
+
+export const setStatus = (userID, book, status) => {
   console.log('Setting Status');
+  console.log(userID, book, status);
   return new Promise((resolve, reject) => {});
 };
 
-export const updateStatus = (userID, bookID, favorite) => {
+export const updateStatus = (userID, book, status) => {
   console.log('Updating Status');
+  console.log(userID, book, status);
   return new Promise((resolve, reject) => {});
 };
 
-export const deleteBook = (userID, bookID) => {
+export const deleteBook = (userID, book) => {
   console.log('Deleting Book');
   return new Promise((resolve, reject) => {
     axiosWithAuth()
       .delete(`${API_URL}/api/${userID}/library`, {
-        data: { bookId: bookID },
+        data: { bookId: book.bookId },
       })
       .then((res) => resolve(res))
       .catch((err) => reject(err));

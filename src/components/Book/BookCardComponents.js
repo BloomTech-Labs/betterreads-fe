@@ -1,28 +1,41 @@
 import React from 'react';
 // Book Utils
-import { dropDownSwitch, dropDown, pageRoute, handleDates } from './BookUtils';
+import {
+  dropDownSwitch,
+  dropDown,
+  pageRoute,
+  handleDates,
+  handleStatus,
+} from './BookUtils';
 // Moment
 import moment from 'moment';
 // Components
 import BookIcon from './BookIcon';
 // Ant Design
-import { Menu, Dropdown, Button, DatePicker } from 'antd';
+import { Dropdown, Button, DatePicker } from 'antd';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 
 // Thumbnail && Status Component
-export const BookThumbnail = ({ book, source, library }) => {
+export const BookThumbnail = ({ book, source, library, userID }) => {
   // If in library set to reading status
   // Else set to 4..Track This
   const [status, setStatus] = React.useState(
-    library ? library.readingStatus : '4'
+    library ? library.readingStatus : '0'
   );
   // Parses the correct label based on the reading status
   const [label, setLabel] = React.useState(
     library ? dropDownSwitch(parseInt(status)) : 'Track This'
   );
+  // References to check which state changed
+  const statusRef = React.useRef(status);
   // This watches the status for updates and updates the label
+  // Need to create a function that will update the DB accordingly
+  //
   React.useEffect(() => {
     setLabel(library ? dropDownSwitch(parseInt(status)) : 'Track This');
+    // Call this when there is a status change
+    if (statusRef.current !== status)
+      handleStatus(library, userID, book, status);
   }, [library, status]);
 
   return (
