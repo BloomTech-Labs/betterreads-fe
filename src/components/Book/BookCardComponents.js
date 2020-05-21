@@ -42,8 +42,6 @@ export const BookThumbnail = ({ book, source, library, userID }) => {
   // References to check which state changed
   const statusRef = React.useRef(status);
   // This watches the status for updates and updates the label
-  // Need to create a function that will update the DB accordingly
-  //
   React.useEffect(() => {
     setLabel(library ? dropDownSwitch(parseInt(status)) : 'Track This');
     // Call this when there is a status change

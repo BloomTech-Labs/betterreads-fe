@@ -5,7 +5,7 @@ import store from '../../utils/store';
 import { updateDates } from '../../utils/helpers';
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
 // Redux
-import { updateSingleBookField } from '../../store/actions';
+import { updateSingleBookField, updateShelves } from '../../store/actions';
 // Ant Design
 import { Menu } from 'antd';
 
@@ -19,7 +19,7 @@ export const dropDown = (setState, source) => {
         To read
       </Menu.Item>
       <Menu.Item key='2' value='2'>
-        In progress
+        Reading
       </Menu.Item>
       <Menu.Item key='3' value='3'>
         Finished
@@ -42,7 +42,7 @@ export const dropDownSwitch = (readingStatus) => {
     case 1:
       return 'To Read';
     case 2:
-      return 'In Progress';
+      return 'Reading';
     case 3:
       return 'Finished';
     default:
@@ -65,7 +65,6 @@ export const handleDates = (
     console.log('Here');
     updateDates(userID, libraryBook.bookId, dateString, index)
       .then((res) => {
-        console.log('Res: ', res);
         const started =
           res.data.dateStarted && res.data.dateStarted.split('T')[0];
         const ended = res.data.dateEnded && res.data.dateEnded.split('T')[0];
@@ -105,6 +104,7 @@ export const handleDates = (
 // Update Rating
 // Update Favorite
 
+// This handles status based on the status value passed in && if it is in the user's library
 export const handleStatus = (inLibrary, userID, book, status) => {
   console.log('Handling Status');
   return new Promise((res, rej) => {
@@ -139,30 +139,42 @@ export const handleFavorite = (userID, book, favorite) => {
   });
 };
 
+// This updates the book in state to render the books correctly in the shelves
+export const setBookStatus = (book, status) => {
+  return new Promise((resolve, reject) => {
+    book.readingStatus = status;
+    store.dispatch(updateShelves());
+  });
+};
+
 export const setStatus = (userID, book, status) => {
   console.log('Setting Status');
-  console.log(userID, book, status);
   return new Promise((resolve, reject) => {
     axiosWithAuth()
       .post(`${API_URL}/api/${userID}/library`, {
         book: book,
         readingStatus: status,
       })
-      .then((res) => resolve(res))
+      .then((res) => {
+        setBookStatus(book, status);
+        resolve(res);
+      })
       .catch((err) => reject(err));
   });
 };
 
 export const updateStatus = (userID, book, status) => {
   console.log('Updating Status');
-  console.log(userID, book, status);
   return new Promise((resolve, reject) => {
     axiosWithAuth()
       .put(`${API_URL}/api/${userID}/library`, {
         ...book,
         readingStatus: status,
       })
-      .then((res) => resolve(res))
+      .then((res) => {
+        setBookStatus(book, status);
+        resolve(res);
+      })
       .catch((err) => reject(err));
   });
 };
@@ -174,7 +186,10 @@ export const deleteBook = (userID, book) => {
       .delete(`${API_URL}/api/${userID}/library`, {
         data: { bookId: book.bookId },
       })
-      .then((res) => resolve(res))
+      .then((res) => {
+        setBookStatus(book, 4);
+        resolve(res);
+      })
       .catch((err) => reject(err));
   });
 };
@@ -183,7 +198,6 @@ export const updateRating = (userID, book, rating) => {
   console.log('Updating Rating', book);
   return new Promise((resolve, reject) => {
     book.userRating = rating;
-    console.log('Update Book: ', book);
     axiosWithAuth()
       .put(`${API_URL}/api/${userID}/library`, book)
       .then((res) => resolve(res))

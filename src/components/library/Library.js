@@ -24,17 +24,18 @@ import { PageView, Event } from '../../utils/tracking';
 const Library = (props) => {
   useDocumentTitle('Readrr - Library');
 
+  const localName = 'Readrr';
+
+  const toBeRead = props.userBooks.filter((item) => item.readingStatus === 1);
+  const inProgress = props.userBooks.filter((item) => item.readingStatus === 2);
+
+  const fullName = localName ? localName.split(' ')[0] : 'Readrr';
+
   useEffect(() => {
     props.setBreadcrumbs([{ label: 'Book details', path: null }]);
     Event('Library', 'User library loaded', 'LIBRARY');
     PageView();
   }, []);
-
-  const localName = 'Readrr';
-
-  const fullName = localName ? localName.split(' ')[0] : 'Readrr';
-  const toBeRead = props.userBooks.filter((item) => item.readingStatus === 1);
-  const inProgress = props.userBooks.filter((item) => item.readingStatus === 2);
 
   return (
     <LibraryContainer>
