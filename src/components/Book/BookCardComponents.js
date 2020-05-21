@@ -6,14 +6,27 @@ import {
   pageRoute,
   handleDates,
   handleStatus,
+  handleRating,
+  handleFavorite,
 } from './BookUtils';
 // Moment
 import moment from 'moment';
 // Components
 import BookIcon from './BookIcon';
 // Ant Design
-import { Dropdown, Button, DatePicker } from 'antd';
+import { Dropdown, Button, DatePicker, Rate, notification } from 'antd';
 import DownOutlined from '@ant-design/icons/DownOutlined';
+import HeartFilled from '@ant-design/icons/HeartFilled';
+import HeartOutlined from '@ant-design/icons/HeartOutlined';
+
+const showNotification = (type, title, desc) => {
+  notification.open({
+    type: type,
+    message: title,
+    description: desc,
+    duration: 1.25,
+  });
+};
 
 // Thumbnail && Status Component
 export const BookThumbnail = ({ book, source, library, userID }) => {
@@ -35,8 +48,14 @@ export const BookThumbnail = ({ book, source, library, userID }) => {
     setLabel(library ? dropDownSwitch(parseInt(status)) : 'Track This');
     // Call this when there is a status change
     if (statusRef.current !== status)
-      handleStatus(library, userID, book, status);
-  }, [library, status]);
+      handleStatus(library, userID, book, status)
+        .then((_res) =>
+          showNotification('success', 'Success', 'Book Status Updated!')
+        )
+        .catch((_err) =>
+          showNotification('error', 'Error', 'Error Updating Status!')
+        );
+  }, [library, status, book, userID]);
 
   return (
     <div className='thumbnail-container'>
@@ -63,7 +82,23 @@ export const BookThumbnail = ({ book, source, library, userID }) => {
 };
 // This handles thge book information
 // Title&&Authors
-export const BookInformation = ({ book }) => {
+export const BookInformation = ({ userID, book }) => {
+  const [favorite, setFavorite] = React.useState(book.favorite);
+  // This allows tracking favorite explicitly
+  // The reason this is needed is due to the useEffect deps
+  const favRef = React.useRef(favorite);
+
+  React.useEffect(() => {
+    if (favRef.current !== favorite)
+      handleFavorite(userID, book, !book.favorite)
+        .then((_res) =>
+          showNotification('success', 'Success', 'Book Favorite Updated!')
+        )
+        .catch((_err) =>
+          showNotification('error', 'Error', 'Error Updating Favorite')
+        );
+  }, [userID, book, favorite]);
+
   return (
     <div className='title-author-and-favorite'>
       <div className='title-and-author'>
@@ -86,6 +121,17 @@ export const BookInformation = ({ book }) => {
           </p>
         )}
       </div>
+      {window.location.pathname !== '/book/' + book.googleId ? (
+        <div className='favorite'>
+          {favorite ? (
+            <HeartFilled onClick={() => setFavorite(!book.favorite)} />
+          ) : (
+            <HeartOutlined onClick={() => setFavorite(!book.favorite)} />
+          )}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
@@ -102,6 +148,7 @@ export const BookCalendars = ({ library, setLibraryBook, userID }) => {
               ? moment(library.dateStarted, 'YYYY-MM-DD')
               : null
           }
+          suffixIcon={true}
           onChange={(_date, dateString) => {
             handleDates(userID, library, dateString, 0, setLibraryBook);
           }}
@@ -117,11 +164,39 @@ export const BookCalendars = ({ library, setLibraryBook, userID }) => {
               ? moment(library.dateEnded, 'YYYY-MM-DD')
               : null
           }
+          suffixIcon={true}
           onChange={(_date, dateString) => {
             handleDates(userID, library, dateString, 1, setLibraryBook);
           }}
         />
       </div>
+    </div>
+  );
+};
+
+export const BookRating = ({ book, userID, rating }) => {
+  // This checks for a field that only exists if the book is in the users library
+  const libraryBool = book.bookId ? true : false;
+
+  const updateRating = (e) => {
+    handleRating(userID, book, e)
+      .then((_res) =>
+        showNotification('success', 'Success', 'Book Rating Updated!')
+      )
+      .catch((_err) =>
+        showNotification('error', 'Error', 'Error Updating Rating!')
+      );
+  };
+
+  return (
+    <div>
+      <Rate
+        defaultValue={parseFloat(rating)}
+        disabled={!libraryBool}
+        allowHalf
+        style={{ color: '#d24719' }}
+        onChange={(e) => updateRating(e)}
+      />
     </div>
   );
 };

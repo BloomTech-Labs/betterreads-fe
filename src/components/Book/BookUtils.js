@@ -107,22 +107,64 @@ export const handleDates = (
 
 export const handleStatus = (inLibrary, userID, book, status) => {
   console.log('Handling Status');
-  console.log('Status', status);
-  if(status === '4') deleteBook(userID, book)
-  if (inLibrary) updateStatus(userID, book, status);
-  if (!inLibrary) setStatus(userID, book, status);
+  return new Promise((res, rej) => {
+    if (status === '4')
+      deleteBook(userID, book)
+        .then((data) => res(data))
+        .catch((err) => rej(err));
+    if (inLibrary)
+      updateStatus(userID, book, status)
+        .then((data) => res(data))
+        .catch((err) => rej(err));
+    if (!inLibrary)
+      setStatus(userID, book, status)
+        .then((data) => res(data))
+        .catch((err) => rej(err));
+  });
+};
+
+export const handleRating = (userID, book, rating) => {
+  return new Promise((resolve, reject) => {
+    updateRating(userID, book, rating)
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
+  });
+};
+
+export const handleFavorite = (userID, book, favorite) => {
+  return new Promise((resolve, reject) => {
+    updateFavorite(userID, book, favorite)
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
+  });
 };
 
 export const setStatus = (userID, book, status) => {
   console.log('Setting Status');
   console.log(userID, book, status);
-  return new Promise((resolve, reject) => {});
+  return new Promise((resolve, reject) => {
+    axiosWithAuth()
+      .post(`${API_URL}/api/${userID}/library`, {
+        book: book,
+        readingStatus: status,
+      })
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
+  });
 };
 
 export const updateStatus = (userID, book, status) => {
   console.log('Updating Status');
   console.log(userID, book, status);
-  return new Promise((resolve, reject) => {});
+  return new Promise((resolve, reject) => {
+    axiosWithAuth()
+      .put(`${API_URL}/api/${userID}/library`, {
+        ...book,
+        readingStatus: status,
+      })
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
+  });
 };
 
 export const deleteBook = (userID, book) => {
@@ -137,12 +179,38 @@ export const deleteBook = (userID, book) => {
   });
 };
 
-export const updateRating = (userID, bookID, rating) => {
-  console.log('Updating Rating');
-  return new Promise((resolve, reject) => {});
+export const updateRating = (userID, book, rating) => {
+  console.log('Updating Rating', book);
+  return new Promise((resolve, reject) => {
+    book.userRating = rating;
+    console.log('Update Book: ', book);
+    axiosWithAuth()
+      .put(`${API_URL}/api/${userID}/library`, book)
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
+  });
 };
 
-export const updateFavorite = (userID, bookID, favorite) => {
+export const updateFavorite = (userID, book, favorite) => {
   console.log('Updating Favorite');
-  return new Promise((resolve, reject) => {});
+  return new Promise((resolve, reject) => {
+    if (book.bookId) {
+      axiosWithAuth()
+        .put(`${API_URL}/api/${userID}/library`, {
+          ...book,
+          favorite: favorite,
+        })
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    } else {
+      axiosWithAuth()
+        .put(`${API_URL}/api/${userID}/library`, {
+          book: book,
+          readingStatus: 0,
+          favorite: favorite,
+        })
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    }
+  });
 };

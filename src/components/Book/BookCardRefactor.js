@@ -6,10 +6,10 @@ import {
   BookThumbnail,
   BookInformation,
   BookCalendars,
+  BookRating,
 } from './BookCardComponents';
 // Components
 import BookCardContainer from './styles/BookCardStyle';
-import { Book } from './BookClass';
 
 const BookCardRefactor = (props) => {
   // Book Information
@@ -23,17 +23,16 @@ const BookCardRefactor = (props) => {
     props.userBooks.find((b) => b.googleId === googleId) || null
   );
 
-  const test = new Book(book);
-  console.log(test);
+  const rating =
+    libraryBook && libraryBook.userRating
+      ? libraryBook.userRating
+      : book.averageRating;
 
   return (
     <BookCardContainer
       thumbnail={thumbnail || smallThumbnail}
       source={source}
       conWidth={source === 'recommendation' ? '88px' : '335px'}
-      // Unsure if this is being used
-      // Will leave commented until sure it is useless
-      // data-library={true}
       data-book={googleId}
     >
       <BookThumbnail
@@ -43,7 +42,8 @@ const BookCardRefactor = (props) => {
         userID={props.user}
       />
       <div className='information'>
-        <BookInformation book={book} />
+        <BookInformation book={book} userID={props.user} />
+        <BookRating book={book} userID={props.user} rating={rating} />
         {source === 'library' && (
           <BookCalendars
             library={libraryBook}
