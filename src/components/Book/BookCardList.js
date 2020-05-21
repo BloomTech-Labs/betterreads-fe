@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { editShelfName, deleteShelf } from '../../store/actions';
 //Import components
 import BookCard from './BookCard';
+import BookCardRefactor from './BookCardRefactor';
 import SearchPagination from '../search/SearchPagination';
 //Design
 import { Menu, Dropdown, Popconfirm, message, Carousel } from 'antd';
@@ -157,12 +158,17 @@ const BookCardList = (props) => {
           <div className='book-card-list' data-testid='book-card-list'>
             {props.books &&
               props.books.map((item, index) => (
-                <BookCard
+                <BookCardRefactor
                   key={index}
                   book={item}
                   source={props.source}
-                  data-testid='book-card'
                 />
+                // <BookCard
+                //   key={index}
+                //   book={item}
+                //   source={props.source}
+                //   data-testid='book-card'
+                // />
               ))}
           </div>
         ) : (

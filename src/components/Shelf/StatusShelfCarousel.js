@@ -9,6 +9,7 @@ import {
 } from '../../store/actions';
 //Import Components
 import BookCard from '../Book/BookCard';
+import BookCardRefactor from '../Book/BookCardRefactor';
 import BookCardList from '../Book/BookCardList';
 //Styling
 import { Carousel } from 'antd';
@@ -150,11 +151,14 @@ const ShelfSwipe = (props) => {
         <div className='swiper'>
           <Carousel {...carouselProps}>
             {props.bookList &&
-              props.bookList
-                .splice(0, 10)
-                .map((book, index) => (
-                  <BookCard key={index} book={book} source='recommendation' />
-                ))}
+              props.bookList.splice(0, 10).map((book, index) => (
+                // <BookCard key={index} book={book} source='recommendation' />
+                <BookCardRefactor
+                  key={index}
+                  book={book}
+                  source='recommendation'
+                />
+              ))}
           </Carousel>
         </div>
       )}

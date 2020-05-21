@@ -14,17 +14,21 @@ import { axiosWithAuth } from '../../utils/axiosWithAuth';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://api.readrr.app';
 
-const user = localStorage.getItem('id');
-
 export const fetchUsersBooks = () => (dispatch, getState) => {
   const state = getState();
   const userID = state.authentication.user.subject;
   axiosWithAuth()
     .get(`${API_URL}/api/${userID}/library`)
-    .then((response) =>
-      dispatch({ type: FETCH_USERS_BOOKS, payload: response.data })
-    )
+    .then((response) => {
+      dispatch({ type: FETCH_USERS_BOOKS, payload: response.data });
+    })
     .catch((error) => console.log(error));
+};
+
+export const updateShelves = () => (dispatch, getState) => {
+  const state = getState();
+  const oldUserBooks = state.library.userBooks;
+  dispatch({ type: FETCH_USERS_BOOKS, payload: oldUserBooks });
 };
 
 export const setCurrentShelf = (shelf) => (dispatch, getState) => {
