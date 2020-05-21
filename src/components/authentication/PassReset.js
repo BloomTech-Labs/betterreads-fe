@@ -20,6 +20,11 @@ const PassReset = (props) => {
     password2: '',
   });
 
+  React.useEffect(() => {
+    console.log('Hook Token', token);
+    localStorage.setItem('rsTkn', token);
+  }, [token]);
+
   const onChange = (event) => {
     setInput({
       ...input,
@@ -37,15 +42,16 @@ const PassReset = (props) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    let tkn = token ? token : localStorage.getItem('rsTkn');
     if (checkPassword([input.password1, input.password2])) {
       console.log('Passwords Match');
       return new Promise((resolve, _reject) => {
         props.changePassword(token, input.password1);
         setTimeout(resolve, 700);
         if (props.resetPasswordError === false) {
-          error();
-        } else {
           success();
+        } else {
+          error();
         }
       });
     } else {
