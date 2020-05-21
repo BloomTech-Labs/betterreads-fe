@@ -13,6 +13,7 @@ import history from '../../utils/history';
 
 const PassReset = (props) => {
   const token = window.location.search.split('?token=')[1];
+  console.log(token);
 
   const [input, setInput] = React.useState({
     password1: '',
@@ -58,7 +59,7 @@ const PassReset = (props) => {
     return true;
   };
 
-  if (!token) {
+  if (token) {
     return (
       <SignInContainer>
         <div className='banner'></div>
