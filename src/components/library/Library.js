@@ -57,12 +57,12 @@ const Library = (props) => {
           {props.userBooks && (
             <>
               <StatusShelfCarousel
-                title='In progress'
+                title='Reading'
                 display='card'
                 bookList={inProgress}
                 link='/shelf/inprogress'
                 breadcrumbs={[
-                  { label: 'In progress', path: '/shelf/inprogress' },
+                  { label: 'Reading', path: '/shelf/inprogress' },
                   { label: 'Book details', path: null },
                 ]}
               />

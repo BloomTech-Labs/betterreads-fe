@@ -18,7 +18,7 @@ const PageNotFound = () => {
   return (
     <PageNotFoundContainer>
       <h1 data-testid='page-not-found'>Page not found</h1>
-      <button onClick={() => history.push('/')} data-testid='go-back'>
+      <button onClick={() => history.push('/landing')} data-testid='go-back'>
         Go back
       </button>
     </PageNotFoundContainer>

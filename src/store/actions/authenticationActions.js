@@ -57,7 +57,7 @@ export const signIn = (input, history) => (dispatch) => {
       localStorage.setItem('id', response.data.user.id);
       localStorage.setItem('full_name', response.data.user.fullName);
       localStorage.setItem('image', response.data.user.image);
-      history.push('/');
+      history.push('/home');
     })
     .catch((error) => {
       console.log(error);
@@ -107,7 +107,7 @@ export const successRedirect = (history, token) => (dispatch) => {
   if (token) {
     dispatch(preserveState(token));
   }
-  history.push('/');
+  history.push('/home');
 };
 
 export const signOut = (history) => (dispatch) => {

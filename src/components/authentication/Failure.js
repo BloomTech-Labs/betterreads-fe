@@ -17,7 +17,7 @@ const Failure = () => {
       <button
         data-testid="button"
         onClick={() => {
-          history.push('/');
+          history.push('/landing');
           Event('SIGN IN', 'User was redirected to signIn', 'FAILURE');
         }}
       >

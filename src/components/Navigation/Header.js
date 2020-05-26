@@ -50,7 +50,7 @@ const Header = (props) => {
   return (
     <HeaderContainer>
       <div className='header'>
-        <h1 onClick={() => history.push('/')} data-testid='h1-route'>
+        <h1 onClick={() => history.push('/home')} data-testid='h1-route'>
           <BookIcon height='24px' width='24px' fill='#547862' />
           Readrr
         </h1>

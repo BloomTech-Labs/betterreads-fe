@@ -14,7 +14,7 @@ const Breadcrumbs = (props) => {
   return (
     <Wrapper data-testid='bread'>
       <Breadcrumb className='fs-16 openSans lh-40'>
-        <Breadcrumb.Item onClick={() => history.push('/')} data-testid='item1'>
+        <Breadcrumb.Item onClick={() => history.push('/home')} data-testid='item1'>
           <HomeOutlined /> Library
         </Breadcrumb.Item>
         {props.crumbs &&

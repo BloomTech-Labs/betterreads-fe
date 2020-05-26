@@ -131,7 +131,7 @@ const BookCard = (props) => {
           );
           // only move book if not in mybooks
           if (
-            history.location.pathname !== '/' &&
+            history.location.pathname !== '/home' &&
             props.source !== 'search' &&
             props.source !== 'recommendation'
           ) {
@@ -254,7 +254,7 @@ const BookCard = (props) => {
         To read
       </Menu.Item>
       <Menu.Item key='2' value='2'>
-        In progress
+        Reading
       </Menu.Item>
       <Menu.Item key='3' value='3'>
         Finished
@@ -269,7 +269,7 @@ const BookCard = (props) => {
         To read
       </Menu.Item>
       <Menu.Item key='2' value='2'>
-        In progress
+        Reading
       </Menu.Item>
       <Menu.Item key='3' value='3'>
         Finished
