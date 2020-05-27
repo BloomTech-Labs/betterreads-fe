@@ -113,7 +113,7 @@ const ShelfSwipe = (props) => {
         {props.title === 'My books' ||
         props.title === 'Favorites' ||
         props.title === 'To be read' ||
-        props.title === 'In progress' ||
+        props.title === 'Reading' ||
         props.title === 'Finished' ? (
           <p className='status'>
             {props.title} ({props.bookList.length})
@@ -122,7 +122,7 @@ const ShelfSwipe = (props) => {
         {props.title !== 'My books' &&
         props.title !== 'Favorites' &&
         props.title !== 'To be read' &&
-        props.title !== 'In progress' &&
+        props.title !== 'Reading' &&
         props.title !== 'Finished' &&
         props.title !== 'Recommendations' &&
         props.title !== 'Recs' ? (

@@ -74,13 +74,13 @@ const Shelves = (props) => {
             ]}
           />
           <StatusShelfCarousel
-            title='In progress'
+            title='Reading'
             display='carousel'
             bookList={inProgress}
             link='/shelf/inprogress'
             breadcrumbs={[
               { label: 'My shelves', path: '/myshelves' },
-              { label: 'In progress', path: '/shelf/inprogress' },
+              { label: 'Reading', path: '/shelf/inprogress' },
               { label: 'Book details', path: null },
             ]}
           />

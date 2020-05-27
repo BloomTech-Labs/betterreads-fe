@@ -15,7 +15,7 @@ const OnboardingQuiz = (props) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    history.push('/');
+    history.push('/home');
     console.log(checkedGenres);
   };
 

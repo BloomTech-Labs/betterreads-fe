@@ -14,7 +14,7 @@ test('H1 Routes User To Home', () => {
   const h1 = getByTestId('h1-route');
   expect(h1).toBeInTheDocument();
   fireEvent.click(h1);
-  expect(window.location.pathname === '/').toBeTruthy();
+  expect(window.location.pathname === '/home').toBeTruthy();
 });
 
 test('Profile Icon Renders', async () => {
@@ -35,5 +35,5 @@ test('Profile Icon Renders DropDown', async () => {
   expect(github).toBeInTheDocument();
   expect(signOut).toBeInTheDocument();
   fireEvent.click(signOut);
-  expect(window.location.pathname === '/').toBeTruthy();
+  expect(window.location.pathname === '/home').toBeTruthy();
 });

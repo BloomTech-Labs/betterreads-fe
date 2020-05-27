@@ -42,14 +42,14 @@ const MyShelves = (props) => {
             className='shelf'
             onClick={() => {
               props.setBreadcrumbs([
-                { label: 'In progress', path: '/shelf/inprogress' },
+                { label: 'Reading', path: '/shelf/inprogress' },
                 { label: 'Book details', path: null },
               ]);
               history.push('/shelf/inprogress');
               window.location.reload();
             }}
           >
-            <p className='shelf-name'>In progress</p>
+            <p className='shelf-name'>Reading</p>
             {inProgress.length > 0 ? (
               <div className='thumbnails'>
                 {inProgress

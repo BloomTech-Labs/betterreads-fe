@@ -19,5 +19,5 @@ test('Go Back Functions Correctly', () => {
     const { getByTestId } = renderWithRedux(<Failure/>)
     const button = getByTestId('button')
     fireEvent.click(button)
-    expect(window.location.pathname === '/').toBeTruthy();
+    expect(window.location.pathname === '/home').toBeTruthy();
 })

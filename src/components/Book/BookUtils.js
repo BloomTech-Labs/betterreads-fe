@@ -52,6 +52,7 @@ export const dropDownSwitch = (readingStatus) => {
 // This handles routing when the book is clicked on
 export const pageRoute = (googleId) => {
   history.push(`/book/${googleId}`);
+  window.location.reload();
 };
 
 export const handleDates = (

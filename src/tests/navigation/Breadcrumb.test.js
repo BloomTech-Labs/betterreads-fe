@@ -14,7 +14,7 @@ test('BreadCrumb functions with Crumb Props', () => {
   const { getByTestId } = renderWithRedux(<Breadcrumbs />);
   const Item = getByTestId('item1');
   fireEvent.click(Item);
-  expect(window.location.pathname === '/').toBeTruthy();
+  expect(window.location.pathname === '/home').toBeTruthy();
 });
 
 test('BreadCrumb functions with no Props', () => {
@@ -23,7 +23,7 @@ test('BreadCrumb functions with no Props', () => {
   );
   const Item = getByTestId('prop-item');
   fireEvent.click(Item);
-  expect(window.location.pathname === '/').toBeTruthy();
+  expect(window.location.pathname === '/home').toBeTruthy();
 });
 
 test('BreadCrumb functions with Partial Crumb Props', () => {

@@ -64,7 +64,7 @@ export const setCurrentShelf = (shelf) => (dispatch, getState) => {
         dispatch({
           type: SET_CURRENT_SHELF,
           payload: {
-            name: 'In progress',
+            name: 'Reading',
             books: response.data.filter((item) => item.readingStatus === 2),
           },
         });
