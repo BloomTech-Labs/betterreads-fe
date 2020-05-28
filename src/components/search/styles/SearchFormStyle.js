@@ -9,8 +9,8 @@ const Wrapper = styled.div`
         margin: auto;
 
         .ant-btn-primary {
-            background-color: #547862;
-            border-color: #547862;
+            background-color: #d24719;
+            border-color: #d24719;
         }    
     }
 
