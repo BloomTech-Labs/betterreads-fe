@@ -70,7 +70,7 @@ export const BookThumbnail = ({ book, source, library, userID }) => {
       </div>
 
       <Dropdown overlay={dropDown(setStatus, source)} trigger={['click']}>
-        <Button className={label === 'Track this' ? 'orange' : 'green'}>
+        <Button className='orange'>
           {label}
           <DownOutlined />
         </Button>
