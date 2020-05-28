@@ -309,7 +309,7 @@ const BookCard = (props) => {
           trigger={['click']}
         >
           <Button
-            className={trackBtnLabel === 'Track this' ? 'orange' : 'green'}
+            className='orange'
           >
             {trackBtnLabel}
             <DownOutlined />
